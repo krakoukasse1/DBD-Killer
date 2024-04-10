@@ -1,0 +1,163 @@
+* {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 45px;
+}
+a{
+    text-decoration: none;
+
+}
+body{
+    background-image: url("assets/background.png");
+    background-size: cover;
+    margin: 0;
+}
+.img-logo{
+    width: auto;
+    height: 200px;
+}
+.list-ul{
+    display: flex;
+    list-style-type: none;
+    background-color: black;
+    color: blanchedalmond;
+    justify-content: center;
+}
+.list-li{
+    list-style-type: none;
+    margin: 7px 64px;
+    border-left: 4px solid ghostwhite;
+    border-right: 4px solid ghostwhite;
+    padding: 0px 10px;
+}
+.list-li:hover{
+    scale: 1.25;
+    background-color: red;
+}
+.header-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title{
+    text-align: center;
+    text-decoration: underline;
+    
+}
+.type_character{
+    margin-top: 2%;
+    text-align: center;
+    margin-right: 50px;
+}
+.img-character{
+    margin: 0 30px;
+}
+.img-character:hover{
+    transform: scale(1.2);
+    background-color: brown;
+}
+/* Liste des personnage*/
+#character-container{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(0, 9, 12, 0.5);
+    border-radius: 2%;
+    padding-top: 20px;
+}
+.name-character{
+    color: burlywood;
+    width: 270px;
+}
+.img-characterlist{
+    height: 270px;
+    width: 270px;
+}
+#character{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 20px;
+}
+.character{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.roulette-draw{
+    text-align: center;
+    left: 50%;
+    right: 50%;
+    position: relative;
+    width: 300px;
+    border: 3px solid black;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.roulette-draw:hover{
+    border: 5px solid black;
+    background-color: brown;
+}
+
+.roulette-container {
+    background-color: #333; /* Couleur de fond */
+    width: 90%; /* Largeur du conteneur */
+    height: 300px; /* Hauteur du conteneur */
+    margin: auto; /* Centrer le conteneur horizontalement */
+    overflow: hidden; /* Cacher tout élément débordant */
+    position: relative; /* Position relative pour positionner la barre rouge */
+    display: flex;
+    border: 3px solid red
+}
+
+#roulette-items {
+    display: flex; /* Utiliser Flexbox pour aligner les éléments horizontalement */
+    align-items: center; /* Aligner les éléments sur l'axe vertical */
+    justify-content: center; /* Centrer les éléments sur l'axe horizontal */
+    padding: 10px; /* Espacement interne de l'élément */
+    position: relative; /* Position relative pour positionner les images */
+    flex-direction: row;
+}
+
+.item img {
+    height: 300px; /* Hauteur des images */
+    width: 216; /* Largeur automatique pour maintenir les proportions */
+    display: block; /* Afficher les images en tant que bloc */
+    margin: 0 auto; /* Centrer les images horizontalement */
+    position: relative; /* Position relative pour positionner les images */
+    z-index: 1; /* Mettre les images en dessous de la barre rouge */
+    opacity: 0.8; /* Opacité par défaut des images */
+}
+
+.red-line {
+    height: 100%; /* Hauteur de la barre rouge égale à la hauteur du conteneur */
+    width: 2px; /* Largeur de la barre rouge */
+    background-color: red; /* Couleur de la barre rouge */
+    position: absolute; /* Position absolue pour positionner la barre rouge */
+    left: 50%; /* Aligner la barre rouge au centre horizontalement */
+    transform: translateX(-50%); /* Ajuster la position horizontalement au milieu */
+    z-index: 2; /* Assurer que la barre rouge soit au-dessus des images */
+}
+
+.item {
+     width: 216px;
+     margin: 0; /* Assurez-vous qu'aucune marge n'est appliquée aux éléments */
+     padding: 0; /* Assurez-vous qu'aucun padding n'est appliqué aux éléments */
+     transition: background-color 5s, opacity 1.5s; /* Transition de 5 secondes sur les propriétés background-color et opacity */
+}
+
+.winner {
+    background-color: beige;
+}
+
+.winner > p {
+    text-align: center;
+}
+
+.selected-item {
+    background-color: red;
+}
+
