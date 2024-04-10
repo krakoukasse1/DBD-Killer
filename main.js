@@ -65,7 +65,7 @@ fetch('data.json')
         console.log("Données envoyées à index.html:", activeCharactersJSON);
         localStorage.setItem('activeCharacters', activeCharactersJSON);
         // Redirection vers index.html
-        window.location.href = 'index.html';
+        window.location.href = 'roulette.html';
     });
 
     function getActiveCharacters() {
