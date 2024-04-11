@@ -124,7 +124,7 @@ body{
 
 .item img {
     height: 300px; /* Hauteur des images */
-    width: 216; /* Largeur automatique pour maintenir les proportions */
+    width: 270px; /* Largeur automatique pour maintenir les proportions */
     display: block; /* Afficher les images en tant que bloc */
     margin: 0 auto; /* Centrer les images horizontalement */
     position: relative; /* Position relative pour positionner les images */
@@ -143,7 +143,7 @@ body{
 }
 
 .item {
-     width: 216px;
+     width: 240px;
      margin: 0; /* Assurez-vous qu'aucune marge n'est appliquée aux éléments */
      padding: 0; /* Assurez-vous qu'aucun padding n'est appliqué aux éléments */
      transition: background-color 5s, opacity 1.5s; /* Transition de 5 secondes sur les propriétés background-color et opacity */
@@ -157,8 +157,9 @@ body{
     text-align: center;
 }
 
-.selected-item {
+.selected-item > img{
     background-color: red;
+    background-size: 50%;
 }
 
 .body-index {

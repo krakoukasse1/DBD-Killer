@@ -87,6 +87,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const winnerIndex = selectWinner(totalItems);
         console.log(winnerIndex);
 
+        function playSound() {
+            const audio = new Audio('assets/Roll.mp3'); // Remplacez 'chemin/vers/le/son.mp3' par le chemin de votre fichier audio
+            audio.volume = 0.10
+            audio.play();
+        }
+
+
         // Fonction pour faire tourner la roulette et afficher le vainqueur
         function spinRoulette(winnerIndex) {
             const rouletteItems = document.getElementById('roulette-items');
@@ -95,17 +102,20 @@ document.addEventListener("DOMContentLoaded", function() {
             const rouletteWidth = rouletteItems.offsetWidth; // Largeur totale de la roulette
             const winnerPosition = (winnerIndex * itemWidth) + (itemWidth / 2) - 1050; // Position X du vainqueur
 
+
             // Animation pour faire défiler la roulette jusqu'à la position finale
             rouletteItems.style.transition = 'transform 5s ease-out';
             rouletteItems.style.transform = `translateX(-${winnerPosition}px)`;
 
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    // Jouer le son à chaque élément passé
+                    playSound();
+                }, index * 40); // Ajouter un délai pour chaque élément pour créer un effet de passage
+            });
+            
+
             // Attendre un court délai pour que la transition soit appliquée
-            setTimeout(() => {
-                // Arrêter l'animation et aligner le vainqueur avec la ligne rouge
-                rouletteItems.style.transition = 'ease-in-out 5s';
-                rouletteItems.style.transform = `translateX(-${winnerPosition}px)`;
-                console.log(totalItems, itemWidth, rouletteWidth, winnerIndex, winnerPosition);
-            }, 500); // Attendre 500 millisecondes pour que la transition soit appliquée
 
             // Attendre 5 secondes après l'animation pour afficher le vainqueur
             setTimeout(() => {

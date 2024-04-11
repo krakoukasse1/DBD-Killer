@@ -191,7 +191,19 @@
           "img": "Xenomorphe.png",
           "type": "killer",
           "available": true
-      }
+      },
+      {
+        "name": "Chucky",
+        "img": "Chucky.png",
+        "type": "killer",
+        "available": true
+    },
+    {
+      "name": "L'inconnu",
+      "img": "Inconnu.png",
+      "type": "killer",
+      "available": true
+  }
   ],
   "survivors": [
       {
@@ -427,6 +439,18 @@
           "img": "Ellen.png",
           "type": "survivor",
           "available": true
-      }
+      },
+      {
+        "name": "Alan Wake",
+        "img": "Alan.png",
+        "type": "survivor",
+        "available": true
+    },
+    {
+      "name": "Sable Ward",
+      "img": "Sable.png",
+      "type": "survivor",
+      "available": true
+  }
   ]
 }
