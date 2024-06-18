@@ -203,7 +203,13 @@
       "img": "Inconnu.png",
       "type": "killer",
       "available": true
-  }
+  },
+  {
+    "name": "Vecna",
+    "img": "Vecna.jpg",
+    "type": "killer",
+    "available": true
+}
   ],
   "survivors": [
       {
@@ -451,6 +457,12 @@
       "img": "Sable.png",
       "type": "survivor",
       "available": true
-  }
+  },
+  {
+    "name": "Aestri Yazar & Baermar Uraz",
+    "img": "Aestri.png",
+    "type": "survivor",
+    "available": true
+}
   ]
 }
