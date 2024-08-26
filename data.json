@@ -209,6 +209,11 @@
     "img": "Vecna.jpg",
     "type": "killer",
     "available": true
+},{
+    "name": "Dracula",
+    "img": "Dracula.png",
+    "type": "killer",
+    "available": true
 }
   ],
   "survivors": [
@@ -461,6 +466,18 @@
   {
     "name": "Aestri Yazar & Baermar Uraz",
     "img": "Aestri.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Lara Croft",
+    "img": "Lara.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Trevor Belmont",
+    "img": "Trevor.png",
     "type": "survivor",
     "available": true
 }
