@@ -1,0 +1,501 @@
+{
+  "killers": [
+      {
+          "name": "Montagnard",
+          "img": "Montagnard.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Spectre",
+          "img": "Spectre.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Nurse",
+          "img": "Infirmiere.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Chasseuse",
+          "img": "Chasseuse.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Piegeur",
+          "img": "Piegeur.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Silhouette",
+          "img": "Silhouette.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Harpie",
+          "img": "Harpie.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Docteur",
+          "img": "Docteur.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Cannibale",
+          "img": "Cannibale.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Cauchemar",
+          "img": "Cauchemar.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Cochon",
+          "img": "Cochon.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Clown",
+          "img": "Clown.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Esprit",
+          "img": "Esprit.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Légion",
+          "img": "Legion.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Épidémie",
+          "img": "Epidemie.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "GhostFace",
+          "img": "GhostFace.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Démogorgon",
+          "img": "Demogorgon.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Oni",
+          "img": "Oni.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "LanceMort",
+          "img": "LanceMort.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Bourreau",
+          "img": "Bourreau.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Fléau",
+          "img": "Fleau.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Jumeaux",
+          "img": "Jumeaux.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Farceur",
+          "img": "Farceur.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Nemesis",
+          "img": "Nemesis.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Cénobite",
+          "img": "Cenobite.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Artiste",
+          "img": "Artiste.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Onryō",
+          "img": "Onryo.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Dragage",
+          "img": "Dragage.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Mastermind",
+          "img": "Mastermind.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Marchande de crâne",
+          "img": "Marchande.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Singularité",
+          "img": "Singularité.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+          "name": "Xénomorphe",
+          "img": "Xenomorphe.png",
+          "type": "killer",
+          "available": true
+      },
+      {
+        "name": "Chucky",
+        "img": "Chucky.png",
+        "type": "killer",
+        "available": true
+    },
+    {
+      "name": "L'inconnu",
+      "img": "Inconnu.png",
+      "type": "killer",
+      "available": true
+  },
+  {
+    "name": "Vecna",
+    "img": "Vecna.jpg",
+    "type": "killer",
+    "available": true
+},{
+    "name": "Dracula",
+    "img": "Dracula.png",
+    "type": "killer",
+    "available": true
+},{
+    "name": "Houndmaster",
+    "img": "Houndmaster.png",
+    "type": "killer",
+    "available": true
+},{
+    "name": "Ken Kaneki",
+    "img": "Kaneki.png",
+    "type": "killer",
+    "available": true
+}
+  ],
+  "survivors": [
+      {
+          "name": "Dwight Fairfield",
+          "img": "Dwight.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Meg Thomas",
+          "img": "Meg.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Claudette Morel",
+          "img": "Claudette.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Jake Park",
+          "img": "Jake.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Nea Karlsson",
+          "img": "Nea.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Laurie Strode",
+          "img": "Laurie.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Ace Visconti",
+          "img": "Ace.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "William Bill Overbeck",
+          "img": "Bill.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Feng Min",
+          "img": "Feng.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "David King",
+          "img": "David.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Quentin Smith",
+          "img": "Quentin.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Inspecteur David Tapp",
+          "img": "Tapp.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Kate Denson",
+          "img": "Kate.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Adam Francis",
+          "img": "Adam.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Jeffrey « Jeff » Johansen",
+          "img": "Jeff.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Jane Romero",
+          "img": "Jane.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Ashley J. Williams",
+          "img": "Ash.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Nancy Wheeler",
+          "img": "Nancy.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Steve Harrington",
+          "img": "Steve.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Yui Kimura",
+          "img": "Yui.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Zarina Kassir",
+          "img": "Zarina.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Cheryl Mason",
+          "img": "Cheryl.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Felix Richter",
+          "img": "Felix.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Élodie Rakoto",
+          "img": "Elodie.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Yun-Jin Lee",
+          "img": "YunJin.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Jill Valentine",
+          "img": "Jill.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Leon Scott Kennedy",
+          "img": "Leon.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Mikaela Reid",
+          "img": "Mikaela.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Jonah Vasquez",
+          "img": "Jonah.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Yoichi Asakawa",
+          "img": "Yoichi.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Haddie Kaur",
+          "img": "Haddie.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Ada Wong",
+          "img": "Ada.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Rebecca Chambers",
+          "img": "Rebecca.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Vittorio Toscano",
+          "img": "Vittorio.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Thalita Lyra",
+          "img": "Thalita.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Renato Lyra",
+          "img": "Renato.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Gabriel Soma",
+          "img": "Gabriel.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Nicolas Cage",
+          "img": "Nicolas.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+          "name": "Ellen Ripley",
+          "img": "Ellen.png",
+          "type": "survivor",
+          "available": true
+      },
+      {
+        "name": "Alan Wake",
+        "img": "Alan.png",
+        "type": "survivor",
+        "available": true
+    },
+    {
+      "name": "Sable Ward",
+      "img": "Sable.png",
+      "type": "survivor",
+      "available": true
+  },
+  {
+    "name": "Aestri Yazar & Baermar Uraz",
+    "img": "Aestri.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Lara Croft",
+    "img": "Lara.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Trevor Belmont",
+    "img": "Trevor.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Taurie Cain",
+    "img": "TaurieCain.png",
+    "type": "survivor",
+    "available": true
+}
+  ]
+}
