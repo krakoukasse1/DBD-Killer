@@ -117,6 +117,12 @@ app.get('/ping', (req, res) => {
   res.json({ ok: true, time: new Date() });
 });
 
+// Déconnexion
+app.post('/api/logout', (req, res) => {
+  req.session = null; // Vide la session
+  res.json({ ok: true });
+});
+
 // Tirage et annonce sur Twitch
 async function createTmiClientForUser(twitchSession) {
   if (!twitchSession || !twitchSession.access_token || !twitchSession.login) throw new Error('No twitch session');
