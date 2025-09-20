@@ -11,13 +11,28 @@ app.use(session({ name: 'sess', keys: [process.env.SESSION_KEY || 'devkey'] }));
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI; // ex: https://localhost:3000/auth/twitch/callback
+const REDIRECT_URI = process.env.REDIRECT_URI; 
 const SCOPES = 'chat:edit chat:read';
 
-// 1) Sert ton HTML depuis le dossier du projet
+// Middleware pour vérifier expiration session (1h d’inactivité max)
+app.use((req, res, next) => {
+  if (req.session.twitch) {
+    const now = Date.now();
+    if (now - req.session.twitch.last_ping > 60 * 60 * 1000) { 
+      // 1h sans activité
+      console.log(`Session expirée pour ${req.session.twitch.login}`);
+      req.session = null; 
+      return res.status(401).json({ error: 'Session expirée, reconnecte-toi.' });
+    }
+    req.session.twitch.last_ping = now; // mise à jour du ping
+  }
+  next();
+});
+
+// Sert ton HTML
 app.use(express.static(__dirname));
 
-// 2) Redirection vers Twitch OAuth
+// Redirection vers Twitch OAuth
 app.get('/auth/twitch', (req, res) => {
   const state = Math.random().toString(36).substring(2);
   req.session.state = state;
@@ -25,13 +40,12 @@ app.get('/auth/twitch', (req, res) => {
   res.redirect(url);
 });
 
-// 3) Callback OAuth
+// Callback OAuth
 app.get('/auth/twitch/callback', async (req, res) => {
   const { code, state } = req.query;
   if (state !== req.session.state) return res.status(400).send('Invalid state');
 
   try {
-    // Échange du code contre un access token
     const tokenResp = await axios.post(`https://id.twitch.tv/oauth2/token`, null, {
       params: {
         client_id: CLIENT_ID,
@@ -44,7 +58,6 @@ app.get('/auth/twitch/callback', async (req, res) => {
 
     const { access_token, refresh_token, expires_in } = tokenResp.data;
 
-    // Récupération info utilisateur
     const userResp = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
         'Client-ID': CLIENT_ID,
@@ -53,29 +66,29 @@ app.get('/auth/twitch/callback', async (req, res) => {
     });
     const user = userResp.data.data[0];
 
-    // Stockage dans session
     req.session.twitch = {
       access_token,
       refresh_token,
       login: user.login,
       display_name: user.display_name,
       obtained_at: Date.now(),
-      expires_in
+      expires_in,
+      last_ping: Date.now()
     };
 
-    res.redirect('/index.html');
-    
+    // Redirection vers index.html une fois connecté
+    res.redirect('/');
   } catch (err) {
     console.error(err.response?.data || err.message);
-    res.status(500).send('Erreur lors de l\'authentification Twitch');
+    res.status(500).send("Erreur lors de l'authentification Twitch");
   }
 });
 
+// Endpoint pour récupérer infos utilisateur
 app.get('/api/twitch-user', async (req, res) => {
   if (!req.session.twitch) return res.json({ connected: false });
 
   try {
-    // Récupérer les infos complètes du compte
     const userResp = await axios.get('https://api.twitch.tv/helix/users', {
       headers: {
         'Client-ID': CLIENT_ID,
@@ -88,7 +101,7 @@ app.get('/api/twitch-user', async (req, res) => {
       connected: true,
       login: user.login,
       display_name: user.display_name,
-      avatar: user.profile_image_url // URL correcte pour l’avatar
+      avatar: user.profile_image_url
     });
   } catch (err) {
     console.error(err.response?.data || err.message);
@@ -96,9 +109,15 @@ app.get('/api/twitch-user', async (req, res) => {
   }
 });
 
+// Endpoint KEEP ALIVE
+app.get('/ping', (req, res) => {
+  if (req.session.twitch) {
+    req.session.twitch.last_ping = Date.now();
+  }
+  res.json({ ok: true, time: new Date() });
+});
 
-
-// 4) Fonction pour créer client tmi.js
+// Tirage et annonce sur Twitch
 async function createTmiClientForUser(twitchSession) {
   if (!twitchSession || !twitchSession.access_token || !twitchSession.login) throw new Error('No twitch session');
   const client = new tmi.Client({
@@ -113,7 +132,6 @@ async function createTmiClientForUser(twitchSession) {
   return client;
 }
 
-// 5) Endpoint pour tirer et annoncer
 app.post('/api/draw-and-announce', async (req, res) => {
   const twitch = req.session.twitch;
   if (!twitch) return res.status(401).json({ error: 'Not connected to Twitch' });
@@ -133,5 +151,5 @@ app.post('/api/draw-and-announce', async (req, res) => {
   }
 });
 
-// 6) Démarrage serveur
+// Démarrage serveur
 app.listen(3000, () => console.log('Server started on http://localhost:3000'));

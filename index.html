@@ -76,6 +76,13 @@
 
       // Appel au chargement de la page
       updateTwitchButton();
+
+      // Ping backend toutes les 1 minute (pour test)
+      setInterval(() => {
+        fetch('/ping')
+          .then(res => console.log("Ping OK"))
+          .catch(() => console.log("Ping échoué"));
+      }, 60 * 1000); // 60 000 ms = 1 minute
     </script>
 </body>
 </html>
