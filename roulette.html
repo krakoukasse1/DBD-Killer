@@ -14,6 +14,11 @@
         <img class="img-logo" src="assets/dbd logo.png">
         <p>Roulette DBD</p>
     </div>
+    <div id="twitchContainer">
+            <button id="btnConnect" class="img-button">
+                <img src="assets/connexion_img.png" alt="Connexion" />
+            </button>
+    </div>
     <ul class="list-ul">
         <li class="list-li"><a href="index.html"> A propos</a></li>
         <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
@@ -32,5 +37,34 @@
     
     <script src="main.js"></script>
     <script src="roulette.js"></script>
+    </script>
+   
+
+ <script>
+      // Ton code existant pour btnDraw, roulette, etc.
+
+      // --- Nouveau code pour afficher logo Twitch si connecté ---
+      async function updateTwitchButton() {
+  const resp = await fetch('/api/twitch-user');
+  const data = await resp.json();
+  const container = document.getElementById('twitchContainer');
+
+  if (data.connected) {
+    container.innerHTML = `
+      <div class="twitch-user">
+        <img src="${data.avatar || 'assets/connexion_img.png'}" 
+             alt="${data.display_name}" class="twitch-avatar" />
+      </div>
+    `;
+  } else {
+    document.getElementById('btnConnect').onclick = () => {
+      window.location = '/auth/twitch';
+    };
+  }
+}
+
+      // Appel au chargement de la page
+      updateTwitchButton();
+    </script>
 </body>
 </html>

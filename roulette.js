@@ -130,6 +130,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 const winnerContainer = document.querySelector('.winner');
                 // Ajouter le message du vainqueur à la balise div
                 winnerContainer.appendChild(winnerMessage);
+                fetch('/api/draw-and-announce', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: [selectedCharacterName] }) // on envoie juste le personnage tiré
+})
+.then(resp => resp.json())
+.then(data => {
+    if (data.ok) {
+        console.log(`Message envoyé sur Twitch : ${selectedCharacterName}`);
+    } else {
+        console.error('Erreur Twitch :', data.error);
+    }
+})
+.catch(err => console.error('Erreur fetch Twitch :', err));
+
+                
             }, 6000);
         }
 

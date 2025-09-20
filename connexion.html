@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<body>
+  <h2>DBD Twitch Roulette</h2>
+  <button id="btnConnect">Connecter Twitch</button>
+  <br><br>
+  <label>Items (virgule séparés):</label><br>
+  <input id="items" value="Trapper,Huntress,Wraith,Survivant1,Survivant2" style="width:300px"/>
+  <button id="btnDraw">Tirer et Annoncer sur mon chat</button>
+
+  <script>
+    document.getElementById('btnConnect').onclick = () => {
+      window.location = '/auth/twitch';
+    };
+
+    document.getElementById('btnDraw').onclick = async () => {
+      const items = document.getElementById('items').value.split(',').map(s => s.trim());
+      const resp = await fetch('/api/draw-and-announce', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ items })
+      });
+      const data = await resp.json();
+      if (resp.ok) alert('Tirage: ' + data.drawValue);
+      else alert('Erreur: ' + (data.error || JSON.stringify(data)));
+    };
+  </script>
+</body>
+</html>

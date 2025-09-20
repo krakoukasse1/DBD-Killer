@@ -181,3 +181,35 @@ body{
     text-align: center;
 }
 
+.img-button {
+  padding: 0;           /* Supprime l’espace par défaut autour du bouton */
+  border: none;         /* Enlève la bordure si tu veux */
+  background: none;     /* Pas de fond pour le bouton */
+  cursor: pointer;      /* Curseur pointer pour montrer que c’est cliquable */
+}
+
+.img-button img {
+  display: block;       /* Évite l’espace sous l’image */
+  width: 100%;          /* L’image remplit le bouton */
+  height: auto;         /* Garde les proportions */
+}
+
+.twitch-user {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.twitch-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+#twitchContainer {
+display: block;
+  width: 500px;
+  position: absolute;
+  right: -247px;
+  top: 55px;
+}

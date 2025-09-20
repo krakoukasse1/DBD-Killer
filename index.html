@@ -14,6 +14,11 @@
         <img class="img-logo" src="assets/dbd logo.png">
         <p>Roulette DBD</p>
     </div>
+    <div id="twitchContainer">
+            <button id="btnConnect" class="img-button">
+                <img src="assets/connexion_img.png" alt="Connexion" />
+            </button>
+        </div>
     <ul class="list-ul">
         <li class="list-li"><a href="index.html"> A propos</a></li>
         <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
@@ -21,6 +26,23 @@
     </ul>
 </header>
 <body>
+    <script>
+    document.getElementById('btnConnect').onclick = () => {
+      window.location = '/auth/twitch';
+    };
+
+    document.getElementById('btnDraw').onclick = async () => {
+      const items = document.getElementById('items').value.split(',').map(s => s.trim());
+      const resp = await fetch('/api/draw-and-announce', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ items })
+      });
+      const data = await resp.json();
+      if (resp.ok) alert('Tirage: ' + data.drawValue);
+      else alert('Erreur: ' + (data.error || JSON.stringify(data)));
+    };
+  </script>
     <section class="body-index">
         <h1> Fonctionnement de la roulette</h1>
         <h2>Bievenue sur cette application de roulette dedié a l'application Roulette dedié.</h2>
@@ -28,5 +50,32 @@
         <h2> Il vous est possible de facilement faire votre choix parmi la liste des survivants et de cliquer sur le bouton de tirage lorsque votre choix est fait</h2>
         <p class="center"><img src="assets/roulette.gif"></p>
     </section>
+
+ <script>
+      // Ton code existant pour btnDraw, roulette, etc.
+
+      // --- Nouveau code pour afficher logo Twitch si connecté ---
+      async function updateTwitchButton() {
+  const resp = await fetch('/api/twitch-user');
+  const data = await resp.json();
+  const container = document.getElementById('twitchContainer');
+
+  if (data.connected) {
+    container.innerHTML = `
+      <div class="twitch-user">
+        <img src="${data.avatar || 'assets/connexion_img.png'}" 
+             alt="${data.display_name}" class="twitch-avatar" />
+      </div>
+    `;
+  } else {
+    document.getElementById('btnConnect').onclick = () => {
+      window.location = '/auth/twitch';
+    };
+  }
+}
+
+      // Appel au chargement de la page
+      updateTwitchButton();
+    </script>
 </body>
 </html>

@@ -224,6 +224,16 @@
     "img": "Kaneki.png",
     "type": "killer",
     "available": true
+},{
+    "name": "Springtrap",
+    "img": "Springtrap.png",
+    "type": "killer",
+    "available": true
+},{
+   "name": "The Krasue",
+    "img": "Krasue.png",
+    "type": "killer",
+    "available": true 
 }
   ],
   "survivors": [
@@ -494,6 +504,24 @@
 {
     "name": "Taurie Cain",
     "img": "TaurieCain.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Rick Grimes",
+    "img": "Rick.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Michonne Grimes",
+    "img": "Michonne.png",
+    "type": "survivor",
+    "available": true
+},
+{
+    "name": "Vee Boonyasak",
+    "img": "Boonyasak.png",
     "type": "survivor",
     "available": true
 }
