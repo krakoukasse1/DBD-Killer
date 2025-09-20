@@ -6,5 +6,24 @@
     "express": "^5.1.0",
     "mysql2": "^3.15.0",
     "tmi.js": "^1.8.5"
-  }
+  },
+  "name": "dbd-killer",
+  "version": "1.0.0",
+  "description": "Application Web dediée a realiser des tirage de mannière aléatoire pour le jeu Dead By Daylight.",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krakoukasse1/DBD-Killer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krakoukasse1/DBD-Killer/issues"
+  },
+  "homepage": "https://github.com/krakoukasse1/DBD-Killer#readme"
 }
