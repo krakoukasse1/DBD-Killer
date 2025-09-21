@@ -206,7 +206,7 @@
   },
   {
     "name": "Vecna",
-    "img": "Vecna.jpg",
+    "img": "Vecna.png",
     "type": "killer",
     "available": true
 },{
@@ -503,7 +503,7 @@
 },
 {
     "name": "Taurie Cain",
-    "img": "TaurieCain.png",
+    "img": "Taurie.png",
     "type": "survivor",
     "available": true
 },
@@ -521,7 +521,7 @@
 },
 {
     "name": "Vee Boonyasak",
-    "img": "Boonyasak.png",
+    "img": "Vee.png",
     "type": "survivor",
     "available": true
 }

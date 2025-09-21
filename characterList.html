@@ -37,27 +37,49 @@
       // Ton code existant pour btnDraw, roulette, etc.
 
       // --- Nouveau code pour afficher logo Twitch si connecté ---
-      async function updateTwitchButton() {
+     async function updateTwitchButton() {
   const resp = await fetch('/api/twitch-user');
   const data = await resp.json();
   const container = document.getElementById('twitchContainer');
 
   if (data.connected) {
     container.innerHTML = `
-      <div class="twitch-user">
+      <div class="twitch-user" style="cursor:pointer;">
         <img src="${data.avatar || 'assets/connexion_img.png'}" 
              alt="${data.display_name}" class="twitch-avatar" />
       </div>
     `;
+
+    // On remet l'écouteur APRES avoir inséré l'HTML
+    const avatarEl = container.querySelector('.twitch-user');
+    avatarEl.addEventListener('click', async () => {
+      if (confirm("Voulez-vous vous déconnecter ?")) {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/index.html';
+      }
+    });
+
   } else {
+    container.innerHTML = `
+      <button id="btnConnect" class="img-button">
+        <img src="assets/connexion_img.png" alt="Connexion" />
+      </button>
+    `;
     document.getElementById('btnConnect').onclick = () => {
       window.location = '/auth/twitch';
     };
   }
 }
 
-      // Appel au chargement de la page
-      updateTwitchButton();
+// Au chargement
+updateTwitchButton();
+
+      // Ping backend toutes les 1 minute (pour test)
+      setInterval(() => {
+        fetch('/ping')
+          .then(res => console.log("Ping OK"))
+          .catch(() => console.log("Ping échoué"));
+      }, 60 * 1000); // 60 000 ms = 1 minute
     </script>
 </body>
 </html>
