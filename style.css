@@ -1,222 +1,293 @@
+/* ===========================
+   GLOBAL
+=========================== */
 * {
+    box-sizing: border-box;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 45px;
+    margin: 0;
+    padding: 0;
 }
-a{
-    text-decoration: none;
 
-}
-body{
+body {
     background-image: url("assets/background.png");
     background-size: cover;
-    margin: 0;
+    background-position: center;
+    color: burlywood;
 }
-.img-logo{
-    width: auto;
-    height: 200px;
-}
-.list-ul{
+
+/* ===========================
+   HEADER
+=========================== */
+header {
     display: flex;
-    list-style-type: none;
-    background-color: black;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.img-logo {
+    height: 80px;
+    width: auto;
+}
+
+/* Hamburger */
+.hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
     color: blanchedalmond;
-    justify-content: center;
 }
-.list-li{
-    list-style-type: none;
-    margin: 7px 64px;
-    border-left: 4px solid ghostwhite;
-    border-right: 4px solid ghostwhite;
-    padding: 0px 10px;
+
+.list-ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 10px;
 }
-.list-li:hover{
-    scale: 1.25;
+
+.list-li a {
+    color: blanchedalmond;
+    padding: 5px 10px;
+    border-left: 2px solid ghostwhite;
+    border-right: 2px solid ghostwhite;
+    transition: 0.3s;
+}
+
+.list-li a:hover {
+    transform: scale(1.1);
     background-color: red;
 }
-.header-left{
+
+/* Twitch connect / avatar */
+#twitchContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
-.title{
-    text-align: center;
-    text-decoration: underline;
-    
-}
-.type_character{
-    margin-top: 2%;
-    text-align: center;
-    margin-right: 50px;
-}
-.img-character{
-    margin: 0 30px;
-}
-.img-character:hover{
-    transform: scale(1.2);
-    background-color: brown;
-}
-/* Liste des personnage*/
-#character-container{
+
+.list-li {
+    list-style: none;
+    margin: 0;
+    padding: 0 10px;
+    height: 40px;              /* même hauteur pour tous les li */
     display: flex;
-    flex-wrap: wrap;
-    background-color: rgba(0, 9, 12, 0.5);
-    border-radius: 2%;
-    padding: 34px 60px;
-}
-.name-character{
-    color: burlywood;
-    width: 270px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-     white-space: nowrap;
-}
-.img-characterlist{
-    height: 270px;
-    width: 270px;
-    background-image: url("assets/CharactersBack.png");
-    background-size: contain;
-}
-#character{
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
     align-items: center;
-    margin: 0px 20px;
 }
-.character{
+
+.twitch-button {
     display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    
-}
-.roulette-draw{
-    text-align: center;
-    left: 50%;
-    right: 50%;
-    position: relative;
-    width: 300px;
-    border: 3px solid black;
-    margin-top: 50px;
-    margin-bottom: 30px;
-}
-.roulette-draw:hover{
-    border: 5px solid black;
-    background-color: brown;
+    gap: 5px;
+    padding: 5px 10px;
+    height: 100%;             /* prend toute la hauteur du li */
+    border: 2px solid magenta;
+    border-radius: 5px;
+    background-color: black;
+    color: magenta;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.roulette-container {
-    background-color: #333; /* Couleur de fond */
-    width: 90%; /* Largeur du conteneur */
-    height: 300px; /* Hauteur du conteneur */
-    margin: auto; /* Centrer le conteneur horizontalement */
-    overflow: hidden; /* Cacher tout élément débordant */
-    position: relative; /* Position relative pour positionner la barre rouge */
-    display: flex;
-    border: 3px solid red
+.twitch-button:hover {
+    background-color: magenta;
+    color: black;
 }
 
-#roulette-items {
-    display: flex; /* Utiliser Flexbox pour aligner les éléments horizontalement */
-    align-items: center; /* Aligner les éléments sur l'axe vertical */
-    justify-content: center; /* Centrer les éléments sur l'axe horizontal */
-    padding: 10px; /* Espacement interne de l'élément */
-    position: relative; /* Position relative pour positionner les images */
-    flex-direction: row;
-}
-
-.item img {
-    height: 300px; /* Hauteur des images */
-    width: 270px; /* Largeur automatique pour maintenir les proportions */
-    display: block; /* Afficher les images en tant que bloc */
-    margin: 0 auto; /* Centrer les images horizontalement */
-    position: relative; /* Position relative pour positionner les images */
-    z-index: 1; /* Mettre les images en dessous de la barre rouge */
-    opacity: 0.8; /* Opacité par défaut des images */
-    background-image: url("assets/CharactersBack.png");
-    background-size: cover;
-}
-
-.red-line {
-    height: 100%; /* Hauteur de la barre rouge égale à la hauteur du conteneur */
-    width: 2px; /* Largeur de la barre rouge */
-    background-color: red; /* Couleur de la barre rouge */
-    position: absolute; /* Position absolue pour positionner la barre rouge */
-    left: 50%; /* Aligner la barre rouge au centre horizontalement */
-    transform: translateX(-50%); /* Ajuster la position horizontalement au milieu */
-    z-index: 2; /* Assurer que la barre rouge soit au-dessus des images */
-}
-
-.item {
-     width: 240px;
-     margin: 0; /* Assurez-vous qu'aucune marge n'est appliquée aux éléments */
-     padding: 0; /* Assurez-vous qu'aucun padding n'est appliqué aux éléments */
-     transition: background-color 5s, opacity 1.5s; /* Transition de 5 secondes sur les propriétés background-color et opacity */
-}
-
-.winner {
-    background-color: beige;
-}
-
-.winner > p {
-    text-align: center;
-}
-
-.selected-item > img{
-    background-color: #ff0000;
-}
-
-.body-index {
-    display: block;
-    margin: 0% 20%;
-    background-color: #333;
-    border-radius: 5%;
-}
-
-.body-index > h1, h2 {
-    color: #deb887;
-    font-size: 30px;
-    text-align: center;
-    margin: 20px;
-    padding-top: 20px;
-}
-
-.center {
-    text-align: center;
+.twitch-icon {
+    width: 24px;
+    height: 24px;
 }
 
 .img-button {
-  padding: 0;           /* Supprime l’espace par défaut autour du bouton */
-  border: none;         /* Enlève la bordure si tu veux */
-  background: none;     /* Pas de fond pour le bouton */
-  cursor: pointer;      /* Curseur pointer pour montrer que c’est cliquable */
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .img-button img {
-  display: block;       /* Évite l’espace sous l’image */
-  width: 100%;          /* L’image remplit le bouton */
-  height: auto;         /* Garde les proportions */
-}
-
-.twitch-user {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 .twitch-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-#twitchContainer {
-display: block;
-  width: 500px;
-  position: absolute;
-  right: -247px;
-  top: 55px;
+/* ===========================
+   BODY SECTION
+=========================== */
+.body-index {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: rgba(51, 51, 51, 0.6); /* plus transparent */
+    border-radius: 10px;
+    text-align: center;
+}
+
+.body-index h1, 
+.body-index h2 {
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   BUTTON TIRAGE
+=========================== */
+.roulette-draw {
+    display: block;
+    margin: 20px auto;
+    padding: 20px 50px;
+    font-size: 2rem;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.roulette-draw:hover {
+    transform: scale(1.1);
+}
+
+/* ===========================
+   CHARACTER LIST
+=========================== */
+#character-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: rgba(0, 9, 12, 0.5);
+    border-radius: 10px;
+}
+
+.character {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+}
+
+.character img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.character img:hover {
+    transform: scale(1.05);
+    background-color: brown;
+}
+
+.name-character {
+    margin-top: 5px;
+    text-align: center;
+}
+
+/* ===========================
+   ROULETTE
+=========================== */
+.roulette-container {
+    background-color: rgba(51, 51, 51, 0.5); /* fond transparent */
+    width: 90%;
+    max-width: 1200px;
+    height: 300px;
+    margin: 30px auto;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    border: 3px solid red;
+}
+
+#roulette-items {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0;
+    flex-direction: row;
+    transition: transform 5s cubic-bezier(0.15, 0.84, 0.36, 1);
+}
+
+.item {
+    flex: 0 0 auto;
+    width: 18%;
+    max-width: 200px;
+    margin: 0 5px;
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.8;
+}
+
+.red-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background-color: red;
+    z-index: 2;
+}
+
+.selected-item > img {
+    background-color: #ff0000;
+    background-size: 50%;
+}
+
+.winner {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 25px;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media screen and (max-width: 1024px) {
+    .img-logo { height: 70px; }
+    .twitch-avatar { width: 40px; height: 40px; }
+    .item { width: 22%; }
+    .winner { font-size: 22px; }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .hamburger { display: block; }
+    .list-ul { display: none; flex-direction: column; width: 100%; background-color: rgba(0,0,0,0.8); position: absolute; top: 70px; left: 0; padding: 10px; }
+    .list-ul.show { display: flex; }
+    .item { width: 28%; }
+    .roulette-container { height: 200px; }
+}
+
+@media screen and (max-width: 480px) {
+    .img-logo { height: 50px; }
+    .twitch-avatar { width: 35px; height: 35px; }
+    .item { width: 35%; margin: 0 3px; }
+    .roulette-container { height: 150px; }
+    .winner { font-size: 18px; }
+    .body-index h1, .body-index h2 { font-size: 18px; }
+    .roulette-draw { padding: 15px 30px; font-size: 1.5rem; }
 }

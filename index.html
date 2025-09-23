@@ -1,103 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roulette</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roulette</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<header>
-    <div class="header-left">
-        <img class="img-logo" src="assets/dbd logo.png">
-        <p>Roulette DBD</p>
+
+<body>  
+  <header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="menu-toggle">☰</div>
+
+<ul class="list-ul">
+  <li class="list-li"><a href="index.html">A propos</a></li>
+  <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
+  <li class="list-li"><a id="survivor" href="characterList.html?type=Survivor">Liste des survivants</a></li>
+  <li class="list-li" id="twitch-btn">
+    <div class="twitch-button">
+      <img src="assets/twitch_icon.png" alt="Twitch" class="twitch-icon">
+      <span>Connexion Twitch</span>
     </div>
-    <div id="twitchContainer">
-            <button id="btnConnect" class="img-button">
-                <img src="assets/connexion_img.png" alt="Connexion" />
-            </button>
-        </div>
-    <ul class="list-ul">
-        <li class="list-li"><a href="index.html"> A propos</a></li>
-        <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
-        <li class="list-li"><a id="survivor" href="characterList.html?type=Survivor">Liste des survivants</a></li>
-    </ul>
+  </li>
+</ul>
 </header>
-<body>
-    <script>
+
+  <section class="body-index">
+    <h1>Fonctionnement de la roulette</h1>
+    <h2>Bienvenue sur cette application de roulette dédiée à Dead by Daylight.</h2>
+    <h2>Il vous est possible de faire votre choix parmi la liste des survivants et de cliquer sur le bouton de tirage.</h2>
+    <p class="center"><img src="assets/roulette.gif" alt="Roulette GIF"></p>
+  </section>
+
+  <script>
+    // Connexion Twitch
     document.getElementById('btnConnect').onclick = () => {
       window.location = '/auth/twitch';
     };
 
-    document.getElementById('btnDraw').onclick = async () => {
-      const items = document.getElementById('items').value.split(',').map(s => s.trim());
-      const resp = await fetch('/api/draw-and-announce', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ items })
-      });
+    // Mise à jour bouton Twitch si connecté
+    async function updateTwitchButton() {
+      const resp = await fetch('/api/twitch-user');
       const data = await resp.json();
-      if (resp.ok) alert('Tirage: ' + data.drawValue);
-      else alert('Erreur: ' + (data.error || JSON.stringify(data)));
-    };
-  </script>
-    <section class="body-index">
-        <h1> Fonctionnement de la roulette</h1>
-        <h2>Bievenue sur cette application de roulette dedié a l'application Roulette dedié.</h2>
+      const container = document.getElementById('twitchContainer');
 
-        <h2> Il vous est possible de facilement faire votre choix parmi la liste des survivants et de cliquer sur le bouton de tirage lorsque votre choix est fait</h2>
-        <p class="center"><img src="assets/roulette.gif"></p>
-    </section>
-
- <script>
-      // Ton code existant pour btnDraw, roulette, etc.
-
-      // --- Nouveau code pour afficher logo Twitch si connecté ---
-     async function updateTwitchButton() {
-  const resp = await fetch('/api/twitch-user');
-  const data = await resp.json();
-  const container = document.getElementById('twitchContainer');
-
-  if (data.connected) {
-    container.innerHTML = `
-      <div class="twitch-user" style="cursor:pointer;">
-        <img src="${data.avatar || 'assets/connexion_img.png'}" 
-             alt="${data.display_name}" class="twitch-avatar" />
-      </div>
-    `;
-
-    // On remet l'écouteur APRES avoir inséré l'HTML
-    const avatarEl = container.querySelector('.twitch-user');
-    avatarEl.addEventListener('click', async () => {
-      if (confirm("Voulez-vous vous déconnecter ?")) {
-        await fetch('/api/logout', { method: 'POST' });
-        window.location.href = '/index.html';
+      if (data.connected) {
+        container.innerHTML = `
+          <div class="twitch-user">
+            <img src="${data.avatar || 'assets/connexion_img.png'}" 
+                 alt="${data.display_name}" class="twitch-avatar" />
+          </div>
+        `;
       }
-    });
+    }
+    updateTwitchButton();
 
-  } else {
-    container.innerHTML = `
-      <button id="btnConnect" class="img-button">
-        <img src="assets/connexion_img.png" alt="Connexion" />
-      </button>
-    `;
-    document.getElementById('btnConnect').onclick = () => {
-      window.location = '/auth/twitch';
-    };
-  }
-}
-
-// Au chargement
-updateTwitchButton();
-
-      // Ping backend toutes les 1 minute (pour test)
-      setInterval(() => {
-        fetch('/ping')
-          .then(res => console.log("Ping OK"))
-          .catch(() => console.log("Ping échoué"));
-      }, 60 * 1000); // 60 000 ms = 1 minute
-    </script>
+    // Menu burger
+      // Hamburger
+  const toggle = document.querySelector(".menu-toggle");
+  const menu = document.querySelector(".list-ul");
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("active");
+  })
+;
+  </script>
 </body>
 </html>
