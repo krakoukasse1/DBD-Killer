@@ -36,44 +36,44 @@
         <script src="main.js"></script>
         </script>
  <script>
-      // Ton code existant pour btnDraw, roulette, etc.
+      const twitchBtn = document.querySelector('#twitch-btn .twitch-button');
 
-      // --- Nouveau code pour afficher logo Twitch si connecté ---
-     async function updateTwitchButton() {
+async function updateTwitchButton() {
   const resp = await fetch('/api/twitch-user');
   const data = await resp.json();
-  const container = document.getElementById('twitchContainer');
 
   if (data.connected) {
-    container.innerHTML = `
-      <div class="twitch-user" style="cursor:pointer;">
-        <img src="${data.avatar || 'assets/connexion_img.png'}" 
-             alt="${data.display_name}" class="twitch-avatar" />
-      </div>
+    // Si connecté, afficher avatar et nom
+    twitchBtn.innerHTML = `
+      <img src="${data.avatar}" alt="${data.display_name}" class="twitch-avatar">
+      <span>${data.display_name}</span>
     `;
-
-    // On remet l'écouteur APRES avoir inséré l'HTML
-    const avatarEl = container.querySelector('.twitch-user');
-    avatarEl.addEventListener('click', async () => {
+    twitchBtn.style.borderColor = 'green';
+    twitchBtn.style.color = 'white';
+    
+    // Cliquer pour se déconnecter
+    twitchBtn.onclick = async () => {
       if (confirm("Voulez-vous vous déconnecter ?")) {
         await fetch('/api/logout', { method: 'POST' });
-        window.location.href = '/index.html';
+        window.location.reload();
       }
-    });
-
+    };
   } else {
-    container.innerHTML = `
-      <button id="btnConnect" class="img-button">
-        <img src="assets/connexion_img.png" alt="Connexion" />
-      </button>
+    // Sinon, bouton pour se connecter
+    twitchBtn.innerHTML = `
+      <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
+      <span>Connexion Twitch</span>
     `;
-    document.getElementById('btnConnect').onclick = () => {
-      window.location = '/auth/twitch';
+    twitchBtn.style.borderColor = 'magenta';
+    twitchBtn.style.color = 'magenta';
+    
+    twitchBtn.onclick = () => {
+      window.location.href = '/auth/twitch';
     };
   }
 }
 
-// Au chargement
+// Appel au chargement
 updateTwitchButton();
 
       // Ping backend toutes les 1 minute (pour test)
