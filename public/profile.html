@@ -2,62 +2,124 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Profil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil — Roulette DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
   <div class="header-left">
-    <img class="img-logo" src="assets/dbd logo.png">
-    <p>Profil</p>
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
   </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
 </header>
 
-<main class="profile-container">
+<main class="profile-page">
 
-  <div class="profile-header">
-    <img id="avatar" class="profile-avatar">
-    <input id="username" disabled>
+  <!-- HERO PROFIL -->
+  <section class="profile-hero">
+    <div class="profile-hero-inner">
+      <div class="profile-avatar-wrap">
+        <img id="avatar" class="profile-avatar" src="" alt="Avatar">
+        <div class="avatar-ring"></div>
+      </div>
+      <div class="profile-hero-info">
+        <h1 id="username-display">Chargement...</h1>
+        <span class="profile-badge">Joueur DBD</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="profile-grid">
+
+    <!-- PARAMETRES -->
+    <section class="profile-card settings-card">
+      <h2 class="card-title">⚙️ Paramètres</h2>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Mode Streamer</span>
+          <span class="toggle-desc">Envoie le résultat du tirage sur ton chat Twitch</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="streamerMode">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Mode Anonyme</span>
+          <span class="toggle-desc">Affiche "Anonyme" à la place de ton pseudo dans le header</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="anonymousMode">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button id="saveBtn" class="btn-save">Enregistrer</button>
+      <p id="save-feedback" class="save-feedback"></p>
+    </section>
+
+    <!-- HISTORIQUE -->
+    <section class="profile-card history-card">
+      <h2 class="card-title">📜 Historique des tirages</h2>
+      <div class="history-scroll">
+        <table id="history">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Personnage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="history-empty"><td colspan="3">Aucun tirage pour l'instant</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAVORIS KILLERS -->
+    <section class="profile-card favorites-card">
+      <h2 class="card-title">
+        🔪 Tueurs favoris
+        <span class="fav-count" id="killer-count">0</span>
+      </h2>
+      <p class="fav-hint">Ces personnages seront pré-sélectionnés lors du tirage</p>
+      <div id="killer-list" class="char-grid"></div>
+    </section>
+
+    <!-- FAVORIS SURVIVORS -->
+    <section class="profile-card favorites-card">
+      <h2 class="card-title">
+        🏃 Survivants favoris
+        <span class="fav-count" id="survivor-count">0</span>
+      </h2>
+      <p class="fav-hint">Ces personnages seront pré-sélectionnés lors du tirage</p>
+      <div id="survivor-list" class="char-grid"></div>
+    </section>
+
   </div>
-
-  <div class="accordion">
-    <h2 onclick="toggleSection('killer')">Killer ▼</h2>
-    <div id="killer" class="section"></div>
-
-    <h2 onclick="toggleSection('survivor')">Survivor ▼</h2>
-    <div id="survivor" class="section"></div>
-  </div>
-
-  <div class="settings">
-    <label>
-      Mode Streamer
-      <input type="checkbox" id="streamerMode">
-    </label>
-
-    <label>
-      Mode Anonyme
-      <input type="checkbox" id="anonymousMode">
-    </label>
-  </div>
-
-  <button id="saveBtn">Enregistrer</button>
-
-  <h3>Historique</h3>
-  <table id="history">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Nom</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
 </main>
 
+<script src="header.js"></script>
 <script src="profile.js"></script>
 </body>
 </html>
