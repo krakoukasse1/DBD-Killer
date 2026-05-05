@@ -1,84 +1,106 @@
+// main.js — Liste des personnages + pré-sélection des favoris
+
 fetch('data.json')
-    .then(response => response.json())
-    .then(data => {
-        const KillerList = data.killers.map(killer => ({ ...killer, active: true }));
-        const SurvivorList = data.survivors.map(survivor => ({ ...survivor, active: true }));
+  .then(response => response.json())
+  .then(async data => {
+    const KillerList = data.killers.map(k => ({ ...k, active: true }));
+    const SurvivorList = data.survivors.map(s => ({ ...s, active: true }));
 
-        const SurvivorPath = "assets/Survivor/";
-        const KillerPath = "assets/Killer/";
-        const container = document.getElementById("character-container");
+    const SurvivorPath = 'assets/Survivor/';
+    const KillerPath = 'assets/Killer/';
+    const container = document.getElementById('character-container');
 
-        function toggleActive(character) {
-            character.active = !character.active;
-            const characterElement = document.getElementById(character.name);
-            if (character.active) {
-                characterElement.classList.remove('inactive');
-            } else {
-                characterElement.classList.add('inactive');
-            }
-        }
+    const urlParams = new URLSearchParams(window.location.search);
+    const characterType = urlParams.get('type');
 
-        function addCharacter(type, characters){
-            characters.forEach((character) => {
-                const div = document.createElement('div');
-                div.className = `character ${character.active ? '' : 'inactive'}`;
-                div.id = character.name;
-                container.appendChild(div);
+    // --- Récupérer les favoris si l'utilisateur est connecté ---
+    let favoriteNames = [];
+    try {
+      const user = await fetch('/api/twitch-user', { credentials: 'include' }).then(r => r.json());
+      if (user.connected) {
+        const profile = await fetch('/api/profile', { credentials: 'include' }).then(r => r.json());
+        if (characterType === 'Killer') favoriteNames = profile.killers || [];
+        else if (characterType === 'Survivor') favoriteNames = profile.survivors || [];
+      }
+    } catch (_) {
+      // Pas connecté ou backend inaccessible → on continue sans favoris
+    }
 
-                const imgCharacter = document.createElement('img');
-                imgCharacter.src = `${type === 1 ? KillerPath : SurvivorPath}${character.img}`;
-                imgCharacter.className = 'img-characterlist';
-                imgCharacter.addEventListener('click', () => {
-                    toggleActive(character);
-                    if (!character.active) {
-                        imgCharacter.style.opacity = 0.5;
-                    } else {
-                        imgCharacter.style.opacity = 1;
-                    }
-                });
-                div.appendChild(imgCharacter);
+    // Si des favoris existent, désactiver tout sauf les favoris
+    // Si aucun favori défini → tout actif par défaut (comportement normal)
+    function applyFavorites(list) {
+      if (favoriteNames.length === 0) return; // pas de favori → tout reste actif
+      list.forEach(char => {
+        char.active = favoriteNames.includes(char.name);
+      });
+    }
 
-                const name = document.createElement('p');
-                name.className = 'name-character';
-                name.innerHTML = character.name;
-                div.appendChild(name);
-            });
-        }
+    if (characterType === 'Killer') applyFavorites(KillerList);
+    else if (characterType === 'Survivor') applyFavorites(SurvivorList);
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const characterType = urlParams.get('type');
+    // --- Toggle actif/inactif ---
+    function toggleActive(character) {
+      character.active = !character.active;
+      const el = document.getElementById(character.name);
+      const img = el.querySelector('img');
+      if (character.active) {
+        el.classList.remove('inactive');
+        img.style.opacity = 1;
+      } else {
+        el.classList.add('inactive');
+        img.style.opacity = 0.5;
+      }
+    }
 
-        if (characterType === 'Killer') {
-            addCharacter(1, KillerList);
-            console.log('yes');
-        } else if (characterType === 'Survivor') {
-            addCharacter(0, SurvivorList);
-            console.log('no');
-        }
+    // --- Affichage des personnages ---
+    function addCharacter(type, characters) {
+      characters.forEach(character => {
+        const div = document.createElement('div');
+        div.className = `character ${character.active ? '' : 'inactive'}`;
+        div.id = character.name;
+        container.appendChild(div);
 
-        // Gestionnaire d'événement pour le bouton de tirage
-        const rouletteDrawButton = document.querySelector('.roulette-draw');
-        rouletteDrawButton.addEventListener('click', function() {
-            // Stocker les données des personnages sélectionnés dans localStorage
-            const activeCharactersJSON = JSON.stringify(getActiveCharacters());
-            // Afficher dans la console ce qui est envoyé à la page index.html
-            console.log("Données envoyées à index.html:", activeCharactersJSON);
-            localStorage.setItem('activeCharacters', activeCharactersJSON);
-            // Redirection vers index.html
-            window.location.href = 'roulette.html';
-        });
+        const imgCharacter = document.createElement('img');
+        imgCharacter.src = `${type === 1 ? KillerPath : SurvivorPath}${character.img}`;
+        imgCharacter.className = 'img-characterlist';
+        imgCharacter.style.opacity = character.active ? 1 : 0.5;
 
-        function getActiveCharacters() {
-            const characters = document.querySelectorAll('.character');
-            const activeCharacters = [];
-            characters.forEach(character => {
-                if (!character.classList.contains('inactive')) {
-                    activeCharacters.push({
-                        name: character.id,
-                        img: character.querySelector('img').src
-                    });
-                }
-            });
-            return activeCharacters;
-        }
+        imgCharacter.addEventListener('click', () => toggleActive(character));
+        div.appendChild(imgCharacter);
+
+        const name = document.createElement('p');
+        name.className = 'name-character';
+        name.textContent = character.name;
+        div.appendChild(name);
+      });
+    }
+
+    if (characterType === 'Killer') addCharacter(1, KillerList);
+    else if (characterType === 'Survivor') addCharacter(0, SurvivorList);
+
+    // --- Bouton tirage ---
+    const rouletteDrawButton = document.querySelector('.roulette-draw');
+    rouletteDrawButton.addEventListener('click', () => {
+      const activeCharacters = getActiveCharacters();
+      if (activeCharacters.length === 0) {
+        alert('Sélectionne au moins un personnage !');
+        return;
+      }
+      localStorage.setItem('activeCharacters', JSON.stringify(activeCharacters));
+      window.location.href = 'roulette.html';
     });
+
+    function getActiveCharacters() {
+      const characters = document.querySelectorAll('.character');
+      const active = [];
+      characters.forEach(character => {
+        if (!character.classList.contains('inactive')) {
+          active.push({
+            name: character.id,
+            img: character.querySelector('img').src
+          });
+        }
+      });
+      return active;
+    }
+  });

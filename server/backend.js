@@ -9,14 +9,12 @@ const app = express();
 
 app.use(express.json());
 
-app.set('trust proxy', 1);
-
+// SESSION
 app.use(session({
   name: 'sess',
   keys: [process.env.SESSION_KEY || 'devkey'],
-  maxAge: 24 * 60 * 60 * 1000, // 24h
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  sameSite: 'lax',
+  secure: process.env.NODE_ENV === 'production'
 }));
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -158,22 +156,28 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
   const items = req.body.items || [];
 
-  // FIX : le tirage aléatoire est fait côté client (roulette.js), ici on reçoit déjà le gagnant
-  // On envoie juste le 1er élément de la liste (le personnage tiré)
+  // Le tirage est fait côté client, on reçoit le gagnant directement
   const drawValue = items[0] || items[Math.floor(Math.random() * items.length)];
 
-  try {
-    const client = new tmi.Client({
-      identity: {
-        username: twitch.login,
-        password: `oauth:${twitch.access_token}`
-      },
-      channels: [twitch.login]
-    });
+  // Récupérer les préférences du profil
+  const userProfile = fakeDB[twitch.login] || {};
+  const streamerMode = userProfile.streamerMode || false;
 
-    await client.connect();
-    await client.say(twitch.login, `🎲 Tirage DBD : ${drawValue} !`);
-    await client.disconnect();
+  try {
+    // N'envoyer sur Twitch QUE si le mode Streamer est activé
+    if (streamerMode) {
+      const client = new tmi.Client({
+        identity: {
+          username: twitch.login,
+          password: `oauth:${twitch.access_token}`
+        },
+        channels: [twitch.login]
+      });
+
+      await client.connect();
+      await client.say(twitch.login, `🎲 Tirage DBD : ${drawValue} !`);
+      await client.disconnect();
+    }
 
     // Sauvegarder dans l'historique
     if (fakeDB[twitch.login]) {
