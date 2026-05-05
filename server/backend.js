@@ -3,18 +3,53 @@ const express = require('express');
 const axios = require('axios');
 const tmi = require('tmi.js');
 const session = require('cookie-session');
+const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
-
 app.use(express.json());
 
+// =====================
+// MONGODB CONNECTION
+// =====================
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB connecté'))
+  .catch(err => console.error('❌ MongoDB erreur:', err));
+
+// =====================
+// SCHEMA PROFIL
+// =====================
+const profileSchema = new mongoose.Schema({
+  login: { type: String, required: true, unique: true },
+  killers: { type: [String], default: [] },
+  survivors: { type: [String], default: [] },
+  streamerMode: { type: Boolean, default: false },
+  anonymousMode: { type: Boolean, default: false },
+  history: {
+    type: [{
+      date: String,
+      type: String,
+      name: String
+    }],
+    default: []
+  }
+});
+
+const Profile = mongoose.model('Profile', profileSchema);
+
+// =====================
 // SESSION
+// =====================
+const isProd = process.env.NODE_ENV === 'production';
+
+app.set('trust proxy', 1); // requis pour Render (HTTPS derrière proxy)
+
 app.use(session({
   name: 'sess',
   keys: [process.env.SESSION_KEY || 'devkey'],
-  sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production'
+  maxAge: 24 * 60 * 60 * 1000, // 24h
+  secure: isProd,
+  sameSite: isProd ? 'none' : 'lax',
 }));
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -24,17 +59,16 @@ const SCOPES = 'chat:edit chat:read';
 
 // =====================
 // STATIC FRONTEND
-// FIX : chemin corrigé pour la nouvelle structure (server/backend.js → ../public)
 // =====================
 app.use(express.static(path.join(__dirname, '../public')));
 
-// FIX : data.json est à la racine, on l'expose explicitement
+// data.json à la racine
 app.get('/data.json', (req, res) => {
   res.sendFile(path.join(__dirname, '../data.json'));
 });
 
 // =====================
-// PING (keepalive pour Render)
+// PING (keepalive Render)
 // =====================
 app.get('/ping', (req, res) => res.send('pong'));
 
@@ -43,7 +77,7 @@ app.get('/ping', (req, res) => res.send('pong'));
 // =====================
 function requireAuth(req, res, next) {
   if (!req.session.twitch) {
-    return res.status(401).json({ error: "Not authenticated" });
+    return res.status(401).json({ error: 'Not authenticated' });
   }
   next();
 }
@@ -70,7 +104,7 @@ app.get('/auth/twitch', (req, res) => {
 // =====================
 app.get('/auth/twitch/callback', async (req, res) => {
   const { code, state } = req.query;
-  if (state !== req.session.state) return res.status(400).send("Bad state");
+  if (state !== req.session.state) return res.status(400).send('Bad state');
 
   try {
     const token = await axios.post('https://id.twitch.tv/oauth2/token', null, {
@@ -104,7 +138,7 @@ app.get('/auth/twitch/callback', async (req, res) => {
     res.redirect('/');
   } catch (e) {
     console.error(e.response?.data || e.message);
-    res.status(500).send("Auth error");
+    res.status(500).send('Auth error');
   }
 });
 
@@ -117,54 +151,66 @@ app.get('/api/twitch-user', (req, res) => {
 });
 
 // =====================
-// LOGOUT
+// LOGOUT — FIX : clearCookie explicite
 // =====================
 app.post('/api/logout', (req, res) => {
   req.session = null;
-  res.json({ ok: true });
-});
-
-// =====================
-// PROFILE (mémoire simple — à remplacer par une vraie DB plus tard)
-// =====================
-let fakeDB = {};
-
-app.get('/api/profile', requireAuth, (req, res) => {
-  const user = req.session.twitch.login;
-  res.json(fakeDB[user] || {
-    killers: [],
-    survivors: [],
-    streamerMode: false,
-    anonymousMode: false,
-    history: []
+  res.clearCookie('sess', {
+    path: '/',
+    sameSite: isProd ? 'none' : 'lax',
+    secure: isProd
   });
-});
-
-app.post('/api/profile', requireAuth, (req, res) => {
-  const user = req.session.twitch.login;
-  fakeDB[user] = {
-    ...req.body,
-    history: fakeDB[user]?.history || []
-  };
   res.json({ ok: true });
 });
 
 // =====================
-// DRAW & ANNOUNCE (Twitch chat)
+// PROFILE — MongoDB
+// =====================
+app.get('/api/profile', requireAuth, async (req, res) => {
+  const login = req.session.twitch.login;
+  try {
+    const profile = await Profile.findOne({ login });
+    if (!profile) {
+      return res.json({ killers: [], survivors: [], streamerMode: false, anonymousMode: false, history: [] });
+    }
+    res.json(profile);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'DB error' });
+  }
+});
+
+app.post('/api/profile', requireAuth, async (req, res) => {
+  const login = req.session.twitch.login;
+  const { killers, survivors, streamerMode, anonymousMode } = req.body;
+
+  try {
+    await Profile.findOneAndUpdate(
+      { login },
+      { killers, survivors, streamerMode, anonymousMode },
+      { upsert: true, new: true } // crée le doc s'il n'existe pas
+    );
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'DB error' });
+  }
+});
+
+// =====================
+// DRAW & ANNOUNCE
 // =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
   const items = req.body.items || [];
-
-  // Le tirage est fait côté client, on reçoit le gagnant directement
-  const drawValue = items[0] || items[Math.floor(Math.random() * items.length)];
-
-  // Récupérer les préférences du profil
-  const userProfile = fakeDB[twitch.login] || {};
-  const streamerMode = userProfile.streamerMode || false;
+  const drawValue = items[0];
+  if (!drawValue) return res.status(400).json({ error: 'No item provided' });
 
   try {
-    // N'envoyer sur Twitch QUE si le mode Streamer est activé
+    const profile = await Profile.findOne({ login: twitch.login });
+    const streamerMode = profile?.streamerMode || false;
+
+    // Envoyer sur Twitch uniquement si mode Streamer activé
     if (streamerMode) {
       const client = new tmi.Client({
         identity: {
@@ -173,28 +219,30 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
         },
         channels: [twitch.login]
       });
-
       await client.connect();
       await client.say(twitch.login, `🎲 Tirage DBD : ${drawValue} !`);
       await client.disconnect();
     }
 
-    // Sauvegarder dans l'historique
-    if (fakeDB[twitch.login]) {
-      fakeDB[twitch.login].history = fakeDB[twitch.login].history || [];
-      fakeDB[twitch.login].history.unshift({
-        date: new Date().toLocaleString('fr-FR'),
-        type: req.body.characterType || '?',
-        name: drawValue
-      });
-      // Garder max 50 entrées
-      fakeDB[twitch.login].history = fakeDB[twitch.login].history.slice(0, 50);
-    }
+    // Sauvegarder dans l'historique MongoDB (max 50 entrées)
+    await Profile.findOneAndUpdate(
+      { login: twitch.login },
+      {
+        $push: {
+          history: {
+            $each: [{ date: new Date().toLocaleString('fr-FR'), type: req.body.characterType || '?', name: drawValue }],
+            $position: 0, // insertion en début de tableau
+            $slice: 50    // garder max 50 entrées
+          }
+        }
+      },
+      { upsert: true }
+    );
 
     res.json({ ok: true, drawValue });
   } catch (e) {
-    console.error("Twitch TMI error:", e);
-    res.status(500).json({ error: "Twitch error", detail: e.message });
+    console.error('Draw error:', e);
+    res.status(500).json({ error: 'Server error', detail: e.message });
   }
 });
 
@@ -202,4 +250,4 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
 // START
 // =====================
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
