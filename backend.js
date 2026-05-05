@@ -10,9 +10,10 @@ app.use(express.json());
 app.use(session({
   name: 'sess',
   keys: [process.env.SESSION_KEY || 'devkey'],
-  sameSite: 'none',
-  secure: true
+  sameSite: 'lax',   // ✅ IMPORTANT
+  secure: true       // garde true uniquement en prod HTTPS
 }));
+
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
