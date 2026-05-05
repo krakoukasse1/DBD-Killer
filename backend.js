@@ -7,7 +7,12 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
-app.use(session({ name: 'sess', keys: [process.env.SESSION_KEY || 'devkey'] }));
+app.use(session({
+  name: 'sess',
+  keys: [process.env.SESSION_KEY || 'devkey'],
+  sameSite: 'none',
+  secure: true
+}));
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -77,7 +82,7 @@ app.get('/auth/twitch/callback', async (req, res) => {
     };
 
     // Redirection vers index.html une fois connecté
-    res.redirect('/');
+    res.redirect(process.env.FRONTEND_URL || 'http://localhost:3000');
   } catch (err) {
     console.error(err.response?.data || err.message);
     res.status(500).send("Erreur lors de l'authentification Twitch");
@@ -115,6 +120,10 @@ app.get('/ping', (req, res) => {
     req.session.twitch.last_ping = Date.now();
   }
   res.json({ ok: true, time: new Date() });
+});
+
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'profile.html'));
 });
 
 // Déconnexion
@@ -157,5 +166,34 @@ app.post('/api/draw-and-announce', async (req, res) => {
   }
 });
 
+let fakeDB = {};
+
+app.get('/api/profile', (req, res) => {
+  const user = req.session.twitch?.login;
+  if (!user) return res.status(401).json({});
+
+  res.json(fakeDB[user] || {
+    killers: [],
+    survivors: [],
+    streamerMode: false,
+    anonymousMode: false,
+    history: []
+  });
+});
+
+app.post('/api/profile', (req, res) => {
+  const user = req.session.twitch?.login;
+  if (!user) return res.status(401).json({});
+
+  fakeDB[user] = {
+    ...req.body,
+    history: fakeDB[user]?.history || []
+  };
+
+  res.json({ ok: true });
+});
+
+
 // Démarrage serveur
 app.listen(3000, () => console.log('Server started on http://localhost:3000'));
+

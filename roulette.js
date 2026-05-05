@@ -1,4 +1,6 @@
 // roulette.js
+const BACKEND_URL = "https://dbd-killer-1.onrender.com";
+
 document.addEventListener("DOMContentLoaded", function () {
   const activeCharactersJSON = localStorage.getItem("activeCharacters");
   let activeCharacters = JSON.parse(activeCharactersJSON);
@@ -192,12 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // envoi backend (non bloquant)
-        fetch("/api/draw-and-announce", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items: [selectedCharacterName] })
-        }).catch(err => console.error("Erreur fetch draw:", err));
-
+       fetch(`${BACKEND_URL}/api/draw-and-announce`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ items: [selectedCharacterName] })
+          })
       }, duration + 80); // petit buffer
     }
 

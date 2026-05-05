@@ -43,6 +43,8 @@
     // Connexion Twitch
    const twitchBtn = document.querySelector('#twitch-btn .twitch-button');
 
+   const BACKEND_URL = "https://dbd-killer-1.onrender.com";
+
 async function updateTwitchButton() {
   const resp = await fetch('/api/twitch-user');
   const data = await resp.json();
@@ -73,8 +75,8 @@ async function updateTwitchButton() {
     twitchBtn.style.color = 'magenta';
     
     twitchBtn.onclick = () => {
-      window.location.href = '/auth/twitch';
-    };
+        window.location.href = `${BACKEND_URL}/auth/twitch`;
+      };
   }
 }
 

@@ -48,8 +48,12 @@
     // --- Twitch connection ---
     const twitchBtn = document.querySelector('#twitch-btn .twitch-button');
 
+    const BACKEND_URL = "https://dbd-killer-1.onrender.com";
+
 async function updateTwitchButton() {
-  const resp = await fetch('/api/twitch-user');
+  const resp = await fetch(`${BACKEND_URL}/api/twitch-user`, {
+                        credentials: "include"
+                      })
   const data = await resp.json();
 
   if (data.connected) {
@@ -64,7 +68,10 @@ async function updateTwitchButton() {
     // Cliquer pour se déconnecter
     twitchBtn.onclick = async () => {
       if (confirm("Voulez-vous vous déconnecter ?")) {
-        await fetch('/api/logout', { method: 'POST' });
+        await fetch(`${BACKEND_URL}/api/logout`, {
+                method: 'POST',
+                credentials: "include"
+              })
         window.location.reload();
       }
     };
@@ -78,7 +85,7 @@ async function updateTwitchButton() {
     twitchBtn.style.color = 'magenta';
     
     twitchBtn.onclick = () => {
-      window.location.href = '/auth/twitch';
+      window.location.href = `${BACKEND_URL}/auth/twitch`;
     };
   }
 }
