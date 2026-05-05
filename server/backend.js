@@ -9,12 +9,14 @@ const app = express();
 
 app.use(express.json());
 
-// SESSION
+app.set('trust proxy', 1);
+
 app.use(session({
   name: 'sess',
   keys: [process.env.SESSION_KEY || 'devkey'],
-  sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production'
+  maxAge: 24 * 60 * 60 * 1000, // 24h
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 }));
 
 const CLIENT_ID = process.env.CLIENT_ID;

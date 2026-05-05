@@ -92,7 +92,7 @@
       },
       {
           "name": "GhostFace",
-          "img": "GhostFace.png",
+          "img": "Ghostface.png",
           "type": "killer",
           "available": true
       },
@@ -110,7 +110,7 @@
       },
       {
           "name": "LanceMort",
-          "img": "LanceMort.png",
+          "img": "Lancemort.png",
           "type": "killer",
           "available": true
       },

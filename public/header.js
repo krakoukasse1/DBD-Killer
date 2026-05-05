@@ -25,20 +25,24 @@
       const data = await resp.json();
 
       if (data.connected) {
-        twitchBtn.innerHTML = `
-          <img src="${data.avatar}" alt="${data.display_name}" class="twitch-avatar">
-          <span>${data.display_name}</span>
-        `;
-        twitchBtn.style.border = "2px solid #00ff88";
-        twitchBtn.style.color = "#fff";
+  twitchBtn.innerHTML = `
+    <img src="${data.avatar}" alt="${data.display_name}" class="twitch-avatar">
+    <span>${data.display_name}</span>
+  `;
+  twitchBtn.style.border = "2px solid #00ff88";
+  twitchBtn.style.color = "#fff";
 
-        twitchBtn.onclick = async () => {
-          if (confirm("Voulez-vous vous déconnecter ?")) {
-            await fetch("/api/logout", { method: "POST", credentials: "include" });
-            window.location.reload();
-          }
-        };
-      } else {
+  // ← AJOUT : lien profil dynamique
+  const profileLink = document.getElementById("profile-link");
+  if (profileLink) profileLink.style.display = "flex";
+
+  twitchBtn.onclick = async () => {
+    if (confirm("Voulez-vous vous déconnecter ?")) {
+      await fetch("/api/logout", { method: "POST", credentials: "include" });
+      window.location.reload();
+    }
+  };
+} else {
         twitchBtn.innerHTML = `
           <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
           <span>Connexion Twitch</span>
