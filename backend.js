@@ -35,7 +35,11 @@ app.use((req, res, next) => {
 });
 
 // Sert ton HTML
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname)));
+
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'profile.html'));
+});
 
 // Redirection vers Twitch OAuth
 app.get('/auth/twitch', (req, res) => {
