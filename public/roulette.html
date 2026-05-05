@@ -2,37 +2,102 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Roulette</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
 <body>
+  <header>
+    <div class="header-left">
+      <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+      <p>Roulette DBD</p>
+    </div>
 
-<header>
-  <div class="header-left">
-    <img class="img-logo" src="assets/dbd logo.png">
-    <p>Roulette</p>
-  </div>
+    
 
-  <div class="menu-toggle">☰</div>
+    <!-- Bouton hamburger -->
+    <div class="menu-toggle">☰</div>
 
-  <ul class="list-ul">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="characterList.html?type=Killer">Killers</a></li>
-    <li><a href="characterList.html?type=Survivor">Survivors</a></li>
-  </ul>
-</header>
+    <ul class="list-ul">
+      <li class="list-li"><a href="index.html">A propos</a></li>
+      <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
+      <li class="list-li"><a id="survivor" href="characterList.html?type=Survivor">Liste des survivants</a></li>
+      <li class="list-li" id="twitch-btn">
+        <div class="twitch-button">
+          <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
+          <span>Connexion Twitch</span>
+        </div>
+      </li>
+</ul>
+  </header>
 
-<main>
-  <div class="roulette-container">
-    <div class="red-line"></div>
-    <div id="roulette-items"></div>
-  </div>
+  <main>
+    <div class="roulette-container">
+      <div class="red-line"></div>
+      <div id="roulette-items" class="roulette items"></div>
+    </div>
 
-  <div class="winner"></div>
-</main>
+    <div class="winner"></div>
+  </main>
 
-<script src="roulette.js"></script>
+  <script src="main.js"></script>
+  <script src="roulette.js"></script>
 
+  <script>
+    // --- Twitch connection ---
+    const twitchBtn = document.querySelector('#twitch-btn .twitch-button');
+
+    const BACKEND_URL = "https://dbd-killer-1.onrender.com";
+
+async function updateTwitchButton() {
+  const resp = await fetch(`${BACKEND_URL}/api/twitch-user`, {
+                        credentials: "include"
+                      })
+  const data = await resp.json();
+
+  if (data.connected) {
+    // Si connecté, afficher avatar et nom
+    twitchBtn.innerHTML = `
+      <img src="${data.avatar}" alt="${data.display_name}" class="twitch-avatar">
+      <span>${data.display_name}</span>
+    `;
+    twitchBtn.style.borderColor = 'green';
+    twitchBtn.style.color = 'white';
+    
+    // Cliquer pour se déconnecter
+    twitchBtn.onclick = async () => {
+      if (confirm("Voulez-vous vous déconnecter ?")) {
+        await fetch(`${BACKEND_URL}/api/logout`, {
+                method: 'POST',
+                credentials: "include"
+              })
+        window.location.reload();
+      }
+    };
+  } else {
+    // Sinon, bouton pour se connecter
+    twitchBtn.innerHTML = `
+      <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
+      <span>Connexion Twitch</span>
+    `;
+    twitchBtn.style.borderColor = 'magenta';
+    twitchBtn.style.color = 'magenta';
+    
+    twitchBtn.onclick = () => {
+      window.location.href = `${BACKEND_URL}/auth/twitch`;
+    };
+  }
+}
+
+// Appel au chargement
+updateTwitchButton();
+
+setInterval(() => {
+        fetch('/ping')
+          .then(res => console.log("Ping OK"))
+          .catch(() => console.log("Ping échoué"));
+      }, 60 * 1000); // 60 000 ms = 1 minute
+  </script>
 </body>
 </html>

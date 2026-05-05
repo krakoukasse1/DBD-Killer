@@ -1,40 +1,29 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Connexion</title>
-</head>
-
+<!doctype html>
+<html>
 <body>
+  <h2>DBD Twitch Roulette</h2>
+  <button id="btnConnect">Connecter Twitch</button>
+  <br><br>
+  <label>Items (virgule séparés):</label><br>
+  <input id="items" value="Trapper,Huntress,Wraith,Survivant1,Survivant2" style="width:300px"/>
+  <button id="btnDraw">Tirer et Annoncer sur mon chat</button>
 
-<h2>Connexion Twitch</h2>
+  <script>
+    document.getElementById('btnConnect').onclick = () => {
+      window.location = '/auth/twitch';
+    };
 
-<button id="btnConnect">Se connecter</button>
-
-<button id="btnDraw">Test tirage</button>
-
-<input id="items" value="Trapper,Huntress,Wraith">
-
-<script>
-const BACKEND = "https://dbd-killer-1.onrender.com";
-
-document.getElementById("btnConnect").onclick = () => {
-  window.location.href = BACKEND + "/auth/twitch";
-};
-
-document.getElementById("btnDraw").onclick = async () => {
-  const items = document.getElementById("items").value.split(",");
-
-  const res = await fetch(BACKEND + "/api/draw-and-announce", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    credentials: "include",
-    body: JSON.stringify({ items })
-  });
-
-  console.log(await res.json());
-};
-</script>
-
+    document.getElementById('btnDraw').onclick = async () => {
+      const items = document.getElementById('items').value.split(',').map(s => s.trim());
+      const resp = await fetch('/api/draw-and-announce', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ items })
+      });
+      const data = await resp.json();
+      if (resp.ok) alert('Tirage: ' + data.drawValue);
+      else alert('Erreur: ' + (data.error || JSON.stringify(data)));
+    };
+  </script>
 </body>
 </html>

@@ -1,39 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Profile</title>
+  <meta charset="UTF-8">
+  <title>Profil</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>Profil</h1>
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png">
+    <p>Profil</p>
+  </div>
+</header>
 
-<img id="avatar" width="100">
-<p id="name"></p>
+<main class="profile-container">
 
-<button id="logout">Logout</button>
+  <div class="profile-header">
+    <img id="avatar" class="profile-avatar">
+    <input id="username" disabled>
+  </div>
 
-<script>
-async function load() {
-  const res = await fetch('/api/twitch-user');
-  const data = await res.json();
+  <div class="accordion">
+    <h2 onclick="toggleSection('killer')">Killer ▼</h2>
+    <div id="killer" class="section"></div>
 
-  if (!data.connected) {
-    window.location.href = "/";
-    return;
-  }
+    <h2 onclick="toggleSection('survivor')">Survivor ▼</h2>
+    <div id="survivor" class="section"></div>
+  </div>
 
-  document.getElementById('avatar').src = data.avatar;
-  document.getElementById('name').innerText = data.display_name;
-}
+  <div class="settings">
+    <label>
+      Mode Streamer
+      <input type="checkbox" id="streamerMode">
+    </label>
 
-document.getElementById('logout').onclick = async () => {
-  await fetch('/api/logout', { method: 'POST' });
-  window.location.href = "/";
-};
+    <label>
+      Mode Anonyme
+      <input type="checkbox" id="anonymousMode">
+    </label>
+  </div>
 
-load();
-</script>
+  <button id="saveBtn">Enregistrer</button>
 
+  <h3>Historique</h3>
+  <table id="history">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Nom</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+</main>
+
+<script src="profile.js"></script>
 </body>
 </html>
