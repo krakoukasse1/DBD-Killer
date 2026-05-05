@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const express = require('express');
 const axios = require('axios');
 const tmi = require('tmi.js');
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 
-// SESSION FIX (Render compatible)
+// SESSION
 app.use(session({
   name: 'sess',
   keys: [process.env.SESSION_KEY || 'devkey'],
@@ -24,11 +24,22 @@ const SCOPES = 'chat:edit chat:read';
 
 // =====================
 // STATIC FRONTEND
+// FIX : chemin corrigé pour la nouvelle structure (server/backend.js → ../public)
 // =====================
 app.use(express.static(path.join(__dirname, '../public')));
 
+// FIX : data.json est à la racine, on l'expose explicitement
+app.get('/data.json', (req, res) => {
+  res.sendFile(path.join(__dirname, '../data.json'));
+});
+
 // =====================
-// SESSION CHECK
+// PING (keepalive pour Render)
+// =====================
+app.get('/ping', (req, res) => res.send('pong'));
+
+// =====================
+// AUTH CHECK
 // =====================
 function requireAuth(req, res, next) {
   if (!req.session.twitch) {
@@ -102,15 +113,11 @@ app.get('/auth/twitch/callback', async (req, res) => {
 // =====================
 app.get('/api/twitch-user', (req, res) => {
   if (!req.session.twitch) return res.json({ connected: false });
-
-  res.json({
-    connected: true,
-    ...req.session.twitch
-  });
+  res.json({ connected: true, ...req.session.twitch });
 });
 
 // =====================
-// LOGOUT FIX (IMPORTANT)
+// LOGOUT
 // =====================
 app.post('/api/logout', (req, res) => {
   req.session = null;
@@ -118,13 +125,12 @@ app.post('/api/logout', (req, res) => {
 });
 
 // =====================
-// PROFILE STORAGE (simple memory DB)
+// PROFILE (mémoire simple — à remplacer par une vraie DB plus tard)
 // =====================
 let fakeDB = {};
 
 app.get('/api/profile', requireAuth, (req, res) => {
   const user = req.session.twitch.login;
-
   res.json(fakeDB[user] || {
     killers: [],
     survivors: [],
@@ -136,23 +142,23 @@ app.get('/api/profile', requireAuth, (req, res) => {
 
 app.post('/api/profile', requireAuth, (req, res) => {
   const user = req.session.twitch.login;
-
   fakeDB[user] = {
     ...req.body,
     history: fakeDB[user]?.history || []
   };
-
   res.json({ ok: true });
 });
 
 // =====================
-// DRAW
+// DRAW & ANNOUNCE (Twitch chat)
 // =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
-
   const items = req.body.items || [];
-  const drawValue = items[Math.floor(Math.random() * items.length)];
+
+  // FIX : le tirage aléatoire est fait côté client (roulette.js), ici on reçoit déjà le gagnant
+  // On envoie juste le 1er élément de la liste (le personnage tiré)
+  const drawValue = items[0] || items[Math.floor(Math.random() * items.length)];
 
   try {
     const client = new tmi.Client({
@@ -164,16 +170,30 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
     });
 
     await client.connect();
-    await client.say(twitch.login, `🎲 ${drawValue}`);
+    await client.say(twitch.login, `🎲 Tirage DBD : ${drawValue} !`);
     await client.disconnect();
+
+    // Sauvegarder dans l'historique
+    if (fakeDB[twitch.login]) {
+      fakeDB[twitch.login].history = fakeDB[twitch.login].history || [];
+      fakeDB[twitch.login].history.unshift({
+        date: new Date().toLocaleString('fr-FR'),
+        type: req.body.characterType || '?',
+        name: drawValue
+      });
+      // Garder max 50 entrées
+      fakeDB[twitch.login].history = fakeDB[twitch.login].history.slice(0, 50);
+    }
 
     res.json({ ok: true, drawValue });
   } catch (e) {
-    res.status(500).json({ error: "Twitch error" });
+    console.error("Twitch TMI error:", e);
+    res.status(500).json({ error: "Twitch error", detail: e.message });
   }
 });
 
 // =====================
 // START
 // =====================
-app.listen(3000, () => console.log("Server running"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

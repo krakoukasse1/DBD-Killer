@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Roulette DBD</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
@@ -17,18 +15,15 @@
     <p>Roulette DBD</p>
   </div>
 
-  <!-- Hamburger -->
   <div class="menu-toggle">☰</div>
 
   <ul class="list-ul">
     <li class="list-li"><a href="index.html">Accueil</a></li>
     <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
     <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
-
-    <!-- Twitch -->
     <li class="list-li">
       <div id="twitch-btn" class="twitch-button">
-        <img src="assets/twitch_logo.png" class="twitch-icon">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
         <span>Connexion Twitch</span>
       </div>
     </li>
@@ -38,61 +33,9 @@
 <section class="body-index">
   <h1>Fonctionnement de la roulette</h1>
   <h2>Choisis tes personnages et lance le tirage</h2>
-
   <img src="assets/roulette.gif" alt="roulette" style="max-width: 400px;">
 </section>
 
-<script>
-/* =========================
-   HAMBURGER MENU FIX
-========================= */
-const toggle = document.querySelector(".menu-toggle");
-const menu = document.querySelector(".list-ul");
-
-toggle.addEventListener("click", () => {
-  menu.classList.toggle("show");
-});
-
-/* =========================
-   TWITCH BUTTON LOGIC
-========================= */
-const twitchBtn = document.getElementById("twitch-btn");
-
-async function loadTwitch() {
-  const res = await fetch("/api/twitch-user");
-  const data = await res.json();
-
-  if (data.connected) {
-    twitchBtn.innerHTML = `
-      <img src="${data.avatar}" class="twitch-avatar">
-      <span>${data.display_name}</span>
-    `;
-
-    twitchBtn.style.border = "2px solid #00ff88";
-    twitchBtn.style.color = "#fff";
-
-    twitchBtn.onclick = async () => {
-      await fetch("/api/logout", { method: "POST" });
-      window.location.reload();
-    };
-
-  } else {
-    twitchBtn.innerHTML = `
-      <img src="assets/twitch_logo.png" class="twitch-icon">
-      <span>Connexion Twitch</span>
-    `;
-
-    twitchBtn.style.border = "2px solid magenta";
-    twitchBtn.style.color = "magenta";
-
-    twitchBtn.onclick = () => {
-      window.location.href = "/auth/twitch";
-    };
-  }
-}
-
-loadTwitch();
-</script>
-
+<script src="header.js"></script>
 </body>
 </html>
