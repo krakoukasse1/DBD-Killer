@@ -1,95 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Roulette</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="style.css">
-        
-    </head>
-    <header>
-        <div class="header-left">
-            <img class="img-logo" src="assets/dbd logo.png">
-            <p>Roulette DBD</p>
-        </div>
-        
-   <ul class="list-ul">
-    <li class="list-li"><a href="index.html">A propos</a></li>
-    <li class="list-li"><a id="killer" href="characterList.html?type=Killer">Liste des tueurs</a></li>
-    <li class="list-li"><a id="survivor" href="characterList.html?type=Survivor">Liste des survivants</a></li>
-    <li class="list-li" id="twitch-btn">
-      <div class="twitch-button">
-        <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
-        <span>Connexion Twitch</span>
-      </div>
-    </li>
-</ul>
-    </header>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Character List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
 <body>
-    <div id="character-container">
 
-    </div>
-    <button class="roulette-draw">Tirage</button>
-        
-        <script src="main.js"></script>
-        </script>
- <script>
-      const twitchBtn = document.querySelector('#twitch-btn .twitch-button');
-      const BACKEND_URL = "https://dbd-killer-1.onrender.com";
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png">
+    <p>DBD Roulette</p>
+  </div>
 
+  <div class="menu-toggle">☰</div>
 
-async function updateTwitchButton() {
-  const resp = await fetch(`${BACKEND_URL}/api/twitch-user`, {
-  credentials: "include"
-})
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Killers</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Survivors</a></li>
+  </ul>
+</header>
 
-  const data = await resp.json();
+<main>
+  <div id="character-container"></div>
 
-  if (data.connected) {
-    // Si connecté, afficher avatar et nom
-    twitchBtn.innerHTML = `
-      <img src="${data.avatar}" alt="${data.display_name}" class="twitch-avatar">
-      <span>${data.display_name}</span>
-    `;
-    twitchBtn.style.borderColor = 'green';
-    twitchBtn.style.color = 'white';
-    
-    // Cliquer pour se déconnecter
-    twitchBtn.onclick = async () => {
-      if (confirm("Voulez-vous vous déconnecter ?")) {
-        await fetch(`${BACKEND_URL}/api/logout`, {
-                method: 'POST',
-                credentials: "include"
-              })
-        window.location.reload();
-      }
-    };
-  } else {
-    // Sinon, bouton pour se connecter
-    twitchBtn.innerHTML = `
-      <img src="assets/twitch_logo.png" alt="Twitch" class="twitch-icon">
-      <span>Connexion Twitch</span>
-    `;
-    twitchBtn.style.borderColor = 'magenta';
-    twitchBtn.style.color = 'magenta';
-    
-    twitchBtn.onclick = () => {
-      window.location.href = '/auth/twitch';
-    };
-  }
-}
+  <button class="roulette-draw">TIRAGE</button>
+</main>
 
-// Appel au chargement
-updateTwitchButton();
+<script src="main.js"></script>
 
-      // Ping backend toutes les 1 minute (pour test)
-      setInterval(() => {
-        fetch('/ping')
-          .then(res => console.log("Ping OK"))
-          .catch(() => console.log("Ping échoué"));
-      }, 60 * 1000); // 60 000 ms = 1 minute
-    </script>
 </body>
 </html>
