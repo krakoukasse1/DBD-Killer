@@ -227,7 +227,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       {
         $push: {
           history: {
-            $each: [{ date: new Date().toLocaleString('fr-FR'), characterType: req.body.characterType || '?', name: drawValue }],
+            $each: [{ date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }), characterType: req.body.characterType || '?', name: drawValue }],
             $position: 0, // insertion en début de tableau
             $slice: 50    // garder max 50 entrées
           }
