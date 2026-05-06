@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       setTimeout(() => {
-        items.forEach(it => it.classList.remove("selected-item"));
+        items.forEach(it => { it.classList.remove("selected-item"); });
         items[winnerIndex].classList.add("selected-item");
 
         const validWinnerIndex = winnerIndex % activeCharacters.length;
@@ -154,10 +154,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const winnerContainer = document.querySelector(".winner");
         if (winnerContainer) {
+          winnerContainer.classList.remove("visible");
           winnerContainer.innerHTML = "";
           const p = document.createElement("p");
           p.textContent = `Vous avez tiré : ${selectedCharacter.name}`;
           winnerContainer.appendChild(p);
+          // Forcer reflow puis déclencher l animation
+          void winnerContainer.offsetWidth;
+          winnerContainer.classList.add("visible");
         }
 
         // FIX : envoi du type de personnage pour l'historique + URLs relatives
