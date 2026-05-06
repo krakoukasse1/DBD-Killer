@@ -87,6 +87,7 @@ fetch('data.json')
         return;
       }
       localStorage.setItem('activeCharacters', JSON.stringify(activeCharacters));
+      localStorage.setItem('characterType', characterType || '?');
       window.location.href = 'roulette.html';
     });
 

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const activeCharactersJSON = localStorage.getItem("activeCharacters");
   let activeCharacters = JSON.parse(activeCharactersJSON);
   const urlParams = new URLSearchParams(window.location.search);
-  const characterType = urlParams.get("type");
+  const characterType = urlParams.get('type') || localStorage.getItem('characterType') || '?';
 
   // --- helper pour extraire translateX courant (px)
   function getTranslateX(el) {

@@ -25,14 +25,11 @@ const profileSchema = new mongoose.Schema({
   survivors: { type: [String], default: [] },
   streamerMode: { type: Boolean, default: false },
   anonymousMode: { type: Boolean, default: false },
-  history: {
-    type: [{
-      date: String,
-      type: String,
-      name: String
-    }],
-    default: []
-  }
+  history: [{
+    date: String,
+    characterType: String,
+    name: String
+  }]
 });
 
 const Profile = mongoose.model('Profile', profileSchema);
@@ -230,7 +227,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       {
         $push: {
           history: {
-            $each: [{ date: new Date().toLocaleString('fr-FR'), type: req.body.characterType || '?', name: drawValue }],
+            $each: [{ date: new Date().toLocaleString('fr-FR'), characterType: req.body.characterType || '?', name: drawValue }],
             $position: 0, // insertion en début de tableau
             $slice: 50    // garder max 50 entrées
           }

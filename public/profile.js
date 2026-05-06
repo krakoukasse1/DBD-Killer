@@ -100,7 +100,7 @@ function buildHistory(history) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${item.date}</td>
-      <td>${item.type}</td>
+      <td>${item.characterType || item.type || "?"}</td>
       <td>${item.name}</td>
     `;
     tbody.appendChild(tr);
