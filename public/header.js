@@ -1,4 +1,4 @@
-// header.js — Barre de navigation partagée
+// header.js — Navigation + Cookie Banner
 
 (function () {
   // =====================
@@ -15,15 +15,14 @@
   // TWITCH BUTTON
   // =====================
   const twitchBtn = document.getElementById('twitch-btn');
-  if (!twitchBtn) return;
 
   async function updateTwitchButton() {
+    if (!twitchBtn) return;
     try {
       const resp = await fetch('/api/twitch-user', { credentials: 'include' });
       const data = await resp.json();
 
       if (data.connected) {
-        // Récupérer le profil pour le mode anonyme
         let isAnonymous = false;
         try {
           const profile = await fetch('/api/profile', { credentials: 'include' }).then(r => r.json());
@@ -41,7 +40,6 @@
         twitchBtn.style.border = '2px solid #00ff88';
         twitchBtn.style.color = '#fff';
 
-        // Afficher le lien profil
         const profileLink = document.getElementById('profile-link');
         if (profileLink) profileLink.style.display = 'flex';
 
@@ -77,4 +75,46 @@
   setInterval(() => {
     fetch('/ping').catch(() => {});
   }, 60 * 1000);
+
+  // =====================
+  // COOKIE BANNER
+  // =====================
+  function initCookieBanner() {
+    // Ne pas afficher si déjà accepté/refusé
+    if (localStorage.getItem('cookie-consent')) return;
+
+    const banner = document.createElement('div');
+    banner.className = 'cookie-banner';
+    banner.innerHTML = `
+      <p>
+        🍪 Ce site utilise un cookie de session strictement nécessaire à l'authentification Twitch.
+        Aucun cookie publicitaire ou de tracking n'est utilisé.
+        <a href="cgu.html">En savoir plus</a>
+      </p>
+      <div class="cookie-banner-actions">
+        <button class="cookie-decline">Refuser</button>
+        <button class="cookie-accept">Accepter</button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    banner.querySelector('.cookie-accept').addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'accepted');
+      banner.remove();
+    });
+
+    banner.querySelector('.cookie-decline').addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'declined');
+      banner.remove();
+    });
+  }
+
+  // Attendre que le DOM soit prêt
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieBanner);
+  } else {
+    initCookieBanner();
+  }
+
 })();

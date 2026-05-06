@@ -135,4 +135,24 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
   setTimeout(() => feedback.classList.remove('visible'), 3000);
 });
 
+// --- Suppression du compte ---
+document.getElementById('deleteBtn').addEventListener('click', async () => {
+  const confirmed = confirm(
+    'Supprimer toutes vos données ? Cette action est irréversible.'
+  );
+  if (!confirmed) return;
+
+  const resp = await fetch('/api/delete-account', {
+    method: 'DELETE',
+    credentials: 'include'
+  });
+
+  if (resp.ok) {
+    alert('Vos données ont été supprimées. Vous allez être redirigé.');
+    window.location.href = '/';
+  } else {
+    alert('Une erreur est survenue. Réessayez.');
+  }
+});
+
 init();

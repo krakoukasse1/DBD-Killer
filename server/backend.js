@@ -195,6 +195,26 @@ app.post('/api/profile', requireAuth, async (req, res) => {
 });
 
 // =====================
+// DELETE ACCOUNT (RGPD)
+// =====================
+app.delete('/api/delete-account', requireAuth, async (req, res) => {
+  const login = req.session.twitch.login;
+  try {
+    await Profile.deleteOne({ login });
+    req.session = null;
+    res.clearCookie('sess', {
+      path: '/',
+      sameSite: isProd ? 'none' : 'lax',
+      secure: isProd
+    });
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'DB error' });
+  }
+});
+
+// =====================
 // DRAW & ANNOUNCE
 // =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
@@ -227,7 +247,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       {
         $push: {
           history: {
-            $each: [{ date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }), characterType: req.body.characterType || '?', name: drawValue }],
+            $each: [{ date: new Date().toLocaleString('fr-FR'), characterType: req.body.characterType || '?', name: drawValue }],
             $position: 0, // insertion en début de tableau
             $slice: 50    // garder max 50 entrées
           }

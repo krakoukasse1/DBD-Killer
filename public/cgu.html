@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CGU & Confidentialité — Roulette DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cgu-page {
+      max-width: 860px;
+      margin: 40px auto 80px;
+      padding: 0 20px;
+    }
+
+    .cgu-hero {
+      background: linear-gradient(135deg, rgba(180,0,0,0.2), rgba(0,0,0,0.5));
+      border: 1px solid rgba(255,80,80,0.2);
+      border-radius: 14px;
+      padding: 36px 40px;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .cgu-hero h1 {
+      font-size: 2.8rem;
+      color: #fff;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .cgu-hero p {
+      font-family: sans-serif;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .cgu-card {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 32px 36px;
+      margin-bottom: 24px;
+    }
+
+    .cgu-card h2 {
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,0,0,0.3);
+    }
+
+    .cgu-card p,
+    .cgu-card li {
+      font-family: sans-serif;
+      font-size: 0.88rem;
+      color: rgba(220,220,220,0.8);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .cgu-card ul {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .cgu-card a {
+      color: #ff6060;
+      text-decoration: underline;
+    }
+
+    .cgu-card strong {
+      color: #fff;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: rgba(255,0,0,0.1);
+      color: rgba(255,255,255,0.6);
+      font-weight: normal;
+      letter-spacing: 1px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .data-table td {
+      padding: 10px 12px;
+      color: rgba(220,220,220,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      vertical-align: top;
+    }
+
+    .badge-duration {
+      display: inline-block;
+      background: rgba(255,100,0,0.15);
+      border: 1px solid rgba(255,100,0,0.3);
+      color: #ff9060;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .cgu-footer {
+      text-align: center;
+      font-family: sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main class="cgu-page">
+
+  <div class="cgu-hero">
+    <h1>CGU & Confidentialité</h1>
+    <p>Dernière mise à jour : mai 2026</p>
+  </div>
+
+  <!-- 1. Présentation -->
+  <div class="cgu-card">
+    <h2>1. Présentation du service</h2>
+    <p>
+      <strong>Roulette DBD</strong> est un outil en ligne permettant de tirer aléatoirement un personnage du jeu <em>Dead by Daylight</em> parmi une sélection définie par l'utilisateur. Ce service est proposé gratuitement et sans publicité.
+    </p>
+    <p>
+      La connexion via Twitch est optionnelle. Elle permet d'accéder à des fonctionnalités supplémentaires : enregistrement d'un profil, pré-sélection de personnages favoris, historique de tirages et annonce du résultat dans le chat Twitch.
+    </p>
+  </div>
+
+  <!-- 2. Données collectées -->
+  <div class="cgu-card">
+    <h2>2. Données collectées</h2>
+    <p>Nous collectons uniquement les données strictement nécessaires au fonctionnement du service :</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Donnée</th>
+          <th>Source</th>
+          <th>Utilisation</th>
+          <th>Durée</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nom d'utilisateur Twitch</td>
+          <td>API Twitch (OAuth)</td>
+          <td>Identification, affichage dans l'interface</td>
+          <td><span class="badge-duration">Session active</span></td>
+        </tr>
+        <tr>
+          <td>Avatar Twitch</td>
+          <td>API Twitch (OAuth)</td>
+          <td>Affichage dans le header</td>
+          <td><span class="badge-duration">Session active</span></td>
+        </tr>
+        <tr>
+          <td>Token d'accès Twitch</td>
+          <td>API Twitch (OAuth)</td>
+          <td>Envoi de messages dans le chat (mode Streamer uniquement)</td>
+          <td><span class="badge-duration">Session active</span></td>
+        </tr>
+        <tr>
+          <td>Personnages favoris</td>
+          <td>Choix de l'utilisateur</td>
+          <td>Pré-sélection lors des tirages</td>
+          <td><span class="badge-duration">Jusqu'à suppression</span></td>
+        </tr>
+        <tr>
+          <td>Historique des tirages</td>
+          <td>Tirages effectués</td>
+          <td>Affichage dans le profil (max 50 entrées)</td>
+          <td><span class="badge-duration">Jusqu'à suppression</span></td>
+        </tr>
+        <tr>
+          <td>Préférences (modes)</td>
+          <td>Choix de l'utilisateur</td>
+          <td>Mode Streamer, Mode Anonyme</td>
+          <td><span class="badge-duration">Jusqu'à suppression</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 16px;">
+      <strong>Nous ne collectons pas</strong> : adresse e-mail, numéro de téléphone, données de paiement, localisation, ou toute autre donnée non listée ci-dessus.
+    </p>
+  </div>
+
+  <!-- 3. Cookies -->
+  <div class="cgu-card">
+    <h2>3. Cookies et session</h2>
+    <p>
+      Ce site utilise <strong>un seul cookie de session</strong> (<code>sess</code>) strictement nécessaire au fonctionnement de l'authentification Twitch. Ce cookie :
+    </p>
+    <ul>
+      <li>N'est pas utilisé à des fins publicitaires ou de tracking</li>
+      <li>N'est pas partagé avec des tiers</li>
+      <li>Expire après 24 heures ou à la déconnexion</li>
+      <li>Est chiffré et signé côté serveur</li>
+    </ul>
+    <p>
+      Comme ce cookie est strictement nécessaire au service (sans lui, la connexion Twitch est impossible), il ne nécessite pas de consentement préalable selon le RGPD et les recommandations de la CNIL.
+    </p>
+  </div>
+
+  <!-- 4. Base légale -->
+  <div class="cgu-card">
+    <h2>4. Base légale du traitement</h2>
+    <p>
+      Le traitement de vos données repose sur votre <strong>consentement explicite</strong> : vous choisissez librement de vous connecter via Twitch. Sans connexion, aucune donnée personnelle n'est collectée ou stockée.
+    </p>
+    <p>
+      Vous pouvez retirer ce consentement à tout moment en supprimant votre compte depuis votre page profil.
+    </p>
+  </div>
+
+  <!-- 5. Vos droits -->
+  <div class="cgu-card">
+    <h2>5. Vos droits (RGPD)</h2>
+    <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :</p>
+    <ul>
+      <li><strong>Droit d'accès</strong> — vous pouvez consulter toutes vos données depuis votre page profil</li>
+      <li><strong>Droit de rectification</strong> — vos favoris et préférences sont modifiables à tout moment</li>
+      <li><strong>Droit à l'effacement</strong> — vous pouvez supprimer l'intégralité de vos données depuis votre profil</li>
+      <li><strong>Droit à la portabilité</strong> — vos données sont affichées clairement dans l'interface</li>
+      <li><strong>Droit d'opposition</strong> — vous pouvez vous déconnecter et cesser d'utiliser le service à tout moment</li>
+    </ul>
+    <p>
+      Pour exercer ces droits ou pour toute question, vous pouvez également contacter le responsable du service.
+    </p>
+  </div>
+
+  <!-- 6. Hébergement -->
+  <div class="cgu-card">
+    <h2>6. Hébergement & sécurité</h2>
+    <p>
+      Le service est hébergé sur <strong>Render</strong> (San Francisco, CA, USA) avec des serveurs situés en Europe (Frankfurt). La base de données est hébergée sur <strong>MongoDB Atlas</strong> (AWS Frankfurt).
+    </p>
+    <p>
+      Les données sont transmises via HTTPS. Les tokens d'accès Twitch sont stockés uniquement en session (cookie signé) et ne sont jamais écrits en base de données.
+    </p>
+  </div>
+
+  <div class="cgu-footer">
+    Ce site n'est pas affilié à Behaviour Interactive ou Dead by Daylight. DBD et ses personnages sont des marques déposées de leurs propriétaires respectifs.
+  </div>
+
+</main>
+
+<script src="header.js"></script>
+</body>
+</html>

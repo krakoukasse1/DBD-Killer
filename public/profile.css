@@ -370,3 +370,142 @@
 .char-grid .char-item:hover .char-name {
   opacity: 1;
 }
+
+/* ===========================
+   DANGER ZONE
+=========================== */
+.danger-card {
+  border-color: rgba(255, 50, 50, 0.25);
+  grid-column: span 2;
+}
+
+@media (max-width: 900px) {
+  .danger-card { grid-column: span 1; }
+}
+
+.danger-desc {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  color: rgba(220, 200, 200, 0.75);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.danger-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-cgu {
+  display: inline-block;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: rgba(220,220,220,0.8);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-cgu:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+  color: #fff;
+}
+
+.btn-delete {
+  padding: 10px 22px;
+  background: transparent;
+  border: 2px solid rgba(255, 50, 50, 0.6);
+  border-radius: 8px;
+  color: #ff6060;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn-delete:hover {
+  background: rgba(255, 0, 0, 0.15);
+  border-color: #ff0000;
+  color: #fff;
+}
+
+/* ===========================
+   COOKIE BANNER
+=========================== */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  z-index: 999;
+  backdrop-filter: blur(8px);
+}
+
+.cookie-banner p {
+  font-family: sans-serif;
+  font-size: 0.82rem;
+  color: rgba(220,220,220,0.8);
+  margin: 0;
+  flex: 1;
+  min-width: 240px;
+}
+
+.cookie-banner a {
+  color: #ff6060;
+  text-decoration: underline;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-accept {
+  padding: 8px 20px;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cookie-accept:hover { background: #cc0000; }
+
+.cookie-decline {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.cookie-decline:hover {
+  border-color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.8);
+}
