@@ -234,6 +234,11 @@
     "img": "Krasue.png",
     "type": "killer",
     "available": true 
+},{
+    "name": "The First ",
+    "img": "Vecna_ST.png",
+    "type": "killer",
+    "available": true 
 }
   ],
   "survivors": [
@@ -522,6 +527,21 @@
 {
     "name": "Vee Boonyasak",
     "img": "Vee.png",
+    "type": "survivor",
+    "available": true
+},{
+    "name": "Dustin Henderson ",
+    "img": "Dustin.png",
+    "type": "survivor",
+    "available": true
+},{
+    "name": "Onze",
+    "img": "Onze.png",
+    "type": "survivor",
+    "available": true
+},{
+    "name": "Kwon Tae-young ",
+    "img": "Kwon.png",
     "type": "survivor",
     "available": true
 }
