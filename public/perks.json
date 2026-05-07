@@ -87,30 +87,28 @@
         "character": "Dwight Fairfield",
         "perks": [
           {
-            "id": "s_dwight_01",
-            "name": "Fais tes preuves",
-            "img": "perks/survivor/FaisTesPreuves.png",
-            "description": "Toutes les Auras des Survivants qui réparent un générateur à moins de 12 mètres sont révélées. La vitesse de réparation de groupe est augmentée de 15%.",
+            "id": "s_dwight_01","name": "Fais tes preuves","img": "perks/survivor/FaisTesPreuves.png",
+            "description": "Augmente la Vitesse de Réparation de 15 % pour chaque SurvivantIconHelpLoading survivor.pngIconHelpLoading survivor.png dans un rayon de 4 mètres autour de vous, jusqu'à un maximum de 45 %.",
             "type": "team",
-            "buffs": ["Vitesse de réparation en groupe", "Vision des coéquipiers"],
+            "buffs": ["Vitesse de réparation en groupe augmenté", "Points de sang augmenté jusqu'a 10%"],
             "debuffs": []
           },
           {
             "id": "s_dwight_02",
-            "name": "Travail d'équipe",
-            "img": "perks/survivor/TravailEquipe.png",
-            "description": "Lorsque tu es soigné par un autre Survivant, vous bénéficiez tous les deux d'un bonus de vitesse de sprint de 5% pendant 8/10/12 secondes après la guérison.",
+            "name": "Lien",
+            "img": "perks/survivor/Lien.png",
+            "description": "L'Auras des autres Survivants vous est révélée quand ils se trouvent dans un rayon de 20/28/36 mètres.",
             "type": "team",
-            "buffs": ["Boost de vitesse après soin mutuel"],
+            "buffs": ["Vision de ses coéquipiers"],
             "debuffs": []
           },
           {
             "id": "s_dwight_03",
             "name": "Meneur",
             "img": "perks/survivor/Meneur.png",
-            "description": "Lorsque tu es à moins de 8 mètres d'un autre Survivant, sa vitesse de soin, de sabotage, de recherche, de déverrouillage et de revitalisation est augmentée de 15/20/25%.",
+            "description": "Quand les autres Survivants se situent dans un rayon de 8 mètres autour de vous, Meneur augmente leurs Vitesses d'Action de Soins, de Sabotage, de Décrochage, de Purification, d'Ouverture des Portes de Sortie, et de Déverrouillage de Coffres de 15/20/25 %. ",
             "type": "team",
-            "buffs": ["Boost des actions de l'équipe en proximité"],
+            "buffs": ["Boost des actions de l'équipe en proximité sur quasiment tous suf les generateurs"],
             "debuffs": []
           }
         ]
@@ -122,16 +120,16 @@
             "id": "s_meg_01",
             "name": "Course Effrenée",
             "img": "perks/survivor/CourseEffrenée.png",
-            "description": "Après avoir été touché par le Tueur, tu peux courir à une vitesse de 150% pendant 3 secondes. Récupération de 40/30/20 secondes.",
+            "description": "Quand vous commencez à courir, vous sprintez à 150 % de votre vitesse normale pendant un maximum de 3 secondes. ",
             "type": "mobility",
             "buffs": ["Sprint après coup du tueur"],
-            "debuffs": ["Récupération"]
+            "debuffs": ["Epuisement pendant 40s"]
           },
           {
             "id": "s_meg_02",
             "name": "Adrenaline",
             "img": "perks/survivor/Adrénaline.png",
-            "description": "Lorsque la Sortie de secours est activée, tu te soignes instantanément d'un état de soin et tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 5 secondes.",
+            "description": "Quand les Portes de Sortie sont alimentées, vous vous soignez instantanément d'1 État de Santé et courez à 150 % de votre vitesse normale pendant 3 secondes. ",
             "type": "endgame",
             "buffs": ["Soin instantané en fin de partie", "Sprint en fin de partie"],
             "debuffs": []
@@ -141,9 +139,9 @@
             "name": "Rapide et Silencieux",
             "img": "perks/survivor/RapideSilencieux.png",
             "description": "Tu reçois des notifications visuelles et sonores lorsque le Tueur est à 32/24/16 mètres.",
-            "type": "information",
-            "buffs": ["Alerte de proximité du tueur"],
-            "debuffs": []
+            "type": "mobility",
+            "buffs": ["Rend furtif les sauts d'obstacles et casiers"],
+            "debuffs": ["Délai de récuperation de 25/20/15s"]
           }
         ]
       },
@@ -152,11 +150,11 @@
         "perks": [
           {
             "id": "s_claudette_01",
-            "name": "Auto-soins avancés",
-            "img": "perks/survivor/AutoSoinsAvances.png",
-            "description": "Tu peux te soigner toi-même sans trousse de premiers soins à une vitesse de 50% de la vitesse normale. Chaque soin augmente la vitesse de soin de 10% (max 40%).",
+            "name": "Auto-Traitement",
+            "img": "perks/survivor/AutoTraitement.png",
+            "description": "Débloque la capacité d'Auto-Soins, vous permettant de vous soigner seul sans Trousse de Soins à 25/30/35 % de la vitesse de Soins normale.",
             "type": "healing",
-            "buffs": ["Auto-soin amélioré progressivement"],
+            "buffs": ["Auto-soin"],
             "debuffs": []
           },
           {
@@ -165,16 +163,16 @@
             "img": "perks/survivor/Empathie.png",
             "description": "Les Auras des Survivants blessés sont révélées en permanence à moins de 64/96/128 mètres.",
             "type": "information",
-            "buffs": ["Vision permanente des alliés blessés"],
+            "buffs": ["Vision permanente des alliés blessés dans un certain rayon"],
             "debuffs": []
           },
           {
             "id": "s_claudette_03",
-            "name": "Connaissance botanique",
+            "name": "Connaissances en botanique",
             "img": "perks/survivor/ConnaissanceBotanique.png",
-            "description": "Ta vitesse de soin est augmentée de 22%. La valeur de chaque trousse de premiers soins est augmentée de 33%.",
+            "description": "Augmente votre vitesse de Soins de 30/40/50 %.",
             "type": "healing",
-            "buffs": ["Vitesse de soin +22%", "Efficacité des trousses +33%"],
+            "buffs": ["Vitesse de soin augmenté de 50%"],
             "debuffs": []
           }
         ]
@@ -186,28 +184,28 @@
             "id": "s_jake_01",
             "name": "Saboteur",
             "img": "perks/survivor/Saboteur.png",
-            "description": "Tu peux saboter les crochets du Tueur sans outils. La vitesse de sabotage est augmentée de 40/50/60% et la durée de réparation des crochets est augmentée.",
+            "description": "Debloque la capacité de saboter les crochets en 2,5s et de voir les crochets standards et flagellateur lorsque le tueur transporte quelqu'un ",
             "type": "sabotage",
-            "buffs": ["Sabotage sans outil", "Sabotage plus rapide"],
-            "debuffs": []
+            "buffs": ["Sabotage sans outil", "Visibilité des crochets"],
+            "debuffs": ["Delai de récupération de 60s"]
           },
           {
             "id": "s_jake_02",
             "name": "Volonté de fer",
-            "img": "perks/survivor/VolonteDeFer.png",
-            "description": "Réduit tes gémissements de douleur de 50/75/100% lorsque tu es blessé.",
+            "img": "perks/survivor/VolonteFer.png",
+            "description": "Réduit tes gémissements de douleur de 80/90/100% lorsque tu es blessé.",
             "type": "stealth",
             "buffs": ["Réduction des bruits de blessure"],
             "debuffs": []
           },
           {
             "id": "s_jake_03",
-            "name": "Camouflage forestier",
-            "img": "perks/survivor/CamouflageForestiер.png",
-            "description": "Lorsque tu t'accroupis dans un rayon de 24 mètres d'un Tueur, tu t'arrêtes de laisser des égratignures. En restant immobile 2 secondes, tu émets moins de bruits.",
+            "name": "Esprit Calme",
+            "img": "perks/survivor/EspritCalme.png",
+            "description": "Empeche d'alerter les corbeaux, supprime l'envie de crier ainsi que les bruits liée au deverouillage de coffre et a la purification/bénéfiction de totem au détriment d'une vitesse réduits de 30% des actions.",
             "type": "stealth",
-            "buffs": ["Suppression des égratignures à proximité du tueur"],
-            "debuffs": []
+            "buffs": ["Bruit supprimé de certaines actions","Empeche de crier"],
+            "debuffs": ["Reduction de vitesse d'interaction avec les coffres et les totems"]
           }
         ]
       },
@@ -216,29 +214,29 @@
         "perks": [
           {
             "id": "s_nea_01",
-            "name": "Casse-cou",
-            "img": "perks/survivor/CasseCou.png",
-            "description": "Tu peux sauter par les fenêtres 10/15/20% plus vite.",
+            "name": "Atterrissage Équilibré",
+            "img": "perks/survivor/AtterissageEquillibré.png",
+            "description": "Lorsque vous tombez de haut, vous bénéficiez d'une vitesse de 150% pendant 3s, supprime le bruits lorsque vous tomber et réduit la durée de Chancelements de -75%",
             "type": "mobility",
-            "buffs": ["Vault de fenêtre plus rapide"],
-            "debuffs": []
+            "buffs": ["Vitesse augmenté après un saut","Supprime les bruits lors du saut"],
+            "debuffs": ["Epuisement pendant 60s"]
           },
           {
             "id": "s_nea_02",
-            "name": "Urbex",
-            "img": "perks/survivor/Urbex.png",
-            "description": "Après t'être rétabli d'un état Mourant, tu peux ramper 30% plus vite pendant 15/20/25 secondes.",
-            "type": "survival",
-            "buffs": ["Ramper plus vite après rétablissement"],
+            "name": "Débrouillardise",
+            "img": "perks/survivor/Debrouillardise.png",
+            "description": "Réduit le Taux de Consommation de vos Objets de 60/70/80% pour vous et vos alier dans un rayon de 8m autour de vous et persiste pour eux pendant 15 secondes.",
+            "type": "team",
+            "buffs": ["Consommation des objets réduits"],
             "debuffs": []
           },
           {
             "id": "s_nea_03",
-            "name": "Tags",
-            "img": "perks/survivor/Tags.png",
-            "description": "Lorsque tu es dans le coffre ou dans une armoire, ton Aura est masquée pendant 4/6/8 secondes après en être sorti.",
-            "type": "stealth",
-            "buffs": ["Aura masquée après sortie d'armoire"],
+            "name": "Évasion Urbaine",
+            "img": "perks/survivor/EvasionUrbaine.png",
+            "description": "Votre Vitesse de Mouvement en position accroupie augmente de 90/95/100 %",
+            "type": "mobility",
+            "buffs": ["Vitesse accroupi augmenté"],
             "debuffs": []
           }
         ]
@@ -248,29 +246,29 @@
         "perks": [
           {
             "id": "s_laurie_01",
-            "name": "Obstruction",
-            "img": "perks/survivor/Obstruction.png",
-            "description": "Lorsqu'un Survivant est accroché, les palettes dans un rayon de 16 mètres sont bloquées pendant 80/100/120 secondes.",
+            "name": "Coup Décisif",
+            "img": "perks/survivor/CoupDecisif.png",
+            "description": "Après avoir été libéré du Crochet, si le Tueur vous empoigne ou vous ramasse, réussir un Test d'Habileté vous libèrera automatiquement de sa poigne et étourdira le tueur pendant 4s.",
             "type": "anti-killer",
-            "buffs": ["Palettes bloquées lors d'un accrochage allié"],
-            "debuffs": []
+            "buffs": ["Étourdit le Tueur pendant 4 secondes."],
+            "debuffs": ["1 seul utilisation","Desactivé une fois les porte de sortie alimenté","Devenez l'obsession en cas d'utilisation sur le Tueur"]
           },
           {
             "id": "s_laurie_02",
-            "name": "Décision",
-            "img": "perks/survivor/Decision.png",
-            "description": "Lorsqu'un Survivant est accroché, Décision permet d'effectuer une action pour bloquer temporairement les générateurs les plus proches.",
+            "name": "Objet d'Obsession",
+            "img": "perks/survivor/ObjetObsession.png",
+            "description": "Chaque fois que le Tueur lit votre Aura, vous voyez la sienne en retour et augmenter votesse diction de Purification, Soins et Réparation de 2/4/6%",
             "type": "anti-killer",
-            "buffs": ["Bloque les générateurs proches lors d'un accrochage"],
-            "debuffs": []
+            "buffs": ["Augmentation de vitesse d'action","Aura du Tueur revelé"],
+            "debuffs": ["Si vous êtes l'obsession, le Tueur verra votre aura toutes les 30s"]
           },
           {
             "id": "s_laurie_03",
-            "name": "Plan de fuite",
-            "img": "perks/survivor/PlanDeFuite.png",
-            "description": "Lorsque la Sortie de secours est activée, l'Aura de la porte de sortie la plus proche est révélée pendant 2/3/4 secondes.",
+            "name": "Unique Survivant",
+            "img": "perks/survivor/UniqueSurvivant.png",
+            "description": "Octroit des jetons pour chaque survivants morts. Permets de reparer jusqu'a +75% et d'ouvrir les porte de sortie et trappe de +50%",
             "type": "endgame",
-            "buffs": ["Vision de la sortie en fin de partie"],
+            "buffs": ["Augmentation de vitesse d'action","Dissimulation de l'aura en fonction du nombre de jeton sur 60/66/72m"],
             "debuffs": []
           }
         ]
@@ -280,416 +278,384 @@
         "perks": [
           {
             "id": "s_ace_01",
-            "name": "Ouverture",
-            "img": "perks/survivor/Ouverture.png",
-            "description": "Tu bénéficies d'un bonus de 15/20/25% à toutes les vérifications de compétence.",
+            "name": "Atout dans la Manche",
+            "img": "perks/survivor/AtoutManche.png",
+            "description": "Augmente les chance d'obtenir des accesoires rares sur les objets trouvé dans des coffres",
             "type": "efficiency",
-            "buffs": ["Bonus aux vérifications de compétence"],
+            "buffs": ["Objets trouvé dans les coffres plus interessants"],
             "debuffs": []
           },
           {
             "id": "s_ace_02",
-            "name": "Coup de veine",
-            "img": "perks/survivor/CoupDeVeine.png",
-            "description": "Lorsque tu ouvres un coffre, tu trouves toujours un objet de Qualité rare ou meilleure. Les objets que tu trouves dans les coffres ont 50% de chance d'avoir un addon.",
+            "name": "Augmenter la Mise",
+            "img": "perks/survivor/AugmenterMise.png",
+            "description": "Augmente la chance jusqu'a 9% soit 3% pour chaque survivants encore en vie, utile pour se décrocher soit-même au 1er hook",
             "type": "looting",
-            "buffs": ["Coffres de meilleure qualité", "Addons bonus dans les coffres"],
+            "buffs": ["Chance augmenté"],
             "debuffs": []
           },
           {
             "id": "s_ace_03",
-            "name": "Ascension",
-            "img": "perks/survivor/Ascension.png",
-            "description": "Après avoir été décroché, tu bénéficies d'une protection des tokens pendant 12/14/16 secondes. Les tokens sont consommés pour ignorer l'effet Mourant.",
+            "name": "Le Cœur sur la Main",
+            "img": "perks/survivor/CoeurMain.png",
+            "description": "Étend la portée de toutes les capacités de Lecture d'Aura des Survivants de 8/12/16 mètres.",
             "type": "survival",
-            "buffs": ["Protection temporaire après unhook"],
+            "buffs": ["Aura augmenté"],
             "debuffs": []
           }
         ]
       },
       {
-        "character": "William Bill Overbeck",
-        "perks": [
-          {
-            "id": "s_bill_01",
-            "name": "Jusqu'au bout",
-            "img": "perks/survivor/JusquAuBout.png",
-            "description": "Lorsque tu décroches un Survivant au premier stade d'accrochage, le Tueur ne peut pas te mettre directement en état Mourant pendant 15 secondes.",
-            "type": "team",
-            "buffs": ["Protection lors du décrochage"],
-            "debuffs": []
-          },
-          {
-            "id": "s_bill_02",
-            "name": "Résistance à toute épreuve",
-            "img": "perks/survivor/ResistanceAEpreuve.png",
-            "description": "Lorsque tu te remets d'un état Mourant, tu peux courir à vitesse normale pendant 10/15/20 secondes malgré ta blessure.",
-            "type": "survival",
-            "buffs": ["Sprint normal après rétablissement"],
-            "debuffs": []
-          },
-          {
-            "id": "s_bill_03",
-            "name": "Détermination inébranlable",
-            "img": "perks/survivor/DeterminationInebranlable.png",
-            "description": "Tu peux te rétablir de l'état Mourant une fois par partie sans l'aide d'un autre Survivant.",
-            "type": "survival",
-            "buffs": ["Auto-rétablissement unique par partie"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Feng Min",
-        "perks": [
-          {
-            "id": "s_feng_01",
-            "name": "Concentration",
-            "img": "perks/survivor/Concentration.png",
-            "description": "Chaque Grande Vérification de compétence réussie ajoute un token. 5/4/3 tokens réduisent les charges d'une compétence de 1 seconde.",
-            "type": "efficiency",
-            "buffs": ["Réduction du temps des actions après vérifications réussies"],
-            "debuffs": []
-          },
-          {
-            "id": "s_feng_02",
-            "name": "Technicien",
-            "img": "perks/survivor/Technicien.png",
-            "description": "Les bruits de réparation des générateurs sont réduits à 0. Les Vérifications de compétence ratées provoquent une explosion silencieuse.",
-            "type": "stealth",
-            "buffs": ["Réparation silencieuse"],
-            "debuffs": []
-          },
-          {
-            "id": "s_feng_03",
-            "name": "Traqueur inversé",
-            "img": "perks/survivor/TraqueurInverse.png",
-            "description": "Après une Grande Vérification de compétence réussie, tu laisses moins d'égratignures pendant 4/6/8 secondes.",
-            "type": "stealth",
-            "buffs": ["Réduction des égratignures après vérification"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "David King",
-        "perks": [
-          {
-            "id": "s_david_01",
-            "name": "On va s'en sortir",
-            "img": "perks/survivor/OnVaSEnSortir.png",
-            "description": "Lorsqu'un autre Survivant est à moins de 16 mètres de toi en état Mourant, tu peux te jeter sur le Tueur pour le faire trébucher.",
-            "type": "anti-killer",
-            "buffs": ["Peut faire trébucher le tueur pour protéger un allié"],
-            "debuffs": []
-          },
-          {
-            "id": "s_david_02",
-            "name": "Résistance coriace",
-            "img": "perks/survivor/ResistanceCoriace.png",
-            "description": "Lorsque tu es en état Mourant, la vitesse de ramper est augmentée de 25/30/35%. Tu émets moins de bruits en état Mourant.",
-            "type": "survival",
-            "buffs": ["Ramper plus vite et silencieusement en état Mourant"],
-            "debuffs": []
-          },
-          {
-            "id": "s_david_03",
-            "name": "No Mither",
-            "img": "perks/survivor/NoMither.png",
-            "description": "Tu démarres la partie blessé mais tu ne laisses pas de traces de sang et tu ne gémis pas. Tu peux te remettre seul de l'état Mourant autant de fois que nécessaire.",
-            "type": "stealth",
-            "buffs": ["Auto-rétablissement illimité", "Pas de traces de sang ni bruits"],
-            "debuffs": ["Commence la partie blessé"]
-          }
-        ]
-      },
-      {
-        "character": "Quentin Smith",
-        "perks": [
-          {
-            "id": "s_quentin_01",
-            "name": "Réveil",
-            "img": "perks/survivor/Reveil.png",
-            "description": "Tes vérifications de compétence apparaissent 10% plus petites. En réussissant une vérification, tu gagnes 50% de progression bonus. La vitesse de réparation est augmentée de 6% par générateur terminé.",
-            "type": "efficiency",
-            "buffs": ["Progression bonus sur vérifications", "Vitesse de réparation croissante"],
-            "debuffs": []
-          },
-          {
-            "id": "s_quentin_02",
-            "name": "Guérison de secours",
-            "img": "perks/survivor/GueриsonDeSecours.png",
-            "description": "Tu peux soigner les Survivants à un rayon de 0,5 mètre sans trousse de premiers soins à 50% de la vitesse de soin normale.",
-            "type": "healing",
-            "buffs": ["Soin sans trousse à distance proche"],
-            "debuffs": ["Vitesse de soin réduite"]
-          },
-          {
-            "id": "s_quentin_03",
-            "name": "Veilleur de nuit",
-            "img": "perks/survivor/VeilleurDeNuit.png",
-            "description": "Lorsque tu passes près d'un Totem, tu reçois une notification. Si un Totem de Malédiction est à moins de 20 mètres, son Aura est révélée pendant 2/3/4 secondes.",
-            "type": "information",
-            "buffs": ["Détection des totems de malédiction"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Jill Valentine",
-        "perks": [
-          {
-            "id": "s_jill_01",
-            "name": "Vivacité",
-            "img": "perks/survivor/Vivacite.png",
-            "description": "Les Auras des palettes dans un rayon de 24 mètres sont révélées. Tu peux sauter par-dessus les palettes 30% plus vite. La durée d'étourdissement est réduite de 20%.",
-            "type": "mobility",
-            "buffs": ["Vision des palettes", "Vault de palette rapide", "Étourdissement réduit"],
-            "debuffs": []
-          },
-          {
-            "id": "s_jill_02",
-            "name": "Repositionnement contre-attaque",
-            "img": "perks/survivor/Repositionnement.png",
-            "description": "Après avoir sauté une palette ou une fenêtre, tu bénéficies d'un bonus de vitesse de sprint de 50% pendant 2/2,5/3 secondes.",
-            "type": "mobility",
-            "buffs": ["Sprint après vault"],
-            "debuffs": []
-          },
-          {
-            "id": "s_jill_03",
-            "name": "À l'arraché",
-            "img": "perks/survivor/ALArrache.png",
-            "description": "Une fois par partie, lorsque tu es raccroché pour la dernière fois, tu peux te libérer automatiquement. La tentative dure 40/35/30 secondes.",
-            "type": "survival",
-            "buffs": ["Auto-libération ultime une fois par partie"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Leon Scott Kennedy",
-        "perks": [
-          {
-            "id": "s_leon_01",
-            "name": "Flashbang",
-            "img": "perks/survivor/Flashbang.png",
-            "description": "Après avoir réparé 33% de la progression totale d'un générateur, tu peux fabriquer une grenade flash dans un armoire. Aveugle le Tueur et les Survivants.",
-            "type": "anti-killer",
-            "buffs": ["Fabrique une grenade flash artisanale"],
-            "debuffs": []
-          },
-          {
-            "id": "s_leon_02",
-            "name": "Matière grise",
-            "img": "perks/survivor/MatiereGrise.png",
-            "description": "Tu peux trouver des plans d'amélioration en fouillant des coffres. Utilisés sur des générateurs, ces plans leur confèrent un bonus de réparation.",
-            "type": "efficiency",
-            "buffs": ["Plans d'amélioration pour générateurs"],
-            "debuffs": []
-          },
-          {
-            "id": "s_leon_03",
-            "name": "Coup de couteau",
-            "img": "perks/survivor/CoupDeCouteau.png",
-            "description": "Lorsqu'un Tueur te ramasse, tu peux tenter de le poignarder. En cas de succès, tu seras lâché et le Tueur sera ralenti de 50% pendant 4 secondes.",
-            "type": "anti-killer",
-            "buffs": ["Possibilité d'échapper à l'emprise du tueur"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Yui Kimura",
-        "perks": [
-          {
-            "id": "s_yui_01",
-            "name": "Toute seule",
-            "img": "perks/survivor/TouteSeule.png",
-            "description": "Lorsque tu es la seule Survivante restante, tu reçois un bonus de 25/30/35% à toutes les vitesses d'action.",
-            "type": "endgame",
-            "buffs": ["Toutes les vitesses augmentées quand seule survivante"],
-            "debuffs": []
-          },
-          {
-            "id": "s_yui_02",
-            "name": "Bonne mécanique",
-            "img": "perks/survivor/BonneMecanique.png",
-            "description": "Lorsqu'un autre Survivant rate une vérification de compétence sur un générateur, ta progression sur le même générateur est augmentée de 5%.",
-            "type": "team",
-            "buffs": ["Compensation de progression sur échec allié"],
-            "debuffs": []
-          },
-          {
-            "id": "s_yui_03",
-            "name": "Esprit de compétition",
-            "img": "perks/survivor/EspritDeCompetition.png",
-            "description": "Après avoir touché le sol ou avoir été lâché par un Tueur, tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 4 secondes.",
-            "type": "mobility",
-            "buffs": ["Sprint après lâcher du tueur"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Zarina Kassir",
-        "perks": [
-          {
-            "id": "s_zarina_01",
-            "name": "Caméra cachée",
-            "img": "perks/survivor/CameraCachee.png",
-            "description": "Lorsqu'un Survivant est accroché, l'Aura du Tueur est révélée pendant 4 secondes.",
-            "type": "information",
-            "buffs": ["Vision du tueur lors des accrochages"],
-            "debuffs": []
-          },
-          {
-            "id": "s_zarina_02",
-            "name": "Pour toujours",
-            "img": "perks/survivor/PourToujours.png",
-            "description": "Les Survivants que tu décroches restent en première phase d'accrochage même s'ils ont déjà atteint la seconde phase.",
-            "type": "team",
-            "buffs": ["Réinitialise la phase d'accrochage des alliés décrochés"],
-            "debuffs": []
-          },
-          {
-            "id": "s_zarina_03",
-            "name": "Off the Record",
-            "img": "perks/survivor/OffTheRecord.png",
-            "description": "Après avoir été décroché ou t'être décroché, ton Aura est masquée et tes gémissements sont supprimés pendant 60/70/80 secondes.",
-            "type": "stealth",
-            "buffs": ["Aura et bruits masqués après unhook"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Felix Richter",
-        "perks": [
-          {
-            "id": "s_felix_01",
-            "name": "Esprit visionnaire",
-            "img": "perks/survivor/EspritVisionnaire.png",
-            "description": "Les Auras des générateurs dans un rayon de 32 mètres sont révélées en permanence.",
-            "type": "information",
-            "buffs": ["Vision permanente des générateurs proches"],
-            "debuffs": []
-          },
-          {
-            "id": "s_felix_02",
-            "name": "Dévotion",
-            "img": "perks/survivor/Devotion.png",
-            "description": "Lorsqu'un autre Survivant tombe en état Mourant ou est accroché, tu récupères 25% de progression sur la compétence active.",
-            "type": "team",
-            "buffs": ["Progression bonus lors des malheurs des alliés"],
-            "debuffs": []
-          },
-          {
-            "id": "s_felix_03",
-            "name": "Survie sous pression",
-            "img": "perks/survivor/SurvieSousPression.png",
-            "description": "Lorsque tu es blessé, ta vitesse de soin est augmentée de 20/25/30%.",
-            "type": "healing",
-            "buffs": ["Vitesse de soin augmentée quand blessé"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Alan Wake",
-        "perks": [
-          {
-            "id": "s_alan_01",
-            "name": "Bête des ténèbres",
-            "img": "perks/survivor/BeteDesTenebres.png",
-            "description": "Après avoir couru pendant 10 secondes, tu gagnes un token. Chaque token augmente la vitesse de sprint de 0.1m/s (max 3 tokens).",
-            "type": "mobility",
-            "buffs": ["Vitesse de sprint augmentée avec le temps"],
-            "debuffs": []
-          },
-          {
-            "id": "s_alan_02",
-            "name": "Lumière du manuscrit",
-            "img": "perks/survivor/LuminaireDuManuscrit.png",
-            "description": "Révèle l'Aura du Tueur lorsqu'il est dans un rayon de 24/20/16 mètres pendant que tu répares un générateur.",
-            "type": "information",
-            "buffs": ["Vision du tueur pendant la réparation"],
-            "debuffs": []
-          },
-          {
-            "id": "s_alan_03",
-            "name": "Inspiration",
-            "img": "perks/survivor/Inspiration.png",
-            "description": "Lorsqu'un Survivant dans un rayon de 32 mètres commence à réparer un générateur que tu réparais, il reçoit un bonus de progression de 10/12/14%.",
-            "type": "team",
-            "buffs": ["Bonus de progression pour les alliés qui reprennent ton générateur"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Lara Croft",
-        "perks": [
-          {
-            "id": "s_lara_01",
-            "name": "Adrénaline sauvage",
-            "img": "perks/survivor/AdrenalineSauvage.png",
-            "description": "Lorsque tu tombes en état Mourant, tu peux ramper 35/40/45% plus vite pendant 8 secondes.",
-            "type": "survival",
-            "buffs": ["Vitesse de ramper augmentée quand mise en état Mourant"],
-            "debuffs": []
-          },
-          {
-            "id": "s_lara_02",
-            "name": "Instinct du chasseur",
-            "img": "perks/survivor/InstinctDuChasseur.png",
-            "description": "Tu peux voir l'Aura des coffres dans un rayon de 24 mètres. Fouiller un coffre est 40/50/60% plus rapide.",
-            "type": "looting",
-            "buffs": ["Vision des coffres", "Fouille plus rapide"],
-            "debuffs": []
-          },
-          {
-            "id": "s_lara_03",
-            "name": "Terrain hostile",
-            "img": "perks/survivor/TerrainHostile.png",
-            "description": "Lorsque tu sautes une fenêtre, l'Aura de la fenêtre est bloquée pour le Tueur pendant 6/8/10 secondes.",
-            "type": "anti-killer",
-            "buffs": ["Masque la fenêtre franchie au tueur"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Rick Grimes",
-        "perks": [
-          {
-            "id": "s_rick_01",
-            "name": "Un pour tous",
-            "img": "perks/survivor/UnPourTous.png",
-            "description": "Lorsque tu décroches un Survivant, vous bénéficiez tous les deux d'un bonus de vitesse de 7% pendant 12/14/16 secondes.",
-            "type": "team",
-            "buffs": ["Bonus de vitesse après décrochage"],
-            "debuffs": []
-          },
-          {
-            "id": "s_rick_02",
-            "name": "Protocole de survie",
-            "img": "perks/survivor/ProtocoleDeSurvie.png",
-            "description": "Lorsque tu es à moins de 8 mètres d'un Survivant blessé, ta vitesse de réparation est augmentée de 5/7/9%.",
-            "type": "team",
-            "buffs": ["Réparation accélérée près d'un allié blessé"],
-            "debuffs": []
-          },
-          {
-            "id": "s_rick_03",
-            "name": "Dernier debout",
-            "img": "perks/survivor/DernierDebout.png",
-            "description": "Lorsque tous les autres Survivants sont morts ou partis, tu bénéficies d'un bonus de 100% sur toutes les vitesses d'action.",
-            "type": "endgame",
-            "buffs": ["Toutes les vitesses doublées quand seul survivant"],
-            "debuffs": []
-          }
-        ]
+    "character": "William 'Bill' Overbeck",
+    "perks": [
+      {"id": "s_bill_01", "name": "Laissé pour compte", "img": "perks/survivor/LeftBehind.png", "description": "Révèle l'aura de la trappe si vous êtes le dernier survivant.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_bill_02", "name": "Temps emprunté", "img": "perks/survivor/BorrowedTime.png", "description": "Prolonge la durée de l'effet Endurance et Précipitation après un décrochage.", "type": "altruism", "buffs": ["Endurance", "Haste Bonus"], "debuffs": []},
+      {"id": "s_bill_03", "name": "Indéfectible", "img": "perks/survivor/Unbreakable.png", "description": "Permet de se relever complètement de l'état mourant une fois.", "type": "survival", "buffs": ["Self-Revive", "Recovery Speed"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Feng Min",
+    "perks": [
+      {"id": "s_feng_01", "name": "Technicienne", "img": "perks/survivor/Technician.png", "description": "Réduit le bruit de réparation et empêche l'explosion du générateur en cas d'échec.", "type": "objective", "buffs": ["Stealth"], "debuffs": ["Extra Regression"]},
+      {"id": "s_feng_02", "name": "Souple", "img": "perks/survivor/Lithe.png", "description": "Confère un sprint après un saut rapide.", "type": "evasion", "buffs": ["Haste"], "debuffs": ["Exhaustion"]},
+      {"id": "s_feng_03", "name": "Alerte", "img": "perks/survivor/Alert.png", "description": "Révèle l'aura du tueur lorsqu'il brise un objet.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "David King",
+    "perks": [
+      {"id": "s_david_01", "name": "On va vivre éternellement", "img": "perks/survivor/WereGonnaLiveForever.png", "description": "Augmente la vitesse de soin sur un allié à terre et confère Endurance.", "type": "altruism", "buffs": ["Healing Speed", "Endurance"], "debuffs": []},
+      {"id": "s_david_02", "name": "Dur à cuire", "img": "perks/survivor/DeadHard.png", "description": "Confère Endurance pendant un bref instant en courant et blessé.", "type": "evasion", "buffs": ["Endurance"], "debuffs": ["Exhaustion"]},
+      {"id": "s_david_03", "name": "Même pas mal", "img": "perks/survivor/NoMither.png", "description": "Vous êtes blessé en permanence mais ne saignez pas et pouvez vous relever seul.", "type": "survival", "buffs": ["Self-Revive", "Stealth"], "debuffs": ["Broken Status"]}
+    ]
+  },
+  {
+    "character": "Quentin Smith",
+    "perks": [
+      {"id": "s_quentin_01", "name": "Réveillez-vous !", "img": "perks/survivor/WakeUp.png", "description": "Révèle l'aura des portes et augmente la vitesse d'ouverture.", "type": "objective", "buffs": ["Aura Reading", "Action Speed"], "debuffs": []},
+      {"id": "s_quentin_02", "name": "Pharmacie", "img": "perks/survivor/Pharmacy.png", "description": "Garantit une trousse de soins d'urgence en fouillant un coffre blessé.", "type": "survival", "buffs": ["Looting Speed"], "debuffs": []},
+      {"id": "s_quentin_03", "name": "Veilleur", "img": "perks/survivor/Vigil.png", "description": "Réduit la durée des altérations d'état négatives.", "type": "survival", "buffs": ["Status Recovery"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "David Tapp",
+    "perks": [
+      {"id": "s_tapp_01", "name": "Ténacité", "img": "perks/survivor/Tenacity.png", "description": "Permet de ramper plus vite et de récupérer simultanément.", "type": "survival", "buffs": ["Crawl Speed"], "debuffs": []},
+      {"id": "s_tapp_02", "name": "Intuition de l'inspecteur", "img": "perks/survivor/DetectivesHunch.png", "description": "Révèle l'aura des objets environnants lorsqu'un générateur est réparé.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_tapp_03", "name": "Planque", "img": "perks/survivor/StakeOut.png", "description": "Génère des jetons dans le rayon de terreur pour garantir d'excellents tests.", "type": "objective", "buffs": ["Skill Check Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Kate Denson",
+    "perks": [
+      {"id": "s_kate_01", "name": "Danse avec moi", "img": "perks/survivor/DanceWithMe.png", "description": "Masque vos marques d'éraflures après un saut rapide.", "type": "evasion", "buffs": ["Stealth"], "debuffs": ["Cooldown"]},
+      {"id": "s_kate_02", "name": "Fenêtres d'opportunité", "img": "perks/survivor/WindowsOfOpportunity.png", "description": "Révèle l'aura des fenêtres et des palettes.", "type": "evasion", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_kate_03", "name": "Débrouillard", "img": "perks/survivor/BoilOver.png", "description": "Augmente les effets de débattement et masque l'aura des crochets proches.", "type": "survival", "buffs": ["Wiggle Effect"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Adam Francis",
+    "perks": [
+      {"id": "s_adam_01", "name": "Diversion", "img": "perks/survivor/Diversion.png", "description": "Permet de jeter un caillou pour distraire le tueur.", "type": "evasion", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "s_adam_02", "name": "Libération", "img": "perks/survivor/Deliverance.png", "description": "Garantit l'évasion du crochet à 100 % après avoir sauvé un allié.", "type": "survival", "buffs": ["Escape Hook"], "debuffs": ["Broken Status"]},
+      {"id": "s_adam_03", "name": "Autodidacte", "img": "perks/survivor/Autodidact.png", "description": "Convertit les tests de soins en bonus massifs de progression.", "type": "altruism", "buffs": ["Healing Bonus"], "debuffs": ["Initial Penalty"]}
+    ]
+  },
+  {
+    "character": "Jeff Johansen",
+    "perks": [
+      {"id": "s_jeff_01", "name": "Dépression", "img": "perks/survivor/Breakdown.png", "description": "Brise le crochet après en avoir été décroché et révèle l'aura du tueur.", "type": "survival", "buffs": ["Aura Reading", "Hook Break"], "debuffs": []},
+      {"id": "s_jeff_02", "name": "Suivi", "img": "perks/survivor/Aftercare.png", "description": "Crée un lien d'aura mutuel avec les survivants guéris/décrochés.", "type": "altruism", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_jeff_03", "name": "Distorsion", "img": "perks/survivor/Distortion.png", "description": "Masque votre aura et vos marques d'éraflures contre le tueur.", "type": "evasion", "buffs": ["Stealth"], "debuffs": ["Token limits"]}
+    ]
+  },
+  {
+    "character": "Jane Romero",
+    "perks": [
+      {"id": "s_jane_01", "name": "Solidarité", "img": "perks/survivor/Solidarity.png", "description": "Guérir un survivant vous guérit partiellement.", "type": "altruism", "buffs": ["Healing Bonus"], "debuffs": []},
+      {"id": "s_jane_02", "name": "Sang-froid", "img": "perks/survivor/Poised.png", "description": "Masque vos marques d'éraflures après la réparation d'un générateur.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_jane_03", "name": "De front", "img": "perks/survivor/HeadOn.png", "description": "Étourdit le tueur en sortant brusquement d'un casier.", "type": "evasion", "buffs": ["Stun"], "debuffs": ["Exhaustion"]}
+    ]
+  },
+  {
+    "character": "Ashley J. Williams",
+    "perks": [
+      {"id": "s_ash_01", "name": "Tongs", "img": "perks/survivor/FlipFlop.png", "description": "Convertit la progression de récupération au sol en progression de débattement.", "type": "survival", "buffs": ["Wiggle Bonus"], "debuffs": []},
+      {"id": "s_ash_02", "name": "Attachez vos ceintures", "img": "perks/survivor/BuckleUp.png", "description": "Révèle l'aura du tueur après avoir soigné un allié à terre et confère un boost.", "type": "altruism", "buffs": ["Haste", "Aura Reading"], "debuffs": []},
+      {"id": "s_ash_03", "name": "Force de caractère", "img": "perks/survivor/MettleOfMan.png", "description": "Ignore la prochaine attaque fatale après avoir pris des coups de protection.", "type": "survival", "buffs": ["Endurance"], "debuffs": ["Aura Revealed"]}
+    ]
+  },
+  {
+    "character": "Nancy Wheeler",
+    "perks": [
+      {"id": "s_nancy_01", "name": "Ensemble on est mieux", "img": "perks/survivor/BetterTogether.png", "description": "Révèle l'aura du générateur que vous réparez à tous les autres survivants.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_nancy_02", "name": "Force intérieure", "img": "perks/survivor/InnerStrength.png", "description": "Se soigner dans un casier après avoir purifié un totem.", "type": "survival", "buffs": ["Self-Heal"], "debuffs": []},
+      {"id": "s_nancy_03", "name": "Fixation", "img": "perks/survivor/Fixated.png", "description": "Permet de marcher plus vite et de voir vos propres marques d'éraflures.", "type": "evasion", "buffs": ["Movement Speed"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Steve Harrington",
+    "perks": [
+      {"id": "s_steve_01", "name": "Baby-sitter", "img": "perks/survivor/Babysitter.png", "description": "Masque les traces du survivant décroché et accélère sa vitesse.", "type": "altruism", "buffs": ["Stealth", "Haste"], "debuffs": ["Aura Revealed"]},
+      {"id": "s_steve_02", "name": "Camaraderie", "img": "perks/survivor/Camaraderie.png", "description": "Sépare le timer de lutte si un survivant s'approche du crochet.", "type": "survival", "buffs": ["Timer Pause"], "debuffs": []},
+      {"id": "s_steve_03", "name": "Second souffle", "img": "perks/survivor/SecondWind.png", "description": "Vous guérit automatiquement après avoir été décroché si vous avez soigné un allié.", "type": "survival", "buffs": ["Self-Heal"], "debuffs": ["Broken Status"]}
+    ]
+  },
+  {
+    "character": "Yui Kimura",
+    "perks": [
+      {"id": "s_yui_01", "name": "Veine de cocu", "img": "perks/survivor/LuckyBreak.png", "description": "Masque les flaques de sang et marques d'éraflures lorsque blessé.", "type": "evasion", "buffs": ["Stealth"], "debuffs": ["Limited Duration"]},
+      {"id": "s_yui_02", "name": "Par tous les moyens", "img": "perks/survivor/AnyMeansNecessary.png", "description": "Permet de relever les palettes renversées.", "type": "objective", "buffs": ["Palette Reset", "Aura Reading"], "debuffs": ["Cooldown"]},
+      {"id": "s_yui_03", "name": "Évasion", "img": "perks/survivor/Breakout.png", "description": "Augmente votre vitesse et celle du survivant porté proche de vous.", "type": "altruism", "buffs": ["Haste", "Wiggle Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Zarina Kassir",
+    "perks": [
+      {"id": "s_zarina_01", "name": "Confidentiel", "img": "perks/survivor/OffTheRecord.png", "description": "Masque votre aura et vos gémissements, confère Endurance après décrochage.", "type": "survival", "buffs": ["Stealth", "Endurance"], "debuffs": ["Deactivation on action"]},
+      {"id": "s_zarina_02", "name": "Hareng rouge", "img": "perks/survivor/RedHerring.png", "description": "Provoque une fausse notification sur un générateur en entrant dans un casier.", "type": "evasion", "buffs": ["Distraction"], "debuffs": ["Cooldown"]},
+      {"id": "s_zarina_03", "name": "Pour le peuple", "img": "perks/survivor/ForThePeople.png", "description": "Permet de soigner un allié instantanément au prix de votre santé.", "type": "altruism", "buffs": ["Instant Heal"], "debuffs": ["Broken Status"]}
+    ]
+  },
+  {
+    "character": "Cheryl Mason",
+    "perks": [
+      {"id": "s_cheryl_01", "name": "Garde de l'âme", "img": "perks/survivor/SoulGuard.png", "description": "Confère Endurance après récupération ou permet de se relever si maudit.", "type": "survival", "buffs": ["Endurance", "Self-Revive"], "debuffs": ["Cooldown"]},
+      {"id": "s_cheryl_02", "name": "Pacte de sang", "img": "perks/survivor/BloodPact.png", "description": "Lie l'Obsession, vous conférant Hâte mutuelle quand proches.", "type": "altruism", "buffs": ["Aura Reading", "Haste"], "debuffs": []},
+      {"id": "s_cheryl_03", "name": "Alliance réprimée", "img": "perks/survivor/RepressedAlliance.png", "description": "Bloque un générateur pour le protéger de la régression.", "type": "objective", "buffs": ["Generator Block"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Felix Richter",
+    "perks": [
+      {"id": "s_felix_01", "name": "Visionnaire", "img": "perks/survivor/Visionary.png", "description": "Révèle l'aura des générateurs à proximité.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_felix_02", "name": "Mesures désespérées", "img": "perks/survivor/DesperateMeasures.png", "description": "Augmente la vitesse de soins et de décrochage par survivant blessé.", "type": "altruism", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "s_felix_03", "name": "Construit pour durer", "img": "perks/survivor/BuiltToLast.png", "description": "Restaure les charges d'un objet épuisé en se cachant dans un casier.", "type": "survival", "buffs": ["Item Recharge"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Élodie Rakoto",
+    "perks": [
+      {"id": "s_elodie_01", "name": "Expertise", "img": "perks/survivor/Appraisal.png", "description": "Permet de fouiller à nouveau dans des coffres déjà ouverts.", "type": "survival", "buffs": ["Looting Speed", "Extra Item"], "debuffs": []},
+      {"id": "s_elodie_02", "name": "Tromperie", "img": "perks/survivor/Deception.png", "description": "Simule une entrée précipitée dans un casier et masque les marques.", "type": "evasion", "buffs": ["Distraction", "Stealth"], "debuffs": ["Cooldown"]},
+      {"id": "s_elodie_03", "name": "Lutte de pouvoir", "img": "perks/survivor/PowerStruggle.png", "description": "Permet de renverser une palette sur le tueur en étant porté.", "type": "survival", "buffs": ["Escape", "Stun"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Yun-Jin Lee",
+    "perks": [
+      {"id": "s_yunjin_01", "name": "Voie rapide", "img": "perks/survivor/FastTrack.png", "description": "Donne des jetons quand d'autres sont accrochés pour accélérer la réparation.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []},
+      {"id": "s_yunjin_02", "name": "Succès retentissant", "img": "perks/survivor/SmashHit.png", "description": "Confère un sprint après avoir étourdi le tueur avec une palette.", "type": "evasion", "buffs": ["Haste"], "debuffs": ["Exhaustion"]},
+      {"id": "s_yunjin_03", "name": "Instinct de survie", "img": "perks/survivor/SelfPreservation.png", "description": "Masque vos marques et cris si un survivant prend un coup près de vous.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Jill Valentine",
+    "perks": [
+      {"id": "s_jill_01", "name": "Contre-force", "img": "perks/survivor/Counterforce.png", "description": "Purifier les totems plus vite et révèle le suivant.", "type": "objective", "buffs": ["Cleansing Speed", "Aura Reading"], "debuffs": []},
+      {"id": "s_jill_02", "name": "Résurgence", "img": "perks/survivor/Resurgence.png", "description": "Octroie la moitié de la progression des soins après être décroché.", "type": "survival", "buffs": ["Healing Bonus"], "debuffs": []},
+      {"id": "s_jill_03", "name": "Mine d'explosion", "img": "perks/survivor/BlastMine.png", "description": "Piège un générateur pour aveugler et étourdir le tueur.", "type": "objective", "buffs": ["Stun", "Blindness"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Leon S. Kennedy",
+    "perks": [
+      {"id": "s_leon_01", "name": "Serrer les dents", "img": "perks/survivor/BiteTheBullet.png", "description": "Élimine les bruits de guérison et l'aura en cas de test échoué.", "type": "altruism", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_leon_02", "name": "Grenade aveuglante", "img": "perks/survivor/Flashbang.png", "description": "Permet de fabriquer une grenade aveuglante dans un casier.", "type": "survival", "buffs": ["Blindness Item"], "debuffs": []},
+      {"id": "s_leon_03", "name": "L'esprit de la recrue", "img": "perks/survivor/RookieSpirit.png", "description": "Révèle l'aura des générateurs en régression.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Mikaela Reid",
+    "perks": [
+      {"id": "s_mikaela_01", "name": "Clairvoyance", "img": "perks/survivor/Clairvoyance.png", "description": "Révèle les auras d'objectifs critiques de très loin.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_mikaela_02", "name": "Bénédiction : Cercle de soins", "img": "perks/survivor/BoonCircleOfHealing.png", "description": "Crée une zone conférant des bonus de soins.", "type": "altruism", "buffs": ["Healing Bonus"], "debuffs": []},
+      {"id": "s_mikaela_03", "name": "Bénédiction : Marche de l'ombre", "img": "perks/survivor/BoonShadowStep.png", "description": "Masque les marques d'éraflures et l'aura dans la zone.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Jonah Vasquez",
+    "perks": [
+      {"id": "s_jonah_01", "name": "Surmonter", "img": "perks/survivor/Overcome.png", "description": "Prolonge le bonus de vitesse accordé lors d'une blessure.", "type": "evasion", "buffs": ["Haste Bonus"], "debuffs": ["Exhaustion"]},
+      {"id": "s_jonah_02", "name": "Action corrective", "img": "perks/survivor/CorrectiveAction.png", "description": "Transforme les échecs de test d'alliés en succès par jetons.", "type": "altruism", "buffs": ["Skill Check Fix"], "debuffs": []},
+      {"id": "s_jonah_03", "name": "Bénédiction : Exponentiel", "img": "perks/survivor/BoonExponential.png", "description": "Permet de se relever seul de l'état mourant dans la zone.", "type": "survival", "buffs": ["Self-Revive"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Yoichi Asakawa",
+    "perks": [
+      {"id": "s_yoichi_01", "name": "Guidance parentale", "img": "perks/survivor/ParentalGuidance.png", "description": "Masque éraflures, sang et douleur après avoir étourdi le tueur.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_yoichi_02", "name": "Connexion empathique", "img": "perks/survivor/EmpathicConnection.png", "description": "Révèle votre aura aux alliés blessés et accélère vos soins sur eux.", "type": "altruism", "buffs": ["Aura Reading", "Healing Speed"], "debuffs": []},
+      {"id": "s_yoichi_03", "name": "Bénédiction : Théorie sombre", "img": "perks/survivor/BoonDarkTheory.png", "description": "Octroie l'effet Hâte légère à tous dans la zone.", "type": "evasion", "buffs": ["Haste"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Haddie Kaur",
+    "perks": [
+      {"id": "s_haddie_01", "name": "Concentration intérieure", "img": "perks/survivor/InnerFocus.png", "description": "Révèle les marques de blessures alliées et l'aura du tueur si un allié prend un coup.", "type": "altruism", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_haddie_02", "name": "Manifestation résiduelle", "img": "perks/survivor/ResidualManifest.png", "description": "Garantit une lampe de poche basique et aveugle l'aura du tueur après éblouissement.", "type": "survival", "buffs": ["Item Given", "Killer Blindness"], "debuffs": []},
+      {"id": "s_haddie_03", "name": "Excès de zèle", "img": "perks/survivor/Overzealous.png", "description": "Augmente la vitesse de réparation après avoir purifié un totem.", "type": "objective", "buffs": ["Repair Speed"], "debuffs": ["Lost on damage"]}
+    ]
+  },
+  {
+    "character": "Ada Wong",
+    "perks": [
+      {"id": "s_ada_01", "name": "Mise sur écoute", "img": "perks/survivor/Wiretap.png", "description": "Installe un micro sur un générateur révélant l'aura du tueur proche.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_ada_02", "name": "Guérison réactive", "img": "perks/survivor/ReactiveHealing.png", "description": "Soigne instantanément une partie de votre barre quand un allié proche est blessé.", "type": "survival", "buffs": ["Healing Bonus"], "debuffs": []},
+      {"id": "s_ada_03", "name": "Faire profil bas", "img": "perks/survivor/LowProfile.png", "description": "Masque marques, flaques et douleur si vous êtes l'unique survivant debout.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Rebecca Chambers",
+    "perks": [
+      {"id": "s_rebecca_01", "name": "Rassurante", "img": "perks/survivor/Reassurance.png", "description": "Met en pause le timer du crochet d'un allié proche.", "type": "altruism", "buffs": ["Timer Pause"], "debuffs": []},
+      {"id": "s_rebecca_02", "name": "Hyperconcentration", "img": "perks/survivor/Hyperfocus.png", "description": "Des jetons augmentent les chances et la vitesse des excellents tests d'habileté.", "type": "objective", "buffs": ["Skill Check Bonus"], "debuffs": []},
+      {"id": "s_rebecca_03", "name": "Comme neuve", "img": "perks/survivor/BetterThanNew.png", "description": "Confère un bonus de vitesse d'action aux survivants que vous avez soignés.", "type": "altruism", "buffs": ["Action Speed"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Vittorio Toscano",
+    "perks": [
+      {"id": "s_vittorio_01", "name": "Énergie potentielle", "img": "perks/survivor/PotentialEnergy.png", "description": "Emmagasine de l'énergie de générateur pour la transférer ailleurs.", "type": "objective", "buffs": ["Repair Storage"], "debuffs": ["Lost on hit"]},
+      {"id": "s_vittorio_02", "name": "Dans le brouillard", "img": "perks/survivor/Fogwise.png", "description": "Révèle l'aura du tueur en réussissant d'excellents tests de réparation.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_vittorio_03", "name": "Gambit rapide", "img": "perks/survivor/QuickGambit.png", "description": "Booste les réparations des alliés proches quand vous êtes poursuivi.", "type": "evasion", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Thalita Lyra",
+    "perks": [
+      {"id": "s_thalita_01", "name": "Lâcher prise", "img": "perks/survivor/CutLoose.png", "description": "Masque le bruit des sauts rapides en série.", "type": "evasion", "buffs": ["Stealth"], "debuffs": ["Cooldown"]},
+      {"id": "s_thalita_02", "name": "Compétition amicale", "img": "perks/survivor/FriendlyCompetition.png", "description": "Booste la vitesse de réparation après avoir terminé un générateur à plusieurs.", "type": "objective", "buffs": ["Repair Speed"], "debuffs": []},
+      {"id": "s_thalita_03", "name": "Travail d'équipe : Pouvoir de deux", "img": "perks/survivor/TeamworkPowerOfTwo.png", "description": "Booste votre vitesse et celle du soigné tant que vous restez proches.", "type": "altruism", "buffs": ["Haste"], "debuffs": ["Cooldown"]}
+    ]
+  },
+  {
+    "character": "Renato Lyra",
+    "perks": [
+      {"id": "s_renato_01", "name": "Sprint sanguin", "img": "perks/survivor/BloodRush.png", "description": "Récupère de l'Épuisement contre un état Brisé temporaire (à un crochet de mourir).", "type": "evasion", "buffs": ["Exhaustion Reset"], "debuffs": ["Broken Status"]},
+      {"id": "s_renato_02", "name": "Travail d'équipe : Furtivité collective", "img": "perks/survivor/TeamworkCollectiveStealth.png", "description": "Masque les marques d'éraflures après une guérison entre les deux survivants proches.", "type": "altruism", "buffs": ["Stealth"], "debuffs": ["Cooldown"]},
+      {"id": "s_renato_03", "name": "Acteur de second plan", "img": "perks/survivor/BackgroundPlayer.png", "description": "Confère un puissant sprint lorsqu'un allié est ramassé par le tueur.", "type": "altruism", "buffs": ["Haste"], "debuffs": ["Exhaustion"]}
+    ]
+  },
+  {
+    "character": "Gabriel Soma",
+    "perks": [
+      {"id": "s_gabriel_01", "name": "Dépanneur", "img": "perks/survivor/Troubleshooter.png", "description": "Révèle l'aura du générateur ayant le plus progressé, et l'aura du tueur pendant la poursuite.", "type": "evasion", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_gabriel_02", "name": "Conçu pour ça", "img": "perks/survivor/MadeForThis.png", "description": "Octroie Endurance après avoir soigné, augmente la vitesse blessé en souffrance.", "type": "survival", "buffs": ["Endurance", "Haste"], "debuffs": []},
+      {"id": "s_gabriel_03", "name": "Fouineur", "img": "perks/survivor/Scavenger.png", "description": "Recharge les boîtes à outils après d'excellents tests, réduit légèrement la vitesse après.", "type": "objective", "buffs": ["Item Recharge"], "debuffs": ["Repair Penalty"]}
+    ]
+  },
+  {
+    "character": "Nicolas Cage",
+    "perks": [
+      {"id": "s_nicolas_01", "name": "Dramaturgie", "img": "perks/survivor/Dramaturgy.png", "description": "Confère un objet et un effet aléatoire au prix de courir sans dommage.", "type": "survival", "buffs": ["Random Item", "Haste"], "debuffs": ["Exhaustion", "Exposed Risk"]},
+      {"id": "s_nicolas_02", "name": "Partenaire de scène", "img": "perks/survivor/ScenePartner.png", "description": "Fait hurler votre personnage et révèle l'aura du tueur s'il est dans votre champ de vision.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": ["Scream"]},
+      {"id": "s_nicolas_03", "name": "Révélation inattendue", "img": "perks/survivor/PlotTwist.png", "description": "Permet de se jeter au sol en silence et se relever totalement guéri.", "type": "survival", "buffs": ["Self-Heal", "Stealth"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Ellen Ripley",
+    "perks": [
+      {"id": "s_ripley_01", "name": "Étoile chanceuse", "img": "perks/survivor/LuckyStar.png", "description": "Masque gémissements et sang dans le casier, révèle alliés en sortant.", "type": "evasion", "buffs": ["Stealth", "Aura Reading"], "debuffs": []},
+      {"id": "s_ripley_02", "name": "Piège chimique", "img": "perks/survivor/ChemicalTrap.png", "description": "Permet de piéger une palette pour ralentir le tueur qui la brise.", "type": "evasion", "buffs": ["Killer Slowdown"], "debuffs": []},
+      {"id": "s_ripley_03", "name": "Pas de velours", "img": "perks/survivor/LightFooted.png", "description": "Supprime les bruits de pas quand vous êtes en bonne santé.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Alan Wake",
+    "perks": [
+      {"id": "s_alan_01", "name": "Champion de la lumière", "img": "perks/survivor/ChampionOfLight.png", "description": "Confère Hâte avec la lampe torche et ralentit le tueur aveuglé.", "type": "evasion", "buffs": ["Haste", "Killer Slowdown"], "debuffs": ["Cooldown"]},
+      {"id": "s_alan_02", "name": "Bénédiction : Illumination", "img": "perks/survivor/BoonIllumination.png", "description": "Révèle l'aura des coffres et générateurs, accélère le nettoyage de totems.", "type": "objective", "buffs": ["Aura Reading", "Cleansing Speed"], "debuffs": []},
+      {"id": "s_alan_03", "name": "Date butoir", "img": "perks/survivor/Deadline.png", "description": "Augmente la fréquence des tests d'habileté si blessé et réduit les pénalités d'échec.", "type": "survival", "buffs": ["Skill Check Frequency"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Sable Ward",
+    "perks": [
+      {"id": "s_sable_01", "name": "Invocation : Araignées tisserandes", "img": "perks/survivor/WeavingSpiders.png", "description": "Rituel dans la cave pour avancer les générateurs mais laisse brisé.", "type": "objective", "buffs": ["Generator Progress"], "debuffs": ["Broken Status"]},
+      {"id": "s_sable_02", "name": "Force des ombres", "img": "perks/survivor/StrengthInShadows.png", "description": "Permet de se soigner sans trousse dans la cave, révèle le tueur.", "type": "survival", "buffs": ["Self-Heal", "Aura Reading"], "debuffs": []},
+      {"id": "s_sable_03", "name": "Malice", "img": "perks/survivor/Wicked.png", "description": "100 % de chance de se détacher d'un crochet dans la cave, voit le tueur.", "type": "survival", "buffs": ["Escape Hook", "Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Aestri Yazar",
+    "perks": [
+      {"id": "s_aestri_01", "name": "Mirage", "img": "perks/survivor/Mirage.png", "description": "Crée une illusion de vous-même quand vous ouvrez un coffre ou purifiez un totem.", "type": "evasion", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "s_aestri_02", "name": "Inspiration bardique", "img": "perks/survivor/BardicInspiration.png", "description": "Jouez un air pour accorder aux alliés des bonus aux tests selon le lancer de dé.", "type": "altruism", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "s_aestri_03", "name": "Vue immobile", "img": "perks/survivor/StillSight.png", "description": "Révèle les auras du tueur et des objets proches en restant immobile.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Lara Croft",
+    "perks": [
+      {"id": "s_lara_01", "name": "Finesse", "img": "perks/survivor/Finesse.png", "description": "Augmente considérablement la vitesse du saut de fenêtre.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_lara_02", "name": "Endurcie", "img": "perks/survivor/Hardened.png", "description": "Réduit l'aura lue par le tueur et empêche les cris causés par l'environnement.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_lara_03", "name": "Spécialiste", "img": "perks/survivor/Specialist.png", "description": "Stocke des jetons en ouvrant des coffres et les dépense pour progresser les générateurs.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Trevor Belmont",
+    "perks": [
+      {"id": "s_trevor_01", "name": "Yeux de Belmont", "img": "perks/survivor/EyesOfBelmont.png", "description": "Prolonge la durée de révélation de l'aura du tueur et révèle le tueur s'il est proche après un générateur.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_trevor_02", "name": "Exultation", "img": "perks/survivor/Exultation.png", "description": "Améliore la qualité de votre objet après avoir étourdi le tueur.", "type": "survival", "buffs": ["Item Upgrade"], "debuffs": ["Cooldown"]},
+      {"id": "s_trevor_03", "name": "Moment de gloire", "img": "perks/survivor/MomentOfGlory.png", "description": "Soigne passivement un état après avoir cherché/fouillé des coffres.", "type": "survival", "buffs": ["Healing"], "debuffs": []}
+    ]
+  }, {
+    "character": "Taurie Cain",
+    "perks": [
+      {"id": "s_taurie_01", "name": "Invocation : Corbeaux traîtres", "img": "perks/survivor/Finesse.png", "description": "Permet de révéler l'aura du Tueur à tous les survivants quand un corbeau est effarouché, en échange d'un état Brisé permanent.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_taurie_02", "name": "Rupture nette", "img": "perks/survivor/Hardened.png", "description": "Permet de s'infliger l'état Brisé volontairement pendant un soin pour se soigner automatiquement plus tard.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_taurie_03", "name": "Prendre le fardeau", "img": "perks/survivor/Specialist.png", "description": "Permet de prendre à son compte l'état d'accrochage d'un survivant que l'on décroche (lui perd une phase, vous en gagnez une et devenez À découvert).", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Orela Rose",
+    "perks": [
+      {"id": "s_orela_01", "name": "Devoir de Vigilance", "img": "perks/survivor/Finesse.png", "description": "Lorsque vous prenez un Coup de Protection en étant en Bonne Santé, tous les autres Survivants dans un rayon de 16 mètres de votre position bénéficient de l’effet de statut Rapidité +25% pendant 6s", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_orela_02", "name": "Ne Pas Nuire", "img": "perks/survivor/Hardened.png", "description": "Augmente votre vitesse de soin altruiste de 30/40/50 % par État de Crochet, jusqu’à un maximum de 60/80/100, ainsi que le bonus de soins des test d'habilité jusqu'a 6%", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_orela_03", "name": "Réaction Rapide", "img": "perks/survivor/Specialist.png", "description": "Lorsque vous sortez d'un casiers rapidement, vous voyez l'aura du tueur et souffrez de l'épuisement pendant 2s", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Rick Grimes",
+    "perks": [
+      {"id": "s_rick_01", "name": "Ingéniosité apocalyptique", "img": "perks/survivor/Finesse.png", "description": "Permet de reconstruire une Palette fragile à l'endroit où une palette a été détruite après avoir fouillé des coffres.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_rick_02", "name": "Venez me chercher !", "img": "perks/survivor/Hardened.png", "description": "Après un décrochage, vous pouvez réduire au silence les survivants blessés/mourants proches et cacher leur sang, en échange d'un cri qui révèle votre aura au Tueur.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_rick_03", "name": "Travail d'équipe : S'endurcir", "img": "perks/survivor/Specialist.png", "description": "Lorsqu'un survivant étourdit ou aveugle le Tueur près de vous, vous ne laissez plus de traces de sang, de marques d'éraflures et ne faites plus de bruit pendant un moment.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Michonne Grimes",
+    "perks": [
+      {"id": "s_michonne_01", "name": "Conviction", "img": "perks/survivor/Finesse.png", "description": "Après avoir soigné quelqu'un, vous pouvez vous relever instantanément de l'état critique (pour retomber à terre et être Brisé un peu plus tard).", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_michonne_02", "name": "Baroud d'honneur", "img": "perks/survivor/Hardened.png", "description": "Encaisser le rayon de terreur du Tueur sans être en poursuite vous permet, lors d'un saut rapide près de lui, de l'étourdir.", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_michonne_03", "name": "Travail d'équipe : Contrecarrer", "img": "perks/survivor/Specialist.png", "description": "Étourdir le Tueur avec une palette donne l'effet Endurance aux survivants blessés proches et révèle l'aura du Tueu", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Vee Boonyasak",
+    "perks": [
+      {"id": "s_vee_01", "name": "Notes fantômes", "img": "perks/survivor/Finesse.png", "description": "Accélère la récupération de l'état Épuisement et cache vos marques d'éraflures plus vite quand vous êtes épuisée.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_vee_02", "name": "UN-DEUX-TROIS-QUATRE!", "img": "perks/survivor/Hardened.png", "description": "Permet de lancer une Performance immobile qui buff les tests d'habileté des survivants autour de vous (soin/réparation).", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_vee_03", "name": "Vie de tournée", "img": "perks/survivor/Specialist.png", "description": "Accumule des jetons en réussissant d'Excellents tests d'habileté blessée sur un générateur pour finir par vous soigner.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Dustin Henderson",
+    "perks": [
+      {"id": "s_dustin_01", "name": "Bada Bada Boom", "img": "perks/survivor/Finesse.png", "description": "près avoir accompli 20% de réparations, appuyez sur le bouton de Capacité 1 près d'une Fenêtre pour le piéger pendant 40/50/60 secondes. ", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_dustin_02", "name": "Changement de plan", "img": "perks/survivor/Hardened.png", "description": "Transforme votre boite a outils lorsque vous êtes dans un casier par une trousse de soins de même rareté avec un accesoire aléatoire de même rareté qui contient 80/90/100% de ses charges", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_dustin_03", "name": "Travail d'équipe : Circuit complet", "img": "perks/survivor/Specialist.png", "description": "Pour chaque Survivant en train de réparer un GénérateurIconHelpLoading generators.pngIconHelpLoading generators.png avec vous, la taille de la Zone des Bons Tests d'Habileté augmente de 15/20/25% et reparé le générateur 5% plus vite avec 1 survivant. ", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Onze",
+    "perks": [
+      {"id": "s_onze_01", "name": "Nous Te Voyons", "img": "perks/survivor/Finesse.png", "description": "Gagnez 1 Jeton lorsque le Tueur révèle votre aura,Lorsque vous avez 4 Jetons, ils sont tous consommés et vous ainsi que les autres Survivants voyez l'Aura du Tueur pendant 10/12.5/15 secondes avec un temps de recharge de 10 secondes.  ", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_onze_02", "name": "Perception Extrasensorielle", "img": "perks/survivor/Hardened.png", "description": "Lorsque vous êtes en position accroupie pendant 4 secondes, vous voyez l'aura du tueur, des survivants et des objets dans un rayon de 44m", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_onze_03", "name": "Travail d'Équipe : Voix Douce", "img": "perks/survivor/Specialist.png", "description": "Pour chaque Survivant qui répare un générateur avec vous, la porté du bruit du générateur est réduite de 25% et vous reparez le générateur 5% plus vite", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]
+  }, {
+    "character": "Kwon Tae-Young",
+    "perks": [
+      {"id": "s_kwon_01", "name": "Une place pour nous", "img": "perks/survivor/Finesse.png", "description": "En soignant un survivant, vous gagnez l'état Insaisissable. Si vous soignez l'Obsession, c'est elle qui gagne Insaisissable pour 20/25/30 secondes. Baisse vos chances d'être l'Obsession en début de partie.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
+      {"id": "s_kwon_02", "name": "Cinq coups d'avance", "img": "perks/survivor/Hardened.png", "description": "Dans le rayon de terreur ou en poursuite, vous voyez l'aura des 5 fenêtres/palettes les plus proches. Vous abattez les palettes 50% plus vite (avec un délai de récupération après chaque palette lâchée).", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_kwon_03", "name": "État de grâce", "img": "perks/survivor/Specialist.png", "description": "Vous gagnez 1 jeton (max 5) à chaque générateur réparé. Chaque jeton augmente votre vitesse de soin, de décrochage et de purification/bénédiction de totems de 8/9/10%.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]   
       }
     ]
   },
