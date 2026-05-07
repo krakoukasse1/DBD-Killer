@@ -483,7 +483,7 @@
         // Tentative de chargement image
         const img = new Image();
         img.onload = () => { imgWrap.innerHTML = ''; const i2 = document.createElement('img'); i2.src = perk.img; imgWrap.appendChild(i2); };
-        img.src = perk.img.startsWith('http') ? perk.img : `assets/${perk.img}`;
+        img.src = `assets/${perk.img}`
 
         const name = document.createElement('div');
         name.className = 'slot-item-name';
