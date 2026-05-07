@@ -308,9 +308,9 @@
       {
     "character": "William 'Bill' Overbeck",
     "perks": [
-      {"id": "s_bill_01", "name": "Laissé pour compte", "img": "perks/survivor/LeftBehind.png", "description": "Révèle l'aura de la trappe si vous êtes le dernier survivant.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []},
-      {"id": "s_bill_02", "name": "Temps emprunté", "img": "perks/survivor/BorrowedTime.png", "description": "Prolonge la durée de l'effet Endurance et Précipitation après un décrochage.", "type": "altruism", "buffs": ["Endurance", "Haste Bonus"], "debuffs": []},
-      {"id": "s_bill_03", "name": "Indéfectible", "img": "perks/survivor/Unbreakable.png", "description": "Permet de se relever complètement de l'état mourant une fois.", "type": "survival", "buffs": ["Self-Revive", "Recovery Speed"], "debuffs": []}
+      {"id": "s_bill_01", "name": "Abandonné", "img": "perks/survivor/Abandonné.png", "description": "Révèle l'aura de la trappe si vous êtes le dernier survivant.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "s_bill_02", "name": "Sursis", "img": "perks/survivor/Sursis.png", "description": "Prolonge la durée de l'effet Endurance et Précipitation après un décrochage.", "type": "altruism", "buffs": ["Endurance", "Haste Bonus"], "debuffs": []},
+      {"id": "s_bill_03", "name": "Indéfectible", "img": "perks/survivor/Indéfectible.png", "description": "Permet de se relever complètement de l'état mourant une fois.", "type": "survival", "buffs": ["Self-Revive", "Recovery Speed"], "debuffs": []}
     ]
   },
   {
