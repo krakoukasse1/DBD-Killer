@@ -412,9 +412,13 @@
   // ── POOL ──
   function getPool() {
     const data = currentType === 'killer' ? perksData.killerPerks : perksData.survivorPerks;
-    const pool = [...data.generic];
+    // Perks génériques : character = null
+    const pool = data.generic.map(p => ({ ...p, character: null }));
+    // Perks de persos : on injecte le nom du perso dans chaque perk
     data.characters.forEach(e => {
-      if (selectedChars.has(e.character)) pool.push(...e.perks);
+      if (selectedChars.has(e.character)) {
+        e.perks.forEach(p => pool.push({ ...p, character: e.character }));
+      }
     });
     return pool;
   }
