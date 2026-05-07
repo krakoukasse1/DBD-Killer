@@ -242,7 +242,7 @@
       .banner-perk-img, .banner-char-img { width: 60px; height: 60px; }
     }
 
-    
+    .banner-text {}
     .banner-perk-name {
       font-size: 1.4rem;
       color: #fff;
@@ -479,11 +479,11 @@
 
         const imgWrap = document.createElement('div');
         imgWrap.className = 'slot-item-img';
-        imgWrap.textContent = perkIcon(perk);
-        // Tentative de chargement image
-        const img = new Image();
-        img.onload = () => { imgWrap.innerHTML = ''; const i2 = document.createElement('img'); i2.src = perk.img; imgWrap.appendChild(i2); };
-        img.src = `assets/${perk.img}`
+        const slotImg = document.createElement('img');
+        slotImg.src = `assets/${perk.img}`;
+        slotImg.alt = perk.name;
+        slotImg.onerror = () => { imgWrap.removeChild(slotImg); imgWrap.textContent = perkIcon(perk); };
+        imgWrap.appendChild(slotImg);
 
         const name = document.createElement('div');
         name.className = 'slot-item-name';
@@ -562,15 +562,11 @@
       // Image perk
       const perkImgWrap = document.createElement('div');
       perkImgWrap.className = 'banner-perk-img';
-      perkImgWrap.textContent = perkIcon(perk);
-      const pImg = new Image();
-      pImg.onload = () => {
-        perkImgWrap.innerHTML = '';
-        const i = document.createElement('img');
-        i.src = perk.img; i.alt = perk.name;
-        perkImgWrap.appendChild(i);
-      };
-      pImg.src = perk.img;
+      const bPerkImg = document.createElement('img');
+      bPerkImg.src = `assets/${perk.img}`;
+      bPerkImg.alt = perk.name;
+      bPerkImg.onerror = () => { perkImgWrap.removeChild(bPerkImg); perkImgWrap.textContent = perkIcon(perk); };
+      perkImgWrap.appendChild(bPerkImg);
 
       // Image personnage
       const charImgWrap = document.createElement('div');
@@ -579,14 +575,11 @@
       if (perk.character) {
         const src = charImgSrc(perk.character);
         if (src) {
-          const cImg = new Image();
-          cImg.onload = () => {
-            charImgWrap.innerHTML = '';
-            const i = document.createElement('img');
-            i.src = src; i.alt = perk.character;
-            charImgWrap.appendChild(i);
-          };
-          cImg.src = src;
+          const bCharImg = document.createElement('img');
+          bCharImg.src = src;
+          bCharImg.alt = perk.character;
+          bCharImg.onerror = () => { charImgWrap.removeChild(bCharImg); charImgWrap.textContent = currentType === 'killer' ? '🔪' : '🏃'; };
+          charImgWrap.appendChild(bCharImg);
         }
       } else {
         charImgWrap.textContent = '✦';

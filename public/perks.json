@@ -306,7 +306,7 @@
         ]
       },
       {
-    "character": "William 'Bill' Overbeck",
+    "character": "William Bill Overbeck",
     "perks": [
       {"id": "s_bill_01", "name": "Abandonné", "img": "perks/survivor/Abandonné.png", "description": "Révèle l'aura de la trappe si vous êtes le dernier survivant.", "type": "survival", "buffs": ["Aura Reading"], "debuffs": []},
       {"id": "s_bill_02", "name": "Sursis", "img": "perks/survivor/Sursis.png", "description": "Prolonge la durée de l'effet Endurance et Précipitation après un décrochage.", "type": "altruism", "buffs": ["Endurance", "Haste Bonus"], "debuffs": []},
@@ -338,7 +338,7 @@
     ]
   },
   {
-    "character": "David Tapp",
+    "character": "Inspecteur David Tapp",
     "perks": [
       {"id": "s_tapp_01", "name": "Ténacité", "img": "perks/survivor/Tenacity.png", "description": "Permet de ramper plus vite et de récupérer simultanément.", "type": "survival", "buffs": ["Crawl Speed"], "debuffs": []},
       {"id": "s_tapp_02", "name": "Intuition de l'inspecteur", "img": "perks/survivor/DetectivesHunch.png", "description": "Révèle l'aura des objets environnants lorsqu'un générateur est réparé.", "type": "objective", "buffs": ["Aura Reading"], "debuffs": []},
@@ -362,7 +362,7 @@
     ]
   },
   {
-    "character": "Jeff Johansen",
+    "character": "Jeffrey « Jeff » Johansen",
     "perks": [
       {"id": "s_jeff_01", "name": "Dépression", "img": "perks/survivor/Breakdown.png", "description": "Brise le crochet après en avoir été décroché et révèle l'aura du tueur.", "type": "survival", "buffs": ["Aura Reading", "Hook Break"], "debuffs": []},
       {"id": "s_jeff_02", "name": "Suivi", "img": "perks/survivor/Aftercare.png", "description": "Crée un lien d'aura mutuel avec les survivants guéris/décrochés.", "type": "altruism", "buffs": ["Aura Reading"], "debuffs": []},
@@ -458,7 +458,7 @@
     ]
   },
   {
-    "character": "Leon S. Kennedy",
+    "character": "Leon Scott Kennedy",
     "perks": [
       {"id": "s_leon_01", "name": "Serrer les dents", "img": "perks/survivor/BiteTheBullet.png", "description": "Élimine les bruits de guérison et l'aura en cas de test échoué.", "type": "altruism", "buffs": ["Stealth"], "debuffs": []},
       {"id": "s_leon_02", "name": "Grenade aveuglante", "img": "perks/survivor/Flashbang.png", "description": "Permet de fabriquer une grenade aveuglante dans un casier.", "type": "survival", "buffs": ["Blindness Item"], "debuffs": []},
@@ -578,7 +578,7 @@
     ]
   },
   {
-    "character": "Aestri Yazar",
+    "character": "Aestri Yazar & Baermar Uraz",
     "perks": [
       {"id": "s_aestri_01", "name": "Mirage", "img": "perks/survivor/Mirage.png", "description": "Crée une illusion de vous-même quand vous ouvrez un coffre ou purifiez un totem.", "type": "evasion", "buffs": ["Distraction"], "debuffs": []},
       {"id": "s_aestri_02", "name": "Inspiration bardique", "img": "perks/survivor/BardicInspiration.png", "description": "Jouez un air pour accorder aux alliés des bonus aux tests selon le lancer de dé.", "type": "altruism", "buffs": ["Action Speed"], "debuffs": []},

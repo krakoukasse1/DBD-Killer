@@ -513,6 +513,12 @@
     "available": true
 },
 {
+    "name": "Orela Rose",
+    "img": "Orela.png",
+    "type": "survivor",
+    "available": true
+},
+{
     "name": "Rick Grimes",
     "img": "Rick.png",
     "type": "survivor",
@@ -530,7 +536,7 @@
     "type": "survivor",
     "available": true
 },{
-    "name": "Dustin Henderson ",
+    "name": "Dustin Henderson",
     "img": "Dustin.png",
     "type": "survivor",
     "available": true
@@ -540,7 +546,7 @@
     "type": "survivor",
     "available": true
 },{
-    "name": "Kwon Tae-young ",
+    "name": "Kwon Tae-young",
     "img": "Kwon.png",
     "type": "survivor",
     "available": true
