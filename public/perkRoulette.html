@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roulette Perks — DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .perk-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+    }
+
+    /* ── HERO ── */
+    .perk-hero { text-align: center; padding: 40px 20px 40px; }
+    .perk-hero h1 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 10px; }
+    .perk-hero h1 span { color: #cc0000; }
+    .perk-hero p { font-family: sans-serif; font-size: 0.9rem; color: rgba(200,200,200,0.5); letter-spacing: 1px; }
+
+    /* ── TABS ── */
+    .type-tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
+    .type-tab {
+      padding: 10px 28px; border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px;
+      cursor: pointer; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.5); transition: all 0.2s;
+    }
+    .type-tab:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
+    .type-tab.active.killer  { border-color: #cc0000; background: rgba(200,0,0,0.15); color: #fff; }
+    .type-tab.active.survivor { border-color: #0066cc; background: rgba(0,80,200,0.15); color: #fff; }
+
+    /* ── SECTION PERSOS ── */
+    .section-title { font-size: 1.2rem; color: #fff; letter-spacing: 2px; margin-bottom: 6px; }
+    .section-sub { font-family: sans-serif; font-size: 0.78rem; color: rgba(200,200,200,0.45); margin-bottom: 16px; }
+
+    .chip-actions { display: flex; gap: 10px; margin-bottom: 16px; }
+    .chip-btn {
+      padding: 7px 16px; border-radius: 6px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 1px;
+      cursor: pointer; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6); transition: all 0.2s;
+    }
+    .chip-btn:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+    .char-select-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+      padding: 20px; background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
+    }
+    .char-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px 5px 6px; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+      cursor: pointer; transition: all 0.2s; user-select: none;
+    }
+    .char-chip img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+    .char-chip span { font-family: sans-serif; font-size: 0.75rem; color: rgba(200,200,200,0.6); white-space: nowrap; }
+    .char-chip.selected { border-color: rgba(200,0,0,0.6); background: rgba(200,0,0,0.12); }
+    .char-chip.selected.survivor { border-color: rgba(0,80,200,0.6); background: rgba(0,80,200,0.12); }
+    .char-chip.selected span { color: #fff; }
+
+    .pool-info {
+      font-family: sans-serif; font-size: 0.78rem;
+      color: rgba(200,200,200,0.35); text-align: center; margin-bottom: 24px;
+    }
+    .pool-info strong { color: rgba(255,255,255,0.6); }
+
+    /* ── BOUTON TIRAGE ── */
+    .draw-perk-btn {
+      display: block; width: 100%; max-width: 400px;
+      margin: 0 auto 40px; padding: 18px;
+      background: red; color: #fff; border: none; border-radius: 10px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+    }
+    .draw-perk-btn:hover { background: #cc0000; transform: scale(1.02); }
+    .draw-perk-btn:disabled { background: rgba(100,0,0,0.4); cursor: not-allowed; transform: none; }
+
+    /* ══════════════════════════════════
+       MACHINE À SOUS — 4 SLOTS
+    ══════════════════════════════════ */
+    .slots-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .slots-section.visible { display: flex; }
+
+    .slots-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    @media (max-width: 768px) { .slots-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .slots-row { grid-template-columns: 1fr; } }
+
+    .slot-machine {
+      background: rgba(0,0,0,0.7);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      height: 160px;
+      position: relative;
+      transition: border-color 0.4s;
+    }
+    .slot-machine.stopped { border-color: rgba(200,0,0,0.5); }
+    .slot-machine.stopped.survivor { border-color: rgba(0,80,200,0.5); }
+
+    /* Dégradés haut/bas pour l'effet de profondeur */
+    .slot-machine::before,
+    .slot-machine::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 40px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .slot-machine::before { top: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); }
+    .slot-machine::after  { bottom: 0; background: linear-gradient(to top,   rgba(0,0,0,0.9), transparent); }
+
+    /* Ligne de sélection centrale */
+    .slot-line {
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 2px;
+      background: linear-gradient(to right, transparent, rgba(200,0,0,0.8), transparent);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .slot-track {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      will-change: transform;
+    }
+
+    .slot-item {
+      flex-shrink: 0;
+      height: 160px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+    }
+
+    .slot-item-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .slot-item-img img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; }
+
+    .slot-item-name {
+      font-size: 0.85rem;
+      color: #fff;
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .slot-item-char {
+      font-family: sans-serif;
+      font-size: 0.62rem;
+      color: rgba(200,200,200,0.4);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* ══════════════════════════════════
+       BANDEAUX RÉSULTAT
+    ══════════════════════════════════ */
+    .result-section {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+    .result-section.visible { display: flex; }
+
+    .result-banner {
+      display: grid;
+      grid-template-columns: 80px 80px 1fr;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 24px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+    }
+    .result-banner.visible { opacity: 1; transform: translateX(0); }
+    .result-banner:hover { border-color: rgba(255,255,255,0.18); }
+
+    @media (max-width: 600px) {
+      .result-banner { grid-template-columns: 60px 60px 1fr; gap: 12px; padding: 14px 16px; }
+    }
+
+    .banner-perk-img {
+      width: 80px; height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .banner-perk-img img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; display: block; }
+
+    .banner-char-img {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .banner-char-img img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+
+    @media (max-width: 600px) {
+      .banner-perk-img, .banner-char-img { width: 60px; height: 60px; }
+    }
+
+    
+    .banner-perk-name {
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    .banner-char-name {
+      font-family: sans-serif;
+      font-size: 0.72rem;
+      color: rgba(200,200,200,0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .banner-char-name.generic { color: rgba(255,180,0,0.55); }
+    .banner-desc {
+      font-family: sans-serif;
+      font-size: 0.8rem;
+      color: rgba(200,200,200,0.6);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .perk-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .perk-tag {
+      font-family: sans-serif; font-size: 0.62rem;
+      padding: 2px 8px; border-radius: 10px;
+    }
+    .perk-tag.buff   { background: rgba(0,180,80,0.12);  color: rgba(80,220,120,0.8); }
+    .perk-tag.debuff { background: rgba(200,0,0,0.12);   color: rgba(255,80,80,0.8); }
+
+    /* ── REDRAW ── */
+    .redraw-btn {
+      display: block; margin: 24px auto 0;
+      padding: 12px 32px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .redraw-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main class="perk-page">
+
+  <div class="perk-hero">
+    <h1>Roulette <span>Perks</span></h1>
+    <p>Tire 4 perks aléatoires parmi celles des personnages que tu possèdes</p>
+  </div>
+
+  <div class="type-tabs">
+    <div class="type-tab active killer"  data-type="killer">🔪 Tueur</div>
+    <div class="type-tab survivor" data-type="survivor">🏃 Survivant</div>
+  </div>
+
+  <h2 class="section-title">Personnages possédés</h2>
+  <p class="section-sub">Sélectionne les personnages dont tu possèdes les perks. Les perks génériques sont toujours incluses.</p>
+
+  <div class="chip-actions">
+    <button class="chip-btn" id="select-all">Tout sélectionner</button>
+    <button class="chip-btn" id="select-none">Tout désélectionner</button>
+  </div>
+
+  <div class="char-select-grid" id="char-grid"></div>
+  <p class="pool-info" id="pool-info">Chargement...</p>
+
+  <button class="draw-perk-btn" id="draw-btn">🎲 Tirer 4 Perks</button>
+
+  <!-- MACHINE À SOUS -->
+  <div class="slots-section" id="slots-section">
+    <div class="slots-row" id="slots-row"></div>
+  </div>
+
+  <!-- BANDEAUX RÉSULTAT -->
+  <div class="result-section" id="result-section"></div>
+  <button class="redraw-btn" id="redraw-btn" style="display:none">↻ Nouveau tirage</button>
+
+</main>
+
+<script src="header.js"></script>
+<script>
+(async function () {
+  const [perksData, charsData] = await Promise.all([
+    fetch('perks.json').then(r => r.json()),
+    fetch('data.json').then(r => r.json())
+  ]);
+
+  let currentType = 'killer';
+  let selectedChars = new Set();
+  let isSpinning = false;
+
+  // ── TABS ──
+  document.querySelectorAll('.type-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (isSpinning) return;
+      document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentType = tab.dataset.type;
+      buildCharGrid();
+      reset();
+    });
+  });
+
+  // ── GRILLE PERSOS ──
+  function buildCharGrid() {
+    const grid = document.getElementById('char-grid');
+    grid.innerHTML = '';
+    selectedChars.clear();
+
+    const data    = currentType === 'killer' ? perksData.killerPerks : perksData.survivorPerks;
+    const imgData = currentType === 'killer' ? charsData.killers : charsData.survivors;
+    const imgPath = currentType === 'killer' ? 'assets/Killer/' : 'assets/Survivor/';
+    const imgIndex = {};
+    imgData.forEach(c => { imgIndex[c.name] = c.img; });
+
+    data.characters.forEach(entry => {
+      selectedChars.add(entry.character);
+      const chip = document.createElement('div');
+      chip.className = `char-chip selected ${currentType}`;
+
+      const img = document.createElement('img');
+      img.src = imgIndex[entry.character] ? `${imgPath}${imgIndex[entry.character]}` : 'assets/dbd logo.png';
+      img.alt = entry.character;
+
+      const label = document.createElement('span');
+      label.textContent = entry.character;
+
+      chip.appendChild(img);
+      chip.appendChild(label);
+      grid.appendChild(chip);
+
+      chip.addEventListener('click', () => {
+        if (isSpinning) return;
+        chip.classList.toggle('selected');
+        selectedChars[chip.classList.contains('selected') ? 'add' : 'delete'](entry.character);
+        updatePoolInfo();
+        reset();
+      });
+    });
+
+    updatePoolInfo();
+  }
+
+  // ── POOL ──
+  function getPool() {
+    const data = currentType === 'killer' ? perksData.killerPerks : perksData.survivorPerks;
+    const pool = [...data.generic];
+    data.characters.forEach(e => {
+      if (selectedChars.has(e.character)) pool.push(...e.perks);
+    });
+    return pool;
+  }
+
+  function updatePoolInfo() {
+    const pool = getPool();
+    const data = currentType === 'killer' ? perksData.killerPerks : perksData.survivorPerks;
+    document.getElementById('pool-info').innerHTML =
+      `<strong>${pool.length}</strong> perks disponibles · <strong>${data.generic.length}</strong> génériques + <strong>${pool.length - data.generic.length}</strong> de personnages`;
+    document.getElementById('draw-btn').disabled = pool.length < 4;
+  }
+
+  // ── HELPERS IMAGES ──
+  const imgIndex = {};
+  charsData.killers.forEach(c => { imgIndex[c.name] = { img: c.img, type: 'Killer' }; });
+  charsData.survivors.forEach(c => { imgIndex[c.name] = { img: c.img, type: 'Survivor' }; });
+
+  function charImgSrc(charName) {
+    const e = imgIndex[charName];
+    return e ? `assets/${e.type}/${e.img}` : null;
+  }
+
+  function perkIcon(perk) {
+    // Retourne emoji selon le type de perk
+    const icons = { mobility: '💨', healing: '💚', stealth: '👁️', information: '🔍',
+      'anti-killer': '🛡️', team: '🤝', endgame: '⚡', efficiency: '⚙️',
+      survival: '❤️', looting: '📦', sabotage: '🔧', tracking: '👣',
+      snowball: '❄️', slowdown: '🐌', 'map-control': '🗺️', 'anti-save': '⛓️',
+      'anti-gen': '🔩', 'anti-hide': '🕵️', 'anti-stun': '💢' };
+    return icons[perk.type] || '✦';
+  }
+
+  // ── MACHINE À SOUS ──
+  function buildSlots(drawnPerks, fullPool) {
+    const row = document.getElementById('slots-row');
+    row.innerHTML = '';
+
+    // Pour chaque slot, on génère une liste de perks aléatoires qui défilent
+    drawnPerks.forEach((winner, slotIdx) => {
+      const slot = document.createElement('div');
+      slot.className = `slot-machine ${currentType}`;
+
+      const line = document.createElement('div');
+      line.className = 'slot-line';
+
+      const track = document.createElement('div');
+      track.className = 'slot-track';
+
+      // Générer ~25 items aléatoires + le gagnant en dernière position visible
+      const fakeCount = 25;
+      const allItems = [];
+
+      for (let i = 0; i < fakeCount; i++) {
+        const rand = fullPool[Math.floor(Math.random() * fullPool.length)];
+        allItems.push(rand);
+      }
+      allItems.push(winner); // le gagnant est le dernier
+
+      allItems.forEach(perk => {
+        const item = document.createElement('div');
+        item.className = 'slot-item';
+
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'slot-item-img';
+        imgWrap.textContent = perkIcon(perk);
+        // Tentative de chargement image
+        const img = new Image();
+        img.onload = () => { imgWrap.innerHTML = ''; const i2 = document.createElement('img'); i2.src = perk.img; imgWrap.appendChild(i2); };
+        img.src = perk.img;
+
+        const name = document.createElement('div');
+        name.className = 'slot-item-name';
+        name.textContent = perk.name;
+
+        const char = document.createElement('div');
+        char.className = 'slot-item-char';
+        char.textContent = perk.character || 'Générique';
+
+        item.appendChild(imgWrap);
+        item.appendChild(name);
+        item.appendChild(char);
+        track.appendChild(item);
+      });
+
+      slot.appendChild(line);
+      slot.appendChild(track);
+      row.appendChild(slot);
+    });
+  }
+
+  // ── ANIMATION ──
+  // Délais d'arrêt en ms pour chaque slot
+  const STOP_DELAYS = [1800, 2600, 3400, 4200];
+  const SPIN_DURATION = 5000; // durée totale de la transition CSS
+
+  function animateSlots(drawnPerks) {
+    return new Promise(resolve => {
+      const slots = document.querySelectorAll('.slot-machine');
+      let stoppedCount = 0;
+
+      slots.forEach((slot, idx) => {
+        const track = slot.querySelector('.slot-track');
+        const itemCount = track.children.length;
+        const itemH = 160; // hauteur d'un item en px
+
+        // Position de départ : on veut afficher le premier item
+        // Position finale : dernier item (le gagnant) centré
+        const finalOffset = -(itemCount - 1) * itemH;
+
+        // Démarre immédiatement : scroll rapide
+        track.style.transition = 'none';
+        track.style.transform  = 'translateY(0)';
+
+        // Force reflow
+        void track.offsetHeight;
+
+        // Lance l'animation CSS
+        const stopDelay = STOP_DELAYS[idx];
+        track.style.transition = `transform ${stopDelay}ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
+        track.style.transform  = `translateY(${finalOffset}px)`;
+
+        // Quand ce slot s'arrête
+        setTimeout(() => {
+          slot.classList.add('stopped');
+          stoppedCount++;
+          if (stoppedCount === slots.length) {
+            // Petit délai avant de révéler les bandeaux
+            setTimeout(resolve, 600);
+          }
+        }, stopDelay);
+      });
+    });
+  }
+
+  // ── BANDEAUX RÉSULTAT ──
+  function showBanners(drawnPerks) {
+    const section = document.getElementById('result-section');
+    section.innerHTML = '';
+    section.classList.add('visible');
+
+    drawnPerks.forEach((perk, idx) => {
+      const banner = document.createElement('div');
+      banner.className = 'result-banner';
+
+      // Image perk
+      const perkImgWrap = document.createElement('div');
+      perkImgWrap.className = 'banner-perk-img';
+      perkImgWrap.textContent = perkIcon(perk);
+      const pImg = new Image();
+      pImg.onload = () => {
+        perkImgWrap.innerHTML = '';
+        const i = document.createElement('img');
+        i.src = perk.img; i.alt = perk.name;
+        perkImgWrap.appendChild(i);
+      };
+      pImg.src = perk.img;
+
+      // Image personnage
+      const charImgWrap = document.createElement('div');
+      charImgWrap.className = 'banner-char-img';
+      charImgWrap.textContent = currentType === 'killer' ? '🔪' : '🏃';
+      if (perk.character) {
+        const src = charImgSrc(perk.character);
+        if (src) {
+          const cImg = new Image();
+          cImg.onload = () => {
+            charImgWrap.innerHTML = '';
+            const i = document.createElement('img');
+            i.src = src; i.alt = perk.character;
+            charImgWrap.appendChild(i);
+          };
+          cImg.src = src;
+        }
+      } else {
+        charImgWrap.textContent = '✦';
+      }
+
+      // Texte
+      const text = document.createElement('div');
+      text.className = 'banner-text';
+
+      const pName = document.createElement('div');
+      pName.className = 'banner-perk-name';
+      pName.textContent = perk.name;
+
+      const cName = document.createElement('div');
+      cName.className = `banner-char-name ${perk.character ? '' : 'generic'}`;
+      cName.textContent = perk.character || '✦ Perk générique';
+
+      const desc = document.createElement('div');
+      desc.className = 'banner-desc';
+      desc.textContent = perk.description;
+
+      const tags = document.createElement('div');
+      tags.className = 'perk-tags';
+      (perk.buffs || []).forEach(b => {
+        const t = document.createElement('span');
+        t.className = 'perk-tag buff';
+        t.textContent = `+ ${b}`;
+        tags.appendChild(t);
+      });
+      (perk.debuffs || []).forEach(d => {
+        const t = document.createElement('span');
+        t.className = 'perk-tag debuff';
+        t.textContent = `− ${d}`;
+        tags.appendChild(t);
+      });
+
+      text.appendChild(pName);
+      text.appendChild(cName);
+      text.appendChild(desc);
+      text.appendChild(tags);
+
+      banner.appendChild(perkImgWrap);
+      banner.appendChild(charImgWrap);
+      banner.appendChild(text);
+      section.appendChild(banner);
+
+      // Apparition en décalé
+      setTimeout(() => banner.classList.add('visible'), idx * 180 + 100);
+    });
+
+    // Bouton redraw
+    document.getElementById('redraw-btn').style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── TIRAGE PRINCIPAL ──
+  async function draw() {
+    if (isSpinning) return;
+    const pool = getPool();
+    if (pool.length < 4) return;
+
+    isSpinning = true;
+    document.getElementById('draw-btn').disabled = true;
+    document.getElementById('redraw-btn').style.display = 'none';
+
+    // Fisher-Yates → 4 perks uniques
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    const drawn = shuffled.slice(0, 4);
+
+    // Reset résultats
+    reset(false);
+
+    // Construire et afficher les slots
+    const slotsSection = document.getElementById('slots-section');
+    slotsSection.classList.add('visible');
+    buildSlots(drawn, pool);
+
+    // Scroll vers les slots
+    slotsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Animer
+    await animateSlots(drawn);
+
+    // Afficher les bandeaux
+    showBanners(drawn);
+
+    isSpinning = false;
+    document.getElementById('draw-btn').disabled = false;
+  }
+
+  function reset(hideSlots = true) {
+    if (hideSlots) {
+      document.getElementById('slots-section').classList.remove('visible');
+      document.getElementById('slots-row').innerHTML = '';
+    }
+    document.getElementById('result-section').classList.remove('visible');
+    document.getElementById('result-section').innerHTML = '';
+    document.getElementById('redraw-btn').style.display = 'none';
+  }
+
+  // ── EVENTS ──
+  document.getElementById('draw-btn').addEventListener('click', draw);
+  document.getElementById('redraw-btn').addEventListener('click', draw);
+
+  document.getElementById('select-all').addEventListener('click', () => {
+    if (isSpinning) return;
+    document.querySelectorAll('.char-chip').forEach(c => {
+      c.classList.add('selected', currentType);
+      selectedChars.add(c.querySelector('span').textContent);
+    });
+    updatePoolInfo(); reset();
+  });
+
+  document.getElementById('select-none').addEventListener('click', () => {
+    if (isSpinning) return;
+    document.querySelectorAll('.char-chip').forEach(c => c.classList.remove('selected'));
+    selectedChars.clear();
+    updatePoolInfo(); reset();
+  });
+
+  // ── INIT ──
+  buildCharGrid();
+})();
+</script>
+
+</body>
+</html>

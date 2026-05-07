@@ -1,0 +1,1102 @@
+{
+  "survivorPerks": {
+    "generic": [
+      {
+        "id": "s_gen_01",
+        "name": "Détermination",
+        "img": "perks/survivor/Determination.png",
+        "character": null,
+        "description": "Lorsque tu es en état Mourant, chaque seconde passée dans cet état recharge une progression vers un token. Au maximum 3 tokens. Chaque token est consommé pour ignorer un coup supplémentaire en état Mourant.",
+        "type": "survival",
+        "buffs": ["Résistance supplémentaire en état Mourant"],
+        "debuffs": []
+      },
+      {
+        "id": "s_gen_02",
+        "name": "Emprise",
+        "img": "perks/survivor/Emprise.png",
+        "character": null,
+        "description": "Chaque fois qu'un générateur est terminé, tu bénéficies d'un bonus de vitesse de sprint de 3/4/5% pendant 45 secondes.",
+        "type": "mobility",
+        "buffs": ["Bonus de vitesse après chaque générateur terminé"],
+        "debuffs": []
+      },
+      {
+        "id": "s_gen_03",
+        "name": "Robustesse",
+        "img": "perks/survivor/Robustesse.png",
+        "character": null,
+        "description": "Lorsque tu es Blessé, ta vitesse de réparation, de sabotage, de recherche et d'ouverture de coffres est augmentée de 9/12/15%.",
+        "type": "efficiency",
+        "buffs": ["Vitesse d'action augmentée quand blessé"],
+        "debuffs": []
+      },
+      {
+        "id": "s_gen_04",
+        "name": "Solidarité",
+        "img": "perks/survivor/Solidarite.png",
+        "character": null,
+        "description": "Lorsqu'un autre Survivant est soigné à côté de toi, tu récupères 50% de la guérison en même temps.",
+        "type": "healing",
+        "buffs": ["Guérison passive partagée"],
+        "debuffs": []
+      },
+      {
+        "id": "s_gen_05",
+        "name": "Auto-soin",
+        "img": "perks/survivor/AutoSoin.png",
+        "character": null,
+        "description": "Tu peux te soigner toi-même sans trousse de premiers soins, mais à une vitesse réduite de 50%.",
+        "type": "healing",
+        "buffs": ["Soin sans trousse possible"],
+        "debuffs": ["Vitesse de soin réduite de 50%"]
+      },
+      {
+        "id": "s_gen_06",
+        "name": "Sprint Burst",
+        "img": "perks/survivor/SprintBurst.png",
+        "character": null,
+        "description": "Lorsque tu commences à courir, tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 3 secondes. Récupération de 60/50/40 secondes.",
+        "type": "mobility",
+        "buffs": ["Burst de vitesse au départ en course"],
+        "debuffs": ["Longue récupération"]
+      },
+      {
+        "id": "s_gen_07",
+        "name": "Sauts de puce",
+        "img": "perks/survivor/SautsDePuce.png",
+        "character": null,
+        "description": "Tu peux traverser les fenêtres et sauter par-dessus les palettes 30% plus vite. Cette perk se désactive après 3/3/3 utilisations.",
+        "type": "mobility",
+        "buffs": ["Vault rapide"],
+        "debuffs": ["Limité à 3 utilisations"]
+      },
+      {
+        "id": "s_gen_08",
+        "name": "Coup de pied bien placé",
+        "img": "perks/survivor/CoupDePiedBienPlace.png",
+        "character": null,
+        "description": "Après avoir été libéré ou t'être libéré d'un crochet, tu peux effectuer une action de sabotage rapide sans outil, immobilisant le Tueur pendant 2,5/3/3,5 secondes.",
+        "type": "anti-killer",
+        "buffs": ["Immobilise le tueur après unhook"],
+        "debuffs": []
+      }
+    ],
+    "characters": [
+      {
+        "character": "Dwight Fairfield",
+        "perks": [
+          {
+            "id": "s_dwight_01",
+            "name": "Rassemblement",
+            "img": "perks/survivor/Rassemblement.png",
+            "description": "Toutes les Auras des Survivants qui réparent un générateur à moins de 12 mètres sont révélées. La vitesse de réparation de groupe est augmentée de 15%.",
+            "type": "team",
+            "buffs": ["Vitesse de réparation en groupe", "Vision des coéquipiers"],
+            "debuffs": []
+          },
+          {
+            "id": "s_dwight_02",
+            "name": "Travail d'équipe",
+            "img": "perks/survivor/TravailEquipe.png",
+            "description": "Lorsque tu es soigné par un autre Survivant, vous bénéficiez tous les deux d'un bonus de vitesse de sprint de 5% pendant 8/10/12 secondes après la guérison.",
+            "type": "team",
+            "buffs": ["Boost de vitesse après soin mutuel"],
+            "debuffs": []
+          },
+          {
+            "id": "s_dwight_03",
+            "name": "Leader",
+            "img": "perks/survivor/Leader.png",
+            "description": "Lorsque tu es à moins de 8 mètres d'un autre Survivant, sa vitesse de soin, de sabotage, de recherche, de déverrouillage et de revitalisation est augmentée de 15/20/25%.",
+            "type": "team",
+            "buffs": ["Boost des actions de l'équipe en proximité"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Meg Thomas",
+        "perks": [
+          {
+            "id": "s_meg_01",
+            "name": "Sprint rapide",
+            "img": "perks/survivor/SprintRapide.png",
+            "description": "Après avoir été touché par le Tueur, tu peux courir à une vitesse de 150% pendant 3 secondes. Récupération de 40/30/20 secondes.",
+            "type": "mobility",
+            "buffs": ["Sprint après coup du tueur"],
+            "debuffs": ["Récupération"]
+          },
+          {
+            "id": "s_meg_02",
+            "name": "Adrenaline",
+            "img": "perks/survivor/Adrenaline.png",
+            "description": "Lorsque la Sortie de secours est activée, tu te soignes instantanément d'un état de soin et tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 5 secondes.",
+            "type": "endgame",
+            "buffs": ["Soin instantané en fin de partie", "Sprint en fin de partie"],
+            "debuffs": []
+          },
+          {
+            "id": "s_meg_03",
+            "name": "Conscience athlétique",
+            "img": "perks/survivor/ConscienceAthletique.png",
+            "description": "Tu reçois des notifications visuelles et sonores lorsque le Tueur est à 32/24/16 mètres.",
+            "type": "information",
+            "buffs": ["Alerte de proximité du tueur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Claudette Morel",
+        "perks": [
+          {
+            "id": "s_claudette_01",
+            "name": "Auto-soins avancés",
+            "img": "perks/survivor/AutoSoinsAvances.png",
+            "description": "Tu peux te soigner toi-même sans trousse de premiers soins à une vitesse de 50% de la vitesse normale. Chaque soin augmente la vitesse de soin de 10% (max 40%).",
+            "type": "healing",
+            "buffs": ["Auto-soin amélioré progressivement"],
+            "debuffs": []
+          },
+          {
+            "id": "s_claudette_02",
+            "name": "Empathie",
+            "img": "perks/survivor/Empathie.png",
+            "description": "Les Auras des Survivants blessés sont révélées en permanence à moins de 64/96/128 mètres.",
+            "type": "information",
+            "buffs": ["Vision permanente des alliés blessés"],
+            "debuffs": []
+          },
+          {
+            "id": "s_claudette_03",
+            "name": "Connaissance botanique",
+            "img": "perks/survivor/ConnaissanceBotanique.png",
+            "description": "Ta vitesse de soin est augmentée de 22%. La valeur de chaque trousse de premiers soins est augmentée de 33%.",
+            "type": "healing",
+            "buffs": ["Vitesse de soin +22%", "Efficacité des trousses +33%"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Jake Park",
+        "perks": [
+          {
+            "id": "s_jake_01",
+            "name": "Saboteur",
+            "img": "perks/survivor/Saboteur.png",
+            "description": "Tu peux saboter les crochets du Tueur sans outils. La vitesse de sabotage est augmentée de 40/50/60% et la durée de réparation des crochets est augmentée.",
+            "type": "sabotage",
+            "buffs": ["Sabotage sans outil", "Sabotage plus rapide"],
+            "debuffs": []
+          },
+          {
+            "id": "s_jake_02",
+            "name": "Volonté de fer",
+            "img": "perks/survivor/VolonteDeFer.png",
+            "description": "Réduit tes gémissements de douleur de 50/75/100% lorsque tu es blessé.",
+            "type": "stealth",
+            "buffs": ["Réduction des bruits de blessure"],
+            "debuffs": []
+          },
+          {
+            "id": "s_jake_03",
+            "name": "Camouflage forestier",
+            "img": "perks/survivor/CamouflageForestiер.png",
+            "description": "Lorsque tu t'accroupis dans un rayon de 24 mètres d'un Tueur, tu t'arrêtes de laisser des égratignures. En restant immobile 2 secondes, tu émets moins de bruits.",
+            "type": "stealth",
+            "buffs": ["Suppression des égratignures à proximité du tueur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Nea Karlsson",
+        "perks": [
+          {
+            "id": "s_nea_01",
+            "name": "Casse-cou",
+            "img": "perks/survivor/CasseCou.png",
+            "description": "Tu peux sauter par les fenêtres 10/15/20% plus vite.",
+            "type": "mobility",
+            "buffs": ["Vault de fenêtre plus rapide"],
+            "debuffs": []
+          },
+          {
+            "id": "s_nea_02",
+            "name": "Urbex",
+            "img": "perks/survivor/Urbex.png",
+            "description": "Après t'être rétabli d'un état Mourant, tu peux ramper 30% plus vite pendant 15/20/25 secondes.",
+            "type": "survival",
+            "buffs": ["Ramper plus vite après rétablissement"],
+            "debuffs": []
+          },
+          {
+            "id": "s_nea_03",
+            "name": "Tags",
+            "img": "perks/survivor/Tags.png",
+            "description": "Lorsque tu es dans le coffre ou dans une armoire, ton Aura est masquée pendant 4/6/8 secondes après en être sorti.",
+            "type": "stealth",
+            "buffs": ["Aura masquée après sortie d'armoire"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Laurie Strode",
+        "perks": [
+          {
+            "id": "s_laurie_01",
+            "name": "Obstruction",
+            "img": "perks/survivor/Obstruction.png",
+            "description": "Lorsqu'un Survivant est accroché, les palettes dans un rayon de 16 mètres sont bloquées pendant 80/100/120 secondes.",
+            "type": "anti-killer",
+            "buffs": ["Palettes bloquées lors d'un accrochage allié"],
+            "debuffs": []
+          },
+          {
+            "id": "s_laurie_02",
+            "name": "Décision",
+            "img": "perks/survivor/Decision.png",
+            "description": "Lorsqu'un Survivant est accroché, Décision permet d'effectuer une action pour bloquer temporairement les générateurs les plus proches.",
+            "type": "anti-killer",
+            "buffs": ["Bloque les générateurs proches lors d'un accrochage"],
+            "debuffs": []
+          },
+          {
+            "id": "s_laurie_03",
+            "name": "Plan de fuite",
+            "img": "perks/survivor/PlanDeFuite.png",
+            "description": "Lorsque la Sortie de secours est activée, l'Aura de la porte de sortie la plus proche est révélée pendant 2/3/4 secondes.",
+            "type": "endgame",
+            "buffs": ["Vision de la sortie en fin de partie"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Ace Visconti",
+        "perks": [
+          {
+            "id": "s_ace_01",
+            "name": "Ouverture",
+            "img": "perks/survivor/Ouverture.png",
+            "description": "Tu bénéficies d'un bonus de 15/20/25% à toutes les vérifications de compétence.",
+            "type": "efficiency",
+            "buffs": ["Bonus aux vérifications de compétence"],
+            "debuffs": []
+          },
+          {
+            "id": "s_ace_02",
+            "name": "Coup de veine",
+            "img": "perks/survivor/CoupDeVeine.png",
+            "description": "Lorsque tu ouvres un coffre, tu trouves toujours un objet de Qualité rare ou meilleure. Les objets que tu trouves dans les coffres ont 50% de chance d'avoir un addon.",
+            "type": "looting",
+            "buffs": ["Coffres de meilleure qualité", "Addons bonus dans les coffres"],
+            "debuffs": []
+          },
+          {
+            "id": "s_ace_03",
+            "name": "Ascension",
+            "img": "perks/survivor/Ascension.png",
+            "description": "Après avoir été décroché, tu bénéficies d'une protection des tokens pendant 12/14/16 secondes. Les tokens sont consommés pour ignorer l'effet Mourant.",
+            "type": "survival",
+            "buffs": ["Protection temporaire après unhook"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "William Bill Overbeck",
+        "perks": [
+          {
+            "id": "s_bill_01",
+            "name": "Jusqu'au bout",
+            "img": "perks/survivor/JusquAuBout.png",
+            "description": "Lorsque tu décroches un Survivant au premier stade d'accrochage, le Tueur ne peut pas te mettre directement en état Mourant pendant 15 secondes.",
+            "type": "team",
+            "buffs": ["Protection lors du décrochage"],
+            "debuffs": []
+          },
+          {
+            "id": "s_bill_02",
+            "name": "Résistance à toute épreuve",
+            "img": "perks/survivor/ResistanceAEpreuve.png",
+            "description": "Lorsque tu te remets d'un état Mourant, tu peux courir à vitesse normale pendant 10/15/20 secondes malgré ta blessure.",
+            "type": "survival",
+            "buffs": ["Sprint normal après rétablissement"],
+            "debuffs": []
+          },
+          {
+            "id": "s_bill_03",
+            "name": "Détermination inébranlable",
+            "img": "perks/survivor/DeterminationInebranlable.png",
+            "description": "Tu peux te rétablir de l'état Mourant une fois par partie sans l'aide d'un autre Survivant.",
+            "type": "survival",
+            "buffs": ["Auto-rétablissement unique par partie"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Feng Min",
+        "perks": [
+          {
+            "id": "s_feng_01",
+            "name": "Concentration",
+            "img": "perks/survivor/Concentration.png",
+            "description": "Chaque Grande Vérification de compétence réussie ajoute un token. 5/4/3 tokens réduisent les charges d'une compétence de 1 seconde.",
+            "type": "efficiency",
+            "buffs": ["Réduction du temps des actions après vérifications réussies"],
+            "debuffs": []
+          },
+          {
+            "id": "s_feng_02",
+            "name": "Technicien",
+            "img": "perks/survivor/Technicien.png",
+            "description": "Les bruits de réparation des générateurs sont réduits à 0. Les Vérifications de compétence ratées provoquent une explosion silencieuse.",
+            "type": "stealth",
+            "buffs": ["Réparation silencieuse"],
+            "debuffs": []
+          },
+          {
+            "id": "s_feng_03",
+            "name": "Traqueur inversé",
+            "img": "perks/survivor/TraqueurInverse.png",
+            "description": "Après une Grande Vérification de compétence réussie, tu laisses moins d'égratignures pendant 4/6/8 secondes.",
+            "type": "stealth",
+            "buffs": ["Réduction des égratignures après vérification"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "David King",
+        "perks": [
+          {
+            "id": "s_david_01",
+            "name": "On va s'en sortir",
+            "img": "perks/survivor/OnVaSEnSortir.png",
+            "description": "Lorsqu'un autre Survivant est à moins de 16 mètres de toi en état Mourant, tu peux te jeter sur le Tueur pour le faire trébucher.",
+            "type": "anti-killer",
+            "buffs": ["Peut faire trébucher le tueur pour protéger un allié"],
+            "debuffs": []
+          },
+          {
+            "id": "s_david_02",
+            "name": "Résistance coriace",
+            "img": "perks/survivor/ResistanceCoriace.png",
+            "description": "Lorsque tu es en état Mourant, la vitesse de ramper est augmentée de 25/30/35%. Tu émets moins de bruits en état Mourant.",
+            "type": "survival",
+            "buffs": ["Ramper plus vite et silencieusement en état Mourant"],
+            "debuffs": []
+          },
+          {
+            "id": "s_david_03",
+            "name": "No Mither",
+            "img": "perks/survivor/NoMither.png",
+            "description": "Tu démarres la partie blessé mais tu ne laisses pas de traces de sang et tu ne gémis pas. Tu peux te remettre seul de l'état Mourant autant de fois que nécessaire.",
+            "type": "stealth",
+            "buffs": ["Auto-rétablissement illimité", "Pas de traces de sang ni bruits"],
+            "debuffs": ["Commence la partie blessé"]
+          }
+        ]
+      },
+      {
+        "character": "Quentin Smith",
+        "perks": [
+          {
+            "id": "s_quentin_01",
+            "name": "Réveil",
+            "img": "perks/survivor/Reveil.png",
+            "description": "Tes vérifications de compétence apparaissent 10% plus petites. En réussissant une vérification, tu gagnes 50% de progression bonus. La vitesse de réparation est augmentée de 6% par générateur terminé.",
+            "type": "efficiency",
+            "buffs": ["Progression bonus sur vérifications", "Vitesse de réparation croissante"],
+            "debuffs": []
+          },
+          {
+            "id": "s_quentin_02",
+            "name": "Guérison de secours",
+            "img": "perks/survivor/GueриsonDeSecours.png",
+            "description": "Tu peux soigner les Survivants à un rayon de 0,5 mètre sans trousse de premiers soins à 50% de la vitesse de soin normale.",
+            "type": "healing",
+            "buffs": ["Soin sans trousse à distance proche"],
+            "debuffs": ["Vitesse de soin réduite"]
+          },
+          {
+            "id": "s_quentin_03",
+            "name": "Veilleur de nuit",
+            "img": "perks/survivor/VeilleurDeNuit.png",
+            "description": "Lorsque tu passes près d'un Totem, tu reçois une notification. Si un Totem de Malédiction est à moins de 20 mètres, son Aura est révélée pendant 2/3/4 secondes.",
+            "type": "information",
+            "buffs": ["Détection des totems de malédiction"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Jill Valentine",
+        "perks": [
+          {
+            "id": "s_jill_01",
+            "name": "Vivacité",
+            "img": "perks/survivor/Vivacite.png",
+            "description": "Les Auras des palettes dans un rayon de 24 mètres sont révélées. Tu peux sauter par-dessus les palettes 30% plus vite. La durée d'étourdissement est réduite de 20%.",
+            "type": "mobility",
+            "buffs": ["Vision des palettes", "Vault de palette rapide", "Étourdissement réduit"],
+            "debuffs": []
+          },
+          {
+            "id": "s_jill_02",
+            "name": "Repositionnement contre-attaque",
+            "img": "perks/survivor/Repositionnement.png",
+            "description": "Après avoir sauté une palette ou une fenêtre, tu bénéficies d'un bonus de vitesse de sprint de 50% pendant 2/2,5/3 secondes.",
+            "type": "mobility",
+            "buffs": ["Sprint après vault"],
+            "debuffs": []
+          },
+          {
+            "id": "s_jill_03",
+            "name": "À l'arraché",
+            "img": "perks/survivor/ALArrache.png",
+            "description": "Une fois par partie, lorsque tu es raccroché pour la dernière fois, tu peux te libérer automatiquement. La tentative dure 40/35/30 secondes.",
+            "type": "survival",
+            "buffs": ["Auto-libération ultime une fois par partie"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Leon Scott Kennedy",
+        "perks": [
+          {
+            "id": "s_leon_01",
+            "name": "Flashbang",
+            "img": "perks/survivor/Flashbang.png",
+            "description": "Après avoir réparé 33% de la progression totale d'un générateur, tu peux fabriquer une grenade flash dans un armoire. Aveugle le Tueur et les Survivants.",
+            "type": "anti-killer",
+            "buffs": ["Fabrique une grenade flash artisanale"],
+            "debuffs": []
+          },
+          {
+            "id": "s_leon_02",
+            "name": "Matière grise",
+            "img": "perks/survivor/MatiereGrise.png",
+            "description": "Tu peux trouver des plans d'amélioration en fouillant des coffres. Utilisés sur des générateurs, ces plans leur confèrent un bonus de réparation.",
+            "type": "efficiency",
+            "buffs": ["Plans d'amélioration pour générateurs"],
+            "debuffs": []
+          },
+          {
+            "id": "s_leon_03",
+            "name": "Coup de couteau",
+            "img": "perks/survivor/CoupDeCouteau.png",
+            "description": "Lorsqu'un Tueur te ramasse, tu peux tenter de le poignarder. En cas de succès, tu seras lâché et le Tueur sera ralenti de 50% pendant 4 secondes.",
+            "type": "anti-killer",
+            "buffs": ["Possibilité d'échapper à l'emprise du tueur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Yui Kimura",
+        "perks": [
+          {
+            "id": "s_yui_01",
+            "name": "Toute seule",
+            "img": "perks/survivor/TouteSeule.png",
+            "description": "Lorsque tu es la seule Survivante restante, tu reçois un bonus de 25/30/35% à toutes les vitesses d'action.",
+            "type": "endgame",
+            "buffs": ["Toutes les vitesses augmentées quand seule survivante"],
+            "debuffs": []
+          },
+          {
+            "id": "s_yui_02",
+            "name": "Bonne mécanique",
+            "img": "perks/survivor/BonneMecanique.png",
+            "description": "Lorsqu'un autre Survivant rate une vérification de compétence sur un générateur, ta progression sur le même générateur est augmentée de 5%.",
+            "type": "team",
+            "buffs": ["Compensation de progression sur échec allié"],
+            "debuffs": []
+          },
+          {
+            "id": "s_yui_03",
+            "name": "Esprit de compétition",
+            "img": "perks/survivor/EspritDeCompetition.png",
+            "description": "Après avoir touché le sol ou avoir été lâché par un Tueur, tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 4 secondes.",
+            "type": "mobility",
+            "buffs": ["Sprint après lâcher du tueur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Zarina Kassir",
+        "perks": [
+          {
+            "id": "s_zarina_01",
+            "name": "Caméra cachée",
+            "img": "perks/survivor/CameraCachee.png",
+            "description": "Lorsqu'un Survivant est accroché, l'Aura du Tueur est révélée pendant 4 secondes.",
+            "type": "information",
+            "buffs": ["Vision du tueur lors des accrochages"],
+            "debuffs": []
+          },
+          {
+            "id": "s_zarina_02",
+            "name": "Pour toujours",
+            "img": "perks/survivor/PourToujours.png",
+            "description": "Les Survivants que tu décroches restent en première phase d'accrochage même s'ils ont déjà atteint la seconde phase.",
+            "type": "team",
+            "buffs": ["Réinitialise la phase d'accrochage des alliés décrochés"],
+            "debuffs": []
+          },
+          {
+            "id": "s_zarina_03",
+            "name": "Off the Record",
+            "img": "perks/survivor/OffTheRecord.png",
+            "description": "Après avoir été décroché ou t'être décroché, ton Aura est masquée et tes gémissements sont supprimés pendant 60/70/80 secondes.",
+            "type": "stealth",
+            "buffs": ["Aura et bruits masqués après unhook"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Felix Richter",
+        "perks": [
+          {
+            "id": "s_felix_01",
+            "name": "Esprit visionnaire",
+            "img": "perks/survivor/EspritVisionnaire.png",
+            "description": "Les Auras des générateurs dans un rayon de 32 mètres sont révélées en permanence.",
+            "type": "information",
+            "buffs": ["Vision permanente des générateurs proches"],
+            "debuffs": []
+          },
+          {
+            "id": "s_felix_02",
+            "name": "Dévotion",
+            "img": "perks/survivor/Devotion.png",
+            "description": "Lorsqu'un autre Survivant tombe en état Mourant ou est accroché, tu récupères 25% de progression sur la compétence active.",
+            "type": "team",
+            "buffs": ["Progression bonus lors des malheurs des alliés"],
+            "debuffs": []
+          },
+          {
+            "id": "s_felix_03",
+            "name": "Survie sous pression",
+            "img": "perks/survivor/SurvieSousPression.png",
+            "description": "Lorsque tu es blessé, ta vitesse de soin est augmentée de 20/25/30%.",
+            "type": "healing",
+            "buffs": ["Vitesse de soin augmentée quand blessé"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Alan Wake",
+        "perks": [
+          {
+            "id": "s_alan_01",
+            "name": "Bête des ténèbres",
+            "img": "perks/survivor/BeteDesTenebres.png",
+            "description": "Après avoir couru pendant 10 secondes, tu gagnes un token. Chaque token augmente la vitesse de sprint de 0.1m/s (max 3 tokens).",
+            "type": "mobility",
+            "buffs": ["Vitesse de sprint augmentée avec le temps"],
+            "debuffs": []
+          },
+          {
+            "id": "s_alan_02",
+            "name": "Lumière du manuscrit",
+            "img": "perks/survivor/LuminaireDuManuscrit.png",
+            "description": "Révèle l'Aura du Tueur lorsqu'il est dans un rayon de 24/20/16 mètres pendant que tu répares un générateur.",
+            "type": "information",
+            "buffs": ["Vision du tueur pendant la réparation"],
+            "debuffs": []
+          },
+          {
+            "id": "s_alan_03",
+            "name": "Inspiration",
+            "img": "perks/survivor/Inspiration.png",
+            "description": "Lorsqu'un Survivant dans un rayon de 32 mètres commence à réparer un générateur que tu réparais, il reçoit un bonus de progression de 10/12/14%.",
+            "type": "team",
+            "buffs": ["Bonus de progression pour les alliés qui reprennent ton générateur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Lara Croft",
+        "perks": [
+          {
+            "id": "s_lara_01",
+            "name": "Adrénaline sauvage",
+            "img": "perks/survivor/AdrenalineSauvage.png",
+            "description": "Lorsque tu tombes en état Mourant, tu peux ramper 35/40/45% plus vite pendant 8 secondes.",
+            "type": "survival",
+            "buffs": ["Vitesse de ramper augmentée quand mise en état Mourant"],
+            "debuffs": []
+          },
+          {
+            "id": "s_lara_02",
+            "name": "Instinct du chasseur",
+            "img": "perks/survivor/InstinctDuChasseur.png",
+            "description": "Tu peux voir l'Aura des coffres dans un rayon de 24 mètres. Fouiller un coffre est 40/50/60% plus rapide.",
+            "type": "looting",
+            "buffs": ["Vision des coffres", "Fouille plus rapide"],
+            "debuffs": []
+          },
+          {
+            "id": "s_lara_03",
+            "name": "Terrain hostile",
+            "img": "perks/survivor/TerrainHostile.png",
+            "description": "Lorsque tu sautes une fenêtre, l'Aura de la fenêtre est bloquée pour le Tueur pendant 6/8/10 secondes.",
+            "type": "anti-killer",
+            "buffs": ["Masque la fenêtre franchie au tueur"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Rick Grimes",
+        "perks": [
+          {
+            "id": "s_rick_01",
+            "name": "Un pour tous",
+            "img": "perks/survivor/UnPourTous.png",
+            "description": "Lorsque tu décroches un Survivant, vous bénéficiez tous les deux d'un bonus de vitesse de 7% pendant 12/14/16 secondes.",
+            "type": "team",
+            "buffs": ["Bonus de vitesse après décrochage"],
+            "debuffs": []
+          },
+          {
+            "id": "s_rick_02",
+            "name": "Protocole de survie",
+            "img": "perks/survivor/ProtocoleDeSurvie.png",
+            "description": "Lorsque tu es à moins de 8 mètres d'un Survivant blessé, ta vitesse de réparation est augmentée de 5/7/9%.",
+            "type": "team",
+            "buffs": ["Réparation accélérée près d'un allié blessé"],
+            "debuffs": []
+          },
+          {
+            "id": "s_rick_03",
+            "name": "Dernier debout",
+            "img": "perks/survivor/DernierDebout.png",
+            "description": "Lorsque tous les autres Survivants sont morts ou partis, tu bénéficies d'un bonus de 100% sur toutes les vitesses d'action.",
+            "type": "endgame",
+            "buffs": ["Toutes les vitesses doublées quand seul survivant"],
+            "debuffs": []
+          }
+        ]
+      }
+    ]
+  },
+  "killerPerks": {
+    "generic": [
+      {
+        "id": "k_gen_01",
+        "name": "Barbecue et Chili",
+        "img": "perks/killer/BarbecueChili.png",
+        "character": null,
+        "description": "Après avoir accroché un Survivant, les Auras de tous les Survivants à plus de 60 mètres du crochet sont révélées pendant 4 secondes. Chaque accrochage unique accorde 25% de bonus de points de sang.",
+        "type": "information",
+        "buffs": ["Vision des survivants éloignés après accrochage", "Bonus de points de sang"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_02",
+        "name": "Sournoiserie",
+        "img": "perks/killer/Sournoiserie.png",
+        "character": null,
+        "description": "Réduit ton rayon de terreur de 8 mètres. Augmente ta vitesse de déplacement en Rôdeur de 2/4/6%.",
+        "type": "stealth",
+        "buffs": ["Rayon de terreur réduit", "Vitesse en rôdeur augmentée"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_03",
+        "name": "Terrain miné",
+        "img": "perks/killer/TerrainMine.png",
+        "character": null,
+        "description": "Génère 2/3/4 traquenards au début de la partie autour de générateurs aléatoires. Un Survivant déclenchant un traquenard révèle son Aura pendant 5 secondes.",
+        "type": "information",
+        "buffs": ["Traquenards au départ", "Révèle les survivants pris au piège"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_04",
+        "name": "Nécromancien",
+        "img": "perks/killer/Necromancien.png",
+        "character": null,
+        "description": "Lorsqu'un générateur est terminé, les Auras de tous les Survivants sont révélées pendant 5 secondes.",
+        "type": "information",
+        "buffs": ["Vision de tous les survivants après chaque générateur terminé"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_05",
+        "name": "Esprit de vengeance",
+        "img": "perks/killer/EspritDeVengeance.png",
+        "character": null,
+        "description": "Lorsqu'un Survivant t'aveugle avec une lampe de poche ou t'étourdit avec une palette, tu gains un token. Chaque token donne 3% de vitesse de mouvement (max 3 tokens).",
+        "type": "mobility",
+        "buffs": ["Vitesse augmentée après étourdissement"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_06",
+        "name": "Discordance",
+        "img": "perks/killer/Discordance.png",
+        "character": null,
+        "description": "Lorsque 2 Survivants ou plus réparent le même générateur, le générateur est mis en surbrillance en jaune pendant 20 secondes. Peut être déclenché une fois toutes les 20/15/10 secondes.",
+        "type": "information",
+        "buffs": ["Détecte les groupes de réparateurs"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_07",
+        "name": "Surveillance",
+        "img": "perks/killer/Surveillance.png",
+        "character": null,
+        "description": "Après avoir été à moins de 32 mètres d'un générateur pendant 30 secondes, tu entends un son de régression. Les générateurs dont tu t'éloignes continuent à régresser.",
+        "type": "map-control",
+        "buffs": ["Régression améliorée des générateurs"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_08",
+        "name": "Persistance",
+        "img": "perks/killer/Persistance.png",
+        "character": null,
+        "description": "Après avoir touché un Survivant en cours de poursuite, les générateurs ne régressent pas pendant 16/18/20 secondes.",
+        "type": "anti-gen",
+        "buffs": ["Empêche la régression des générateurs après un touché"],
+        "debuffs": []
+      }
+    ],
+    "characters": [
+      {
+        "character": "Montagnard",
+        "perks": [
+          {
+            "id": "k_montagnard_01",
+            "name": "A tout prix",
+            "img": "perks/killer/AToutPrix.png",
+            "description": "Tu peux maintenant courir. Mais tu génères 6/4/2 fois plus de bruit de pas et tu laisses des égratignures rouges.",
+            "type": "mobility",
+            "buffs": ["Peut courir"],
+            "debuffs": ["Beaucoup plus de bruit", "Laisse des égratignures"]
+          },
+          {
+            "id": "k_montagnard_02",
+            "name": "Brutale force",
+            "img": "perks/killer/BrutaleForce.png",
+            "description": "Lorsque tu casses une palette, ta vitesse de mouvement est augmentée de 5/10/15% pendant 3 secondes.",
+            "type": "mobility",
+            "buffs": ["Sprint après cassage de palette"],
+            "debuffs": []
+          },
+          {
+            "id": "k_montagnard_03",
+            "name": "Inarrêtable",
+            "img": "perks/killer/Inarretable.png",
+            "description": "Lorsque tu portes un Survivant, tu gagnes 10/15/20% de vitesse de mouvement supplémentaire pendant 10 secondes.",
+            "type": "mobility",
+            "buffs": ["Vitesse augmentée en portant un survivant"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Spectre",
+        "perks": [
+          {
+            "id": "k_spectre_01",
+            "name": "Predator",
+            "img": "perks/killer/Predator.png",
+            "description": "Les égratignures des Survivants durent 2/3/4 secondes de plus.",
+            "type": "tracking",
+            "buffs": ["Égratignures des survivants plus durables"],
+            "debuffs": []
+          },
+          {
+            "id": "k_spectre_02",
+            "name": "Esprit observateur",
+            "img": "perks/killer/EspritObservateur.png",
+            "description": "Lorsque tu regardes directement un Survivant dans un rayon de 36 mètres, son Aura est révélée pendant 2/3/4 secondes.",
+            "type": "tracking",
+            "buffs": ["Vision des survivants en ligne de mire"],
+            "debuffs": []
+          },
+          {
+            "id": "k_spectre_03",
+            "name": "Rôdeur",
+            "img": "perks/killer/Rodeur.png",
+            "description": "Tu te déplaces 10% plus vite en Rôdeur. Tu vois les Auras des Survivants qui courent à plus de 12 mètres.",
+            "type": "stealth",
+            "buffs": ["Vitesse en rôdeur", "Vision des survivants en course"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Nurse",
+        "perks": [
+          {
+            "id": "k_nurse_01",
+            "name": "Premonition lugubre",
+            "img": "perks/killer/PremonitionLugubre.png",
+            "description": "Lorsqu'un Survivant effectue une action de fouille ou ouvre un coffre à moins de 24 mètres, tu reçois une notification et leur Aura est révélée pendant 4/5/6 secondes.",
+            "type": "information",
+            "buffs": ["Alerte et vision lors des fouilles"],
+            "debuffs": []
+          },
+          {
+            "id": "k_nurse_02",
+            "name": "Gardien",
+            "img": "perks/killer/Gardien.png",
+            "description": "Lorsqu'un Survivant tente de se libérer d'un crochet ou est sauvé, il souffre de l'effet Exposé pendant 70 secondes.",
+            "type": "anti-save",
+            "buffs": ["Exposé les survivants après décrocharge"],
+            "debuffs": []
+          },
+          {
+            "id": "k_nurse_03",
+            "name": "Lumière de l'espoir",
+            "img": "perks/killer/LumiereDeLEspoir.png",
+            "description": "Lorsque tu portes un Survivant, les Auras de tous les autres Survivants sont révélées pendant 4 secondes.",
+            "type": "information",
+            "buffs": ["Vision de tous les survivants lors du portage"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Chasseuse",
+        "perks": [
+          {
+            "id": "k_huntress_01",
+            "name": "Berce-moi",
+            "img": "perks/killer/BerceMoi.png",
+            "description": "Les Survivants qui sont proches d'un Survivant accroché révèlent leurs Auras lorsqu'ils sont à moins de 24 mètres du crochet.",
+            "type": "information",
+            "buffs": ["Vision des survivants proches des crochets"],
+            "debuffs": []
+          },
+          {
+            "id": "k_huntress_02",
+            "name": "Grande ouverture",
+            "img": "perks/killer/GrandeOuverture.png",
+            "description": "Révèle les Auras de tous les coffres en début de partie. Tu peux fouiller les coffres plus vite que les Survivants de 70%.",
+            "type": "looting",
+            "buffs": ["Vision de tous les coffres", "Fouille ultra-rapide"],
+            "debuffs": []
+          },
+          {
+            "id": "k_huntress_03",
+            "name": "Sournoiserie",
+            "img": "perks/killer/SournoiserieBis.png",
+            "description": "Tu peux te déplacer en Rôdeur jusqu'à 3 fois la distance habituelle. Chaque mouvement en Rôdeur génère un son de pas réduit.",
+            "type": "stealth",
+            "buffs": ["Rôdeur plus long et plus silencieux"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Docteur",
+        "perks": [
+          {
+            "id": "k_doctor_01",
+            "name": "Héritage cruel",
+            "img": "perks/killer/HeritageCruel.png",
+            "description": "Lorsqu'un Survivant tente de se libérer d'un crochet, tous les Survivants dans la zone hurlent et révèlent leurs Auras pendant 4 secondes.",
+            "type": "information",
+            "buffs": ["Vision des survivants lors des tentatives d'auto-libération"],
+            "debuffs": []
+          },
+          {
+            "id": "k_doctor_02",
+            "name": "Maladie contagieuse",
+            "img": "perks/killer/MaladieContagieuse.png",
+            "description": "Lorsqu'un Survivant effectue une action de hurlement, tous les Survivants à moins de 20 mètres hurlent également et révèlent leur position.",
+            "type": "information",
+            "buffs": ["Propagation des hurlements"],
+            "debuffs": []
+          },
+          {
+            "id": "k_doctor_03",
+            "name": "Traitement choc",
+            "img": "perks/killer/TraitementChoc.png",
+            "description": "Lorsqu'un Survivant est à moins de 8 mètres de toi et effectue une action de fouille, il souffre de l'effet Exposé pendant 6 secondes.",
+            "type": "anti-hide",
+            "buffs": ["Exposé les survivants qui fouillent près de toi"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Piegeur",
+        "perks": [
+          {
+            "id": "k_trapper_01",
+            "name": "Persévérance malveillante",
+            "img": "perks/killer/PerseveranceMalveillante.png",
+            "description": "Chaque fois qu'un Survivant est accroché pour la première fois, tu gagnes un token. Avec 5/4/3 tokens, chaque coup non létal inflige l'état Mourant.",
+            "type": "snowball",
+            "buffs": ["Les touches infligent l'état Mourant après plusieurs accrochages"],
+            "debuffs": []
+          },
+          {
+            "id": "k_trapper_02",
+            "name": "Puissance de l'ombre",
+            "img": "perks/killer/PuissanceDeLOmbre.png",
+            "description": "Les Survivants qui ont été soignés révèlent leurs Auras pendant 12/15/18 secondes.",
+            "type": "tracking",
+            "buffs": ["Vision des survivants après soin"],
+            "debuffs": []
+          },
+          {
+            "id": "k_trapper_03",
+            "name": "Terreur absolue",
+            "img": "perks/killer/TerreурAbsolue.png",
+            "description": "Ton rayon de terreur est augmenté de 8 mètres. Les Survivants à moins de 16/20/24 mètres font face à des vérifications de compétence supplémentaires.",
+            "type": "map-control",
+            "buffs": ["Rayon de terreur élargi", "Vérifications supplémentaires pour les survivants proches"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "GhostFace",
+        "perks": [
+          {
+            "id": "k_ghostface_01",
+            "name": "Je l'observe",
+            "img": "perks/killer/JeLObserve.png",
+            "description": "Lorsqu'un Survivant est dans ton champ de vision pendant 3/2,5/2 secondes consécutives, il révèle son Aura.",
+            "type": "tracking",
+            "buffs": ["Vision des survivants dans le champ de vision"],
+            "debuffs": []
+          },
+          {
+            "id": "k_ghostface_02",
+            "name": "Aucun témoin",
+            "img": "perks/killer/AucunTemoin.png",
+            "description": "Lorsqu'un Survivant qui a atteint le stade Blessé n'effectue aucune action pendant 60 secondes, il passe en état Mourant.",
+            "type": "tracking",
+            "buffs": ["Les survivants blessés inactifs finissent en état Mourant"],
+            "debuffs": []
+          },
+          {
+            "id": "k_ghostface_03",
+            "name": "Frappe mortelle",
+            "img": "perks/killer/FrappeMortelle.png",
+            "description": "Lorsque tu touches un Survivant en état Exposé, il tombe directement en état Mourant.",
+            "type": "snowball",
+            "buffs": ["One-shot les survivants exposés"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Nemesis",
+        "perks": [
+          {
+            "id": "k_nemesis_01",
+            "name": "Contre-mesure",
+            "img": "perks/killer/ContreMesure.png",
+            "description": "Après avoir touché un Survivant avec ton pouvoir, tu gagnes un token. Avec 3 tokens, les actions de tous les Survivants sont ralenties de 10% pendant 60 secondes.",
+            "type": "slowdown",
+            "buffs": ["Ralentit toutes les actions des survivants"],
+            "debuffs": []
+          },
+          {
+            "id": "k_nemesis_02",
+            "name": "Vengeance implacable",
+            "img": "perks/killer/VengeanceImplacable.png",
+            "description": "Lorsque tu es étourdi, ton prochain coup inflige l'état Exposé pendant 15/20/25 secondes.",
+            "type": "anti-stun",
+            "buffs": ["Exposé après étourdissement"],
+            "debuffs": []
+          },
+          {
+            "id": "k_nemesis_03",
+            "name": "Résilience d'acier",
+            "img": "perks/killer/ResilienceDacier.png",
+            "description": "Lorsque tu es étourdi par une palette, tu bénéficies d'un bonus de vitesse de 7/8/9% pendant 4 secondes.",
+            "type": "anti-stun",
+            "buffs": ["Sprint après étourdissement palette"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Mastermind",
+        "perks": [
+          {
+            "id": "k_wesker_01",
+            "name": "Expérimentation",
+            "img": "perks/killer/Experimentation.png",
+            "description": "Lorsque tu accroches un Survivant sur un crochet de Sacrifice, les Auras des générateurs à moins de 64 mètres du crochet sont révélées pendant 6/7/8 secondes.",
+            "type": "information",
+            "buffs": ["Vision des générateurs après accrochage"],
+            "debuffs": []
+          },
+          {
+            "id": "k_wesker_02",
+            "name": "Horreur absolue",
+            "img": "perks/killer/HorreurAbsolue.png",
+            "description": "Après avoir mis un Survivant en état Mourant, tous les Survivants hurlent et révèlent leur position. Leur vitesse de réparation est réduite de 5/6/7% pendant 30 secondes.",
+            "type": "information",
+            "buffs": ["Vision et ralentissement après mise en état Mourant"],
+            "debuffs": []
+          },
+          {
+            "id": "k_wesker_03",
+            "name": "Domination",
+            "img": "perks/killer/Domination.png",
+            "description": "Lorsque tu portes un Survivant, les générateurs qui régressent le font 10/15/20% plus vite.",
+            "type": "slowdown",
+            "buffs": ["Régression accélérée pendant le portage"],
+            "debuffs": []
+          }
+        ]
+      },
+      {
+        "character": "Springtrap",
+        "perks": [
+          {
+            "id": "k_springtrap_01",
+            "name": "Mécanique animatronique",
+            "img": "perks/killer/MecaniqueAnimatronique.png",
+            "description": "Tu peux voir les Auras des armoires dans un rayon de 48 mètres. Lorsqu'un Survivant sort d'une armoire, leur Aura est révélée pendant 6/7/8 secondes.",
+            "type": "tracking",
+            "buffs": ["Vision des armoires et des survivants qui en sortent"],
+            "debuffs": []
+          },
+          {
+            "id": "k_springtrap_02",
+            "name": "Attraction fatale",
+            "img": "perks/killer/AttractionFatale.png",
+            "description": "Lorsqu'un Survivant est à moins de 16 mètres de toi sans être en poursuite, il entend ta musique de terreur et révèle son Aura pendant 3 secondes.",
+            "type": "tracking",
+            "buffs": ["Détecte les survivants proches non en poursuite"],
+            "debuffs": []
+          },
+          {
+            "id": "k_springtrap_03",
+            "name": "Condamnation",
+            "img": "perks/killer/Condamnation.png",
+            "description": "Chaque Survivant accroché pour la première fois applique l'effet Condamné à tous les Survivants. Les Survivants très condamnés sont exposés.",
+            "type": "snowball",
+            "buffs": ["Accumule un effet de condamnation sur l'équipe entière"],
+            "debuffs": []
+          }
+        ]
+      }
+    ]
+  }
+}

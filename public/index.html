@@ -180,10 +180,6 @@
 
     /* Scroll hint */
     .scroll-hint {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -192,6 +188,7 @@
       animation: fade-up 0.6s 1.2s ease forwards;
       z-index: 2;
       cursor: default;
+      margin-top: 40px;
     }
     .scroll-hint span {
       font-family: sans-serif;
@@ -508,6 +505,7 @@
   <ul class="list-ul">
     <li class="list-li"><a href="index.html">Accueil</a></li>
     <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
     <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
     <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
     <li class="list-li">
