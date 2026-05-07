@@ -88,8 +88,8 @@
         "perks": [
           {
             "id": "s_dwight_01",
-            "name": "Rassemblement",
-            "img": "perks/survivor/Rassemblement.png",
+            "name": "Fais tes preuves",
+            "img": "perks/survivor/FaisTesPreuves.png",
             "description": "Toutes les Auras des Survivants qui réparent un générateur à moins de 12 mètres sont révélées. La vitesse de réparation de groupe est augmentée de 15%.",
             "type": "team",
             "buffs": ["Vitesse de réparation en groupe", "Vision des coéquipiers"],
@@ -106,8 +106,8 @@
           },
           {
             "id": "s_dwight_03",
-            "name": "Leader",
-            "img": "perks/survivor/Leader.png",
+            "name": "Meneur",
+            "img": "perks/survivor/Meneur.png",
             "description": "Lorsque tu es à moins de 8 mètres d'un autre Survivant, sa vitesse de soin, de sabotage, de recherche, de déverrouillage et de revitalisation est augmentée de 15/20/25%.",
             "type": "team",
             "buffs": ["Boost des actions de l'équipe en proximité"],
@@ -120,8 +120,8 @@
         "perks": [
           {
             "id": "s_meg_01",
-            "name": "Sprint rapide",
-            "img": "perks/survivor/SprintRapide.png",
+            "name": "Course Effrenée",
+            "img": "perks/survivor/CourseEffrenée.png",
             "description": "Après avoir été touché par le Tueur, tu peux courir à une vitesse de 150% pendant 3 secondes. Récupération de 40/30/20 secondes.",
             "type": "mobility",
             "buffs": ["Sprint après coup du tueur"],
@@ -130,7 +130,7 @@
           {
             "id": "s_meg_02",
             "name": "Adrenaline",
-            "img": "perks/survivor/Adrenaline.png",
+            "img": "perks/survivor/Adrénaline.png",
             "description": "Lorsque la Sortie de secours est activée, tu te soignes instantanément d'un état de soin et tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 5 secondes.",
             "type": "endgame",
             "buffs": ["Soin instantané en fin de partie", "Sprint en fin de partie"],
@@ -138,8 +138,8 @@
           },
           {
             "id": "s_meg_03",
-            "name": "Conscience athlétique",
-            "img": "perks/survivor/ConscienceAthletique.png",
+            "name": "Rapide et Silencieux",
+            "img": "perks/survivor/RapideSilencieux.png",
             "description": "Tu reçois des notifications visuelles et sonores lorsque le Tueur est à 32/24/16 mètres.",
             "type": "information",
             "buffs": ["Alerte de proximité du tueur"],
@@ -782,8 +782,8 @@
         "perks": [
           {
             "id": "k_montagnard_01",
-            "name": "A tout prix",
-            "img": "perks/killer/AToutPrix.png",
+            "name": "Agitation",
+            "img": "perks/killer/Agitation.png",
             "description": "Tu peux maintenant courir. Mais tu génères 6/4/2 fois plus de bruit de pas et tu laisses des égratignures rouges.",
             "type": "mobility",
             "buffs": ["Peut courir"],
@@ -791,8 +791,8 @@
           },
           {
             "id": "k_montagnard_02",
-            "name": "Brutale force",
-            "img": "perks/killer/BrutaleForce.png",
+            "name": "Force Brute",
+            "img": "perks/killer/ForceBrute.png",
             "description": "Lorsque tu casses une palette, ta vitesse de mouvement est augmentée de 5/10/15% pendant 3 secondes.",
             "type": "mobility",
             "buffs": ["Sprint après cassage de palette"],
@@ -800,8 +800,8 @@
           },
           {
             "id": "k_montagnard_03",
-            "name": "Inarrêtable",
-            "img": "perks/killer/Inarretable.png",
+            "name": "Presence Perturbante",
+            "img": "perks/killer/PresencePerturbante.png",
             "description": "Lorsque tu portes un Survivant, tu gagnes 10/15/20% de vitesse de mouvement supplémentaire pendant 10 secondes.",
             "type": "mobility",
             "buffs": ["Vitesse augmentée en portant un survivant"],
