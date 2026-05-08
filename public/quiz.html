@@ -300,10 +300,10 @@
   /* ══ PRÉPARER QUESTIONS ══ */
   function prepareQs(m){
     if(m==='classic'){
-      const d1=shuffle(ALL.filter(q=>q.diff===1)).slice(0,4);
-      const d2=shuffle(ALL.filter(q=>q.diff===2)).slice(0,4);
-      const d3=shuffle(ALL.filter(q=>q.diff===3)).slice(0,4);
-      const d4=shuffle(ALL.filter(q=>q.diff===4)).slice(0,3);
+      const d1=shuffle(ALL.filter(q=>q.difficulty===1)).slice(0,4);
+      const d2=shuffle(ALL.filter(q=>q.difficulty===2)).slice(0,4);
+      const d3=shuffle(ALL.filter(q=>q.difficulty===3)).slice(0,4);
+      const d4=shuffle(ALL.filter(q=>q.difficulty===4)).slice(0,3);
       return [...d1,...d2,...d3,...d4];
     }
     return shuffle(ALL);
@@ -338,18 +338,24 @@
     updateScoreLive();
 
     /* méta */
-    document.getElementById('qCat').textContent=q.cat||'Général';
+    document.getElementById('qCat').textContent=q.category||'Général';
     const diffEl=document.getElementById('qDiff');
     diffEl.innerHTML='';
-    for(let i=1;i<=4;i++){ const d=document.createElement('div'); d.className='diff-dot'+(i<=q.diff?' on':''); diffEl.appendChild(d); }
+    for(let i=1;i<=4;i++){ const d=document.createElement('div'); d.className='diff-dot'+(i<=q.difficulty?' on':''); diffEl.appendChild(d); }
 
     /* question */
-    document.getElementById('qText').textContent=q.q;
+    document.getElementById('qText').textContent=q.question;
     document.getElementById('qFeedback').textContent='';
     document.getElementById('qFeedback').className='q-feedback';
 
     /* réponses mélangées */
-    shuffledAnswers=shuffle(q.a.map((t,i)=>({text:t,correct:i===0})));
+   shuffledAnswers = shuffle(
+   q.choices.map((t, i) => ({
+    text: t,
+    correct: i === q.answer
+    }))
+  );
+
     const grid=document.getElementById('answersGrid');
     grid.innerHTML='';
     ['A','B','C','D'].forEach((l,i)=>{
