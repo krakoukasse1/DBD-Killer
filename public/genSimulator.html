@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen Simulator — DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ══ PAGE ══ */
+    .sim-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .sim-hero { text-align: center; }
+    .sim-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 8px; }
+    .sim-hero h1 span { color: #cc0000; }
+    .sim-hero p { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.45); }
+
+    /* ══ GÉNÉRATEUR ══ */
+    .gen-visual {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      flex-shrink: 0;
+    }
+
+    /* SVG jauge circulaire */
+    .gen-svg { width: 280px; height: 280px; transform: rotate(-90deg); }
+    .gen-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 18; }
+    .gen-progress {
+      fill: none;
+      stroke: #cc0000;
+      stroke-width: 18;
+      stroke-linecap: round;
+      stroke-dasharray: 754; /* 2*PI*120 */
+      stroke-dashoffset: 754;
+      transition: stroke 0.3s;
+      filter: drop-shadow(0 0 6px rgba(200,0,0,0.7));
+    }
+    .gen-progress.done { stroke: #00cc44; filter: drop-shadow(0 0 8px rgba(0,200,80,0.8)); }
+    .gen-progress.regressing { stroke: #ff6600; }
+
+    /* Centre du gen */
+    .gen-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .gen-icon { font-size: 3rem; line-height: 1; }
+    .gen-percent {
+      font-size: 2.2rem;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .gen-status {
+      font-family: sans-serif;
+      font-size: 0.72rem;
+      color: rgba(200,200,200,0.45);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Explosion flash */
+    .gen-visual.explode { animation: explode-flash 0.3s ease; }
+    @keyframes explode-flash {
+      0%   { filter: brightness(1); }
+      30%  { filter: brightness(3) saturate(0); }
+      100% { filter: brightness(1); }
+    }
+
+    /* ══ LAYOUT PRINCIPAL ══ */
+    .sim-main {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      width: 100%;
+      align-items: center;
+    }
+    @media (max-width: 700px) {
+      .sim-main { grid-template-columns: 1fr; justify-items: center; }
+    }
+
+    /* ══ ZONE QTE ══ */
+    .qte-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Cercle QTE style DBD */
+    .qte-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qte-svg { width: 200px; height: 200px; transform: rotate(-90deg); position: absolute; }
+    .qte-outer-track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 10; }
+
+    /* Arc qui se rétrécit */
+    .qte-shrink {
+      fill: none;
+      stroke: rgba(255,255,255,0.5);
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 565; /* 2*PI*90 */
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+
+    /* Zone verte (grande vérif) */
+    .qte-great-zone {
+      fill: none;
+      stroke: rgba(255, 220, 0, 0.9);
+      stroke-width: 10;
+      stroke-linecap: round;
+      opacity: 0;
+    }
+
+    /* Zone blanche (vérif normale) */
+    .qte-normal-zone {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.9);
+      stroke-width: 10;
+      stroke-linecap: round;
+      opacity: 0;
+    }
+
+    .qte-label {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .qte-hint {
+      position: relative;
+      z-index: 1;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      font-family: sans-serif;
+      letter-spacing: 1px;
+    }
+
+    /* Flash feedback QTE */
+    .qte-feedback {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .qte-feedback.success { background: radial-gradient(circle, rgba(0,255,100,0.3), transparent 70%); }
+    .qte-feedback.great   { background: radial-gradient(circle, rgba(255,220,0,0.4), transparent 70%); }
+    .qte-feedback.fail    { background: radial-gradient(circle, rgba(255,50,0,0.4), transparent 70%); }
+    .qte-feedback.flash   { animation: qte-flash 0.35s ease forwards; }
+    @keyframes qte-flash {
+      0%   { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* ══ BOUTONS ══ */
+    .sim-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .sim-btn {
+      padding: 14px 32px;
+      border-radius: 9px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .sim-btn.start  { background: red; color: #fff; box-shadow: 0 4px 20px rgba(200,0,0,0.3); }
+    .sim-btn.start:hover { background: #cc0000; transform: scale(1.03); }
+    .sim-btn.reset  { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
+    .sim-btn.reset:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
+    .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+    /* ══ STATS ══ */
+    .sim-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    @media (max-width: 600px) { .sim-stats { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 1.8rem;
+      color: #fff;
+      letter-spacing: 1px;
+      display: block;
+    }
+    .stat-label {
+      font-family: sans-serif;
+      font-size: 0.65rem;
+      color: rgba(200,200,200,0.35);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ══ FEEDBACK MSG ══ */
+    .feedback-msg {
+      position: fixed;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      padding: 10px 28px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 100;
+      white-space: nowrap;
+    }
+    .feedback-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .feedback-msg.great   { background: rgba(255,200,0,0.15); border: 1px solid rgba(255,200,0,0.4); color: #ffd700; }
+    .feedback-msg.success { background: rgba(0,200,80,0.1);  border: 1px solid rgba(0,200,80,0.3);  color: #00cc66; }
+    .feedback-msg.fail    { background: rgba(255,50,0,0.15); border: 1px solid rgba(255,50,0,0.4);  color: #ff4422; }
+
+    /* ══ SUCCÈS ══ */
+    .achievements {
+      width: 100%;
+    }
+    .achievements-title {
+      font-size: 1.1rem;
+      color: #fff;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 600px) { .achievements-grid { grid-template-columns: 1fr 1fr; } }
+
+    .achievement {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      transition: border-color 0.4s;
+    }
+    .achievement.unlocked {
+      border-color: rgba(255,180,0,0.4);
+      background: rgba(255,180,0,0.07);
+    }
+    .achievement-icon { font-size: 1.4rem; flex-shrink: 0; filter: grayscale(1); transition: filter 0.4s; }
+    .achievement.unlocked .achievement-icon { filter: grayscale(0); }
+    .achievement-text h4 { font-size: 0.82rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; transition: color 0.4s; }
+    .achievement.unlocked .achievement-text h4 { color: #fff; }
+    .achievement-text p { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.28); line-height: 1.4; transition: color 0.4s; }
+    .achievement.unlocked .achievement-text p { color: rgba(200,200,200,0.6); }
+
+    /* ══ OVERLAY FIN ══ */
+    .end-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .end-overlay.show { display: flex; }
+    .end-overlay h2 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
+    .end-overlay h2 span { color: #00cc44; }
+    .end-overlay p { font-family: sans-serif; color: rgba(200,200,200,0.6); font-size: 0.9rem; letter-spacing: 1px; }
+    .end-time { font-size: 2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="wheel.html">Roue</a></li>
+    <li class="list-li"><a href="genSimulator.html">Gen Simulator</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<!-- FEEDBACK -->
+<div class="feedback-msg" id="feedbackMsg"></div>
+
+<!-- OVERLAY FIN -->
+<div class="end-overlay" id="endOverlay">
+  <h2>GEN <span>TERMINÉE</span> !</h2>
+  <div class="end-time" id="endTime">0:00</div>
+  <p id="endStats"></p>
+  <button class="sim-btn start" id="endRestartBtn" style="margin-top:10px">↻ Recommencer</button>
+</div>
+
+<main class="sim-page">
+
+  <div class="sim-hero">
+    <h1>Gen <span>Simulator</span></h1>
+    <p>Répare la génératrice comme dans DBD — QTE inclus</p>
+  </div>
+
+  <div class="sim-main">
+
+    <!-- JAUGE CIRCULAIRE -->
+    <div class="gen-visual" id="genVisual">
+      <svg class="gen-svg" viewBox="0 0 280 280">
+        <circle class="gen-track"    cx="140" cy="140" r="120"/>
+        <circle class="gen-progress" cx="140" cy="140" r="120" id="genProgress"/>
+      </svg>
+      <div class="gen-center">
+        <div class="gen-icon">⚙️</div>
+        <div class="gen-percent" id="genPercent">0%</div>
+        <div class="gen-status" id="genStatus">En attente</div>
+      </div>
+    </div>
+
+    <!-- QTE -->
+    <div class="qte-zone">
+      <div class="qte-container" id="qteContainer">
+        <svg class="qte-svg" viewBox="0 0 200 200" id="qteSvg">
+          <circle class="qte-outer-track"  cx="100" cy="100" r="90"/>
+          <circle class="qte-normal-zone"  cx="100" cy="100" r="90" id="qteNormalZone"/>
+          <circle class="qte-great-zone"   cx="100" cy="100" r="90" id="qteGreatZone"/>
+          <circle class="qte-shrink"       cx="100" cy="100" r="90" id="qteShrink"/>
+        </svg>
+        <div class="qte-feedback" id="qteFeedback"></div>
+        <div class="qte-label" id="qteLabel">ESPACE</div>
+      </div>
+      <div class="qte-hint" id="qteHint">Appuie sur ESPACE pour commencer</div>
+    </div>
+
+  </div>
+
+  <!-- CONTROLES -->
+  <div class="sim-controls">
+    <button class="sim-btn start" id="startBtn">▶ Commencer</button>
+    <button class="sim-btn reset" id="resetBtn">↺ Réinitialiser</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="sim-stats">
+    <div class="stat-card">
+      <span class="stat-val" id="statTime">0:00</span>
+      <span class="stat-label">Temps</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val" id="statSuccess">0</span>
+      <span class="stat-label">Réussies</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val" id="statGreat">0</span>
+      <span class="stat-label">Excellentes</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val" id="statFail">0</span>
+      <span class="stat-label">Ratées</span>
+    </div>
+  </div>
+
+  <!-- SUCCÈS -->
+  <div class="achievements">
+    <div class="achievements-title">🏆 Succès</div>
+    <div class="achievements-grid" id="achievementsGrid"></div>
+  </div>
+
+</main>
+
+<script src="header.js"></script>
+<script>
+(function () {
+  // ══ SONS ══
+  // Place tes fichiers dans assets/sounds/
+  const SOUNDS = {
+    loop:    'assets/sounds/gen_loop.mp3',
+    success: 'assets/sounds/skillcheck_success.mp3',
+    great:   'assets/sounds/skillcheck_great.mp3',
+    fail:    'assets/sounds/skillcheck_fail.mp3',
+    done:    'assets/sounds/gen_complete.mp3',
+  };
+
+  const audioCache = {};
+  function playSound(key, loop = false) {
+    try {
+      if (!audioCache[key]) {
+        audioCache[key] = new Audio(SOUNDS[key]);
+        audioCache[key].volume = key === 'loop' ? 0.35 : 0.6;
+      }
+      const a = audioCache[key];
+      a.loop = loop;
+      a.currentTime = 0;
+      a.play().catch(() => {});
+      return a;
+    } catch(e) { return null; }
+  }
+  function stopSound(key) {
+    if (audioCache[key]) {
+      audioCache[key].pause();
+      audioCache[key].currentTime = 0;
+    }
+  }
+
+  // ══ CONSTANTES DBD ══
+  // Durée totale pour réparer seul ≈ 90 secondes
+  const GEN_DURATION_MS   = 90000;
+  const CIRCUMFERENCE     = 2 * Math.PI * 120; // ~754px
+
+  // QTE : apparaît toutes les 18-30s (aléatoire)
+  const QTE_INTERVAL_MIN  = 18000;
+  const QTE_INTERVAL_MAX  = 30000;
+
+  // Durée de l'anneau qui rétrécit
+  const QTE_SHRINK_MS     = 1800;
+
+  // Régression si rate : -8% de progression
+  const REGRESSION_AMOUNT = 0.08;
+  // Vitesse de régression : 2.5% par seconde
+  const REGRESSION_SPEED  = 0.025;
+
+  // Dash arc helpers (r=90, circonférence=565)
+  const QTE_CIRC = 2 * Math.PI * 90; // ≈ 565
+
+  // ══ ÉTAT ══
+  let running      = false;
+  let progress     = 0;       // 0..1
+  let lastTick     = 0;
+  let startTime    = 0;
+  let elapsedMs    = 0;
+  let qteActive    = false;
+  let qteTimer     = null;
+  let qteStartTime = 0;
+  let qteAnimFrame = null;
+  let regressing   = false;
+  let mainAnimFrame= null;
+  let genLoopAudio = null;
+
+  let stats = { success: 0, great: 0, fail: 0 };
+
+  // ══ SUCCÈS ══
+  const ACHIEVEMENTS_DEF = [
+    { id: 'first_gen',     icon: '⚙️', name: 'Première Répare',    desc: 'Terminer ta première génératrice',           condition: (s, g, gens) => gens >= 1 },
+    { id: 'five_gens',     icon: '🔧', name: 'Mécanicien',         desc: 'Terminer 5 génératrices',                    condition: (s, g, gens) => gens >= 5 },
+    { id: 'ten_gens',      icon: '🛠️', name: 'Expert en réparation',desc: 'Terminer 10 génératrices',                  condition: (s, g, gens) => gens >= 10 },
+    { id: 'great_5',       icon: '⭐', name: 'Précision',          desc: 'Réussir 5 grandes vérifications d\'affilée', condition: (s, g) => g >= 5 },
+    { id: 'great_10',      icon: '🌟', name: 'Maestro',            desc: 'Réussir 10 grandes vérifications d\'affilée',condition: (s, g) => g >= 10 },
+    { id: 'no_fail',       icon: '🎯', name: 'Intouchable',        desc: 'Finir une gen sans rater de QTE',            condition: (s, g, gens, f) => gens >= 1 && f === 0 },
+    { id: 'speed_60',      icon: '⚡', name: 'Express',            desc: 'Finir une gen en moins de 60 secondes',      condition: (s, g, gens, f, t) => gens >= 1 && t < 60000 },
+    { id: 'speed_45',      icon: '🚀', name: 'Speedrun',           desc: 'Finir une gen en moins de 45 secondes',      condition: (s, g, gens, f, t) => gens >= 1 && t < 45000 },
+    { id: 'hundred_great', icon: '💎', name: 'Légende',            desc: 'Réussir 100 grandes vérifications au total',  condition: (s, g) => g >= 100 },
+  ];
+
+  let unlocked   = new Set(JSON.parse(localStorage.getItem('dbd_ach') || '[]'));
+  let totalGreat = parseInt(localStorage.getItem('dbd_great') || '0');
+  let totalGens  = parseInt(localStorage.getItem('dbd_gens') || '0');
+  let greatStreak = 0;
+  let currentGenFail = 0;
+  let currentGenTime = 0;
+
+  function saveAch() {
+    localStorage.setItem('dbd_ach',   JSON.stringify([...unlocked]));
+    localStorage.setItem('dbd_great', totalGreat);
+    localStorage.setItem('dbd_gens',  totalGens);
+  }
+
+  function checkAchievements(genDoneTime = null) {
+    ACHIEVEMENTS_DEF.forEach(a => {
+      if (unlocked.has(a.id)) return;
+      if (a.condition(stats.success, greatStreak, totalGens, currentGenFail, genDoneTime)) {
+        unlocked.add(a.id);
+        saveAch();
+        renderAchievements();
+        showFeedback(`🏆 Succès : ${a.name}`, 'great', 3000);
+      }
+    });
+    // Légende sur totalGreat
+    if (!unlocked.has('hundred_great') && totalGreat >= 100) {
+      unlocked.add('hundred_great');
+      saveAch();
+      renderAchievements();
+      showFeedback('🏆 Succès : Légende', 'great', 3000);
+    }
+  }
+
+  function renderAchievements() {
+    const grid = document.getElementById('achievementsGrid');
+    grid.innerHTML = '';
+    ACHIEVEMENTS_DEF.forEach(a => {
+      const el = document.createElement('div');
+      el.className = `achievement ${unlocked.has(a.id) ? 'unlocked' : ''}`;
+      el.innerHTML = `
+        <div class="achievement-icon">${a.icon}</div>
+        <div class="achievement-text">
+          <h4>${a.name}</h4>
+          <p>${a.desc}</p>
+        </div>`;
+      grid.appendChild(el);
+    });
+  }
+
+  // ══ FEEDBACK MSG ══
+  let feedbackTimeout = null;
+  function showFeedback(msg, type, duration = 900) {
+    const el = document.getElementById('feedbackMsg');
+    clearTimeout(feedbackTimeout);
+    el.textContent = msg;
+    el.className = `feedback-msg ${type} show`;
+    feedbackTimeout = setTimeout(() => el.classList.remove('show'), duration);
+  }
+
+  // ══ JAUGE ══
+  function updateGaugeUI() {
+    const p = Math.max(0, Math.min(1, progress));
+    const offset = CIRCUMFERENCE * (1 - p);
+    const el = document.getElementById('genProgress');
+    el.style.strokeDashoffset = offset;
+    el.className = `gen-progress ${p >= 1 ? 'done' : regressing ? 'regressing' : ''}`;
+    document.getElementById('genPercent').textContent = Math.round(p * 100) + '%';
+
+    if (p >= 1)      document.getElementById('genStatus').textContent = 'Terminée !';
+    else if (regressing) document.getElementById('genStatus').textContent = 'Régression…';
+    else if (running)document.getElementById('genStatus').textContent = 'En cours…';
+    else             document.getElementById('genStatus').textContent = 'En attente';
+  }
+
+  // ══ TIMER DISPLAY ══
+  function fmtTime(ms) {
+    const s = Math.floor(ms / 1000);
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  }
+  function updateStats() {
+    document.getElementById('statTime').textContent    = fmtTime(elapsedMs);
+    document.getElementById('statSuccess').textContent = stats.success;
+    document.getElementById('statGreat').textContent   = stats.great;
+    document.getElementById('statFail').textContent    = stats.fail;
+  }
+
+  // ══ BOUCLE PRINCIPALE ══
+  function gameTick(ts) {
+    if (!running) return;
+
+    const dt = lastTick ? ts - lastTick : 0;
+    lastTick = ts;
+    elapsedMs += dt;
+
+    if (!regressing) {
+      // Progression normale
+      progress += dt / GEN_DURATION_MS;
+    } else {
+      // Régression
+      progress -= REGRESSION_SPEED * (dt / 1000);
+      if (progress < 0) progress = 0;
+      // Arrêt de la régression après REGRESSION_AMOUNT
+      if (progress <= (regressTarget)) {
+        regressing = false;
+        regressTarget = 0;
+      }
+    }
+
+    updateGaugeUI();
+    updateStats();
+
+    if (progress >= 1) {
+      onGenComplete();
+      return;
+    }
+
+    mainAnimFrame = requestAnimationFrame(gameTick);
+  }
+
+  let regressTarget = 0;
+
+  // ══ QTE ══
+  function scheduleQTE() {
+    if (!running) return;
+    const delay = QTE_INTERVAL_MIN + Math.random() * (QTE_INTERVAL_MAX - QTE_INTERVAL_MIN);
+    qteTimer = setTimeout(triggerQTE, delay);
+  }
+
+  // Angles de la zone (en fraction de circonférence)
+  const NORMAL_ARC  = 0.10; // 10% de la roue = zone normale
+  const GREAT_ARC   = 0.04; // 4% = grande vérification (intérieur de la zone normale)
+
+  function triggerQTE() {
+    if (!running || qteActive) return;
+    qteActive = true;
+    qteStartTime = performance.now();
+
+    // Position aléatoire de la zone sur l'anneau (0..1)
+    const zoneStart = Math.random();
+
+    // Afficher les zones
+    const normalEl = document.getElementById('qteNormalZone');
+    const greatEl  = document.getElementById('qteGreatZone');
+    const shrink   = document.getElementById('qteShrink');
+
+    // Zone normale (blanche)
+    const normalLen = QTE_CIRC * NORMAL_ARC;
+    const normalOff = QTE_CIRC * (1 - NORMAL_ARC) - QTE_CIRC * zoneStart;
+    normalEl.style.strokeDasharray  = `${normalLen} ${QTE_CIRC - normalLen}`;
+    normalEl.style.strokeDashoffset = normalOff;
+    normalEl.style.opacity = '1';
+
+    // Zone grande vérif (jaune, au centre de la normale)
+    const greatLen = QTE_CIRC * GREAT_ARC;
+    const greatCenter = zoneStart + (NORMAL_ARC - GREAT_ARC) / 2;
+    const greatOff = QTE_CIRC * (1 - GREAT_ARC) - QTE_CIRC * greatCenter;
+    greatEl.style.strokeDasharray  = `${greatLen} ${QTE_CIRC - greatLen}`;
+    greatEl.style.strokeDashoffset = greatOff;
+    greatEl.style.opacity = '1';
+
+    // Anneau qui rétrécit
+    shrink.style.strokeDashoffset = '0';
+
+    document.getElementById('qteLabel').textContent = 'ESPACE';
+    document.getElementById('qteHint').textContent  = 'Appuie maintenant !';
+
+    // Animer le rétrécissement
+    let qteStart2 = performance.now();
+    function animShrink(ts) {
+      const elapsed = ts - qteStart2;
+      const t = Math.min(elapsed / QTE_SHRINK_MS, 1);
+      // L'anneau passe de plein à 0
+      const remaining = QTE_CIRC * (1 - t);
+      shrink.style.strokeDashoffset = QTE_CIRC - remaining;
+      shrink.style.strokeDasharray  = `${remaining} ${QTE_CIRC - remaining}`;
+
+      if (t < 1 && qteActive) {
+        qteAnimFrame = requestAnimationFrame(animShrink);
+      } else if (t >= 1 && qteActive) {
+        // Temps écoulé = raté
+        onQTEResult('missed');
+      }
+    }
+    qteAnimFrame = requestAnimationFrame(animShrink);
+  }
+
+  function onQTEInput() {
+    if (!qteActive) return;
+    cancelAnimationFrame(qteAnimFrame);
+    qteActive = false;
+
+    const elapsed = performance.now() - qteStartTime;
+    const t = elapsed / QTE_SHRINK_MS;
+
+    // t proche de 1 = l'anneau est presque fermé = dans la zone
+    // Zone normale : t entre 0.75 et 1.0
+    // Zone grande vérif : t entre 0.87 et 1.0
+    let result;
+    if (t >= 0.87 && t <= 1.0)     result = 'great';
+    else if (t >= 0.72 && t < 0.87) result = 'success';
+    else                             result = 'fail';
+
+    onQTEResult(result);
+  }
+
+  function onQTEResult(result) {
+    qteActive = false;
+    cancelAnimationFrame(qteAnimFrame);
+
+    // Cacher les zones
+    document.getElementById('qteNormalZone').style.opacity = '0';
+    document.getElementById('qteGreatZone').style.opacity  = '0';
+    const shrink = document.getElementById('qteShrink');
+    shrink.style.strokeDashoffset = '0';
+    shrink.style.strokeDasharray  = `${QTE_CIRC} 0`;
+    document.getElementById('qteHint').textContent = '';
+
+    const feedback = document.getElementById('qteFeedback');
+
+    if (result === 'great') {
+      stats.great++;
+      stats.success++;
+      greatStreak++;
+      totalGreat++;
+      playSound('great');
+      showFeedback('⭐ EXCELLENT !', 'great');
+      feedback.className = 'qte-feedback great flash';
+      document.getElementById('qteLabel').textContent = 'EXCELLENT';
+      checkAchievements();
+
+    } else if (result === 'success') {
+      stats.success++;
+      greatStreak = 0;
+      playSound('success');
+      showFeedback('✓ Réussi', 'success');
+      feedback.className = 'qte-feedback success flash';
+      document.getElementById('qteLabel').textContent = 'RÉUSSI';
+
+    } else {
+      // Fail ou missed
+      stats.fail++;
+      greatStreak = 0;
+      currentGenFail++;
+      playSound('fail');
+      showFeedback('✗ Raté !', 'fail');
+      feedback.className = 'qte-feedback fail flash';
+      document.getElementById('qteLabel').textContent = 'RATÉ';
+
+      // Régression
+      regressing    = true;
+      regressTarget = Math.max(0, progress - REGRESSION_AMOUNT);
+
+      // Flash explosion gen
+      document.getElementById('genVisual').classList.add('explode');
+      setTimeout(() => document.getElementById('genVisual').classList.remove('explode'), 400);
+    }
+
+    setTimeout(() => {
+      document.getElementById('qteLabel').textContent = 'ESPACE';
+      feedback.className = 'qte-feedback';
+    }, 700);
+
+    if (running) scheduleQTE();
+  }
+
+  // ══ DÉMARRAGE / FIN ══
+  function startGame() {
+    if (running) return;
+    running  = true;
+    lastTick = 0;
+    if (!startTime) startTime = performance.now();
+
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('qteHint').textContent = 'QTE en approche…';
+
+    genLoopAudio = playSound('loop', true);
+    scheduleQTE();
+    mainAnimFrame = requestAnimationFrame(gameTick);
+  }
+
+  function onGenComplete() {
+    running = false;
+    progress = 1;
+    totalGens++;
+    const genTime = elapsedMs;
+
+    clearTimeout(qteTimer);
+    cancelAnimationFrame(mainAnimFrame);
+    stopSound('loop');
+    playSound('done');
+
+    updateGaugeUI();
+    updateStats();
+    checkAchievements(genTime);
+    saveAch();
+
+    // Overlay
+    document.getElementById('endTime').textContent = fmtTime(genTime);
+    document.getElementById('endStats').textContent =
+      `${stats.success} réussies · ${stats.great} excellentes · ${stats.fail} ratées`;
+    document.getElementById('endOverlay').classList.add('show');
+  }
+
+  function resetGame() {
+    running    = false;
+    progress   = 0;
+    elapsedMs  = 0;
+    lastTick   = 0;
+    startTime  = 0;
+    qteActive  = false;
+    regressing = false;
+    greatStreak= 0;
+    currentGenFail = 0;
+    stats = { success: 0, great: 0, fail: 0 };
+
+    clearTimeout(qteTimer);
+    cancelAnimationFrame(mainAnimFrame);
+    cancelAnimationFrame(qteAnimFrame);
+    stopSound('loop');
+
+    document.getElementById('qteNormalZone').style.opacity = '0';
+    document.getElementById('qteGreatZone').style.opacity  = '0';
+    document.getElementById('qteShrink').style.strokeDashoffset = '0';
+    document.getElementById('qteShrink').style.strokeDasharray  = `${QTE_CIRC} 0`;
+    document.getElementById('qteLabel').textContent  = 'ESPACE';
+    document.getElementById('qteHint').textContent   = 'Appuie sur ESPACE pour commencer';
+    document.getElementById('startBtn').disabled     = false;
+    document.getElementById('endOverlay').classList.remove('show');
+
+    updateGaugeUI();
+    updateStats();
+  }
+
+  // ══ EVENTS ══
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
+  document.getElementById('endRestartBtn').addEventListener('click', () => { resetGame(); startGame(); });
+
+  // ESPACE = QTE ou démarrer
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      if (!running) { startGame(); return; }
+      if (qteActive) onQTEInput();
+    }
+  });
+
+  // Clic sur le cercle QTE (mobile)
+  document.getElementById('qteContainer').addEventListener('click', () => {
+    if (!running) { startGame(); return; }
+    if (qteActive) onQTEInput();
+  });
+
+  // ══ INIT ══
+  renderAchievements();
+  updateGaugeUI();
+  updateStats();
+
+})();
+</script>
+
+</body>
+</html>

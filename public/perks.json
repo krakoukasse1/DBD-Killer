@@ -650,7 +650,7 @@
       {"id": "s_onze_03", "name": "Travail d'Équipe : Voix Douce", "img": "perks/survivor/Specialist.png", "description": "Pour chaque Survivant qui répare un générateur avec vous, la porté du bruit du générateur est réduite de 25% et vous reparez le générateur 5% plus vite", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
     ]
   }, {
-    "character": "Kwon Tae-Young",
+    "character": "Kwon Tae-young",
     "perks": [
       {"id": "s_kwon_01", "name": "Une place pour nous", "img": "perks/survivor/Finesse.png", "description": "En soignant un survivant, vous gagnez l'état Insaisissable. Si vous soignez l'Obsession, c'est elle qui gagne Insaisissable pour 20/25/30 secondes. Baisse vos chances d'être l'Obsession en début de partie.", "type": "evasion", "buffs": ["Action Speed"], "debuffs": ["Cooldown"]},
       {"id": "s_kwon_02", "name": "Cinq coups d'avance", "img": "perks/survivor/Hardened.png", "description": "Dans le rayon de terreur ou en poursuite, vous voyez l'aura des 5 fenêtres/palettes les plus proches. Vous abattez les palettes 50% plus vite (avec un délai de récupération après chaque palette lâchée).", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},

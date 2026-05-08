@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roue DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .wheel-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    @media (max-width: 1000px) {
+      .wheel-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* ── TITRE ── */
+    .wheel-hero {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px 0 36px;
+    }
+    .wheel-hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: #fff;
+      letter-spacing: 4px;
+      line-height: 0.9;
+      margin-bottom: 8px;
+    }
+    .wheel-hero h1 span { color: #cc0000; }
+    .wheel-hero p {
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      color: rgba(200,200,200,0.45);
+      letter-spacing: 1px;
+    }
+
+    /* ── ZONE ROUE ── */
+    .wheel-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 30px 0 0;
+      position: relative;
+    }
+
+    @media (max-width: 1000px) {
+      .wheel-area { padding: 0 0 30px 0; }
+    }
+
+    .wheel-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Glow derrière la roue */
+    .wheel-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,0,0,0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.5s;
+    }
+    .wheel-wrap.spinning .wheel-glow {
+      animation: glow-pulse 0.4s ease-in-out infinite alternate;
+    }
+    @keyframes glow-pulse {
+      from { opacity: 0.5; }
+      to   { opacity: 1.2; }
+    }
+
+    canvas#wheelCanvas {
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 30px rgba(0,0,0,0.8));
+    }
+
+    /* Pointeur */
+    .wheel-pointer {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      filter: drop-shadow(0 0 6px rgba(200,0,0,0.8));
+    }
+
+    /* Bouton spin */
+    .spin-btn {
+      margin-top: 28px;
+      padding: 16px 60px;
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(200,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .spin-btn:hover {
+      background: #cc0000;
+      transform: scale(1.04);
+      box-shadow: 0 6px 30px rgba(200,0,0,0.5);
+    }
+    .spin-btn:disabled {
+      background: rgba(100,0,0,0.5);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Résultat */
+    .wheel-result {
+      margin-top: 20px;
+      min-height: 48px;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #fff;
+      letter-spacing: 2px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .wheel-result.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .wheel-result span {
+      color: #cc0000;
+    }
+
+    /* ── PANNEAU CONFIG ── */
+    .wheel-config {
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      backdrop-filter: blur(8px);
+      align-self: flex-start;
+    }
+
+    .config-title {
+      font-size: 1.3rem;
+      color: #fff;
+      letter-spacing: 2px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Liste des entrées */
+    .entries-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(200,0,0,0.3) transparent;
+      padding-right: 4px;
+    }
+
+    .entry-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: entry-appear 0.25s ease forwards;
+    }
+    @keyframes entry-appear {
+      from { opacity: 0; transform: translateX(-10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Pastille couleur */
+    .entry-color {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+    }
+
+    .entry-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      padding: 8px 12px;
+      color: #fff;
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .entry-input:focus { border-color: rgba(200,0,0,0.5); }
+    .entry-input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .entry-delete {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.3);
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .entry-delete:hover {
+      border-color: rgba(200,0,0,0.5);
+      color: #ff4444;
+      background: rgba(200,0,0,0.1);
+    }
+
+    /* Boutons config */
+    .config-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .config-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.7);
+      transition: all 0.2s;
+    }
+    .config-btn:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: #fff;
+    }
+    .config-btn.primary {
+      background: rgba(200,0,0,0.2);
+      border-color: rgba(200,0,0,0.4);
+      color: #fff;
+    }
+    .config-btn.primary:hover {
+      background: rgba(200,0,0,0.35);
+      border-color: rgba(200,0,0,0.7);
+    }
+
+    /* Presets DBD */
+    .presets {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .preset-label {
+      font-family: sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .preset-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .preset-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.5);
+      transition: all 0.2s;
+    }
+    .preset-btn:hover {
+      border-color: rgba(200,200,200,0.3);
+      color: #fff;
+    }
+
+    /* Compteur */
+    .entry-count {
+      font-family: sans-serif;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.25);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="wheel.html">Roue</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<div class="wheel-page">
+
+  <div class="wheel-hero">
+    <h1>Roue <span>Personnalisable</span></h1>
+    <p>Ajoute tes options, tourne la roue et laisse le destin décider</p>
+  </div>
+
+  <!-- ROUE -->
+  <div class="wheel-area">
+    <div class="wheel-wrap" id="wheelWrap">
+      <div class="wheel-glow"></div>
+      <canvas id="wheelCanvas" width="480" height="480"></canvas>
+      <!-- Pointeur SVG -->
+      <svg class="wheel-pointer" width="36" height="36" viewBox="0 0 36 36">
+        <polygon points="36,18 4,6 10,18 4,30" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>
+        <circle cx="10" cy="18" r="4" fill="#ff2222"/>
+      </svg>
+    </div>
+    <button class="spin-btn" id="spinBtn">🎲 TOURNER</button>
+    <div class="wheel-result" id="wheelResult"></div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="wheel-config">
+    <div class="config-title">⚙️ Personnalisation</div>
+
+    <!-- Presets -->
+    <div class="presets">
+      <div class="preset-label">Presets DBD</div>
+      <div class="preset-row">
+        <button class="preset-btn" data-preset="killers">🔪 Tueurs</button>
+        <button class="preset-btn" data-preset="survivors">🏃 Survivants</button>
+        <button class="preset-btn" data-preset="maps">🗺️ Cartes</button>
+        <button class="preset-btn" data-preset="roles">🎮 Rôles</button>
+      </div>
+    </div>
+
+    <!-- Liste entrées -->
+    <div class="entries-list" id="entriesList"></div>
+    <div class="entry-count" id="entryCount">0 entrées</div>
+
+    <!-- Actions -->
+    <div class="config-actions">
+      <button class="config-btn primary" id="addBtn">+ Ajouter</button>
+      <button class="config-btn" id="clearBtn">Vider</button>
+      <button class="config-btn" id="shuffleBtn">🔀 Mélanger</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="header.js"></script>
+<script>
+(function () {
+  const canvas  = document.getElementById('wheelCanvas');
+  const ctx     = canvas.getContext('2d');
+  const spinBtn = document.getElementById('spinBtn');
+  const result  = document.getElementById('wheelResult');
+  const wrap    = document.getElementById('wheelWrap');
+
+  // ── PALETTE DBD ──
+  const PALETTE = [
+    '#8B0000','#B22222','#CC3333','#A0522D',
+    '#6B3A2A','#7B2D00','#9C4A1A','#5C1A1A',
+    '#3D0C02','#6E2020','#C0392B','#922B21',
+    '#78281F','#512E5F','#1A5276','#154360',
+  ];
+
+  // ── ÉTAT ──
+  let entries = [];       // { text, color }
+  let currentAngle = 0;  // angle actuel de la roue (rad)
+  let isSpinning = false;
+  let animFrame  = null;
+
+  // ── PRESETS ──
+  const PRESETS = {
+    killers:   ['Montagnard','Spectre','Nurse','Chasseuse','Piegeur','Docteur','Cannibale','Clown','Esprit','GhostFace','Nemesis','Chucky','Springtrap'],
+    survivors: ['Dwight','Meg','Claudette','Jake','Nea','Laurie','Ace','Feng Min','David','Jill','Leon','Alan Wake','Lara Croft'],
+    maps:      ['Coldwind','Macmillan','Haddonfield','Gideon','Sanctum of Wrath','Eyrie of Crows','Garden of Joy','Toba Landing','Nostromo'],
+    roles:     ['Tueur','Survivant'],
+  };
+
+  // ── INIT avec quelques entrées par défaut ──
+  function init() {
+    const defaults = ['Option 1','Option 2','Option 3','Option 4','Option 5','Option 6'];
+    defaults.forEach((t, i) => addEntry(t, PALETTE[i % PALETTE.length]));
+  }
+
+  // ── AJOUTER UNE ENTRÉE ──
+  function addEntry(text = '', color = null) {
+    const c = color || PALETTE[entries.length % PALETTE.length];
+    const entry = { text, color: c };
+    entries.push(entry);
+    renderEntryRow(entry, entries.length - 1);
+    updateCount();
+    drawWheel();
+  }
+
+  function renderEntryRow(entry, idx) {
+    const list = document.getElementById('entriesList');
+    const row  = document.createElement('div');
+    row.className = 'entry-row';
+    row.dataset.idx = idx;
+
+    const colorDot = document.createElement('div');
+    colorDot.className = 'entry-color';
+    colorDot.style.background = entry.color;
+    colorDot.title = 'Changer la couleur';
+    colorDot.addEventListener('click', () => {
+      const picker = document.createElement('input');
+      picker.type = 'color';
+      picker.value = entry.color;
+      picker.style.position = 'fixed'; picker.style.opacity = '0';
+      document.body.appendChild(picker);
+      picker.click();
+      picker.addEventListener('input', () => {
+        entry.color = picker.value;
+        colorDot.style.background = picker.value;
+        drawWheel();
+      });
+      picker.addEventListener('change', () => picker.remove());
+    });
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'entry-input';
+    input.value = entry.text;
+    input.placeholder = 'Texte de la case…';
+    input.addEventListener('input', () => {
+      entry.text = input.value;
+      drawWheel();
+    });
+
+    const del = document.createElement('button');
+    del.className = 'entry-delete';
+    del.innerHTML = '✕';
+    del.addEventListener('click', () => {
+      const i = entries.indexOf(entry);
+      if (i !== -1) entries.splice(i, 1);
+      row.remove();
+      updateCount();
+      drawWheel();
+    });
+
+    row.appendChild(colorDot);
+    row.appendChild(input);
+    row.appendChild(del);
+    list.appendChild(row);
+  }
+
+  function updateCount() {
+    document.getElementById('entryCount').textContent = `${entries.length} entrée${entries.length > 1 ? 's' : ''}`;
+  }
+
+  // ── DESSIN DE LA ROUE ──
+  function drawWheel(highlightIdx = -1) {
+    const W = canvas.width;
+    const H = canvas.height;
+    const cx = W / 2;
+    const cy = H / 2;
+    const R  = W / 2 - 10;
+
+    ctx.clearRect(0, 0, W, H);
+
+    if (entries.length === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.08)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+      ctx.font = `28px 'Bebas Neue'`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Ajoute des entrées →', cx, cy);
+      return;
+    }
+
+    const n     = entries.length;
+    const slice = (Math.PI * 2) / n;
+
+    entries.forEach((entry, i) => {
+      const start = currentAngle + i * slice;
+      const end   = start + slice;
+      const mid   = start + slice / 2;
+
+      // Secteur
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, R, start, end);
+      ctx.closePath();
+
+      // Highlight si gagnant
+      if (i === highlightIdx) {
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#ffffff';
+        ctx.shadowBlur = 20;
+      } else {
+        ctx.fillStyle = entry.color;
+        ctx.shadowBlur = 0;
+      }
+      ctx.fill();
+
+      // Bordure fine entre secteurs
+      ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Texte
+      if (entry.text.trim()) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(mid);
+
+        const textR = R * 0.62;
+        ctx.translate(textR, 0);
+
+        const maxWidth = R * 0.55;
+        const fontSize = n > 12 ? 11 : n > 8 ? 13 : 15;
+        ctx.font = `bold ${fontSize}px 'Bebas Neue', sans-serif`;
+        ctx.fillStyle = i === highlightIdx ? '#cc0000' : 'rgba(255,255,255,0.95)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0,0,0,0.8)';
+        ctx.shadowBlur = 4;
+
+        // Tronquer si trop long
+        let label = entry.text;
+        while (ctx.measureText(label).width > maxWidth && label.length > 3) {
+          label = label.slice(0, -1);
+        }
+        if (label !== entry.text) label += '…';
+
+        ctx.fillText(label, 0, 0);
+        ctx.restore();
+      }
+    });
+
+    // Centre hub
+    const hubR = 22;
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, hubR);
+    grad.addColorStop(0, '#cc0000');
+    grad.addColorStop(1, '#660000');
+    ctx.beginPath();
+    ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Bordure extérieure
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(200,0,0,0.6)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  // ── SPIN ──
+  function spin() {
+    if (isSpinning || entries.length < 2) return;
+    isSpinning = true;
+    spinBtn.disabled = true;
+    wrap.classList.add('spinning');
+    result.classList.remove('visible');
+
+    // Angle total = tours complets + position aléatoire
+    const extraSpins  = (6 + Math.random() * 6) * Math.PI * 2;
+    const targetAngle = currentAngle + extraSpins;
+    const duration    = 4000 + Math.random() * 2000; // 4-6s
+    const startAngle  = currentAngle;
+    const startTime   = performance.now();
+
+    function easeOut(t) {
+      // Cubic ease-out
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOut(progress);
+
+      currentAngle = startAngle + (targetAngle - startAngle) * eased;
+      drawWheel();
+
+      if (progress < 1) {
+        animFrame = requestAnimationFrame(tick);
+      } else {
+        currentAngle = targetAngle % (Math.PI * 2);
+        onSpinEnd();
+      }
+    }
+
+    animFrame = requestAnimationFrame(tick);
+  }
+
+  function onSpinEnd() {
+    isSpinning = false;
+    spinBtn.disabled = false;
+    wrap.classList.remove('spinning');
+
+    // Calculer l'entrée gagnante
+    // Le pointeur est à droite (angle 0 = est)
+    // On cherche quel secteur est aligné avec angle = 0 (pointeur)
+    const n = entries.length;
+    const slice = (Math.PI * 2) / n;
+    // Angle normalisé où pointe le curseur (3h = angle 0 dans canvas)
+    const pointerAngle = (Math.PI * 2 - (currentAngle % (Math.PI * 2))) % (Math.PI * 2);
+    const winIdx = Math.floor(pointerAngle / slice) % n;
+
+    // Highlight
+    drawWheel(winIdx);
+
+    // Afficher résultat
+    const winner = entries[winIdx];
+    result.innerHTML = `🎯 Résultat : <span>${winner.text || '(vide)'}</span>`;
+    result.classList.add('visible');
+
+    // Petit tick son (Web Audio)
+    playTick();
+  }
+
+  // ── SON TICK ──
+  function playTick() {
+    try {
+      const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx2.createOscillator();
+      const gain = ctx2.createGain();
+      osc.connect(gain);
+      gain.connect(ctx2.destination);
+      osc.frequency.value = 880;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.15, ctx2.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.12);
+      osc.start();
+      osc.stop(ctx2.currentTime + 0.12);
+    } catch(e) {}
+  }
+
+  // ── EVENTS ──
+  spinBtn.addEventListener('click', spin);
+
+  document.getElementById('addBtn').addEventListener('click', () => {
+    addEntry('', PALETTE[entries.length % PALETTE.length]);
+    // Focus le dernier input
+    const inputs = document.querySelectorAll('.entry-input');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    entries = [];
+    document.getElementById('entriesList').innerHTML = '';
+    updateCount();
+    result.classList.remove('visible');
+    drawWheel();
+  });
+
+  document.getElementById('shuffleBtn').addEventListener('click', () => {
+    // Fisher-Yates sur entries
+    for (let i = entries.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [entries[i], entries[j]] = [entries[j], entries[i]];
+    }
+    // Rebuild UI
+    const list = document.getElementById('entriesList');
+    list.innerHTML = '';
+    entries.forEach((e, i) => renderEntryRow(e, i));
+    drawWheel();
+  });
+
+  // Presets
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.preset;
+      const items = PRESETS[key];
+      if (!items) return;
+      entries = [];
+      document.getElementById('entriesList').innerHTML = '';
+      items.forEach((t, i) => addEntry(t, PALETTE[i % PALETTE.length]));
+    });
+  });
+
+  // ── INIT ──
+  init();
+})();
+</script>
+
+</body>
+</html>
