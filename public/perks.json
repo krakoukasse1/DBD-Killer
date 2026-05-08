@@ -744,325 +744,341 @@
     ],
     "characters": [
       {
-        "character": "Montagnard",
-        "perks": [
-          {
-            "id": "k_montagnard_01",
-            "name": "Agitation",
-            "img": "perks/killer/Agitation.png",
-            "description": "Tu peux maintenant courir. Mais tu génères 6/4/2 fois plus de bruit de pas et tu laisses des égratignures rouges.",
-            "type": "mobility",
-            "buffs": ["Peut courir"],
-            "debuffs": ["Beaucoup plus de bruit", "Laisse des égratignures"]
-          },
-          {
-            "id": "k_montagnard_02",
-            "name": "Force Brute",
-            "img": "perks/killer/ForceBrute.png",
-            "description": "Lorsque tu casses une palette, ta vitesse de mouvement est augmentée de 5/10/15% pendant 3 secondes.",
-            "type": "mobility",
-            "buffs": ["Sprint après cassage de palette"],
-            "debuffs": []
-          },
-          {
-            "id": "k_montagnard_03",
-            "name": "Presence Perturbante",
-            "img": "perks/killer/PresencePerturbante.png",
-            "description": "Lorsque tu portes un Survivant, tu gagnes 10/15/20% de vitesse de mouvement supplémentaire pendant 10 secondes.",
-            "type": "mobility",
-            "buffs": ["Vitesse augmentée en portant un survivant"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Spectre",
-        "perks": [
-          {
-            "id": "k_spectre_01",
-            "name": "Predator",
-            "img": "perks/killer/Predator.png",
-            "description": "Les égratignures des Survivants durent 2/3/4 secondes de plus.",
-            "type": "tracking",
-            "buffs": ["Égratignures des survivants plus durables"],
-            "debuffs": []
-          },
-          {
-            "id": "k_spectre_02",
-            "name": "Esprit observateur",
-            "img": "perks/killer/EspritObservateur.png",
-            "description": "Lorsque tu regardes directement un Survivant dans un rayon de 36 mètres, son Aura est révélée pendant 2/3/4 secondes.",
-            "type": "tracking",
-            "buffs": ["Vision des survivants en ligne de mire"],
-            "debuffs": []
-          },
-          {
-            "id": "k_spectre_03",
-            "name": "Rôdeur",
-            "img": "perks/killer/Rodeur.png",
-            "description": "Tu te déplaces 10% plus vite en Rôdeur. Tu vois les Auras des Survivants qui courent à plus de 12 mètres.",
-            "type": "stealth",
-            "buffs": ["Vitesse en rôdeur", "Vision des survivants en course"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Nurse",
-        "perks": [
-          {
-            "id": "k_nurse_01",
-            "name": "Premonition lugubre",
-            "img": "perks/killer/PremonitionLugubre.png",
-            "description": "Lorsqu'un Survivant effectue une action de fouille ou ouvre un coffre à moins de 24 mètres, tu reçois une notification et leur Aura est révélée pendant 4/5/6 secondes.",
-            "type": "information",
-            "buffs": ["Alerte et vision lors des fouilles"],
-            "debuffs": []
-          },
-          {
-            "id": "k_nurse_02",
-            "name": "Gardien",
-            "img": "perks/killer/Gardien.png",
-            "description": "Lorsqu'un Survivant tente de se libérer d'un crochet ou est sauvé, il souffre de l'effet Exposé pendant 70 secondes.",
-            "type": "anti-save",
-            "buffs": ["Exposé les survivants après décrocharge"],
-            "debuffs": []
-          },
-          {
-            "id": "k_nurse_03",
-            "name": "Lumière de l'espoir",
-            "img": "perks/killer/LumiereDeLEspoir.png",
-            "description": "Lorsque tu portes un Survivant, les Auras de tous les autres Survivants sont révélées pendant 4 secondes.",
-            "type": "information",
-            "buffs": ["Vision de tous les survivants lors du portage"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Chasseuse",
-        "perks": [
-          {
-            "id": "k_huntress_01",
-            "name": "Berce-moi",
-            "img": "perks/killer/BerceMoi.png",
-            "description": "Les Survivants qui sont proches d'un Survivant accroché révèlent leurs Auras lorsqu'ils sont à moins de 24 mètres du crochet.",
-            "type": "information",
-            "buffs": ["Vision des survivants proches des crochets"],
-            "debuffs": []
-          },
-          {
-            "id": "k_huntress_02",
-            "name": "Grande ouverture",
-            "img": "perks/killer/GrandeOuverture.png",
-            "description": "Révèle les Auras de tous les coffres en début de partie. Tu peux fouiller les coffres plus vite que les Survivants de 70%.",
-            "type": "looting",
-            "buffs": ["Vision de tous les coffres", "Fouille ultra-rapide"],
-            "debuffs": []
-          },
-          {
-            "id": "k_huntress_03",
-            "name": "Sournoiserie",
-            "img": "perks/killer/SournoiserieBis.png",
-            "description": "Tu peux te déplacer en Rôdeur jusqu'à 3 fois la distance habituelle. Chaque mouvement en Rôdeur génère un son de pas réduit.",
-            "type": "stealth",
-            "buffs": ["Rôdeur plus long et plus silencieux"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Docteur",
-        "perks": [
-          {
-            "id": "k_doctor_01",
-            "name": "Héritage cruel",
-            "img": "perks/killer/HeritageCruel.png",
-            "description": "Lorsqu'un Survivant tente de se libérer d'un crochet, tous les Survivants dans la zone hurlent et révèlent leurs Auras pendant 4 secondes.",
-            "type": "information",
-            "buffs": ["Vision des survivants lors des tentatives d'auto-libération"],
-            "debuffs": []
-          },
-          {
-            "id": "k_doctor_02",
-            "name": "Maladie contagieuse",
-            "img": "perks/killer/MaladieContagieuse.png",
-            "description": "Lorsqu'un Survivant effectue une action de hurlement, tous les Survivants à moins de 20 mètres hurlent également et révèlent leur position.",
-            "type": "information",
-            "buffs": ["Propagation des hurlements"],
-            "debuffs": []
-          },
-          {
-            "id": "k_doctor_03",
-            "name": "Traitement choc",
-            "img": "perks/killer/TraitementChoc.png",
-            "description": "Lorsqu'un Survivant est à moins de 8 mètres de toi et effectue une action de fouille, il souffre de l'effet Exposé pendant 6 secondes.",
-            "type": "anti-hide",
-            "buffs": ["Exposé les survivants qui fouillent près de toi"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Piegeur",
-        "perks": [
-          {
-            "id": "k_trapper_01",
-            "name": "Persévérance malveillante",
-            "img": "perks/killer/PerseveranceMalveillante.png",
-            "description": "Chaque fois qu'un Survivant est accroché pour la première fois, tu gagnes un token. Avec 5/4/3 tokens, chaque coup non létal inflige l'état Mourant.",
-            "type": "snowball",
-            "buffs": ["Les touches infligent l'état Mourant après plusieurs accrochages"],
-            "debuffs": []
-          },
-          {
-            "id": "k_trapper_02",
-            "name": "Puissance de l'ombre",
-            "img": "perks/killer/PuissanceDeLOmbre.png",
-            "description": "Les Survivants qui ont été soignés révèlent leurs Auras pendant 12/15/18 secondes.",
-            "type": "tracking",
-            "buffs": ["Vision des survivants après soin"],
-            "debuffs": []
-          },
-          {
-            "id": "k_trapper_03",
-            "name": "Terreur absolue",
-            "img": "perks/killer/TerreурAbsolue.png",
-            "description": "Ton rayon de terreur est augmenté de 8 mètres. Les Survivants à moins de 16/20/24 mètres font face à des vérifications de compétence supplémentaires.",
-            "type": "map-control",
-            "buffs": ["Rayon de terreur élargi", "Vérifications supplémentaires pour les survivants proches"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "GhostFace",
-        "perks": [
-          {
-            "id": "k_ghostface_01",
-            "name": "Je l'observe",
-            "img": "perks/killer/JeLObserve.png",
-            "description": "Lorsqu'un Survivant est dans ton champ de vision pendant 3/2,5/2 secondes consécutives, il révèle son Aura.",
-            "type": "tracking",
-            "buffs": ["Vision des survivants dans le champ de vision"],
-            "debuffs": []
-          },
-          {
-            "id": "k_ghostface_02",
-            "name": "Aucun témoin",
-            "img": "perks/killer/AucunTemoin.png",
-            "description": "Lorsqu'un Survivant qui a atteint le stade Blessé n'effectue aucune action pendant 60 secondes, il passe en état Mourant.",
-            "type": "tracking",
-            "buffs": ["Les survivants blessés inactifs finissent en état Mourant"],
-            "debuffs": []
-          },
-          {
-            "id": "k_ghostface_03",
-            "name": "Frappe mortelle",
-            "img": "perks/killer/FrappeMortelle.png",
-            "description": "Lorsque tu touches un Survivant en état Exposé, il tombe directement en état Mourant.",
-            "type": "snowball",
-            "buffs": ["One-shot les survivants exposés"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Nemesis",
-        "perks": [
-          {
-            "id": "k_nemesis_01",
-            "name": "Contre-mesure",
-            "img": "perks/killer/ContreMesure.png",
-            "description": "Après avoir touché un Survivant avec ton pouvoir, tu gagnes un token. Avec 3 tokens, les actions de tous les Survivants sont ralenties de 10% pendant 60 secondes.",
-            "type": "slowdown",
-            "buffs": ["Ralentit toutes les actions des survivants"],
-            "debuffs": []
-          },
-          {
-            "id": "k_nemesis_02",
-            "name": "Vengeance implacable",
-            "img": "perks/killer/VengeanceImplacable.png",
-            "description": "Lorsque tu es étourdi, ton prochain coup inflige l'état Exposé pendant 15/20/25 secondes.",
-            "type": "anti-stun",
-            "buffs": ["Exposé après étourdissement"],
-            "debuffs": []
-          },
-          {
-            "id": "k_nemesis_03",
-            "name": "Résilience d'acier",
-            "img": "perks/killer/ResilienceDacier.png",
-            "description": "Lorsque tu es étourdi par une palette, tu bénéficies d'un bonus de vitesse de 7/8/9% pendant 4 secondes.",
-            "type": "anti-stun",
-            "buffs": ["Sprint après étourdissement palette"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Mastermind",
-        "perks": [
-          {
-            "id": "k_wesker_01",
-            "name": "Expérimentation",
-            "img": "perks/killer/Experimentation.png",
-            "description": "Lorsque tu accroches un Survivant sur un crochet de Sacrifice, les Auras des générateurs à moins de 64 mètres du crochet sont révélées pendant 6/7/8 secondes.",
-            "type": "information",
-            "buffs": ["Vision des générateurs après accrochage"],
-            "debuffs": []
-          },
-          {
-            "id": "k_wesker_02",
-            "name": "Horreur absolue",
-            "img": "perks/killer/HorreurAbsolue.png",
-            "description": "Après avoir mis un Survivant en état Mourant, tous les Survivants hurlent et révèlent leur position. Leur vitesse de réparation est réduite de 5/6/7% pendant 30 secondes.",
-            "type": "information",
-            "buffs": ["Vision et ralentissement après mise en état Mourant"],
-            "debuffs": []
-          },
-          {
-            "id": "k_wesker_03",
-            "name": "Domination",
-            "img": "perks/killer/Domination.png",
-            "description": "Lorsque tu portes un Survivant, les générateurs qui régressent le font 10/15/20% plus vite.",
-            "type": "slowdown",
-            "buffs": ["Régression accélérée pendant le portage"],
-            "debuffs": []
-          }
-        ]
-      },
-      {
-        "character": "Springtrap",
-        "perks": [
-          {
-            "id": "k_springtrap_01",
-            "name": "Mécanique animatronique",
-            "img": "perks/killer/MecaniqueAnimatronique.png",
-            "description": "Tu peux voir les Auras des armoires dans un rayon de 48 mètres. Lorsqu'un Survivant sort d'une armoire, leur Aura est révélée pendant 6/7/8 secondes.",
-            "type": "tracking",
-            "buffs": ["Vision des armoires et des survivants qui en sortent"],
-            "debuffs": []
-          },
-          {
-            "id": "k_springtrap_02",
-            "name": "Attraction fatale",
-            "img": "perks/killer/AttractionFatale.png",
-            "description": "Lorsqu'un Survivant est à moins de 16 mètres de toi sans être en poursuite, il entend ta musique de terreur et révèle son Aura pendant 3 secondes.",
-            "type": "tracking",
-            "buffs": ["Détecte les survivants proches non en poursuite"],
-            "debuffs": []
-          },
-          {
-            "id": "k_springtrap_03",
-            "name": "Condamnation",
-            "img": "perks/killer/Condamnation.png",
-            "description": "Chaque Survivant accroché pour la première fois applique l'effet Condamné à tous les Survivants. Les Survivants très condamnés sont exposés.",
-            "type": "snowball",
-            "buffs": ["Accumule un effet de condamnation sur l'équipe entière"],
-            "debuffs": []
-          }
-        ]
-      }
+    "character": "Piegeur",
+    "perks": [
+      {"id": "k_trapper_01", "name": "Présence terrifiante", "img": "perks/killer/UnnervingPresence.png", "description": "Réduit le succès des tests d'habileté dans le rayon de terreur.", "type": "debuff", "buffs": [], "debuffs": ["Skill Check Difficulty"]},
+      {"id": "k_trapper_02", "name": "Force brutale", "img": "perks/killer/BrutalStrength.png", "description": "Détruit palettes et générateurs plus rapidement.", "type": "chase", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "k_trapper_03", "name": "Agitation", "img": "perks/killer/Agitation.png", "description": "Augmente la vitesse de déplacement en transportant un corps.", "type": "utility", "buffs": ["Movement Speed"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Spectre",
+    "perks": [
+      {"id": "k_wraith_01", "name": "Prédateur", "img": "perks/killer/Predator.png", "description": "Resserre les marques d'éraflures des survivants.", "type": "tracking", "buffs": ["Tracking Accuracy"], "debuffs": []},
+      {"id": "k_wraith_02", "name": "Sang de chien", "img": "perks/killer/Bloodhound.png", "description": "Rend les flaques de sang plus brillantes et visibles.", "type": "tracking", "buffs": ["Blood Visibility"], "debuffs": []},
+      {"id": "k_wraith_03", "name": "Résistance à l'ombre", "img": "perks/killer/Shadowborn.png", "description": "Octroie un bonus de vitesse après avoir été aveuglé.", "type": "utility", "buffs": ["Haste"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Montagnard",
+    "perks": [
+      {"id": "k_billy_01", "name": "Résistant", "img": "perks/killer/Enduring.png", "description": "Réduit l'étourdissement des palettes.", "type": "chase", "buffs": ["Stun Resistance"], "debuffs": []},
+      {"id": "k_billy_02", "name": "Lumière divine", "img": "perks/killer/Lightborn.png", "description": "Immunise contre l'aveuglement et révèle l'aura de l'agresseur.", "type": "utility", "buffs": ["Blindness Immunity", "Aura Reading"], "debuffs": []},
+      {"id": "k_billy_03", "name": "Bricoleur", "img": "perks/killer/Tinkerer.png", "description": "Supprime le rayon de terreur quand un générateur atteint 70%.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Nurse",
+    "perks": [
+      {"id": "k_nurse_01", "name": "Vocation de l'infirmière", "img": "perks/killer/ANursesCalling.png", "description": "Révèle l'aura des survivants qui se soignent.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_nurse_02", "name": "Stridor", "img": "perks/killer/Stridor.png", "description": "Rend les respirations des survivants plus bruyantes.", "type": "tracking", "buffs": ["Audio Buff"], "debuffs": []},
+      {"id": "k_nurse_03", "name": "Thanatophobie", "img": "perks/killer/Thanatophobia.png", "description": "Ralentit les actions de tous si des survivants sont blessés.", "type": "slowdown", "buffs": [], "debuffs": ["Action Speed Penalty"]}
+    ]
+  },
+  {
+    "character": "Silhouette",
+    "perks": [
+      {"id": "k_shape_01", "name": "Gardez le meilleur pour la fin", "img": "perks/killer/STBFL.png", "description": "Réduit le cooldown des attaques réussies (hors Obsession).", "type": "chase", "buffs": ["Attack Cooldown"], "debuffs": []},
+      {"id": "k_shape_02", "name": "Jeu avec la nourriture", "img": "perks/killer/PlayWithYourFood.png", "description": "Augmente la vitesse après avoir laissé s'échapper l'Obsession.", "type": "chase", "buffs": ["Movement Speed"], "debuffs": []},
+      {"id": "k_shape_03", "name": "Lumière mourante", "img": "perks/killer/DyingLight.png", "description": "Ralentit les actions des survivants sauf l'Obsession.", "type": "slowdown", "buffs": ["Obsession Buff"], "debuffs": ["Action Speed Penalty"]}
+    ]
+  },
+  {
+    "character": "Harpie",
+    "perks": [
+      {"id": "k_hag_01", "name": "Sort : Ruine", "img": "perks/killer/HexRuin.png", "description": "Fait régresser automatiquement les générateurs non réparés.", "type": "slowdown", "buffs": ["Auto Regression"], "debuffs": []},
+      {"id": "k_hag_02", "name": "Sort : Mangeur d'espoir", "img": "perks/killer/HexDevourHope.png", "description": "Octroie Hâte et la capacité de tuer à vue après 5 décrochages.", "type": "lethal", "buffs": ["Haste", "Insta-down", "Mori"], "debuffs": []},
+      {"id": "k_hag_03", "name": "Sort : Le troisième sceau", "img": "perks/killer/HexTheThirdSeal.png", "description": "Inflige Cécité aux survivants frappés.", "type": "debuff", "buffs": [], "debuffs": ["Blindness"]}
+    ]
+  },
+  {
+    "character": "Docteur",
+    "perks": [
+      {"id": "k_doc_01", "name": "Surveillance et maltraitance", "img": "perks/killer/MonitorAndAbuse.png", "description": "Modifie le rayon de terreur et augmente le champ de vision.", "type": "stealth", "buffs": ["Field of View"], "debuffs": ["Terror Radius Change"]},
+      {"id": "k_doc_02", "name": "Surcharge", "img": "perks/killer/Overcharge.png", "description": "Applique un test difficile sur un générateur endommagé.", "type": "slowdown", "buffs": ["Regression Speed"], "debuffs": ["Skill Check Difficulty"]},
+      {"id": "k_doc_03", "name": "Présence écrasante", "img": "perks/killer/OverwhelmingPresence.png", "description": "Augmente la consommation des objets des survivants.", "type": "utility", "buffs": [], "debuffs": ["Item Depletion"]}
+    ]
+  },
+  {
+    "character": "Chasseuse",
+    "perks": [
+      {"id": "k_huntress_01", "name": "Bête de proie", "img": "perks/killer/BeastOfPrey.png", "description": "Devient Indétectable après avoir atteint Soif de sang.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []},
+      {"id": "k_huntress_02", "name": "Territorial", "img": "perks/killer/TerritorialImperative.png", "description": "Révèle l'aura des survivants entrant dans la cave.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_huntress_03", "name": "Sort : Berceuse de la chasseuse", "img": "perks/killer/HexHuntressLullaby.png", "description": "Supprime le signal sonore des tests d'habileté.", "type": "debuff", "buffs": [], "debuffs": ["Skill Check Warning Removal"]}
+    ]
+  },
+  {
+    "character": "Cannibale",
+    "perks": [
+      {"id": "k_cannibal_01", "name": "Fréquence cardiaque", "img": "perks/killer/KnockOut.png", "description": "Empêche les survivants de voir l'aura des alliés au sol.", "type": "debuff", "buffs": [], "debuffs": ["Aura Block"]},
+      {"id": "k_cannibal_02", "name": "Barbecue et grillade", "img": "perks/killer/BBQAndChili.png", "description": "Révèle l'aura des survivants éloignés après un accrochage.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_cannibal_03", "name": "Chute de Franklin", "img": "perks/killer/FranklinsDemise.png", "description": "Fait tomber l'objet tenu par un survivant lors d'une attaque.", "type": "utility", "buffs": [], "debuffs": ["Item Drop"]}
+    ]
+  },
+  {
+    "character": "Cauchemar",
+    "perks": [
+      {"id": "k_nightmare_01", "name": "Feu de joie", "img": "perks/killer/FireUp.png", "description": "Bonus de vitesse d'action cumulatif par générateur fini.", "type": "utility", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "k_nightmare_02", "name": "Souviens-toi de moi", "img": "perks/killer/RememberMe.png", "description": "Augmente le temps d'ouverture des portes de sortie.", "type": "slowdown", "buffs": [], "debuffs": ["Gate Speed Penalty"]},
+      {"id": "k_nightmare_03", "name": "Gardien de sang", "img": "perks/killer/BloodWarden.png", "description": "Bloque les sorties si un survivant est accroché portes ouvertes.", "type": "lethal", "buffs": ["Exit Block"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Cochon",
+    "perks": [
+      {"id": "k_pig_01", "name": "Truc de bourreau", "img": "perks/killer/HangmansTrick.png", "description": "Révèle les survivants proches des crochets.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_pig_02", "name": "Surveillance", "img": "perks/killer/Surveillance.png", "description": "Affiche en blanc les générateurs dont la régression est stoppée.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_pig_03", "name": "Choix du public", "img": "perks/killer/MakeYourChoice.png", "description": "Rend le sauveur Exposé s'il est loin du tueur.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Clown",
+    "perks": [
+      {"id": "k_clown_01", "name": "Impasse", "img": "perks/killer/Bamboozle.png", "description": "Sauter une fenêtre plus vite et la bloque temporairement.", "type": "chase", "buffs": ["Vault Speed"], "debuffs": ["Window Block"]},
+      {"id": "k_clown_02", "name": "Coulrophobie", "img": "perks/killer/Coulrophobia.png", "description": "Réduit la vitesse de soin dans le rayon de terreur.", "type": "debuff", "buffs": [], "debuffs": ["Healing Speed Penalty"]},
+      {"id": "k_clown_03", "name": "Pop va la belette", "img": "perks/killer/PopGoesTheWeasel.png", "description": "Retire une grosse progression au générateur après un accrochage.", "type": "slowdown", "buffs": ["Regression Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Esprit",
+    "perks": [
+      {"id": "k_spirit_01", "name": "Fureur de l'esprit", "img": "perks/killer/SpiritFury.png", "description": "Brise la palette après avoir été étourdi deux fois.", "type": "chase", "buffs": ["Pallet Break"], "debuffs": []},
+      {"id": "k_spirit_02", "name": "Sort : Terre hantée", "img": "perks/killer/HexHauntedGround.png", "description": "Rend tous les survivants Exposés si le totem est purifié.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []},
+      {"id": "k_spirit_03", "name": "Rancune", "img": "perks/killer/Rancor.png", "description": "Révèle les survivants à chaque gen. Permet de tuer l'Obsession.", "type": "lethal", "buffs": ["Aura Reading", "Mori"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Légion",
+    "perks": [
+      {"id": "k_legion_01", "name": "Discordance", "img": "perks/killer/Discordance.png", "description": "Révèle les générateurs réparés par plusieurs survivants.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_legion_02", "name": "Poigne de fer", "img": "perks/killer/MadGrit.png", "description": "Supprime le cooldown d'attaque en portant un survivant.", "type": "utility", "buffs": ["Attack Speed"], "debuffs": []},
+      {"id": "k_legion_03", "name": "Légion de fer", "img": "perks/killer/IronMaiden.png", "description": "Sortir d'un casier rend le survivant Exposé.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Épidémie (Adiris)",
+    "perks": [
+      {"id": "k_plague_01", "name": "Intervention corrompue", "img": "perks/killer/CorruptIntervention.png", "description": "Bloque les générateurs éloignés au début de la partie.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
+      {"id": "k_plague_02", "name": "Terreur contagieuse", "img": "perks/killer/InfectiousFright.png", "description": "Fait hurler les survivants proches lors d'une mise à terre.", "type": "tracking", "buffs": ["Scream"], "debuffs": []},
+      {"id": "k_plague_03", "name": "Dévotion sombre", "img": "perks/killer/DarkDevotion.png", "description": "Transfère votre rayon de terreur à l'Obsession.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "GhostFace",
+    "perks": [
+      {"id": "k_ghost_01", "name": "Je vous vois", "img": "perks/killer/ImAllEars.png", "description": "Révèle l'aura d'un survivant faisant une action précipitée.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_ghost_02", "name": "Tremblements terrifiants", "img": "perks/killer/ThrillingTremors.png", "description": "Bloque les générateurs non réparés en ramassant un survivant.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
+      {"id": "k_ghost_03", "name": "Poursuite furtive", "img": "perks/killer/FurtiveChase.png", "description": "Donne Hâte et Indétectable après avoir accroché l'Obsession.", "type": "stealth", "buffs": ["Haste", "Undetectable"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Démogorgon",
+    "perks": [
+      {"id": "k_demo_01", "name": "Briseur d'esprit", "img": "perks/killer/Mindbreaker.png", "description": "Inflige Épuisement et Aveuglement aux survivants réparant un générateur.", "type": "debuff", "buffs": [], "debuffs": ["Exhaustion", "Blindness"]},
+      {"id": "k_demo_02", "name": "Limites cruelles", "img": "perks/killer/CruelLimits.png", "description": "Bloque toutes les fenêtres proches après une réparation terminée.", "type": "chase", "buffs": ["Vault Block"], "debuffs": []},
+      {"id": "k_demo_03", "name": "Surtension", "img": "perks/killer/Surge.png", "description": "Fait exploser les générateurs proches après une mise à terre.", "type": "slowdown", "buffs": ["Regression Bonus"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Oni",
+    "perks": [
+      {"id": "k_oni_01", "name": "Tactique des Zanshin", "img": "perks/killer/ZanshinTactics.png", "description": "Révèle l'aura de toutes les fenêtres et palettes.", "type": "utility", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_oni_02", "name": "Écho sanglant", "img": "perks/killer/BloodEcho.png", "description": "Inflige Épuisement aux blessés après un accrochage.", "type": "debuff", "buffs": [], "debuffs": ["Exhaustion"]},
+      {"id": "k_oni_03", "name": "Némésis", "img": "perks/killer/Nemesis.png", "description": "Celui qui vous étourdit devient l'Obsession et Inconscient.", "type": "utility", "buffs": [], "debuffs": ["Oblivious"]}
+    ]
+  },
+  {
+    "character": "LanceMort",
+    "perks": [
+      {"id": "k_slinger_01", "name": "Interrupteur", "img": "perks/killer/DeadMansSwitch.png", "description": "Bloque un générateur si le survivant le lâche après un accrochage.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
+      {"id": "k_slinger_02", "name": "Engrenages défectueux", "img": "perks/killer/Gearhead.png", "description": "Révèle l'aura des survivants après un test réussi.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_slinger_03", "name": "Sort : Représailles", "img": "perks/killer/HexRetribution.png", "description": "Révèle l'aura de tous les survivants si un totem est touché.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Bourreau",
+    "perks": [
+      {"id": "k_pyramid_01", "name": "Pénitence forcée", "img": "perks/killer/ForcedPenance.png", "description": "Inflige Brisé à ceux qui prennent des coups de protection.", "type": "debuff", "buffs": [], "debuffs": ["Broken Status"]},
+      {"id": "k_pyramid_02", "name": "Piste de tourment", "img": "perks/killer/TrailOfTorment.png", "description": "Devient Indétectable après avoir frappé un générateur.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []},
+      {"id": "k_pyramid_03", "name": "Lien de mort", "img": "perks/killer/DeathBound.png", "description": "Fait hurler les survivants qui se soignent mutuellement loin de vous.", "type": "tracking", "buffs": [], "debuffs": ["Oblivious"]}
+    ]
+  },
+  {
+    "character": "Fléau",
+    "perks": [
+      {"id": "k_blight_01", "name": "Prise du dragon", "img": "perks/killer/DragonsGrip.png", "description": "Piège un gen : le survivant qui le touche devient Exposé.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []},
+      {"id": "k_blight_02", "name": "Sort : Faveur de sang", "img": "perks/killer/HexBloodFavor.png", "description": "Bloque les palettes proches après une attaque réussie.", "type": "chase", "buffs": ["Pallet Block"], "debuffs": []},
+      {"id": "k_blight_03", "name": "Sort : Immortel", "img": "perks/killer/HexUndying.png", "description": "Protège les autres totems et révèle l'aura près des totems.", "type": "utility", "buffs": ["Hex Protection", "Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Jumeaux",
+    "perks": [
+      {"id": "k_twins_01", "name": "Oppression", "img": "perks/killer/Oppression.png", "description": "Fait régresser plusieurs générateurs simultanément.", "type": "slowdown", "buffs": ["Regression"], "debuffs": ["Skill Check Difficulty"]},
+      {"id": "k_twins_02", "name": "Le coup de grâce", "img": "perks/killer/CoupDeGrace.png", "description": "Augmente la distance de l'attaque chargée.", "type": "chase", "buffs": ["Lunge Distance"], "debuffs": []},
+      {"id": "k_twins_03", "name": "Hoarder", "img": "perks/killer/Hoarder.png", "description": "Révèle les survivants qui ouvrent des coffres.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Farceur",
+    "perks": [
+      {"id": "k_trickster_01", "name": "Star de la foule", "img": "perks/killer/Starstruck.png", "description": "Rend Exposé les survivants dans le rayon de terreur en portant un corps.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []},
+      {"id": "k_trickster_02", "name": "Sort : Contrôle des foules", "img": "perks/killer/HexCrowdControl.png", "description": "Bloque les fenêtres après un saut précipité.", "type": "chase", "buffs": ["Window Block"], "debuffs": []},
+      {"id": "k_trickster_03", "name": "Sortie de scène", "img": "perks/killer/NoWayOut.png", "description": "Bloque les leviers de sortie selon le nombre d'accrochages.", "type": "slowdown", "buffs": ["Exit Block"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Nemesis",
+    "perks": [
+      {"id": "k_nemesis_01", "name": "Poursuivant meurtrier", "img": "perks/killer/LethalPursuer.png", "description": "Révèle l'aura de tous les survivants au début du match.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_nemesis_02", "name": "Hystérie", "img": "perks/killer/Hysteria.png", "description": "Inflige Inconscient aux blessés quand vous blessez un sain.", "type": "stealth", "buffs": [], "debuffs": ["Oblivious"]},
+      {"id": "k_nemesis_03", "name": "Éruption", "img": "perks/killer/Eruption.png", "description": "Explose les générateurs après une mise à terre.", "type": "slowdown", "buffs": ["Regression"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Cénobite",
+    "perks": [
+      {"id": "k_pinhead_01", "name": "Impasse", "img": "perks/killer/Deadlock.png", "description": "Bloque le générateur le plus avancé après une réparation.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
+      {"id": "k_pinhead_02", "name": "Sort : Jouet", "img": "perks/killer/HexPlaything.png", "description": "Rend un survivant Inconscient jusqu'à purification.", "type": "stealth", "buffs": [], "debuffs": ["Oblivious"]},
+      {"id": "k_pinhead_03", "name": "Don du tourment", "img": "perks/killer/GiftOfPain.png", "description": "Inflige Hémorragie et malus de vitesse après soin.", "type": "debuff", "buffs": [], "debuffs": ["Action Speed Penalty"]}
+    ]
+  },
+  {
+    "character": "Artiste",
+    "perks": [
+      {"id": "k_artist_01", "name": "Écho sinistre", "img": "perks/killer/GrimEmbrace.png", "description": "Bloque les générateurs après avoir accroché tout le monde.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
+      {"id": "k_artist_02", "name": "Sort : Don de voyance", "img": "perks/killer/HexPentimento.png", "description": "Ressuscite les totems pour ralentir les survivants.", "type": "slowdown", "buffs": ["Slowdown"], "debuffs": []},
+      {"id": "k_artist_03", "name": "Écho de douleur", "img": "perks/killer/ScourgeHookPainResonance.png", "description": "Fait régresser le générateur le plus avancé lors d'un accrochage.", "type": "slowdown", "buffs": ["Regression"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Onryō",
+    "perks": [
+      {"id": "k_sadako_01", "name": "Appel de la mer", "img": "perks/killer/CallOfBrine.png", "description": "Augmente la vitesse de régression des générateurs.", "type": "slowdown", "buffs": ["Regression Speed"], "debuffs": []},
+      {"id": "k_sadako_02", "name": "Tempête impitoyable", "img": "perks/killer/MercilessStorm.png", "description": "Tests incessants à 90% d'un générateur.", "type": "slowdown", "buffs": [], "debuffs": ["Skill Check Chain"]},
+      {"id": "k_sadako_03", "name": "Inondation de rage", "img": "perks/killer/ScourgeHookFloodsOfRage.png", "description": "Révèle les auras après un décrochage spécial.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Dragage",
+    "perks": [
+      {"id": "k_dredge_01", "name": "Dissolution", "img": "perks/killer/Dissolution.png", "description": "Brise les palettes sautées par les survivants blessés.", "type": "chase", "buffs": ["Pallet Break"], "debuffs": []},
+      {"id": "k_dredge_02", "name": "Obscurité révélée", "img": "perks/killer/DarknessRevealed.png", "description": "Révèle l'aura des survivants près des casiers.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_dredge_03", "name": "Septicémie", "img": "perks/killer/SepticTouch.png", "description": "Inflige Aveuglement et Épuisement lors des soins.", "type": "debuff", "buffs": [], "debuffs": ["Exhaustion", "Blindness"]}
+    ]
+  },
+  {
+    "character": "Mastermind",
+    "perks": [
+      {"id": "k_wesker_01", "name": "Anatomie supérieure", "img": "perks/killer/SuperiorAnatomy.png", "description": "Accélère le saut de fenêtre après un saut de survivant.", "type": "chase", "buffs": ["Vault Speed"], "debuffs": []},
+      {"id": "k_wesker_02", "name": "Conscience éveillée", "img": "perks/killer/AwakenedAwareness.png", "description": "Révèle l'aura des survivants proches en portant un corps.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_wesker_03", "name": "Terminus", "img": "perks/killer/Terminus.png", "description": "Inflige Brisé aux blessés quand les portes sont alimentées.", "type": "slowdown", "buffs": [], "debuffs": ["Broken Status"]}
+    ]
+  },
+  {
+    "character": "Chevalier",
+    "perks": [
+      {"id": "k_knight_01", "name": "Nulle part où se cacher", "img": "perks/killer/NowhereToHide.png", "description": "Révèle les auras proches après avoir frappé un gen.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_knight_02", "name": "Sort : Face au noir", "img": "perks/killer/HexFaceTheDarkness.png", "description": "Fait hurler les survivants hors rayon de terreur.", "type": "tracking", "buffs": ["Scream"], "debuffs": []},
+      {"id": "k_knight_03", "name": "Moyens déshonorants", "img": "perks/killer/Hubris.png", "description": "Expose le survivant qui vous étourdit.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Marchande de crâne",
+    "perks": [
+      {"id": "k_skull_01", "name": "Poursuite acharnée", "img": "perks/killer/GameAfoot.png", "description": "Donne Hâte après avoir frappé l'Obsession.", "type": "chase", "buffs": ["Haste"], "debuffs": []},
+      {"id": "k_skull_02", "name": "Choc de thwack !", "img": "perks/killer/THWACK.png", "description": "Fait hurler les survivants après avoir brisé une palette.", "type": "tracking", "buffs": ["Scream"], "debuffs": []},
+      {"id": "k_skull_03", "name": "Levier de vitesse", "img": "perks/killer/Leverage.png", "description": "Réduit la vitesse de soin après chaque accrochage.", "type": "debuff", "buffs": [], "debuffs": ["Healing Penalty"]}
+    ]
+  },
+  {
+    "character": "Singularité",
+    "perks": [
+      {"id": "k_sing_01", "name": "Barrière génétique", "img": "perks/killer/GeneticLimits.png", "description": "Les survivants qui se soignent deviennent Épuisés.", "type": "debuff", "buffs": [], "debuffs": ["Exhaustion"]},
+      {"id": "k_sing_02", "name": "Apprentissage forcé", "img": "perks/killer/ForcedHesitation.png", "description": "Ralentit les survivants proches d'un survivant au sol.", "type": "slowdown", "buffs": [], "debuffs": ["Hindered"]},
+      {"id": "k_sing_03", "name": "Machine d'apprentissage", "img": "perks/killer/MachineLearning.png", "description": "Devient Indétectable et gagne Hâte après régression de gen.", "type": "stealth", "buffs": ["Undetectable", "Haste"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Xénomorphe",
+    "perks": [
+      {"id": "k_alien_01", "name": "Instinct d'alien", "img": "perks/killer/AlienInstinct.png", "description": "Révèle le survivant blessé le plus lointain.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []},
+      {"id": "k_alien_02", "name": "Arme ultime", "img": "perks/killer/UltimateWeapon.png", "description": "Fait hurler et Aveugle après ouverture d'un casier.", "type": "tracking", "buffs": ["Scream"], "debuffs": ["Blindness"]},
+      {"id": "k_alien_03", "name": "Poursuite rapide", "img": "perks/killer/RapidBrutality.png", "description": "Supprime Soif de sang mais donne Hâte après un coup.", "type": "chase", "buffs": ["Haste"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Chucky",
+    "perks": [
+      {"id": "k_chucky_01", "name": "Sort : Deux peuvent jouer", "img": "perks/killer/HexTwoCanPlay.png", "description": "Aveugle les survivants qui vous aveuglent.", "type": "utility", "buffs": [], "debuffs": ["Blindness"]},
+      {"id": "k_chucky_02", "name": "Amis jusqu'à la fin", "img": "perks/killer/FriendsTilTheEnd.png", "description": "Expose l'Obsession après un accrochage.", "type": "lethal", "buffs": ["Exposed Status"], "debuffs": []},
+      {"id": "k_chucky_03", "name": "Batteries incluses", "img": "perks/killer/BatteriesIncluded.png", "description": "Gagne Hâte près des générateurs terminés.", "type": "chase", "buffs": ["Haste"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "L'inconnu",
+    "perks": [
+      {"id": "k_unknown_01", "name": "Inlié", "img": "perks/killer/Unbound.png", "description": "Augmente la vitesse de saut après avoir blessé quelqu'un.", "type": "chase", "buffs": ["Vault Speed"], "debuffs": []},
+      {"id": "k_unknown_02", "name": "Inforé", "img": "perks/killer/Unforeseen.png", "description": "Transfère le rayon de terreur sur un générateur.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []},
+      {"id": "k_unknown_03", "name": "Undo", "img": "perks/killer/Undone.png", "description": "Fait exploser les générateurs après des tests ratés.", "type": "slowdown", "buffs": ["Regression"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Vecna",
+    "perks": [
+      {"id": "k_vecna_01", "name": "Tissage de sort", "img": "perks/killer/WeaveAttunement.png", "description": "Révèle les survivants près des objets au sol.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": ["Oblivious"]},
+      {"id": "k_vecna_02", "name": "Toucher languissant", "img": "perks/killer/LanguidTouch.png", "description": "Effrayer un corbeau épuise le survivant proche.", "type": "debuff", "buffs": [], "debuffs": ["Exhaustion"]},
+      {"id": "k_vecna_03", "name": "Arrogance sombre", "img": "perks/killer/DarkArrogance.png", "description": "Sauter plus vite mais subit plus d'aveuglement.", "type": "chase", "buffs": ["Vault Speed"], "debuffs": ["Blindness Sensitivity"]}
+    ]
+  },
+  {
+    "character": "Dracula",
+    "perks": [
+      {"id": "k_drac_01", "name": "Dominance humaine", "img": "perks/killer/HumanDominance.png", "description": "Interagit plus vite avec les totems et coffres.", "type": "utility", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "k_drac_02", "name": "Valse de sang", "img": "perks/killer/BloodWaltz.png", "description": "Affiche des copies d'aura pour tromper les survivants.", "type": "utility", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "k_drac_03", "name": "Soif éternelle", "img": "perks/killer/EternalThirst.png", "description": "Récupère son pouvoir plus vite après un coup.", "type": "utility", "buffs": ["Power Recovery"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Houdmaster",
+    "perks": [
+      {"id": "k_hound_01", "name": "Poursuite sanglante", "img": "perks/killer/BloodScent.png", "description": "Traces de sang plus denses qui donnent un boost de vitesse.", "type": "chase", "buffs": ["Haste"], "debuffs": []},
+      {"id": "k_hound_02", "name": "Morsure de fer", "img": "perks/killer/IronBite.png", "description": "Les survivants décrochés ne peuvent pas être soignés pendant 30s.", "type": "slowdown", "buffs": [], "debuffs": ["Healing Block"]},
+      {"id": "k_hound_03", "name": "Éclaireur féroce", "img": "perks/killer/FerociousScout.png", "description": "Révèle l'aura de ceux qui font fuir les corbeaux.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "Ken Kaneki",
+    "perks": [
+      {"id": "k_kaneki_01", "name": "Appétit insatiable", "img": "perks/killer/InsatiableAppetite.png", "description": "Gagne en vitesse d'attaque après chaque coup sur un survivant différent.", "type": "chase", "buffs": ["Attack Speed"], "debuffs": []},
+      {"id": "k_kaneki_02", "name": "Kagune instable", "img": "perks/killer/UnstableKagune.png", "description": "Portée de l'attaque chargée augmentée après un saut.", "type": "chase", "buffs": ["Lunge Distance"], "debuffs": []},
+      {"id": "k_kaneki_03", "name": "Sort : Tragédie", "img": "perks/killer/HexTragedy.png", "description": "Soins mutuels infligent Inconscience aux participants.", "type": "debuff", "buffs": [], "debuffs": ["Oblivious"]}
+    ]
+  },
+  {
+    "character": "Springtrap",
+    "perks": [
+      {"id": "k_afton_01", "name": "Erreur système", "img": "perks/killer/SystemError.png", "description": "Désactive les perks d'épuisement du survivant frappé.", "type": "chase", "buffs": [], "debuffs": ["Perk Disable"]},
+      {"id": "k_afton_02", "name": "Confinement mortel", "img": "perks/killer/DeadlyConfinement.png", "description": "Bloque fenêtres/casiers près d'un gen qui explose.", "type": "utility", "buffs": ["Environment Block"], "debuffs": []},
+      {"id": "k_afton_03", "name": "Je reviens toujours", "img": "perks/killer/IAlwaysComeBack.png", "description": "Devient Indétectable après avoir perdu une poursuite.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "The Krasue",
+    "perks": [
+      {"id": "k_krasue_01", "name": "Lueurs viscérales", "img": "perks/killer/VisceralGlow.png", "description": "Regarder le tueur ralentit la vitesse de course.", "type": "debuff", "buffs": [], "debuffs": ["Hindered"]},
+      {"id": "k_krasue_02", "name": "Famine nocturne", "img": "perks/killer/NocturnalHunger.png", "description": "Récupère le pouvoir en fouillant des coffres.", "type": "utility", "buffs": ["Power Recovery"], "debuffs": []},
+      {"id": "k_krasue_03", "name": "Vol stationnaire", "img": "perks/killer/HoveringDread.png", "description": "Réduit le rayon de terreur après un saut.", "type": "stealth", "buffs": ["Terror Radius Reduction"], "debuffs": []}
+    ]
+  },
+  {
+    "character": "The First",
+    "perks": [
+      {"id": "k_henry_01", "name": "Malédiction de Henry", "img": "perks/killer/HenrysCurse.png", "description": "L'Obsession devient Exposée hors réparation.", "type": "lethal", "buffs": [], "debuffs": ["Exposed"]},
+      {"id": "k_henry_02", "name": "Monde à l'envers", "img": "perks/killer/UpsideDownWorld.png", "description": "Génère des hallucinations visuelles autour des générateurs.", "type": "stealth", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "k_henry_03", "name": "Lien psychique", "img": "perks/killer/PsychicLink.png", "description": "Révèle les auras de tous après le cri d'un survivant.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  }
     ]
   }
 }
