@@ -1058,25 +1058,25 @@
   {
     "character": "Springtrap",
     "perks": [
-      {"id": "k_afton_01", "name": "Erreur système", "img": "perks/killer/SystemError.png", "description": "Désactive les perks d'épuisement du survivant frappé.", "type": "chase", "buffs": [], "debuffs": ["Perk Disable"]},
-      {"id": "k_afton_02", "name": "Confinement mortel", "img": "perks/killer/DeadlyConfinement.png", "description": "Bloque fenêtres/casiers près d'un gen qui explose.", "type": "utility", "buffs": ["Environment Block"], "debuffs": []},
-      {"id": "k_afton_03", "name": "Je reviens toujours", "img": "perks/killer/IAlwaysComeBack.png", "description": "Devient Indétectable après avoir perdu une poursuite.", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []}
+      {"id": "k_afton_01", "name": "Detraqué", "img": "perks/killer/Detraque.png", "description": "Chaque fois qu’un Survivant cesse d’ouvrir une Porte de Sortie après avoir accumulé au moins 50 % de progression vers l’ouverture,la porte régresse à un rythme de 40/45/50 % de la vitesse normale d’ouverture de la Porte.", "type": "chase", "buffs": [], "debuffs": ["Perk Disable"]},
+      {"id": "k_afton_02", "name": "Frayeur Fantome", "img": "perks/killer/FrayeurFantome.png", "description": "Lorsque un survivants vous regarde, il crie et revele sa position. 60s de recharge", "type": "utility", "buffs": ["Environment Block"], "debuffs": []},
+      {"id": "k_afton_03", "name": "On Embauche", "img": "perks/killer/OnEmbauche.png", "description": "Taper un générateur le rend compromis. Une fois que ce générateur est completé, votre vitesse de récuperation des coups réussi est augmenté de +25 pendant 40/50/60s", "type": "stealth", "buffs": ["Undetectable"], "debuffs": []}
     ]
   },
   {
     "character": "The Krasue",
     "perks": [
-      {"id": "k_krasue_01", "name": "Lueurs viscérales", "img": "perks/killer/VisceralGlow.png", "description": "Regarder le tueur ralentit la vitesse de course.", "type": "debuff", "buffs": [], "debuffs": ["Hindered"]},
-      {"id": "k_krasue_02", "name": "Famine nocturne", "img": "perks/killer/NocturnalHunger.png", "description": "Récupère le pouvoir en fouillant des coffres.", "type": "utility", "buffs": ["Power Recovery"], "debuffs": []},
-      {"id": "k_krasue_03", "name": "Vol stationnaire", "img": "perks/killer/HoveringDread.png", "description": "Réduit le rayon de terreur après un saut.", "type": "stealth", "buffs": ["Terror Radius Reduction"], "debuffs": []}
+      {"id": "k_krasue_01", "name": "Sort: Ouverture maudite", "img": "perks/killer/SortOuvertureMaudite.png", "description": "Engendrer un Totem Hex qui maudit le générateur le plus éloigné, révélant son aura. Chaque fois qu'un survivant répare ce générateur pendant une durée, vous transférez temporairement votre rayon de terreur au générateur et gagnez indétectable. Une fois le générateur réparé, la malédiction se déplace vers le générateur le plus éloigné.", "type": "debuff", "buffs": [], "debuffs": ["Hindered"]},
+      {"id": "k_krasue_02", "name": "Vorace", "img": "perks/killer/Vorace.png", "description": "Après que chaque survivant a été accroché une fois, ils vont crier et devenir exposés pendant une durée considérable.", "type": "utility", "buffs": ["Power Recovery"], "debuffs": []},
+      {"id": "k_krasue_03", "name": "Oeil Vagabond", "img": "perks/killer/OeilVagabond.png", "description": "Alors qu'il poursuit un survivant, l'aura de tous les survivants blessés à proximité sera révélée pour une durée..", "type": "stealth", "buffs": ["Terror Radius Reduction"], "debuffs": []}
     ]
   },
   {
     "character": "The First",
     "perks": [
-      {"id": "k_henry_01", "name": "Malédiction de Henry", "img": "perks/killer/HenrysCurse.png", "description": "L'Obsession devient Exposée hors réparation.", "type": "lethal", "buffs": [], "debuffs": ["Exposed"]},
-      {"id": "k_henry_02", "name": "Monde à l'envers", "img": "perks/killer/UpsideDownWorld.png", "description": "Génère des hallucinations visuelles autour des générateurs.", "type": "stealth", "buffs": ["Distraction"], "debuffs": []},
-      {"id": "k_henry_03", "name": "Lien psychique", "img": "perks/killer/PsychicLink.png", "description": "Révèle les auras de tous après le cri d'un survivant.", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+      {"id": "k_henry_01", "name": "Projet secret", "img": "perks/killer/ProjetSecret.png", "description": "Lorsqu'un Totem est Béni ou Purifié, vous bloquez un Générateurlibre aléatoire pendant 20/25/30 secondes.Lorsque 1 Générateur, ou davantage, se retrouve bloqué, vous gagnez l'Effet de Statut Indétectable pendant 30 secondes.", "type": "lethal", "buffs": [], "debuffs": ["Exposed"]},
+      {"id": "k_henry_02", "name": "Remonter le temps", "img": "perks/killer/RemonterTemps.png", "description": "Après avoir accroché un Survivant, pendant 60/50/40 secondes, appuyez sur le bouton de Capacité 1 pour faire exploser un Générateur ciblé dans un Rayon de 20 mètres, lui faire perdre +10 % de progression et le faire régresser. ", "type": "stealth", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "k_henry_03", "name": "Sort : Esprit collectif", "img": "perks/killer/SortEspritCollectif.png", "description": "La première fois que vous accrochez n'importe quel Survivant, un totem ensorcelé apparait permettant de voir l'aura des génerateurs en fonction de leur réparation, lorsqu'il ne reste qu'1 générateur tous les gens explosent et le totem deviens passif", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
     ]
   }
     ]
