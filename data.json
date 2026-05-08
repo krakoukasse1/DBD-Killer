@@ -175,6 +175,12 @@
           "available": true
       },
       {
+          "name": "Chevalier",
+          "img": "Chevalier.png",
+          "type": "killer",
+          "available": true
+      },
+      {
           "name": "Marchande de crâne",
           "img": "Marchande.png",
           "type": "killer",
@@ -235,7 +241,7 @@
     "type": "killer",
     "available": true 
 },{
-    "name": "The First ",
+    "name": "The First",
     "img": "Vecna_ST.png",
     "type": "killer",
     "available": true 

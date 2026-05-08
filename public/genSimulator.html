@@ -1,871 +1,597 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gen Simulator — DBD</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* ══ PAGE ══ */
-    .sim-page {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 30px 20px 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 32px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu QTE - Rhythm Game</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --text-color: #eee;
+            --accent-green: #4ade80;
+            --accent-yellow: #facc15;
+            --accent-red: #ef4444;
+        }
 
-    .sim-hero { text-align: center; }
-    .sim-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 8px; }
-    .sim-hero h1 span { color: #cc0000; }
-    .sim-hero p { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.45); }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    /* ══ GÉNÉRATEUR ══ */
-    .gen-visual {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      flex-shrink: 0;
-    }
+        .game-container {
+            width: 600px;
+            text-align: center;
+        }
 
-    /* SVG jauge circulaire */
-    .gen-svg { width: 280px; height: 280px; transform: rotate(-90deg); }
-    .gen-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 18; }
-    .gen-progress {
-      fill: none;
-      stroke: #cc0000;
-      stroke-width: 18;
-      stroke-linecap: round;
-      stroke-dasharray: 754; /* 2*PI*120 */
-      stroke-dashoffset: 754;
-      transition: stroke 0.3s;
-      filter: drop-shadow(0 0 6px rgba(200,0,0,0.7));
-    }
-    .gen-progress.done { stroke: #00cc44; filter: drop-shadow(0 0 8px rgba(0,200,80,0.8)); }
-    .gen-progress.regressing { stroke: #ff6600; }
+        /* Gauge Section */
+        .gauge-section {
+            margin-bottom: 30px;
+        }
 
-    /* Centre du gen */
-    .gen-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
+        #genVisual {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-green) 0%, var(--bg-color) 0%);
+            margin: 0 auto 15px;
+            position: relative;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
 
-    .gen-icon { font-size: 3rem; line-height: 1; }
-    .gen-percent {
-      font-size: 2.2rem;
-      color: #fff;
-      letter-spacing: 2px;
-    }
-    .gen-status {
-      font-family: sans-serif;
-      font-size: 0.72rem;
-      color: rgba(200,200,200,0.45);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+        #genVisual::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            background: var(--bg-color);
+            border-radius: 50%;
+        }
 
-    /* Explosion flash */
-    .gen-visual.explode { animation: explode-flash 0.3s ease; }
-    @keyframes explode-flash {
-      0%   { filter: brightness(1); }
-      30%  { filter: brightness(3) saturate(0); }
-      100% { filter: brightness(1); }
-    }
+        #genVisual.explode {
+            transform: scale(1.2);
+            filter: brightness(2) drop-shadow(0 0 30px var(--accent-red));
+        }
 
-    /* ══ LAYOUT PRINCIPAL ══ */
-    .sim-main {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 40px;
-      width: 100%;
-      align-items: center;
-    }
-    @media (max-width: 700px) {
-      .sim-main { grid-template-columns: 1fr; justify-items: center; }
-    }
+        /* QTE Section */
+        .qte-section {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+        }
 
-    /* ══ ZONE QTE ══ */
-    .qte-zone {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
+        #qteContainer {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
 
-    /* Cercle QTE style DBD */
-    .qte-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        .qte-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            stroke-width: 8px;
+            fill: none;
+            transform: rotate(-90deg);
+        }
 
-    .qte-svg { width: 200px; height: 200px; transform: rotate(-90deg); position: absolute; }
-    .qte-outer-track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 10; }
+        #qteShrink {
+            stroke: var(--accent-green);
+            opacity: 1;
+        }
 
-    /* Arc qui se rétrécit */
-    .qte-shrink {
-      fill: none;
-      stroke: rgba(255,255,255,0.5);
-      stroke-width: 10;
-      stroke-linecap: round;
-      stroke-dasharray: 565; /* 2*PI*90 */
-      stroke-dashoffset: 0;
-      transition: none;
-    }
+        #qteNormalZone, #qteGreatZone {
+            stroke-width: 6px;
+            fill: none;
+            opacity: 0.5;
+        }
 
-    /* Zone verte (grande vérif) */
-    .qte-great-zone {
-      fill: none;
-      stroke: rgba(255, 220, 0, 0.9);
-      stroke-width: 10;
-      stroke-linecap: round;
-      opacity: 0;
-    }
+        #qteNormalZone { stroke: var(--accent-yellow); }
+        #qteGreatZone { stroke: var(--accent-green); filter: brightness(1.3); }
 
-    /* Zone blanche (vérif normale) */
-    .qte-normal-zone {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.9);
-      stroke-width: 10;
-      stroke-linecap: round;
-      opacity: 0;
-    }
+        /* Feedback */
+        .qte-feedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            pointer-events: none;
+        }
 
-    .qte-label {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-family: sans-serif;
-      font-size: 0.7rem;
-      position: relative;
-      z-index: 1;
-    }
+        .qte-feedback.flash {
+            animation: feedbackFlash 0.6s ease-out forwards;
+        }
 
-    .qte-hint {
-      position: relative;
-      z-index: 1;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.2);
-      font-family: sans-serif;
-      letter-spacing: 1px;
-    }
+        @keyframes feedbackFlash {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            30% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -80%) scale(1); opacity: 0; }
+        }
 
-    /* Flash feedback QTE */
-    .qte-feedback {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-    }
-    .qte-feedback.success { background: radial-gradient(circle, rgba(0,255,100,0.3), transparent 70%); }
-    .qte-feedback.great   { background: radial-gradient(circle, rgba(255,220,0,0.4), transparent 70%); }
-    .qte-feedback.fail    { background: radial-gradient(circle, rgba(255,50,0,0.4), transparent 70%); }
-    .qte-feedback.flash   { animation: qte-flash 0.35s ease forwards; }
-    @keyframes qte-flash {
-      0%   { opacity: 1; }
-      100% { opacity: 0; }
-    }
+        .qte-feedback.great { color: var(--accent-green); text-shadow: 0 0 20px var(--accent-green); }
+        .qte-feedback.success { color: var(--accent-yellow); }
+        .qte-feedback.fail { color: var(--accent-red); }
 
-    /* ══ BOUTONS ══ */
-    .sim-controls {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      width: 100%;
-    }
+        /* Stats Panel */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
 
-    .sim-btn {
-      padding: 14px 32px;
-      border-radius: 9px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-    }
-    .sim-btn.start  { background: red; color: #fff; box-shadow: 0 4px 20px rgba(200,0,0,0.3); }
-    .sim-btn.start:hover { background: #cc0000; transform: scale(1.03); }
-    .sim-btn.reset  { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
-    .sim-btn.reset:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
-    .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* ══ STATS ══ */
-    .sim-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      width: 100%;
-    }
-    @media (max-width: 600px) { .sim-stats { grid-template-columns: repeat(2, 1fr); } }
+        .stat-value { font-size: 24px; font-weight: bold; }
+        .stat-label { font-size: 12px; opacity: 0.7; }
 
-    .stat-card {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 10px;
-      padding: 14px 12px;
-      text-align: center;
-    }
-    .stat-val {
-      font-size: 1.8rem;
-      color: #fff;
-      letter-spacing: 1px;
-      display: block;
-    }
-    .stat-label {
-      font-family: sans-serif;
-      font-size: 0.65rem;
-      color: rgba(200,200,200,0.35);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
+        /* Buttons */
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.2s ease;
+        }
 
-    /* ══ FEEDBACK MSG ══ */
-    .feedback-msg {
-      position: fixed;
-      top: 120px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-10px);
-      padding: 10px 28px;
-      border-radius: 30px;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
-      z-index: 100;
-      white-space: nowrap;
-    }
-    .feedback-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .feedback-msg.great   { background: rgba(255,200,0,0.15); border: 1px solid rgba(255,200,0,0.4); color: #ffd700; }
-    .feedback-msg.success { background: rgba(0,200,80,0.1);  border: 1px solid rgba(0,200,80,0.3);  color: #00cc66; }
-    .feedback-msg.fail    { background: rgba(255,50,0,0.15); border: 1px solid rgba(255,50,0,0.4);  color: #ff4422; }
+        #startBtn { background: var(--accent-green); color: #000; }
+        #resetBtn { background: rgba(255,255,255,0.1); color: var(--text-color); }
+        
+        button:hover:not(:disabled) { transform: translateY(-2px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ══ SUCCÈS ══ */
-    .achievements {
-      width: 100%;
-    }
-    .achievements-title {
-      font-size: 1.1rem;
-      color: #fff;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .achievements-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 600px) { .achievements-grid { grid-template-columns: 1fr 1fr; } }
+        /* Overlay */
+        #endOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
 
-    .achievement {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 10px;
-      transition: border-color 0.4s;
-    }
-    .achievement.unlocked {
-      border-color: rgba(255,180,0,0.4);
-      background: rgba(255,180,0,0.07);
-    }
-    .achievement-icon { font-size: 1.4rem; flex-shrink: 0; filter: grayscale(1); transition: filter 0.4s; }
-    .achievement.unlocked .achievement-icon { filter: grayscale(0); }
-    .achievement-text h4 { font-size: 0.82rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; transition: color 0.4s; }
-    .achievement.unlocked .achievement-text h4 { color: #fff; }
-    .achievement-text p { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.28); line-height: 1.4; transition: color 0.4s; }
-    .achievement.unlocked .achievement-text p { color: rgba(200,200,200,0.6); }
+        #endOverlay.hidden { display: none !important; }
 
-    /* ══ OVERLAY FIN ══ */
-    .end-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 200;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      backdrop-filter: blur(6px);
-    }
-    .end-overlay.show { display: flex; }
-    .end-overlay h2 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
-    .end-overlay h2 span { color: #00cc44; }
-    .end-overlay p { font-family: sans-serif; color: rgba(200,200,200,0.6); font-size: 0.9rem; letter-spacing: 1px; }
-    .end-time { font-size: 2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; }
-  </style>
+        .overlay-content {
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        /* Achievements */
+        #achievementsPanel {
+            margin-top: 20px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .achievement-item {
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item.unlocked {
+            opacity: 1;
+            background: rgba(74, 222, 128, 0.2);
+            border-left: 3px solid var(--accent-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .game-container { width: 90vw; }
+            #genVisual { width: 150px; height: 150px; }
+            .qte-section { width: 200px; height: 200px; }
+        }
+    </style>
 </head>
 <body>
+    <div class="game-container">
+        <!-- Gauge Section -->
+        <section class="gauge-section">
+            <h3>Gauge</h3>
+            <div id="genVisual"></div>
+            <p id="genText">Gauge: 0%</p>
+        </section>
 
-<header>
-  <div class="header-left">
-    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
-    <p>Roulette DBD</p>
-  </div>
-  <div class="menu-toggle">☰</div>
-  <ul class="list-ul">
-    <li class="list-li"><a href="index.html">Accueil</a></li>
-    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
-    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
-    <li class="list-li"><a href="wheel.html">Roue</a></li>
-    <li class="list-li"><a href="genSimulator.html">Gen Simulator</a></li>
-    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
-    <li class="list-li">
-      <div id="twitch-btn" class="twitch-button">
-        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
-        <span>Connexion Twitch</span>
-      </div>
-    </li>
-  </ul>
-</header>
+        <!-- QTE Section -->
+        <section class="qte-section">
+            <svg id="qteContainer" viewBox="0 0 250 250">
+                <circle cx="125" cy="125" r="120" stroke="#333" stroke-width="4" fill="none"/>
+                
+                <!-- Hit Zones -->
+                <circle id="qteNormalZone" cx="125" cy="125" r="80" 
+                        stroke="var(--accent-yellow)" stroke-width="6" fill="none"/>
+                <circle id="qteGreatZone" cx="125" cy="125" r="40" 
+                        stroke="var(--accent-green)" stroke-width="6" fill="none"/>
+                
+                <!-- Shrinking Ring -->
+                <circle id="qteShrink" cx="125" cy="125" r="120" 
+                        stroke="var(--accent-green)" stroke-width="8" fill="none"
+                        stroke-dasharray="754 754"/>
+                
+                <!-- Feedback -->
+                <text id="qteFeedback" x="125" y="125" text-anchor="middle" 
+                      dominant-baseline="middle" class="qte-feedback">READY</text>
+            </svg>
+        </section>
 
-<!-- FEEDBACK -->
-<div class="feedback-msg" id="feedbackMsg"></div>
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span id="streakVal" class="stat-value">0</span>
+                <span class="stat-label">Streak</span>
+            </div>
+            <div class="stat-item">
+                <span id="scoreVal" class="stat-value">0</span>
+                <span class="stat-label">Score</span>
+            </div>
+            <div class="stat-item">
+                <span id="comboVal" class="stat-value">0</span>
+                <span class="stat-label">Combo</span>
+            </div>
+        </div>
 
-<!-- OVERLAY FIN -->
-<div class="end-overlay" id="endOverlay">
-  <h2>GEN <span>TERMINÉE</span> !</h2>
-  <div class="end-time" id="endTime">0:00</div>
-  <p id="endStats"></p>
-  <button class="sim-btn start" id="endRestartBtn" style="margin-top:10px">↻ Recommencer</button>
-</div>
+        <!-- Controls -->
+        <div style="margin-top: 20px;">
+            <button id="startBtn">▶ Start Game</button>
+            <button id="resetBtn">↺ Reset</button>
+        </div>
 
-<main class="sim-page">
-
-  <div class="sim-hero">
-    <h1>Gen <span>Simulator</span></h1>
-    <p>Répare la génératrice comme dans DBD — QTE inclus</p>
-  </div>
-
-  <div class="sim-main">
-
-    <!-- JAUGE CIRCULAIRE -->
-    <div class="gen-visual" id="genVisual">
-      <svg class="gen-svg" viewBox="0 0 280 280">
-        <circle class="gen-track"    cx="140" cy="140" r="120"/>
-        <circle class="gen-progress" cx="140" cy="140" r="120" id="genProgress"/>
-      </svg>
-      <div class="gen-center">
-        <div class="gen-icon">⚙️</div>
-        <div class="gen-percent" id="genPercent">0%</div>
-        <div class="gen-status" id="genStatus">En attente</div>
-      </div>
+        <!-- Achievements Panel -->
+        <div id="achievementsPanel"></div>
     </div>
 
-    <!-- QTE -->
-    <div class="qte-zone">
-      <div class="qte-container" id="qteContainer">
-        <svg class="qte-svg" viewBox="0 0 200 200" id="qteSvg">
-          <circle class="qte-outer-track"  cx="100" cy="100" r="90"/>
-          <circle class="qte-normal-zone"  cx="100" cy="100" r="90" id="qteNormalZone"/>
-          <circle class="qte-great-zone"   cx="100" cy="100" r="90" id="qteGreatZone"/>
-          <circle class="qte-shrink"       cx="100" cy="100" r="90" id="qteShrink"/>
-        </svg>
-        <div class="qte-feedback" id="qteFeedback"></div>
-        <div class="qte-label" id="qteLabel">ESPACE</div>
-      </div>
-      <div class="qte-hint" id="qteHint">Appuie sur ESPACE pour commencer</div>
+    <!-- End Overlay -->
+    <div id="endOverlay" class="hidden">
+        <div class="overlay-content">
+            <h2 id="endTitle">Game Over!</h2>
+            <p id="endScore">Final Score: 0</p>
+            <button id="restartBtn">Play Again</button>
+        </div>
     </div>
 
-  </div>
-
-  <!-- CONTROLES -->
-  <div class="sim-controls">
-    <button class="sim-btn start" id="startBtn">▶ Commencer</button>
-    <button class="sim-btn reset" id="resetBtn">↺ Réinitialiser</button>
-  </div>
-
-  <!-- STATS -->
-  <div class="sim-stats">
-    <div class="stat-card">
-      <span class="stat-val" id="statTime">0:00</span>
-      <span class="stat-label">Temps</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-val" id="statSuccess">0</span>
-      <span class="stat-label">Réussies</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-val" id="statGreat">0</span>
-      <span class="stat-label">Excellentes</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-val" id="statFail">0</span>
-      <span class="stat-label">Ratées</span>
-    </div>
-  </div>
-
-  <!-- SUCCÈS -->
-  <div class="achievements">
-    <div class="achievements-title">🏆 Succès</div>
-    <div class="achievements-grid" id="achievementsGrid"></div>
-  </div>
-
-</main>
-
-<script src="header.js"></script>
-<script>
-(function () {
-  // ══ SONS ══
-  // Place tes fichiers dans assets/sounds/
-  const SOUNDS = {
-    loop:    'assets/sounds/gen_loop.mp3',
-    success: 'assets/sounds/skillcheck_success.mp3',
-    great:   'assets/sounds/skillcheck_great.mp3',
-    fail:    'assets/sounds/skillcheck_fail.mp3',
-    done:    'assets/sounds/gen_complete.mp3',
-  };
-
-  const audioCache = {};
-  function playSound(key, loop = false) {
-    try {
-      if (!audioCache[key]) {
-        audioCache[key] = new Audio(SOUNDS[key]);
-        audioCache[key].volume = key === 'loop' ? 0.35 : 0.6;
-      }
-      const a = audioCache[key];
-      a.loop = loop;
-      a.currentTime = 0;
-      a.play().catch(() => {});
-      return a;
-    } catch(e) { return null; }
-  }
-  function stopSound(key) {
-    if (audioCache[key]) {
-      audioCache[key].pause();
-      audioCache[key].currentTime = 0;
-    }
-  }
-
-  // ══ CONSTANTES DBD ══
-  // Durée totale pour réparer seul ≈ 90 secondes
-  const GEN_DURATION_MS   = 90000;
-  const CIRCUMFERENCE     = 2 * Math.PI * 120; // ~754px
-
-  // QTE : apparaît toutes les 18-30s (aléatoire)
-  const QTE_INTERVAL_MIN  = 18000;
-  const QTE_INTERVAL_MAX  = 30000;
-
-  // Durée de l'anneau qui rétrécit
-  const QTE_SHRINK_MS     = 1800;
-
-  // Régression si rate : -8% de progression
-  const REGRESSION_AMOUNT = 0.08;
-  // Vitesse de régression : 2.5% par seconde
-  const REGRESSION_SPEED  = 0.025;
-
-  // Dash arc helpers (r=90, circonférence=565)
-  const QTE_CIRC = 2 * Math.PI * 90; // ≈ 565
-
-  // ══ ÉTAT ══
-  let running      = false;
-  let progress     = 0;       // 0..1
-  let lastTick     = 0;
-  let startTime    = 0;
-  let elapsedMs    = 0;
-  let qteActive    = false;
-  let qteTimer     = null;
-  let qteStartTime = 0;
-  let qteAnimFrame = null;
-  let regressing   = false;
-  let mainAnimFrame= null;
-  let genLoopAudio = null;
-
-  let stats = { success: 0, great: 0, fail: 0 };
-
-  // ══ SUCCÈS ══
-  const ACHIEVEMENTS_DEF = [
-    { id: 'first_gen',     icon: '⚙️', name: 'Première Répare',    desc: 'Terminer ta première génératrice',           condition: (s, g, gens) => gens >= 1 },
-    { id: 'five_gens',     icon: '🔧', name: 'Mécanicien',         desc: 'Terminer 5 génératrices',                    condition: (s, g, gens) => gens >= 5 },
-    { id: 'ten_gens',      icon: '🛠️', name: 'Expert en réparation',desc: 'Terminer 10 génératrices',                  condition: (s, g, gens) => gens >= 10 },
-    { id: 'great_5',       icon: '⭐', name: 'Précision',          desc: 'Réussir 5 grandes vérifications d\'affilée', condition: (s, g) => g >= 5 },
-    { id: 'great_10',      icon: '🌟', name: 'Maestro',            desc: 'Réussir 10 grandes vérifications d\'affilée',condition: (s, g) => g >= 10 },
-    { id: 'no_fail',       icon: '🎯', name: 'Intouchable',        desc: 'Finir une gen sans rater de QTE',            condition: (s, g, gens, f) => gens >= 1 && f === 0 },
-    { id: 'speed_60',      icon: '⚡', name: 'Express',            desc: 'Finir une gen en moins de 60 secondes',      condition: (s, g, gens, f, t) => gens >= 1 && t < 60000 },
-    { id: 'speed_45',      icon: '🚀', name: 'Speedrun',           desc: 'Finir une gen en moins de 45 secondes',      condition: (s, g, gens, f, t) => gens >= 1 && t < 45000 },
-    { id: 'hundred_great', icon: '💎', name: 'Légende',            desc: 'Réussir 100 grandes vérifications au total',  condition: (s, g) => g >= 100 },
-  ];
-
-  let unlocked   = new Set(JSON.parse(localStorage.getItem('dbd_ach') || '[]'));
-  let totalGreat = parseInt(localStorage.getItem('dbd_great') || '0');
-  let totalGens  = parseInt(localStorage.getItem('dbd_gens') || '0');
-  let greatStreak = 0;
-  let currentGenFail = 0;
-  let currentGenTime = 0;
-
-  function saveAch() {
-    localStorage.setItem('dbd_ach',   JSON.stringify([...unlocked]));
-    localStorage.setItem('dbd_great', totalGreat);
-    localStorage.setItem('dbd_gens',  totalGens);
-  }
-
-  function checkAchievements(genDoneTime = null) {
-    ACHIEVEMENTS_DEF.forEach(a => {
-      if (unlocked.has(a.id)) return;
-      if (a.condition(stats.success, greatStreak, totalGens, currentGenFail, genDoneTime)) {
-        unlocked.add(a.id);
-        saveAch();
-        renderAchievements();
-        showFeedback(`🏆 Succès : ${a.name}`, 'great', 3000);
-      }
-    });
-    // Légende sur totalGreat
-    if (!unlocked.has('hundred_great') && totalGreat >= 100) {
-      unlocked.add('hundred_great');
-      saveAch();
-      renderAchievements();
-      showFeedback('🏆 Succès : Légende', 'great', 3000);
-    }
-  }
-
-  function renderAchievements() {
-    const grid = document.getElementById('achievementsGrid');
-    grid.innerHTML = '';
-    ACHIEVEMENTS_DEF.forEach(a => {
-      const el = document.createElement('div');
-      el.className = `achievement ${unlocked.has(a.id) ? 'unlocked' : ''}`;
-      el.innerHTML = `
-        <div class="achievement-icon">${a.icon}</div>
-        <div class="achievement-text">
-          <h4>${a.name}</h4>
-          <p>${a.desc}</p>
-        </div>`;
-      grid.appendChild(el);
-    });
-  }
-
-  // ══ FEEDBACK MSG ══
-  let feedbackTimeout = null;
-  function showFeedback(msg, type, duration = 900) {
-    const el = document.getElementById('feedbackMsg');
-    clearTimeout(feedbackTimeout);
-    el.textContent = msg;
-    el.className = `feedback-msg ${type} show`;
-    feedbackTimeout = setTimeout(() => el.classList.remove('show'), duration);
-  }
-
-  // ══ JAUGE ══
-  function updateGaugeUI() {
-    const p = Math.max(0, Math.min(1, progress));
-    const offset = CIRCUMFERENCE * (1 - p);
-    const el = document.getElementById('genProgress');
-    el.style.strokeDashoffset = offset;
-    el.className = `gen-progress ${p >= 1 ? 'done' : regressing ? 'regressing' : ''}`;
-    document.getElementById('genPercent').textContent = Math.round(p * 100) + '%';
-
-    if (p >= 1)      document.getElementById('genStatus').textContent = 'Terminée !';
-    else if (regressing) document.getElementById('genStatus').textContent = 'Régression…';
-    else if (running)document.getElementById('genStatus').textContent = 'En cours…';
-    else             document.getElementById('genStatus').textContent = 'En attente';
-  }
-
-  // ══ TIMER DISPLAY ══
-  function fmtTime(ms) {
-    const s = Math.floor(ms / 1000);
-    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-  }
-  function updateStats() {
-    document.getElementById('statTime').textContent    = fmtTime(elapsedMs);
-    document.getElementById('statSuccess').textContent = stats.success;
-    document.getElementById('statGreat').textContent   = stats.great;
-    document.getElementById('statFail').textContent    = stats.fail;
-  }
-
-  // ══ BOUCLE PRINCIPALE ══
-  function gameTick(ts) {
-    if (!running) return;
-
-    const dt = lastTick ? ts - lastTick : 0;
-    lastTick = ts;
-    elapsedMs += dt;
-
-    if (!regressing) {
-      // Progression normale
-      progress += dt / GEN_DURATION_MS;
-    } else {
-      // Régression
-      progress -= REGRESSION_SPEED * (dt / 1000);
-      if (progress < 0) progress = 0;
-      // Arrêt de la régression après REGRESSION_AMOUNT
-      if (progress <= (regressTarget)) {
-        regressing = false;
-        regressTarget = 0;
-      }
-    }
-
-    updateGaugeUI();
-    updateStats();
-
-    if (progress >= 1) {
-      onGenComplete();
-      return;
-    }
-
-    mainAnimFrame = requestAnimationFrame(gameTick);
-  }
-
-  let regressTarget = 0;
-
-  // ══ QTE ══
-  function scheduleQTE() {
-    if (!running) return;
-    const delay = QTE_INTERVAL_MIN + Math.random() * (QTE_INTERVAL_MAX - QTE_INTERVAL_MIN);
-    qteTimer = setTimeout(triggerQTE, delay);
-  }
-
-  // Angles de la zone (en fraction de circonférence)
-  const NORMAL_ARC  = 0.10; // 10% de la roue = zone normale
-  const GREAT_ARC   = 0.04; // 4% = grande vérification (intérieur de la zone normale)
-
-  function triggerQTE() {
-    if (!running || qteActive) return;
-    qteActive = true;
-    qteStartTime = performance.now();
-
-    // Position aléatoire de la zone sur l'anneau (0..1)
-    const zoneStart = Math.random();
-
-    // Afficher les zones
-    const normalEl = document.getElementById('qteNormalZone');
-    const greatEl  = document.getElementById('qteGreatZone');
-    const shrink   = document.getElementById('qteShrink');
-
-    // Zone normale (blanche)
-    const normalLen = QTE_CIRC * NORMAL_ARC;
-    const normalOff = QTE_CIRC * (1 - NORMAL_ARC) - QTE_CIRC * zoneStart;
-    normalEl.style.strokeDasharray  = `${normalLen} ${QTE_CIRC - normalLen}`;
-    normalEl.style.strokeDashoffset = normalOff;
-    normalEl.style.opacity = '1';
-
-    // Zone grande vérif (jaune, au centre de la normale)
-    const greatLen = QTE_CIRC * GREAT_ARC;
-    const greatCenter = zoneStart + (NORMAL_ARC - GREAT_ARC) / 2;
-    const greatOff = QTE_CIRC * (1 - GREAT_ARC) - QTE_CIRC * greatCenter;
-    greatEl.style.strokeDasharray  = `${greatLen} ${QTE_CIRC - greatLen}`;
-    greatEl.style.strokeDashoffset = greatOff;
-    greatEl.style.opacity = '1';
-
-    // Anneau qui rétrécit
-    shrink.style.strokeDashoffset = '0';
-
-    document.getElementById('qteLabel').textContent = 'ESPACE';
-    document.getElementById('qteHint').textContent  = 'Appuie maintenant !';
-
-    // Animer le rétrécissement
-    let qteStart2 = performance.now();
-    function animShrink(ts) {
-      const elapsed = ts - qteStart2;
-      const t = Math.min(elapsed / QTE_SHRINK_MS, 1);
-      // L'anneau passe de plein à 0
-      const remaining = QTE_CIRC * (1 - t);
-      shrink.style.strokeDashoffset = QTE_CIRC - remaining;
-      shrink.style.strokeDasharray  = `${remaining} ${QTE_CIRC - remaining}`;
-
-      if (t < 1 && qteActive) {
-        qteAnimFrame = requestAnimationFrame(animShrink);
-      } else if (t >= 1 && qteActive) {
-        // Temps écoulé = raté
-        onQTEResult('missed');
-      }
-    }
-    qteAnimFrame = requestAnimationFrame(animShrink);
-  }
-
-  function onQTEInput() {
-    if (!qteActive) return;
-    cancelAnimationFrame(qteAnimFrame);
-    qteActive = false;
-
-    const elapsed = performance.now() - qteStartTime;
-    const t = elapsed / QTE_SHRINK_MS;
-
-    // t proche de 1 = l'anneau est presque fermé = dans la zone
-    // Zone normale : t entre 0.75 et 1.0
-    // Zone grande vérif : t entre 0.87 et 1.0
-    let result;
-    if (t >= 0.87 && t <= 1.0)     result = 'great';
-    else if (t >= 0.72 && t < 0.87) result = 'success';
-    else                             result = 'fail';
-
-    onQTEResult(result);
-  }
-
-  function onQTEResult(result) {
-    qteActive = false;
-    cancelAnimationFrame(qteAnimFrame);
-
-    // Cacher les zones
-    document.getElementById('qteNormalZone').style.opacity = '0';
-    document.getElementById('qteGreatZone').style.opacity  = '0';
-    const shrink = document.getElementById('qteShrink');
-    shrink.style.strokeDashoffset = '0';
-    shrink.style.strokeDasharray  = `${QTE_CIRC} 0`;
-    document.getElementById('qteHint').textContent = '';
-
-    const feedback = document.getElementById('qteFeedback');
-
-    if (result === 'great') {
-      stats.great++;
-      stats.success++;
-      greatStreak++;
-      totalGreat++;
-      playSound('great');
-      showFeedback('⭐ EXCELLENT !', 'great');
-      feedback.className = 'qte-feedback great flash';
-      document.getElementById('qteLabel').textContent = 'EXCELLENT';
-      checkAchievements();
-
-    } else if (result === 'success') {
-      stats.success++;
-      greatStreak = 0;
-      playSound('success');
-      showFeedback('✓ Réussi', 'success');
-      feedback.className = 'qte-feedback success flash';
-      document.getElementById('qteLabel').textContent = 'RÉUSSI';
-
-    } else {
-      // Fail ou missed
-      stats.fail++;
-      greatStreak = 0;
-      currentGenFail++;
-      playSound('fail');
-      showFeedback('✗ Raté !', 'fail');
-      feedback.className = 'qte-feedback fail flash';
-      document.getElementById('qteLabel').textContent = 'RATÉ';
-
-      // Régression
-      regressing    = true;
-      regressTarget = Math.max(0, progress - REGRESSION_AMOUNT);
-
-      // Flash explosion gen
-      document.getElementById('genVisual').classList.add('explode');
-      setTimeout(() => document.getElementById('genVisual').classList.remove('explode'), 400);
-    }
-
-    setTimeout(() => {
-      document.getElementById('qteLabel').textContent = 'ESPACE';
-      feedback.className = 'qte-feedback';
-    }, 700);
-
-    if (running) scheduleQTE();
-  }
-
-  // ══ DÉMARRAGE / FIN ══
-  function startGame() {
-    if (running) return;
-    running  = true;
-    lastTick = 0;
-    if (!startTime) startTime = performance.now();
-
-    document.getElementById('startBtn').disabled = true;
-    document.getElementById('qteHint').textContent = 'QTE en approche…';
-
-    genLoopAudio = playSound('loop', true);
-    scheduleQTE();
-    mainAnimFrame = requestAnimationFrame(gameTick);
-  }
-
-  function onGenComplete() {
-    running = false;
-    progress = 1;
-    totalGens++;
-    const genTime = elapsedMs;
-
-    clearTimeout(qteTimer);
-    cancelAnimationFrame(mainAnimFrame);
-    stopSound('loop');
-    playSound('done');
-
-    updateGaugeUI();
-    updateStats();
-    checkAchievements(genTime);
-    saveAch();
-
-    // Overlay
-    document.getElementById('endTime').textContent = fmtTime(genTime);
-    document.getElementById('endStats').textContent =
-      `${stats.success} réussies · ${stats.great} excellentes · ${stats.fail} ratées`;
-    document.getElementById('endOverlay').classList.add('show');
-  }
-
-  function resetGame() {
-    running    = false;
-    progress   = 0;
-    elapsedMs  = 0;
-    lastTick   = 0;
-    startTime  = 0;
-    qteActive  = false;
-    regressing = false;
-    greatStreak= 0;
-    currentGenFail = 0;
-    stats = { success: 0, great: 0, fail: 0 };
-
-    clearTimeout(qteTimer);
-    cancelAnimationFrame(mainAnimFrame);
-    cancelAnimationFrame(qteAnimFrame);
-    stopSound('loop');
-
-    document.getElementById('qteNormalZone').style.opacity = '0';
-    document.getElementById('qteGreatZone').style.opacity  = '0';
-    document.getElementById('qteShrink').style.strokeDashoffset = '0';
-    document.getElementById('qteShrink').style.strokeDasharray  = `${QTE_CIRC} 0`;
-    document.getElementById('qteLabel').textContent  = 'ESPACE';
-    document.getElementById('qteHint').textContent   = 'Appuie sur ESPACE pour commencer';
-    document.getElementById('startBtn').disabled     = false;
-    document.getElementById('endOverlay').classList.remove('show');
-
-    updateGaugeUI();
-    updateStats();
-  }
-
-  // ══ EVENTS ══
-  document.getElementById('startBtn').addEventListener('click', startGame);
-  document.getElementById('resetBtn').addEventListener('click', resetGame);
-  document.getElementById('endRestartBtn').addEventListener('click', () => { resetGame(); startGame(); });
-
-  // ESPACE = QTE ou démarrer
-  document.addEventListener('keydown', e => {
-    if (e.code === 'Space') {
-      e.preventDefault();
-      if (!running) { startGame(); return; }
-      if (qteActive) onQTEInput();
-    }
-  });
-
-  // Clic sur le cercle QTE (mobile)
-  document.getElementById('qteContainer').addEventListener('click', () => {
-    if (!running) { startGame(); return; }
-    if (qteActive) onQTEInput();
-  });
-
-  // ══ INIT ══
-  renderAchievements();
-  updateGaugeUI();
-  updateStats();
-
-})();
-</script>
-
+    <script>
+        // ============================================
+        // CONSTANTS - Now Properly Defined
+        // ============================================
+        const CONFIG = {
+            GAUGE_MAX: 100,
+            QTE_CIRC: 754,           // Circumference of r=120 circle (2*PI*120)
+            QTE_SHRINK_MS: 3000,    // Time for ring to shrink completely
+            REGRESSION_AMOUNT: 15,  // Gauge loss on miss
+            QTE_APPROACH_MS: 4000,  // Time from spawn to hit zone
+            
+            ZONE_RADI: {             // Hit zone radii
+                GREAT: 40,
+                NORMAL: 80,
+                OUTER: 120
+            },
+            
+            REWARDS: {               // Gauge rewards per hit type
+                GREAT: 15,
+                SUCCESS: 8,
+                FAIL: -15
+            }
+        };
+
+        const HIT_TYPES = {
+            GREAT: 'GREAT',
+            SUCCESS: 'SUCCESS', 
+            MISS: 'MISS'
+        };
+
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let gameState = {
+            isRunning: false,
+            gauge: 0,
+            streak: 0,
+            score: 0,
+            combo: 0,
+            
+            qteActive: false,
+            qteStartTime: 0,
+            qteProgress: 0,
+            
+            nextQTEAt: null,
+            animationFrame: null,
+            
+            achievements: []
+        };
+
+        // ============================================
+        // DOM ELEMENTS - Cached References
+        // ============================================
+        const dom = {
+            startBtn: document.getElementById('startBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            restartBtn: document.getElementById('restartBtn'),
+            
+            genVisual: document.getElementById('genVisual'),
+            genText: document.getElementById('genText'),
+            
+            qteContainer: document.getElementById('qteContainer'),
+            qteShrink: document.getElementById('qteShrink'),
+            qteNormalZone: document.getElementById('qteNormalZone'),
+            qteGreatZone: document.getElementById('greatZone'),
+            qteFeedback: document.getElementById('qteFeedback'),
+            
+            streakVal: document.getElementById('streakVal'),
+            scoreVal: document.getElementById('scoreVal'),
+            comboVal: document.getElementById('comboVal'),
+            
+            endOverlay: document.getElementById('endOverlay'),
+            endTitle: document.getElementById('endTitle'),
+            endScore: document.getElementById('endScore'),
+            
+            achievementsPanel: document.getElementById('achievementsPanel')
+        };
+
+        // ============================================
+        // AUDIO SYSTEM
+        // ============================================
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type, frequency = 440, duration = 0.1) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.type = type === HIT_TYPES.GREAT ? 'triangle' : 'sine';
+            osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        // ============================================
+        // GAME LOGIC - Fixed & Complete
+        // ============================================
+        
+        function initGame() {
+            gameState = {
+                isRunning: false,
+                gauge: 0,
+                streak: 0,
+                score: 0,
+                combo: 0,
+                qteActive: false,
+                qteStartTime: 0,
+                qteProgress: 0,
+                nextQTEAt: null,
+                animationFrame: null,
+                achievements: []
+            };
+            
+            updateUI();
+            resetQTEVisuals();
+        }
+
+        function startGame() {
+            initGame();
+            gameState.isRunning = true;
+            scheduleNextQTE(1000); // First QTE after 1 second
+            
+            dom.startBtn.disabled = true;
+            dom.resetBtn.disabled = false;
+            
+            updateUI();
+        }
+
+        function endGame(reason) {
+            gameState.isRunning = false;
+            cancelAnimationFrame(gameState.animationFrame);
+            
+            dom.endOverlay.classList.remove('hidden');
+            dom.endTitle.textContent = reason === 'victory' ? 
+                '🎉 GAUGE EXPLODED! VICTORY!' : 
+                '💔 GAME OVER';
+            dom.endScore.textContent = `Final Score: ${gameState.score}`;
+            
+            dom.startBtn.disabled = false;
+        }
+
+        function scheduleNextQTE(delay) {
+            if (!gameState.isRunning) return;
+            
+            gameState.nextQTEAt = performance.now() + delay;
+            
+            // Spawn QTE when time arrives
+            const checkSpawn = () => {
+                if (performance.now() >= gameState.nextQTEAt && !gameState.qteActive) {
+                    spawnQTE();
+                } else {
+                    gameState.animationFrame = requestAnimationFrame(checkSpawn);
+                }
+            };
+            
+            gameState.animationFrame = requestAnimationFrame(checkSpawn);
+        }
+
+        function spawnQTE() {
+            if (!gameState.isRunning) return;
+            
+            gameState.qteActive = true;
+            gameState.qteStartTime = performance.now();
+            gameState.qteProgress = 0;
+            
+            // Visual setup for QTE
+            dom.qteShrink.style.strokeDasharray = `${CONFIG.QTE_CIRC} ${CONFIG.QTE_CIRC}`;
+            dom.qteFeedback.textContent = 'READY';
+            dom.qteNormalZone.style.opacity = '1';
+            dom.qteGreatZone.style.opacity = '1';
+            
+            // Start shrinking animation
+            animateQTE();
+        }
+
+        function animateQTE() {
+            if (!gameState.isRunning || !gameState.qteActive) return;
+            
+            const elapsed = performance.now() - gameState.qteStartTime;
+            gameState.qteProgress = Math.min(elapsed / CONFIG.QTE_SHRINK_MS, 1);
+            
+            // Update shrinking ring visual
+            const dashOffset = CONFIG.QTE_CIRC * gameState.qteProgress;
+            dom.qteShrink.style.strokeDashoffset = dashOffset;
+            
+            if (gameState.qteProgress >= 1) {
+                handleQTEMiss();
+            } else {
+                gameState.animationFrame = requestAnimationFrame(animateQTE);
+            }
+        }
+
+        function processHit(hitType) {
+            if (!gameState.isRunning || !gameState.qteActive) return;
+            
+            const elapsed = performance.now() - gameState.qteStartTime;
+            const progress = elapsed / CONFIG.QTE_SHRINK_MS;
+            
+            // Determine actual hit quality based on timing
+            let actualHitType;
+            if (progress < 0.15) {
+                actualHitType = HIT_TYPES.GREAT;
+            } else if (progress < 0.45) {
+                actualHitType = HIT_TYPES.SUCCESS;
+            } else {
+                actualHitType = HIT_TYPES.MISS;
+            }
+            
+            applyHitResult(actualHitType);
+        }
+
+        function handleQTEMiss() {
+            applyHitResult(HIT_TYPES.MISS);
+        }
+
+        function applyHitResult(hitType) {
+            gameState.qteActive = false;
+            cancelAnimationFrame(gameState.animationFrame);
+            
+            // Update gauge based on hit type
+            const reward = CONFIG.REWARDS[hitType];
+            gameState.gauge = Math.max(0, Math.min(CONFIG.GAUGE_MAX, gameState.gauge + reward));
+            
+            // Update streak and combo
+            if (hitType === HIT_TYPES.MISS) {
+                gameState.streak = 0;
+                gameState.combo = 0;
+            } else {
+                gameState.streak++;
+                gameState.combo += hitType === HIT_TYPES.GREAT ? 2 : 1;
+                
+                // Score calculation
+                const baseScore = hitType === HIT_TYPES.GREAT ? 500 : 200;
+                gameState.score += baseScore * (1 + gameState.streak * 0.1);
+            }
+            
+            // Visual feedback
+            dom.qteFeedback.textContent = hitType;
+            dom.qteFeedback.style.color = 
+                hitType === HIT_TYPES.GREAT ? 'var(--accent-green)' :
+                hitType === HIT_TYPES.SUCCESS ? 'var(--accent-yellow)' : '#ff4444';
+            
+            // Audio feedback
+            if (hitType !== HIT_TYPES.MISS) {
+                playSound(hitType, 
+                    hitType === HIT_TYPES.GREAT ? 880 : 660);
+            } else {
+                playSound(HIT_TYPES.MISS, 220, 0.3);
+            }
+            
+            // Check for game end conditions
+            if (gameState.gauge >= CONFIG.GAUGE_MAX) {
+                endGame('victory');
+                return;
+            } else if (gameState.streak === 0 && gameState.gauge <= 0) {
+                endGame('defeat');
+                return;
+            }
+            
+            // Schedule next QTE
+            scheduleNextQTE(800 + Math.random() * 400);
+        }
+
+        function updateUI() {
+            // Gauge display
+            const gaugePercent = (gameState.gauge / CONFIG.GAUGE_MAX) * 100;
+            dom.genVisual.style.width = `${gaugePercent}%`;
+            dom.genText.textContent = `Gauge: ${Math.round(gameState.gauge)}%`;
+            
+            // Stats display
+            dom.streakVal.textContent = gameState.streak;
+            dom.scoreVal.textContent = Math.round(gameState.score);
+            dom.comboVal.textContent = gameState.combo;
+        }
+
+        function resetQTEVisuals() {
+            dom.qteShrink.style.strokeDasharray = `${CONFIG.QTE_CIRC} ${CONFIG.QTE_CIRC}`;
+            dom.qteShrink.style.strokeDashoffset = '0';
+            dom.qteFeedback.textContent = 'READY';
+            dom.qteNormalZone.style.opacity = '1';
+            dom.qteGreatZone.style.opacity = '1';
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        
+        // Input handling - Spacebar for QTE hits
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && gameState.isRunning) {
+                e.preventDefault();
+                processHit(HIT_TYPES.SUCCESS);
+            }
+        });
+
+        dom.startBtn.addEventListener('click', startGame);
+        
+        dom.resetBtn.addEventListener('click', () => {
+            cancelAnimationFrame(gameState.animationFrame);
+            initGame();
+            dom.endOverlay.classList.add('hidden');
+        });
+        
+        dom.restartBtn.addEventListener('click', () => {
+            dom.endOverlay.classList.add('hidden');
+            startGame();
+        });
+
+        // Initialize on load
+        initGame();
+    </script>
 </body>
 </html>

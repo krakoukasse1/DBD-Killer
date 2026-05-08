@@ -856,7 +856,7 @@
     ]
   },
   {
-    "character": "Épidémie (Adiris)",
+    "character": "Épidémie",
     "perks": [
       {"id": "k_plague_01", "name": "Intervention corrompue", "img": "perks/killer/CorruptIntervention.png", "description": "Bloque les générateurs éloignés au début de la partie.", "type": "slowdown", "buffs": ["Gen Block"], "debuffs": []},
       {"id": "k_plague_02", "name": "Terreur contagieuse", "img": "perks/killer/InfectiousFright.png", "description": "Fait hurler les survivants proches lors d'une mise à terre.", "type": "tracking", "buffs": ["Scream"], "debuffs": []},
@@ -1040,7 +1040,7 @@
     ]
   },
   {
-    "character": "Houdmaster",
+    "character": "Houndmaster",
     "perks": [
       {"id": "k_hound_01", "name": "Poursuite sanglante", "img": "perks/killer/BloodScent.png", "description": "Traces de sang plus denses qui donnent un boost de vitesse.", "type": "chase", "buffs": ["Haste"], "debuffs": []},
       {"id": "k_hound_02", "name": "Morsure de fer", "img": "perks/killer/IronBite.png", "description": "Les survivants décrochés ne peuvent pas être soignés pendant 30s.", "type": "slowdown", "buffs": [], "debuffs": ["Healing Block"]},
