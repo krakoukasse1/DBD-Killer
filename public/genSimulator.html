@@ -3,60 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DBD Gen Sim - Fidèle au jeu</title>
+  <title>DBD Gen Simulator</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
-    :root {
-      --dbd-red: #ff0000;
-      --qte-size: 200px;
-    }
+    :root { --dbd-red: #ff0000; --qte-size: 220px; }
 
-    body {
-      margin: 0;
-      background-color: #050505;
-      color: white;
-      font-family: 'Bebas Neue', sans-serif;
+    .sim-page {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding: 40px 20px 80px;
+      gap: 40px;
       min-height: 100vh;
-      overflow: hidden;
-      user-select: none;
     }
 
-    /* ══ BARRE DE RÉPARATION (90s Progress) ══ */
-    .repair-container {
-      width: 450px;
-      margin-bottom: 60px;
-    }
+    /* ── HERO ── */
+    .sim-hero { text-align: center; }
+    .sim-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 6px; }
+    .sim-hero h1 span { color: #cc0000; }
+    .sim-hero p { font-family: sans-serif; font-size: 0.82rem; color: rgba(200,200,200,0.4); letter-spacing: 1px; }
 
-    .repair-label {
-      font-size: 1.3rem;
-      letter-spacing: 3px;
-      margin-bottom: 8px;
+    /* ── STATS ROW ── */
+    .stats-row {
       display: flex;
-      justify-content: space-between;
-      color: #aaa;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+    .stat-pill {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 10px 20px;
+      text-align: center;
+      min-width: 80px;
+    }
+    .stat-pill .val { font-size: 1.6rem; color: #fff; letter-spacing: 1px; display: block; }
+    .stat-pill .lbl { font-family: sans-serif; font-size: 0.62rem; color: rgba(200,200,200,0.35); letter-spacing: 1.5px; text-transform: uppercase; }
 
+    /* ── REPAIR BAR ── */
+    .repair-container { width: min(480px, 90vw); }
+    .repair-label {
+      font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; color: #aaa;
+    }
     .repair-bar-bg {
-      width: 100%;
-      height: 10px;
-      background: rgba(40, 40, 40, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      position: relative;
+      width: 100%; height: 12px;
+      background: rgba(40,40,40,0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
       overflow: hidden;
+      position: relative;
     }
-
     .repair-bar-fill {
-      height: 100%;
-      width: 0%;
+      height: 100%; width: 0%;
       background: linear-gradient(90deg, #800, var(--dbd-red));
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+      box-shadow: 0 0 14px rgba(255,0,0,0.5);
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .repair-bar-fill.regressing {
+      background: linear-gradient(90deg, #440, #ff6600);
+      box-shadow: 0 0 14px rgba(255,100,0,0.5);
     }
 
-    /* ══ SKILL CHECK (QTE) ══ */
+    /* ── QTE ── */
     .qte-wrapper {
       position: relative;
       width: var(--qte-size);
@@ -66,98 +79,177 @@
       justify-content: center;
       visibility: hidden;
       opacity: 0;
-      transition: opacity 0.2s;
+      transition: opacity 0.15s;
     }
-
-    .qte-wrapper.active { 
-        visibility: visible; 
-        opacity: 1;
-    }
+    .qte-wrapper.active { visibility: visible; opacity: 1; }
 
     .qte-circle-base {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 4px solid rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      box-sizing: border-box;
+      position: absolute; width: 100%; height: 100%;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-radius: 50%; box-sizing: border-box;
     }
+    .qte-svg { position: absolute; transform: rotate(-90deg); width: 100%; height: 100%; }
 
-    .qte-svg {
-      position: absolute;
-      transform: rotate(-90deg);
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Zone BON (Bordure blanche, fond noir) */
-    .zone-good-border { fill: none; stroke: white; stroke-width: 12; }
-    .zone-good-bg { fill: none; stroke: #050505; stroke-width: 8; }
-
-    /* Zone EXCELLENT (Pleine blanche) */
-    .zone-excellent { fill: none; stroke: white; stroke-width: 12; }
+    .zone-good-border { fill: none; stroke: white;   stroke-width: 14; }
+    .zone-good-bg     { fill: none; stroke: #050505; stroke-width: 10; }
+    .zone-excellent   { fill: none; stroke: white;   stroke-width: 14; }
 
     .needle {
       position: absolute;
-      width: 3px;
-      height: 50%;
+      width: 3px; height: 50%;
       background: var(--dbd-red);
-      bottom: 50%;
-      left: calc(50% - 1.5px);
+      bottom: 50%; left: calc(50% - 1.5px);
       transform-origin: bottom center;
       z-index: 20;
       box-shadow: 0 0 10px red;
     }
-
     .qte-center {
-      width: 80px;
-      height: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      width: 88px; height: 44px;
+      border: 2px solid rgba(255,255,255,0.35);
       border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.6);
-      font-size: 1.4rem;
-      z-index: 30;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.7);
+      font-size: 1.3rem; z-index: 30;
     }
 
     .feedback {
-      position: absolute;
-      top: -50px;
-      font-size: 2rem;
-      font-weight: bold;
+      position: absolute; top: -48px;
+      font-size: 1.8rem; font-weight: bold;
       text-shadow: 2px 2px 4px black;
-      pointer-events: none;
-      opacity: 0;
+      pointer-events: none; opacity: 0;
+      white-space: nowrap;
     }
-
-    .feedback.show { animation: popFeedback 0.6s ease-out; }
-
+    .feedback.show { animation: popFeedback 0.65s ease-out forwards; }
     @keyframes popFeedback {
-      0% { opacity: 0; transform: scale(0.5); }
-      50% { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 0; transform: translateY(-30px); }
+      0%   { opacity: 0; transform: scale(0.5) translateY(0); }
+      40%  { opacity: 1; transform: scale(1.2) translateY(0); }
+      100% { opacity: 0; transform: scale(1)   translateY(-24px); }
     }
 
-    .start-btn {
-      padding: 15px 40px;
-      font-family: 'Bebas Neue';
-      font-size: 1.8rem;
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-      cursor: pointer;
-      transition: 0.3s;
+    /* ── BOUTONS ── */
+    .sim-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .sim-btn {
+      padding: 14px 32px; border-radius: 9px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem; letter-spacing: 2px;
+      cursor: pointer; border: none; transition: all 0.2s;
     }
-    .start-btn:hover { background: white; color: black; }
+    .sim-btn.start   { background: red; color: #fff; box-shadow: 0 4px 20px rgba(200,0,0,0.25); }
+    .sim-btn.start:hover { background: #cc0000; transform: scale(1.03); }
+    .sim-btn.reset   { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
+    .sim-btn.reset:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
+    .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+    /* ── SUCCÈS ── */
+    .achievements-wrap { width: min(720px, 90vw); }
+    .achievements-title {
+      font-size: 1.2rem; color: #fff; letter-spacing: 2px;
+      margin-bottom: 12px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media(max-width:600px){ .achievements-grid { grid-template-columns: 1fr 1fr; } }
+
+    .ach {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      transition: border-color 0.4s, background 0.4s;
+    }
+    .ach.unlocked { border-color: rgba(255,180,0,0.45); background: rgba(255,180,0,0.07); }
+    .ach-icon { font-size: 1.4rem; flex-shrink: 0; filter: grayscale(1); transition: filter 0.4s; }
+    .ach.unlocked .ach-icon { filter: grayscale(0); }
+    .ach-name { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; transition: color 0.4s; display: block; }
+    .ach.unlocked .ach-name { color: #fff; }
+    .ach-desc { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.25); line-height: 1.4; transition: color 0.4s; }
+    .ach.unlocked .ach-desc { color: rgba(200,200,200,0.55); }
+
+    /* ── OVERLAY FIN ── */
+    .end-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 200;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 18px; backdrop-filter: blur(6px);
+    }
+    .end-overlay.show { display: flex; }
+    .end-overlay h2 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
+    .end-overlay h2 span { color: #00cc44; }
+    .end-time { font-size: 2.2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; }
+    .end-sub  { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.5); letter-spacing: 1px; }
+
+    /* Toast succès débloqué */
+    .ach-toast {
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(10,10,10,0.95);
+      border: 1px solid rgba(255,180,0,0.4);
+      border-radius: 10px; padding: 12px 24px;
+      font-family: sans-serif; font-size: 0.85rem;
+      color: #ffd700; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s; z-index: 300;
+      white-space: nowrap;
+    }
+    .ach-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
 
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="bonus.html">Bonus</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<div class="ach-toast" id="achToast"></div>
+
+<div class="end-overlay" id="endOverlay">
+  <h2>GEN <span>TERMINÉE</span> !</h2>
+  <div class="end-time" id="endTime">0:00</div>
+  <div class="end-sub" id="endSub"></div>
+  <button class="sim-btn start" id="endRestartBtn" style="margin-top:8px">↻ Recommencer</button>
+</div>
+
+<main class="sim-page">
+
+  <div class="sim-hero">
+    <h1>Gen <span>Simulator</span></h1>
+    <p>Répare la génératrice exactement comme dans DBD — appuie sur ESPACE pour les QTE</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-pill"><span class="val" id="statTime">0:00</span><span class="lbl">Temps</span></div>
+    <div class="stat-pill"><span class="val" id="statSuccess">0</span><span class="lbl">Réussies</span></div>
+    <div class="stat-pill"><span class="val" id="statGreat">0</span><span class="lbl">Excellentes</span></div>
+    <div class="stat-pill"><span class="val" id="statFail">0</span><span class="lbl">Ratées</span></div>
+  </div>
+
+  <!-- BARRE DE RÉPARATION -->
   <div class="repair-container">
     <div class="repair-label">
-      <span>RÉPARATION EN COURS...</span>
+      <span id="repairLabel">EN ATTENTE</span>
       <span id="percentText">0%</span>
     </div>
     <div class="repair-bar-bg">
@@ -165,165 +257,329 @@
     </div>
   </div>
 
+  <!-- QTE -->
   <div class="qte-wrapper" id="qteWrapper">
     <div class="feedback" id="feedback">EXCELLENT</div>
     <div class="qte-circle-base"></div>
-    <svg class="qte-svg" viewBox="0 0 200 200">
-      <!-- Zone GOOD (Bordure) -->
-      <circle class="zone-good-border" cx="100" cy="100" r="90" id="svgGoodBorder" stroke-dasharray="40 565" stroke-dashoffset="0"></circle>
-      <!-- Zone GOOD (Intérieur noir pour l'effet "hollow") -->
-      <circle class="zone-good-bg" cx="100" cy="100" r="90" id="svgGoodBg" stroke-dasharray="38 565" stroke-dashoffset="0"></circle>
-      <!-- Zone EXCELLENT (Pleine) -->
-      <circle class="zone-excellent" cx="100" cy="100" r="90" id="svgExcellent" stroke-dasharray="10 565" stroke-dashoffset="0"></circle>
+    <svg class="qte-svg" viewBox="0 0 220 220">
+      <circle class="zone-good-border" cx="110" cy="110" r="100" id="svgGoodBorder" stroke-dasharray="0 629" stroke-dashoffset="0"/>
+      <circle class="zone-good-bg"     cx="110" cy="110" r="100" id="svgGoodBg"     stroke-dasharray="0 629" stroke-dashoffset="0"/>
+      <circle class="zone-excellent"   cx="110" cy="110" r="100" id="svgExcellent"  stroke-dasharray="0 629" stroke-dashoffset="0"/>
     </svg>
     <div class="needle" id="needle"></div>
     <div class="qte-center">SPACE</div>
   </div>
 
-  <button class="start-btn" id="startBtn">RÉPARER LE GÉNÉRATEUR</button>
+  <!-- BOUTONS -->
+  <div class="sim-controls">
+    <button class="sim-btn start" id="startBtn">▶ Commencer</button>
+    <button class="sim-btn reset" id="resetBtn">↺ Réinitialiser</button>
+  </div>
 
-  <script>
-    const settings = {
-      repairTimeSeconds: 90,
-      fps: 60,
-      needleSpeed: 2.2, // Plus lent et gérable
-      circumference: 2 * Math.PI * 90 // ~565
-    };
+  <!-- SUCCÈS -->
+  <div class="achievements-wrap">
+    <div class="achievements-title">🏆 Succès</div>
+    <div class="achievements-grid" id="achievementsGrid"></div>
+  </div>
 
-    const state = {
-      progress: 0,
-      isRunning: false,
-      isQteActive: false,
-      needleRot: 0,
-      zones: { start: 0, excellentEnd: 0, goodEnd: 0 }
-    };
+</main>
 
-    const el = {
-      bar: document.getElementById('genProgress'),
-      percent: document.getElementById('percentText'),
-      qte: document.getElementById('qteWrapper'),
-      needle: document.getElementById('needle'),
-      svgGoodBorder: document.getElementById('svgGoodBorder'),
-      svgGoodBg: document.getElementById('svgGoodBg'),
-      svgExcellent: document.getElementById('svgExcellent'),
-      feedback: document.getElementById('feedback'),
-      btn: document.getElementById('startBtn')
-    };
+<script src="header.js"></script>
+<script>
+(function(){
 
-    function start() {
-      state.isRunning = true;
-      el.btn.style.display = 'none';
-      requestAnimationFrame(update);
-      scheduleQTE();
-    }
+  /* ══ SONS ══ */
+  const SND = {
+    loop:    new Audio('assets/sounds/gen_loop.mp3'),
+    success: new Audio('assets/sounds/skillcheck_success.mp3'),
+    great:   new Audio('assets/sounds/skillcheck_great.mp3'),
+    fail:    new Audio('assets/sounds/skillcheck_fail.mp3'),
+    done:    new Audio('assets/sounds/gen_complete.mp3'),
+  };
+  SND.loop.loop = true; SND.loop.volume = 0.35;
+  ['success','great','fail','done'].forEach(k => SND[k].volume = 0.6);
+  function play(k){ try{ SND[k].currentTime=0; SND[k].play().catch(()=>{}); } catch(e){} }
+  function stopLoop(){ SND.loop.pause(); SND.loop.currentTime=0; }
 
-    function update() {
-      if (!state.isRunning) return;
+  /* ══ CONSTANTES DBD VANILLA ══ */
+  const REPAIR_TIME_S  = 90;     // 90s pour réparer seul
+  const FPS            = 60;
+  const NEEDLE_SPEED   = 2.4;    // degrés/frame — similaire au jeu (environ 2-2.5)
+  const QTE_DELAY_MIN  = 18000;  // ms entre QTE (18-30s comme DBD)
+  const QTE_DELAY_MAX  = 30000;
+  const REGRESSION_PCT = 5;      // % perdu si raté
+  const GREAT_SIZE_DEG = 10;     // zone excellente en degrés
+  const GOOD_SIZE_DEG  = 45;     // zone bonne en degrés
+  const CIRCUMFERENCE  = 2 * Math.PI * 100; // r=100 → ~628.3
 
-      // Calcul de la progression pour 90s
-      // $100 / (90s * 60fps)$
-      state.progress += (100 / (settings.repairTimeSeconds * settings.fps));
-      el.bar.style.width = Math.min(state.progress, 100) + '%';
-      el.percent.innerText = Math.floor(state.progress) + '%';
+  /* ══ ÉTAT ══ */
+  let running=false, progress=0, elapsed=0, lastTs=0;
+  let qteActive=false, needleRot=0, zones={};
+  let regressing=false, regressTarget=0;
+  let stats={success:0,great:0,fail:0};
+  let greatStreak=0, currentFails=0;
+  let animId=null, qteTimeout=null, startTs=0;
 
-      if (state.isQteActive) {
-        state.needleRot += settings.needleSpeed;
-        el.needle.style.transform = `rotate(${state.needleRot}deg)`;
+  /* ══ SUCCÈS ══ */
+  const ACHS = [
+    {id:'first',      icon:'⚙️', name:'Première Répare',       desc:'Terminer ta première génératrice'},
+    {id:'five_gens',  icon:'🔧', name:'Mécanicien',            desc:'Terminer 5 génératrices'},
+    {id:'ten_gens',   icon:'🛠️', name:'Expert',                desc:'Terminer 10 génératrices'},
+    {id:'no_fail',    icon:'🎯', name:'Intouchable',           desc:'Finir une gen sans rater de QTE'},
+    {id:'streak_5',   icon:'⭐', name:'Précision',             desc:'5 excellents d\'affilée'},
+    {id:'streak_10',  icon:'🌟', name:'Maestro',               desc:'10 excellents d\'affilée'},
+    {id:'speed_60',   icon:'⚡', name:'Express',               desc:'Finir une gen en moins de 60s'},
+    {id:'speed_45',   icon:'🚀', name:'Speedrun',              desc:'Finir une gen en moins de 45s'},
+    {id:'legend',     icon:'💎', name:'Légende',               desc:'100 excellents au total'},
+  ];
 
-        if (state.needleRot > 360) fail();
+  let unlocked   = new Set(JSON.parse(localStorage.getItem('dbd_sim_ach') || '[]'));
+  let totalGreat = parseInt(localStorage.getItem('dbd_sim_great') || '0');
+  let totalGens  = parseInt(localStorage.getItem('dbd_sim_gens')  || '0');
+
+  function saveAch(){ localStorage.setItem('dbd_sim_ach', JSON.stringify([...unlocked])); }
+  function saveStats(){ localStorage.setItem('dbd_sim_great', totalGreat); localStorage.setItem('dbd_sim_gens', totalGens); }
+
+  function checkAchs(genTimeMs){
+    const toCheck = [
+      {id:'first',     ok: totalGens >= 1},
+      {id:'five_gens', ok: totalGens >= 5},
+      {id:'ten_gens',  ok: totalGens >= 10},
+      {id:'no_fail',   ok: totalGens >= 1 && currentFails === 0},
+      {id:'streak_5',  ok: greatStreak >= 5},
+      {id:'streak_10', ok: greatStreak >= 10},
+      {id:'speed_60',  ok: totalGens >= 1 && genTimeMs < 60000},
+      {id:'speed_45',  ok: totalGens >= 1 && genTimeMs < 45000},
+      {id:'legend',    ok: totalGreat >= 100},
+    ];
+    toCheck.forEach(c => {
+      if(!unlocked.has(c.id) && c.ok){
+        unlocked.add(c.id); saveAch();
+        renderAchs();
+        showAchToast('🏆 Succès débloqué : ' + ACHS.find(a=>a.id===c.id)?.name);
       }
+    });
+  }
 
-      if (state.progress < 100) {
-        requestAnimationFrame(update);
-      } else {
-        victory();
-      }
+  function renderAchs(){
+    const g = document.getElementById('achievementsGrid');
+    g.innerHTML = '';
+    ACHS.forEach(a => {
+      const div = document.createElement('div');
+      div.className = 'ach' + (unlocked.has(a.id) ? ' unlocked' : '');
+      div.innerHTML = `<span class="ach-icon">${a.icon}</span><div><span class="ach-name">${a.name}</span><p class="ach-desc">${a.desc}</p></div>`;
+      g.appendChild(div);
+    });
+  }
+
+  let toastTimeout=null;
+  function showAchToast(msg){
+    const t = document.getElementById('achToast');
+    clearTimeout(toastTimeout);
+    t.textContent = msg; t.classList.add('show');
+    toastTimeout = setTimeout(()=>t.classList.remove('show'), 3500);
+  }
+
+  /* ══ BOUCLE PRINCIPALE ══ */
+  function tick(ts){
+    if(!running) return;
+    const dt = lastTs ? ts - lastTs : 0;
+    lastTs = ts;
+    elapsed += dt;
+
+    if(!regressing){
+      // Progression : 100% en 90 secondes
+      progress += (100 / (REPAIR_TIME_S * 1000)) * dt;
+    } else {
+      // Régression : ~2%/s
+      progress -= 2 * (dt / 1000);
+      if(progress <= regressTarget){ progress = regressTarget; regressing = false; }
+      if(progress < 0) progress = 0;
     }
 
-    function triggerQTE() {
-      if (!state.isRunning || state.isQteActive) return;
-
-      state.needleRot = 0;
-      const startAngle = 80 + Math.random() * 180;
-      const excSize = 10; 
-      const goodSize = 45;
-
-      state.zones = {
-        start: startAngle,
-        excEnd: startAngle + excSize,
-        goodEnd: startAngle + goodSize
-      };
-
-      const offset = -startAngle;
-      const dash = (s) => `${(s / 360) * settings.circumference} ${settings.circumference}`;
-      const off = (a) => (a / 360) * settings.circumference;
-
-      el.svgExcellent.style.strokeDasharray = dash(excSize);
-      el.svgExcellent.style.strokeDashoffset = off(offset);
-
-      el.svgGoodBorder.style.strokeDasharray = dash(goodSize);
-      el.svgGoodBorder.style.strokeDashoffset = off(offset);
-
-      el.svgGoodBg.style.strokeDasharray = dash(goodSize - 2);
-      el.svgGoodBg.style.strokeDashoffset = off(offset - 1);
-
-      state.isQteActive = true;
-      el.qte.classList.add('active');
+    if(qteActive){
+      needleRot += NEEDLE_SPEED;
+      document.getElementById('needle').style.transform = `rotate(${needleRot}deg)`;
+      if(needleRot >= 360) onFail(); // tour complet = raté
     }
 
-    function checkInput() {
-      if (!state.isQteActive) return;
-      
-      const hit = state.needleRot;
-      if (hit >= state.zones.start && hit <= state.zones.excEnd) {
-        success("EXCELLENT !", "white", 3);
-      } else if (hit > state.zones.excEnd && hit <= state.zones.goodEnd) {
-        success("BON", "#ddd", 0);
-      } else {
-        fail();
-      }
-    }
+    updateUI(dt);
 
-    function success(txt, color, bonus) {
-      showFeedback(txt, color);
-      state.progress = Math.min(100, state.progress + bonus);
-      stopQTE();
-    }
+    if(progress >= 100){ onGenDone(); return; }
+    animId = requestAnimationFrame(tick);
+  }
 
-    function fail() {
-      showFeedback("RATÉ !", "red");
-      state.progress = Math.max(0, state.progress - 5);
-      el.bar.style.backgroundColor = "white";
-      setTimeout(() => el.bar.style.backgroundColor = "", 150);
-      stopQTE();
-    }
+  /* ══ UI ══ */
+  function updateUI(dt){
+    const bar = document.getElementById('genProgress');
+    bar.style.width = Math.min(progress, 100) + '%';
+    bar.className = 'repair-bar-fill' + (regressing ? ' regressing' : '');
+    document.getElementById('percentText').textContent = Math.floor(progress) + '%';
+    document.getElementById('repairLabel').textContent = regressing ? 'RÉGRESSION...' : (running ? 'RÉPARATION EN COURS...' : 'EN ATTENTE');
 
-    function stopQTE() {
-      state.isQteActive = false;
-      el.qte.classList.remove('active');
-      scheduleQTE();
-    }
+    // Temps
+    const s = Math.floor(elapsed / 1000);
+    document.getElementById('statTime').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    document.getElementById('statSuccess').textContent = stats.success;
+    document.getElementById('statGreat').textContent   = stats.great;
+    document.getElementById('statFail').textContent    = stats.fail;
+  }
 
-    function scheduleQTE() {
-      setTimeout(() => { if(state.isRunning) triggerQTE(); }, 4000 + Math.random() * 6000);
-    }
+  /* ══ QTE ══ */
+  function scheduleQTE(){
+    if(!running) return;
+    const delay = QTE_DELAY_MIN + Math.random() * (QTE_DELAY_MAX - QTE_DELAY_MIN);
+    qteTimeout = setTimeout(triggerQTE, delay);
+  }
 
-    function showFeedback(txt, color) {
-      el.feedback.innerText = txt;
-      el.feedback.style.color = color;
-      el.feedback.classList.remove('show');
-      void el.feedback.offsetWidth;
-      el.feedback.classList.add('show');
-    }
+  function triggerQTE(){
+    if(!running || qteActive) return;
+    needleRot = 0;
 
-    function victory() {
-      state.isRunning = false;
-      alert("Générateur complété ! Le portail est ouvert.");
-      location.reload();
-    }
+    // Zone de départ aléatoire (en degrés, 0=haut)
+    const startDeg = 40 + Math.random() * 280;
 
-    el.btn.addEventListener('click', start);
-    window.addEventListener('keydown', (e) => { if(e.code === 'Space') { e.preventDefault(); checkInput(); }});
-  </script>
+    // Calcul des dasharray/dashoffset pour SVG (r=100, circ≈628.3)
+    function arcDash(sizeDeg){ return (sizeDeg/360)*CIRCUMFERENCE; }
+    function arcOff(offsetDeg){ return -(offsetDeg/360)*CIRCUMFERENCE; }
+
+    const gBord = document.getElementById('svgGoodBorder');
+    const gBg   = document.getElementById('svgGoodBg');
+    const gExc  = document.getElementById('svgExcellent');
+
+    // Zone bonne (contour blanc)
+    gBord.style.strokeDasharray  = `${arcDash(GOOD_SIZE_DEG)} ${CIRCUMFERENCE}`;
+    gBord.style.strokeDashoffset = arcOff(startDeg);
+
+    // Zone bonne (fond noir pour effet creux)
+    gBg.style.strokeDasharray  = `${arcDash(GOOD_SIZE_DEG - 2)} ${CIRCUMFERENCE}`;
+    gBg.style.strokeDashoffset = arcOff(startDeg - 1);
+
+    // Zone excellente (petite zone pleine au début de la zone bonne)
+    gExc.style.strokeDasharray  = `${arcDash(GREAT_SIZE_DEG)} ${CIRCUMFERENCE}`;
+    gExc.style.strokeDashoffset = arcOff(startDeg);
+
+    zones = { start: startDeg, excEnd: startDeg + GREAT_SIZE_DEG, goodEnd: startDeg + GOOD_SIZE_DEG };
+
+    qteActive = true;
+    document.getElementById('qteWrapper').classList.add('active');
+  }
+
+  function checkInput(){
+    if(!qteActive) return;
+    const hit = needleRot % 360;
+
+    if(hit >= zones.start && hit <= zones.excEnd){
+      onSuccess('EXCELLENT !', '#fff', true);
+    } else if(hit > zones.excEnd && hit <= zones.goodEnd){
+      onSuccess('BON', '#ccc', false);
+    } else {
+      onFail();
+    }
+  }
+
+  function onSuccess(txt, color, isGreat){
+    stats.success++;
+    if(isGreat){
+      stats.great++;
+      greatStreak++;
+      totalGreat++;
+      play('great');
+    } else {
+      greatStreak = 0;
+      play('success');
+    }
+    showFeedback(txt, color);
+    stopQTE();
+  }
+
+  function onFail(){
+    if(!qteActive) return;
+    stats.fail++;
+    greatStreak = 0;
+    currentFails++;
+    regressing = true;
+    regressTarget = Math.max(0, progress - REGRESSION_PCT);
+    play('fail');
+    // Flash de la barre
+    const bar = document.getElementById('genProgress');
+    bar.style.background = 'white';
+    setTimeout(()=>{ bar.style.background=''; }, 160);
+    showFeedback('RATÉ !', '#ff4444');
+    stopQTE();
+  }
+
+  function stopQTE(){
+    qteActive = false;
+    document.getElementById('qteWrapper').classList.remove('active');
+    scheduleQTE();
+  }
+
+  function showFeedback(txt, color){
+    const f = document.getElementById('feedback');
+    f.textContent = txt; f.style.color = color;
+    f.classList.remove('show');
+    void f.offsetWidth;
+    f.classList.add('show');
+  }
+
+  /* ══ FIN ══ */
+  function onGenDone(){
+    running = false; progress = 100;
+    clearTimeout(qteTimeout);
+    cancelAnimationFrame(animId);
+    stopLoop();
+    play('done');
+    totalGens++;
+    checkAchs(elapsed);
+    saveStats();
+    updateUI(0);
+
+    const s = Math.floor(elapsed/1000);
+    const timeStr = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    document.getElementById('endTime').textContent = timeStr;
+    document.getElementById('endSub').textContent  = `${stats.success} réussies · ${stats.great} excellentes · ${stats.fail} ratées`;
+    document.getElementById('endOverlay').classList.add('show');
+  }
+
+  /* ══ CONTRÔLES ══ */
+  function startGame(){
+    if(running) return;
+    running=true; lastTs=0;
+    document.getElementById('startBtn').disabled = true;
+    play('loop');
+    scheduleQTE();
+    animId = requestAnimationFrame(tick);
+  }
+
+  function resetGame(){
+    running=false; progress=0; elapsed=0; lastTs=0;
+    qteActive=false; regressing=false; greatStreak=0; currentFails=0;
+    stats={success:0,great:0,fail:0};
+    clearTimeout(qteTimeout);
+    cancelAnimationFrame(animId);
+    stopLoop();
+    document.getElementById('qteWrapper').classList.remove('active');
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('endOverlay').classList.remove('show');
+    updateUI(0);
+    document.getElementById('repairLabel').textContent = 'EN ATTENTE';
+  }
+
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('resetBtn').addEventListener('click', resetGame);
+  document.getElementById('endRestartBtn').addEventListener('click', ()=>{ resetGame(); startGame(); });
+
+  window.addEventListener('keydown', e=>{
+    if(e.code === 'Space'){ e.preventDefault(); if(!running) startGame(); else checkInput(); }
+  });
+  document.getElementById('qteWrapper').addEventListener('click', ()=>{ if(running) checkInput(); });
+
+  /* ══ INIT ══ */
+  renderAchs();
+  updateUI(0);
+
+})();
+</script>
 </body>
 </html>
