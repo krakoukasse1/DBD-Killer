@@ -1,597 +1,336 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu QTE - Rhythm Game</title>
-    <style>
-        :root {
-            --bg-color: #1a1a2e;
-            --text-color: #eee;
-            --accent-green: #4ade80;
-            --accent-yellow: #facc15;
-            --accent-red: #ef4444;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen Simulator — DBD Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dbd-red: #ff0000;
+      --dbd-progress: #bb0a0a;
+      --dbd-bg: #0a0a0a;
+      --qte-size: 180px;
+    }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+      margin: 0;
+      background-color: #050505;
+      color: white;
+      font-family: 'Bebas Neue', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-        .game-container {
-            width: 600px;
-            text-align: center;
-        }
+    /* ══ BARRE DE RÉPARATION (STYLE DBD) ══ */
+    .repair-container {
+      width: 400px;
+      margin-bottom: 50px;
+      position: relative;
+    }
 
-        /* Gauge Section */
-        .gauge-section {
-            margin-bottom: 30px;
-        }
+    .repair-label {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        #genVisual {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: conic-gradient(var(--accent-green) 0%, var(--bg-color) 0%);
-            margin: 0 auto 15px;
-            position: relative;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
+    .repair-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      box-shadow: inset 0 0 10px #000;
+    }
 
-        #genVisual::before {
-            content: '';
-            position: absolute;
-            inset: 15px;
-            background: var(--bg-color);
-            border-radius: 50%;
-        }
+    .repair-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #660000, var(--dbd-red));
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+      transition: width 0.1s linear;
+    }
 
-        #genVisual.explode {
-            transform: scale(1.2);
-            filter: brightness(2) drop-shadow(0 0 30px var(--accent-red));
-        }
+    /* ══ SKILL CHECK (QTE) ══ */
+    .qte-wrapper {
+      position: relative;
+      width: var(--qte-size);
+      height: var(--qte-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden; /* Caché par défaut */
+    }
 
-        /* QTE Section */
-        .qte-section {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-        }
+    .qte-wrapper.active { visibility: visible; }
 
-        #qteContainer {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-        }
+    /* Le cercle de base */
+    .qte-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      box-sizing: border-box;
+    }
 
-        .qte-ring {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            stroke-width: 8px;
-            fill: none;
-            transform: rotate(-90deg);
-        }
+    /* Les Zones (SVG pour la précision des arcs) */
+    .qte-svg {
+      position: absolute;
+      transform: rotate(-90deg); /* Début à midi */
+      width: 100%;
+      height: 100%;
+    }
 
-        #qteShrink {
-            stroke: var(--accent-green);
-            opacity: 1;
-        }
+    .zone-good {
+      fill: none;
+      stroke: white;
+      stroke-width: 12;
+      opacity: 0.8;
+    }
 
-        #qteNormalZone, #qteGreatZone {
-            stroke-width: 6px;
-            fill: none;
-            opacity: 0.5;
-        }
+    .zone-great {
+      fill: none;
+      stroke: white;
+      stroke-width: 12;
+    }
 
-        #qteNormalZone { stroke: var(--accent-yellow); }
-        #qteGreatZone { stroke: var(--accent-green); filter: brightness(1.3); }
+    /* L'aiguille rouge */
+    .needle {
+      position: absolute;
+      width: 4px;
+      height: 50%;
+      background: var(--dbd-red);
+      bottom: 50%;
+      left: calc(50% - 2px);
+      transform-origin: bottom center;
+      z-index: 10;
+      box-shadow: 0 0 8px red;
+    }
 
-        /* Feedback */
-        .qte-feedback {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 24px;
-            font-weight: bold;
-            pointer-events: none;
-        }
+    /* Le centre "Space" */
+    .qte-center {
+      width: 70px;
+      height: 35px;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.8);
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
 
-        .qte-feedback.flash {
-            animation: feedbackFlash 0.6s ease-out forwards;
-        }
+    /* Feedback text */
+    .feedback {
+      position: absolute;
+      top: -40px;
+      font-size: 1.5rem;
+      text-shadow: 0 0 10px black;
+      opacity: 0;
+    }
 
-        @keyframes feedbackFlash {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-            30% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -80%) scale(1); opacity: 0; }
-        }
+    .feedback.show { animation: fadeUp 0.8s forwards; }
 
-        .qte-feedback.great { color: var(--accent-green); text-shadow: 0 0 20px var(--accent-green); }
-        .qte-feedback.success { color: var(--accent-yellow); }
-        .qte-feedback.fail { color: var(--accent-red); }
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(0); }
+      20% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
 
-        /* Stats Panel */
-        .stats-panel {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value { font-size: 24px; font-weight: bold; }
-        .stat-label { font-size: 12px; opacity: 0.7; }
-
-        /* Buttons */
-        button {
-            padding: 12px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 5px;
-            transition: all 0.2s ease;
-        }
-
-        #startBtn { background: var(--accent-green); color: #000; }
-        #resetBtn { background: rgba(255,255,255,0.1); color: var(--text-color); }
-        
-        button:hover:not(:disabled) { transform: translateY(-2px); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* Overlay */
-        #endOverlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        #endOverlay.hidden { display: none !important; }
-
-        .overlay-content {
-            background: var(--bg-color);
-            padding: 40px;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 500px;
-        }
-
-        /* Achievements */
-        #achievementsPanel {
-            margin-top: 20px;
-            display: grid;
-            gap: 8px;
-        }
-
-        .achievement-item {
-            padding: 10px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
-            opacity: 0.3;
-            transition: all 0.3s ease;
-        }
-
-        .achievement-item.unlocked {
-            opacity: 1;
-            background: rgba(74, 222, 128, 0.2);
-            border-left: 3px solid var(--accent-green);
-        }
-
-        /* Responsive */
-        @media (max-width: 650px) {
-            .game-container { width: 90vw; }
-            #genVisual { width: 150px; height: 150px; }
-            .qte-section { width: 200px; height: 200px; }
-        }
-    </style>
+    .controls { margin-top: 40px; }
+    button {
+      padding: 10px 30px;
+      font-family: 'Bebas Neue';
+      font-size: 1.5rem;
+      background: var(--dbd-red);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="game-container">
-        <!-- Gauge Section -->
-        <section class="gauge-section">
-            <h3>Gauge</h3>
-            <div id="genVisual"></div>
-            <p id="genText">Gauge: 0%</p>
-        </section>
 
-        <!-- QTE Section -->
-        <section class="qte-section">
-            <svg id="qteContainer" viewBox="0 0 250 250">
-                <circle cx="125" cy="125" r="120" stroke="#333" stroke-width="4" fill="none"/>
-                
-                <!-- Hit Zones -->
-                <circle id="qteNormalZone" cx="125" cy="125" r="80" 
-                        stroke="var(--accent-yellow)" stroke-width="6" fill="none"/>
-                <circle id="qteGreatZone" cx="125" cy="125" r="40" 
-                        stroke="var(--accent-green)" stroke-width="6" fill="none"/>
-                
-                <!-- Shrinking Ring -->
-                <circle id="qteShrink" cx="125" cy="125" r="120" 
-                        stroke="var(--accent-green)" stroke-width="8" fill="none"
-                        stroke-dasharray="754 754"/>
-                
-                <!-- Feedback -->
-                <text id="qteFeedback" x="125" y="125" text-anchor="middle" 
-                      dominant-baseline="middle" class="qte-feedback">READY</text>
-            </svg>
-        </section>
-
-        <!-- Stats Panel -->
-        <div class="stats-panel">
-            <div class="stat-item">
-                <span id="streakVal" class="stat-value">0</span>
-                <span class="stat-label">Streak</span>
-            </div>
-            <div class="stat-item">
-                <span id="scoreVal" class="stat-value">0</span>
-                <span class="stat-label">Score</span>
-            </div>
-            <div class="stat-item">
-                <span id="comboVal" class="stat-value">0</span>
-                <span class="stat-label">Combo</span>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <div style="margin-top: 20px;">
-            <button id="startBtn">▶ Start Game</button>
-            <button id="resetBtn">↺ Reset</button>
-        </div>
-
-        <!-- Achievements Panel -->
-        <div id="achievementsPanel"></div>
+  <div class="repair-container">
+    <div class="repair-label">
+      <span id="label-text">REPARATION</span>
+      <span id="percent-text" style="margin-left: auto; color: rgba(255,255,255,0.5)">0%</span>
     </div>
-
-    <!-- End Overlay -->
-    <div id="endOverlay" class="hidden">
-        <div class="overlay-content">
-            <h2 id="endTitle">Game Over!</h2>
-            <p id="endScore">Final Score: 0</p>
-            <button id="restartBtn">Play Again</button>
-        </div>
+    <div class="repair-bar-bg">
+      <div id="genProgress" class="repair-bar-fill"></div>
     </div>
+  </div>
 
-    <script>
-        // ============================================
-        // CONSTANTS - Now Properly Defined
-        // ============================================
-        const CONFIG = {
-            GAUGE_MAX: 100,
-            QTE_CIRC: 754,           // Circumference of r=120 circle (2*PI*120)
-            QTE_SHRINK_MS: 3000,    // Time for ring to shrink completely
-            REGRESSION_AMOUNT: 15,  // Gauge loss on miss
-            QTE_APPROACH_MS: 4000,  // Time from spawn to hit zone
-            
-            ZONE_RADI: {             // Hit zone radii
-                GREAT: 40,
-                NORMAL: 80,
-                OUTER: 120
-            },
-            
-            REWARDS: {               // Gauge rewards per hit type
-                GREAT: 15,
-                SUCCESS: 8,
-                FAIL: -15
-            }
-        };
+  <div class="qte-wrapper" id="qteWrapper">
+    <div class="feedback" id="feedback">EXCELLENT</div>
+    <div class="qte-circle"></div>
+    <svg class="qte-svg">
+      <!-- Zone blanche vide (Good) -->
+      <circle class="zone-good" cx="90" cy="90" r="84" id="svgGood" stroke-dasharray="40 527" stroke-dashoffset="0"></circle>
+      <!-- Zone blanche pleine (Great) -->
+      <circle class="zone-great" cx="90" cy="90" r="84" id="svgGreat" stroke-dasharray="10 527" stroke-dashoffset="0"></circle>
+    </svg>
+    <div class="needle" id="needle"></div>
+    <div class="qte-center">SPACE</div>
+  </div>
 
-        const HIT_TYPES = {
-            GREAT: 'GREAT',
-            SUCCESS: 'SUCCESS', 
-            MISS: 'MISS'
-        };
+  <div class="controls">
+    <button id="startBtn">COMMENCER LA RÉPARATION</button>
+  </div>
 
-        // ============================================
-        // GAME STATE
-        // ============================================
-        let gameState = {
-            isRunning: false,
-            gauge: 0,
-            streak: 0,
-            score: 0,
-            combo: 0,
-            
-            qteActive: false,
-            qteStartTime: 0,
-            qteProgress: 0,
-            
-            nextQTEAt: null,
-            animationFrame: null,
-            
-            achievements: []
-        };
+  <script>
+    const state = {
+      progress: 0,
+      isRunning: false,
+      isQteActive: false,
+      needleRotation: 0,
+      qteZones: { start: 0, greatEnd: 0, goodEnd: 0 },
+      circumference: 2 * Math.PI * 84 // env 527
+    };
 
-        // ============================================
-        // DOM ELEMENTS - Cached References
-        // ============================================
-        const dom = {
-            startBtn: document.getElementById('startBtn'),
-            resetBtn: document.getElementById('resetBtn'),
-            restartBtn: document.getElementById('restartBtn'),
-            
-            genVisual: document.getElementById('genVisual'),
-            genText: document.getElementById('genText'),
-            
-            qteContainer: document.getElementById('qteContainer'),
-            qteShrink: document.getElementById('qteShrink'),
-            qteNormalZone: document.getElementById('qteNormalZone'),
-            qteGreatZone: document.getElementById('greatZone'),
-            qteFeedback: document.getElementById('qteFeedback'),
-            
-            streakVal: document.getElementById('streakVal'),
-            scoreVal: document.getElementById('scoreVal'),
-            comboVal: document.getElementById('comboVal'),
-            
-            endOverlay: document.getElementById('endOverlay'),
-            endTitle: document.getElementById('endTitle'),
-            endScore: document.getElementById('endScore'),
-            
-            achievementsPanel: document.getElementById('achievementsPanel')
-        };
+    const elements = {
+      progressFill: document.getElementById('genProgress'),
+      percentText: document.getElementById('percent-text'),
+      qteWrapper: document.getElementById('qteWrapper'),
+      needle: document.getElementById('needle'),
+      svgGood: document.getElementById('svgGood'),
+      svgGreat: document.getElementById('svgGreat'),
+      feedback: document.getElementById('feedback'),
+      startBtn: document.getElementById('startBtn')
+    };
 
-        // ============================================
-        // AUDIO SYSTEM
-        // ============================================
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(type, frequency = 440, duration = 0.1) {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            
-            osc.type = type === HIT_TYPES.GREAT ? 'triangle' : 'sine';
-            osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-            
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-            
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
+    function startRepair() {
+      state.isRunning = true;
+      elements.startBtn.style.display = 'none';
+      requestAnimationFrame(updateLoop);
+      scheduleNextQTE();
+    }
+
+    function updateLoop() {
+      if (!state.isRunning) return;
+
+      // Progression lente (env 90s pour 100%)
+      state.progress += 0.05;
+      elements.progressFill.style.width = Math.min(state.progress, 100) + '%';
+      elements.percentText.innerText = Math.floor(state.progress) + '%';
+
+      if (state.isQteActive) {
+        state.needleRotation += 4; // Vitesse de l'aiguille
+        elements.needle.style.transform = `rotate(${state.needleRotation}deg)`;
+
+        if (state.needleRotation > 360) {
+          failQTE();
         }
+      }
 
-        // ============================================
-        // GAME LOGIC - Fixed & Complete
-        // ============================================
-        
-        function initGame() {
-            gameState = {
-                isRunning: false,
-                gauge: 0,
-                streak: 0,
-                score: 0,
-                combo: 0,
-                qteActive: false,
-                qteStartTime: 0,
-                qteProgress: 0,
-                nextQTEAt: null,
-                animationFrame: null,
-                achievements: []
-            };
-            
-            updateUI();
-            resetQTEVisuals();
-        }
+      if (state.progress < 100) {
+        requestAnimationFrame(updateLoop);
+      } else {
+        finishGen();
+      }
+    }
 
-        function startGame() {
-            initGame();
-            gameState.isRunning = true;
-            scheduleNextQTE(1000); // First QTE after 1 second
-            
-            dom.startBtn.disabled = true;
-            dom.resetBtn.disabled = false;
-            
-            updateUI();
-        }
+    function scheduleNextQTE() {
+      if (!state.isRunning) return;
+      const delay = 3000 + Math.random() * 5000;
+      setTimeout(triggerQTE, delay);
+    }
 
-        function endGame(reason) {
-            gameState.isRunning = false;
-            cancelAnimationFrame(gameState.animationFrame);
-            
-            dom.endOverlay.classList.remove('hidden');
-            dom.endTitle.textContent = reason === 'victory' ? 
-                '🎉 GAUGE EXPLODED! VICTORY!' : 
-                '💔 GAME OVER';
-            dom.endScore.textContent = `Final Score: ${gameState.score}`;
-            
-            dom.startBtn.disabled = false;
-        }
+    function triggerQTE() {
+      if (!state.isRunning || state.isQteActive) return;
 
-        function scheduleNextQTE(delay) {
-            if (!gameState.isRunning) return;
-            
-            gameState.nextQTEAt = performance.now() + delay;
-            
-            // Spawn QTE when time arrives
-            const checkSpawn = () => {
-                if (performance.now() >= gameState.nextQTEAt && !gameState.qteActive) {
-                    spawnQTE();
-                } else {
-                    gameState.animationFrame = requestAnimationFrame(checkSpawn);
-                }
-            };
-            
-            gameState.animationFrame = requestAnimationFrame(checkSpawn);
-        }
+      // Reset aiguille
+      state.needleRotation = 0;
+      
+      // Définir les zones (entre 60° et 300° pour éviter le haut)
+      const startAngle = 60 + Math.random() * 200;
+      const greatSize = 8; // Petit zone pleine
+      const goodSize = 35; // Zone vide plus large
 
-        function spawnQTE() {
-            if (!gameState.isRunning) return;
-            
-            gameState.qteActive = true;
-            gameState.qteStartTime = performance.now();
-            gameState.qteProgress = 0;
-            
-            // Visual setup for QTE
-            dom.qteShrink.style.strokeDasharray = `${CONFIG.QTE_CIRC} ${CONFIG.QTE_CIRC}`;
-            dom.qteFeedback.textContent = 'READY';
-            dom.qteNormalZone.style.opacity = '1';
-            dom.qteGreatZone.style.opacity = '1';
-            
-            // Start shrinking animation
-            animateQTE();
-        }
+      state.qteZones = {
+        start: startAngle,
+        greatEnd: startAngle + greatSize,
+        goodEnd: startAngle + goodSize
+      };
 
-        function animateQTE() {
-            if (!gameState.isRunning || !gameState.qteActive) return;
-            
-            const elapsed = performance.now() - gameState.qteStartTime;
-            gameState.qteProgress = Math.min(elapsed / CONFIG.QTE_SHRINK_MS, 1);
-            
-            // Update shrinking ring visual
-            const dashOffset = CONFIG.QTE_CIRC * gameState.qteProgress;
-            dom.qteShrink.style.strokeDashoffset = dashOffset;
-            
-            if (gameState.qteProgress >= 1) {
-                handleQTEMiss();
-            } else {
-                gameState.animationFrame = requestAnimationFrame(animateQTE);
-            }
-        }
+      // Update SVG
+      const offset = -startAngle; // Rotation inverse car SVG commence à 3h
+      elements.svgGood.style.strokeDashoffset = (offset / 360) * state.circumference;
+      elements.svgGood.style.strokeDasharray = `${(goodSize / 360) * state.circumference} ${state.circumference}`;
+      
+      elements.svgGreat.style.strokeDashoffset = (offset / 360) * state.circumference;
+      elements.svgGreat.style.strokeDasharray = `${(greatSize / 360) * state.circumference} ${state.circumference}`;
 
-        function processHit(hitType) {
-            if (!gameState.isRunning || !gameState.qteActive) return;
-            
-            const elapsed = performance.now() - gameState.qteStartTime;
-            const progress = elapsed / CONFIG.QTE_SHRINK_MS;
-            
-            // Determine actual hit quality based on timing
-            let actualHitType;
-            if (progress < 0.15) {
-                actualHitType = HIT_TYPES.GREAT;
-            } else if (progress < 0.45) {
-                actualHitType = HIT_TYPES.SUCCESS;
-            } else {
-                actualHitType = HIT_TYPES.MISS;
-            }
-            
-            applyHitResult(actualHitType);
-        }
+      state.isQteActive = true;
+      elements.qteWrapper.classList.add('active');
+    }
 
-        function handleQTEMiss() {
-            applyHitResult(HIT_TYPES.MISS);
-        }
+    function handleInput() {
+      if (!state.isQteActive) return;
 
-        function applyHitResult(hitType) {
-            gameState.qteActive = false;
-            cancelAnimationFrame(gameState.animationFrame);
-            
-            // Update gauge based on hit type
-            const reward = CONFIG.REWARDS[hitType];
-            gameState.gauge = Math.max(0, Math.min(CONFIG.GAUGE_MAX, gameState.gauge + reward));
-            
-            // Update streak and combo
-            if (hitType === HIT_TYPES.MISS) {
-                gameState.streak = 0;
-                gameState.combo = 0;
-            } else {
-                gameState.streak++;
-                gameState.combo += hitType === HIT_TYPES.GREAT ? 2 : 1;
-                
-                // Score calculation
-                const baseScore = hitType === HIT_TYPES.GREAT ? 500 : 200;
-                gameState.score += baseScore * (1 + gameState.streak * 0.1);
-            }
-            
-            // Visual feedback
-            dom.qteFeedback.textContent = hitType;
-            dom.qteFeedback.style.color = 
-                hitType === HIT_TYPES.GREAT ? 'var(--accent-green)' :
-                hitType === HIT_TYPES.SUCCESS ? 'var(--accent-yellow)' : '#ff4444';
-            
-            // Audio feedback
-            if (hitType !== HIT_TYPES.MISS) {
-                playSound(hitType, 
-                    hitType === HIT_TYPES.GREAT ? 880 : 660);
-            } else {
-                playSound(HIT_TYPES.MISS, 220, 0.3);
-            }
-            
-            // Check for game end conditions
-            if (gameState.gauge >= CONFIG.GAUGE_MAX) {
-                endGame('victory');
-                return;
-            } else if (gameState.streak === 0 && gameState.gauge <= 0) {
-                endGame('defeat');
-                return;
-            }
-            
-            // Schedule next QTE
-            scheduleNextQTE(800 + Math.random() * 400);
-        }
+      const hit = state.needleRotation;
+      if (hit >= state.qteZones.start && hit <= state.qteZones.greatEnd) {
+        successQTE('EXCELLENT', 'white');
+        state.progress += 2; // Bonus
+      } else if (hit > state.qteZones.greatEnd && hit <= state.qteZones.goodEnd) {
+        successQTE('BON', '#ccc');
+      } else {
+        failQTE();
+      }
+    }
 
-        function updateUI() {
-            // Gauge display
-            const gaugePercent = (gameState.gauge / CONFIG.GAUGE_MAX) * 100;
-            dom.genVisual.style.width = `${gaugePercent}%`;
-            dom.genText.textContent = `Gauge: ${Math.round(gameState.gauge)}%`;
-            
-            // Stats display
-            dom.streakVal.textContent = gameState.streak;
-            dom.scoreVal.textContent = Math.round(gameState.score);
-            dom.comboVal.textContent = gameState.combo;
-        }
+    function successQTE(text, color) {
+      showFeedback(text, color);
+      endQTE();
+    }
 
-        function resetQTEVisuals() {
-            dom.qteShrink.style.strokeDasharray = `${CONFIG.QTE_CIRC} ${CONFIG.QTE_CIRC}`;
-            dom.qteShrink.style.strokeDashoffset = '0';
-            dom.qteFeedback.textContent = 'READY';
-            dom.qteNormalZone.style.opacity = '1';
-            dom.qteGreatZone.style.opacity = '1';
-        }
+    function failQTE() {
+      showFeedback('RATÉ !', 'red');
+      state.progress = Math.max(0, state.progress - 5); // Pénalité
+      // Animation flash rouge
+      elements.progressFill.style.background = 'white';
+      setTimeout(() => elements.progressFill.style.background = '', 200);
+      endQTE();
+    }
 
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
-        
-        // Input handling - Spacebar for QTE hits
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && gameState.isRunning) {
-                e.preventDefault();
-                processHit(HIT_TYPES.SUCCESS);
-            }
-        });
+    function endQTE() {
+      state.isQteActive = false;
+      elements.qteWrapper.classList.remove('active');
+      scheduleNextQTE();
+    }
 
-        dom.startBtn.addEventListener('click', startGame);
-        
-        dom.resetBtn.addEventListener('click', () => {
-            cancelAnimationFrame(gameState.animationFrame);
-            initGame();
-            dom.endOverlay.classList.add('hidden');
-        });
-        
-        dom.restartBtn.addEventListener('click', () => {
-            dom.endOverlay.classList.add('hidden');
-            startGame();
-        });
+    function showFeedback(text, color) {
+      elements.feedback.innerText = text;
+      elements.feedback.style.color = color;
+      elements.feedback.classList.remove('show');
+      void elements.feedback.offsetWidth; // Trigger reflow
+      elements.feedback.classList.add('show');
+    }
 
-        // Initialize on load
-        initGame();
-    </script>
+    function finishGen() {
+      state.isRunning = false;
+      alert("Générateur réparé !");
+      location.reload();
+    }
+
+    // Events
+    elements.startBtn.addEventListener('click', startRepair);
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        handleInput();
+      }
+    });
+  </script>
 </body>
 </html>

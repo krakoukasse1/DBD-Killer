@@ -746,17 +746,17 @@
       {
     "character": "Piegeur",
     "perks": [
-      {"id": "k_trapper_01", "name": "Présence terrifiante", "img": "perks/killer/UnnervingPresence.png", "description": "Réduit le succès des tests d'habileté dans le rayon de terreur.", "type": "debuff", "buffs": [], "debuffs": ["Skill Check Difficulty"]},
-      {"id": "k_trapper_02", "name": "Force brutale", "img": "perks/killer/BrutalStrength.png", "description": "Détruit palettes et générateurs plus rapidement.", "type": "chase", "buffs": ["Action Speed"], "debuffs": []},
+      {"id": "k_trapper_01", "name": "Présence perturbantes", "img": "perks/killer/PresencePerturbante.png", "description": "Réduit le succès des tests d'habileté dans le rayon de terreur.", "type": "debuff", "buffs": [], "debuffs": ["Skill Check Difficulty"]},
+      {"id": "k_trapper_02", "name": "Force brute", "img": "perks/killer/ForceBrute.png", "description": "Détruit palettes et générateurs plus rapidement.", "type": "chase", "buffs": ["Action Speed"], "debuffs": []},
       {"id": "k_trapper_03", "name": "Agitation", "img": "perks/killer/Agitation.png", "description": "Augmente la vitesse de déplacement en transportant un corps.", "type": "utility", "buffs": ["Movement Speed"], "debuffs": []}
     ]
   },
   {
     "character": "Spectre",
     "perks": [
-      {"id": "k_wraith_01", "name": "Prédateur", "img": "perks/killer/Predator.png", "description": "Resserre les marques d'éraflures des survivants.", "type": "tracking", "buffs": ["Tracking Accuracy"], "debuffs": []},
-      {"id": "k_wraith_02", "name": "Sang de chien", "img": "perks/killer/Bloodhound.png", "description": "Rend les flaques de sang plus brillantes et visibles.", "type": "tracking", "buffs": ["Blood Visibility"], "debuffs": []},
-      {"id": "k_wraith_03", "name": "Résistance à l'ombre", "img": "perks/killer/Shadowborn.png", "description": "Octroie un bonus de vitesse après avoir été aveuglé.", "type": "utility", "buffs": ["Haste"], "debuffs": []}
+      {"id": "k_wraith_01", "name": "Prédateur", "img": "perks/killer/Prédateur.png", "description": "Resserre les marques d'éraflures des survivants.", "type": "tracking", "buffs": ["Tracking Accuracy"], "debuffs": []},
+      {"id": "k_wraith_02", "name": "Limier", "img": "perks/killer/Limier.png", "description": "Rend les flaques de sang plus brillantes et visibles.", "type": "tracking", "buffs": ["Blood Visibility"], "debuffs": []},
+      {"id": "k_wraith_03", "name": "Rejeton de l'ombre", "img": "perks/killer/RejetonOmbre.png", "description": "Octroie un bonus de vitesse après avoir été aveuglé.", "type": "utility", "buffs": ["Haste"], "debuffs": []}
     ]
   },
   {
