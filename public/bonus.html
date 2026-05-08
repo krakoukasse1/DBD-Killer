@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bonus — DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bonus-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+    }
+
+    .bonus-hero { text-align: center; padding: 40px 0 50px; }
+    .bonus-hero h1 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 10px; }
+    .bonus-hero h1 span { color: #cc0000; }
+    .bonus-hero p { font-family: sans-serif; font-size: 0.9rem; color: rgba(200,200,200,0.45); letter-spacing: 1px; }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) { .bonus-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px) { .bonus-grid { grid-template-columns: 1fr; } }
+
+    .bonus-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .bonus-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,0,0,0.45);
+      box-shadow: 0 24px 48px rgba(200,0,0,0.12);
+    }
+
+    .bonus-card-banner {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bonus-card-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      filter: blur(0px);
+    }
+
+    .bonus-card.wheel   .bonus-card-banner { background: linear-gradient(135deg, rgba(120,0,0,0.6), rgba(60,0,0,0.9)); }
+    .bonus-card.gen     .bonus-card-banner { background: linear-gradient(135deg, rgba(0,60,120,0.6), rgba(0,30,80,0.9)); }
+    .bonus-card.quiz    .bonus-card-banner { background: linear-gradient(135deg, rgba(80,0,120,0.6), rgba(40,0,80,0.9)); }
+
+    /* Lignes déco en arrière plan */
+    .bonus-card-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px);
+      pointer-events: none;
+    }
+
+    .bonus-card-icon {
+      position: relative;
+      z-index: 1;
+      font-size: 5rem;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
+    }
+
+    .bonus-card-body { padding: 24px 22px 28px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+    .bonus-card-title {
+      font-size: 1.8rem;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .bonus-card-desc {
+      font-family: sans-serif;
+      font-size: 0.82rem;
+      color: rgba(200,200,200,0.5);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .bonus-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .bonus-tag {
+      font-family: sans-serif;
+      font-size: 0.62rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+    .bonus-tag.free    { background: rgba(0,200,80,0.1);   border: 1px solid rgba(0,200,80,0.25);  color: rgba(0,220,100,0.8); }
+    .bonus-tag.custom  { background: rgba(255,180,0,0.1);  border: 1px solid rgba(255,180,0,0.25); color: rgba(255,200,50,0.8); }
+    .bonus-tag.scores  { background: rgba(0,100,255,0.1);  border: 1px solid rgba(0,100,255,0.25); color: rgba(80,160,255,0.8); }
+    .bonus-tag.offline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(200,200,200,0.5); }
+    .bonus-tag.coming  { background: rgba(100,100,100,0.1); border: 1px solid rgba(100,100,100,0.2); color: rgba(150,150,150,0.6); }
+
+    .bonus-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(200,0,0,0.15);
+      border: 1px solid rgba(200,0,0,0.35);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-top: 8px;
+      transition: background 0.2s, border-color 0.2s;
+      text-decoration: none;
+    }
+    .bonus-card:hover .bonus-card-cta {
+      background: rgba(200,0,0,0.3);
+      border-color: rgba(200,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="bonus.html">Bonus</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main class="bonus-page">
+
+  <div class="bonus-hero">
+    <h1>Mini-jeux <span>Bonus</span></h1>
+    <p>Des outils et jeux supplémentaires pour les fans de DBD</p>
+  </div>
+
+  <div class="bonus-grid">
+
+    <!-- ROUE -->
+    <a class="bonus-card wheel" href="wheel.html">
+      <div class="bonus-card-banner">
+        <span class="bonus-card-icon">🎡</span>
+      </div>
+      <div class="bonus-card-body">
+        <div class="bonus-card-title">Roue Personnalisable</div>
+        <p class="bonus-card-desc">
+          Une roue style fortune entièrement personnalisable. Ajoute tes propres options, choisis les couleurs, utilise les presets DBD (tueurs, survivants, cartes) et laisse le hasard décider.
+        </p>
+        <div class="bonus-card-tags">
+          <span class="bonus-tag free">Gratuit</span>
+          <span class="bonus-tag custom">Personnalisable</span>
+          <span class="bonus-tag offline">Hors ligne</span>
+        </div>
+        <span class="bonus-card-cta">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- GEN SIMULATOR -->
+    <a class="bonus-card gen" href="genSimulator.html">
+      <div class="bonus-card-banner">
+        <span class="bonus-card-icon">⚙️</span>
+      </div>
+      <div class="bonus-card-body">
+        <div class="bonus-card-title">Gen Simulator</div>
+        <p class="bonus-card-desc">
+          Répare une génératrice exactement comme dans DBD. QTE cercle authentique, jauge de progression, régression en cas d'échec et 9 succès à débloquer. Ajoute tes sons DBD pour l'expérience complète.
+        </p>
+        <div class="bonus-card-tags">
+          <span class="bonus-tag free">Gratuit</span>
+          <span class="bonus-tag scores">Succès</span>
+          <span class="bonus-tag offline">Hors ligne</span>
+        </div>
+        <span class="bonus-card-cta">Jouer →</span>
+      </div>
+    </a>
+
+    <!-- QUIZ -->
+    <a class="bonus-card quiz" href="quiz.html">
+      <div class="bonus-card-banner">
+        <span class="bonus-card-icon">🧠</span>
+      </div>
+      <div class="bonus-card-body">
+        <div class="bonus-card-title">Quiz DBD</div>
+        <p class="bonus-card-desc">
+          Teste tes connaissances sur DBD ! Mode Classique (15 questions, 3 jokers, paliers QVGM) ou mode Infini avec timer. Persos, perks, lore, mécaniques — tout y passe.
+        </p>
+        <div class="bonus-card-tags">
+          <span class="bonus-tag free">Gratuit</span>
+          <span class="bonus-tag scores">Records</span>
+          <span class="bonus-tag custom">2 modes</span>
+        </div>
+        <span class="bonus-card-cta">Jouer →</span>
+      </div>
+    </a>
+
+  </div>
+
+</main>
+
+<script src="header.js"></script>
+</body>
+</html>

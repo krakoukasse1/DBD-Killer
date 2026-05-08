@@ -1,0 +1,484 @@
+```json
+[
+  {
+    "id": 1,
+    "question": "Quel tueur utilise une tronçonneuse dans Dead by Daylight ?",
+    "choices": ["Le Piégeur", "Le Cannibale", "Le Spectre", "Le Fléau"],
+    "answer": 1,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 2,
+    "question": "Combien de survivants composent une partie classique de Dead by Daylight ?",
+    "choices": ["3", "4", "5", "6"],
+    "answer": 1,
+    "difficulty": 1,
+    "category": "general"
+  },
+  {
+    "id": 3,
+    "question": "Quel objet permet de réparer les générateurs plus rapidement ?",
+    "choices": ["Lampe torche", "Boîte à outils", "Carte", "Trousse de soin"],
+    "answer": 1,
+    "difficulty": 1,
+    "category": "items"
+  },
+  {
+    "id": 4,
+    "question": "Combien de générateurs doivent être réparés pour alimenter les portes ?",
+    "choices": ["3", "4", "5", "6"],
+    "answer": 2,
+    "difficulty": 1,
+    "category": "general"
+  },
+  {
+    "id": 5,
+    "question": "Quel tueur peut devenir invisible ?",
+    "choices": ["Le Spectre", "Le Trappeur", "Le Fléau", "Le Docteur"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 6,
+    "question": "Quel survivant est policier dans Resident Evil ?",
+    "choices": ["Leon S. Kennedy", "Dwight Fairfield", "Ace Visconti", "David King"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "survivors"
+  },
+  {
+    "id": 7,
+    "question": "Quel perk permet de voir les palettes et fenêtres proches ?",
+    "choices": ["Sprint Burst", "Windows of Opportunity", "Dead Hard", "Bond"],
+    "answer": 1,
+    "difficulty": 2,
+    "category": "perks"
+  },
+  {
+    "id": 8,
+    "question": "Quel tueur place des pièges au sol ?",
+    "choices": ["Le Spectre", "Le Piégeur", "Le Nemesis", "Le Chevalier"],
+    "answer": 1,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 9,
+    "question": "Quel est le nom de la monnaie premium du jeu ?",
+    "choices": ["Cellules Auric", "Fragments Noirs", "Points de Sang", "Jetons Entité"],
+    "answer": 0,
+    "difficulty": 2,
+    "category": "general"
+  },
+  {
+    "id": 10,
+    "question": "Quel tueur est inspiré de Silent Hill ?",
+    "choices": ["Le Cénobite", "Le Pyramid Head", "Le Fléau", "Le Maître des Cauchemars"],
+    "answer": 1,
+    "difficulty": 2,
+    "category": "killers"
+  },
+  {
+    "id": 11,
+    "question": "Quel perk donne un sprint après avoir été blessé ?",
+    "choices": ["Dead Hard", "Lithe", "Sprint Burst", "Balanced Landing"],
+    "answer": 2,
+    "difficulty": 2,
+    "category": "perks"
+  },
+  {
+    "id": 12,
+    "question": "Quel tueur utilise l'électricité pour rendre les survivants fous ?",
+    "choices": ["Le Docteur", "Le Clown", "Le Fléau", "Le Cannibale"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 13,
+    "question": "Quel survivant est connu pour son perk Dead Hard ?",
+    "choices": ["David King", "Jake Park", "Claudette Morel", "Felix Richter"],
+    "answer": 0,
+    "difficulty": 2,
+    "category": "survivors"
+  },
+  {
+    "id": 14,
+    "question": "Quel tueur peut traverser les palettes avec son pouvoir ?",
+    "choices": ["Le Wesker", "Le Blight", "Le Pyramid Head", "Le Nemesis"],
+    "answer": 2,
+    "difficulty": 3,
+    "category": "killers"
+  },
+  {
+    "id": 15,
+    "question": "Quel statut empêche les survivants d'entendre le rayon de terreur ?",
+    "choices": ["Exposé", "Indétectable", "Cassé", "Entravé"],
+    "answer": 1,
+    "difficulty": 2,
+    "category": "general"
+  },
+  {
+    "id": 16,
+    "question": "Quel tueur est aussi appelé The Nurse en anglais ?",
+    "choices": ["L'Infirmière", "L'Artiste", "La Légion", "Le Fléau"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 17,
+    "question": "Quel objet soigne les survivants ?",
+    "choices": ["Boîte à outils", "Carte", "Trousse de soin", "Clé"],
+    "answer": 2,
+    "difficulty": 1,
+    "category": "items"
+  },
+  {
+    "id": 18,
+    "question": "Quel tueur lance des couteaux ?",
+    "choices": ["Le Trickster", "Le Clown", "Le Ghost Face", "Le Blight"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 19,
+    "question": "Quel perk permet de récupérer seul après être au sol ?",
+    "choices": ["Borrowed Time", "Unbreakable", "Adrenaline", "Bond"],
+    "answer": 1,
+    "difficulty": 2,
+    "category": "perks"
+  },
+  {
+    "id": 20,
+    "question": "Quel tueur est issu de Stranger Things ?",
+    "choices": ["Le Demogorgon", "Le Xénomorphe", "Le Nemesis", "Le Cénobite"],
+    "answer": 0,
+    "difficulty": 1,
+    "category": "killers"
+  },
+  {
+    "id": 21,
+    "question": "Comment s'appelle la map du laboratoire d'Hawkins ?",
+    "choices": ["Midwich", "RPD", "Hawkins National Laboratory", "Léry's"],
+    "answer": 2,
+    "difficulty": 3,
+    "category": "maps"
+  },
+  {
+    "id": 22,
+    "question": "Quel tueur utilise des corbeaux ?",
+    "choices": ["L'Artiste", "L'Esprit", "La Sorcière", "La Marchande de Crânes"],
+    "answer": 0,
+    "difficulty": 2,
+    "category": "killers"
+  },
+  {
+    "id": 23,
+    "question": "Quel survivant possède le perk Decisive Strike ?",
+    "choices": ["Laurie Strode", "Meg Thomas", "Feng Min", "Kate Denson"],
+    "answer": 0,
+    "difficulty": 3,
+    "category": "survivors"
+  },
+  {
+    "id": 24,
+    "question": "Quel tueur est surnommé Wesker ?",
+    "choices": ["Le Nemesis", "Le Mastermind", "Le Cénobite", "Le Blight"],
+    "answer": 1,
+    "difficulty": 2,
+    "category": "killers"
+  },
+  {
+    "id": 25,
+    "question": "Quel statut permet de tuer un survivant en un coup ?",
+    "choices": ["Entravé", "Cassé", "Exposé", "Aveuglé"],
+    "answer": 2,
+    "difficulty": 2,
+    "category": "general"
+  },
+  {
+    "id": 26,
+    "question": "Quel tueur peut se téléporter entre des téléviseurs ?",
+    "choices": ["Le Marchand", "L'Oni", "L'Onryō", "Le Cauchemar"],
+    "answer": 2,
+    "difficulty": 2,
+    "category": "killers"
+  },
+  {
+    "id": 27,
+    "question": "Quel survivant vient de Left 4 Dead ?",
+    "choices": ["Bill Overbeck", "Ash Williams", "Alan Wake", "Nicolas Cage"],
+    "answer": 0,
+    "difficulty": 2,
+    "category": "survivors"
+  },
+  {
+    "id": 28,
+    "question": "Quel tueur utilise des drones ?",
+    "choices": ["La Marchande de Crânes", "La Sorcière", "L'Infirmière", "Le Trickster"],
+    "answer": 0,
+    "difficulty": 2,
+    "category": "killers"
+  },
+  {
+    "id": 29,
+    "question": "Quel perk répare plus vite en coop ?",
+    "choices": ["Prove Thyself", "Leader", "Bond", "Botany Knowledge"],
+    "answer": 0,
+    "difficulty": 3,
+    "category": "perks"
+  },
+  {
+    "id": 30,
+    "question": "Quel tueur peut traverser les murs avec ses téléportations ?",
+    "choices": ["L'Infirmière", "Le Clown", "Le Cannibale", "Le Spectre"],
+    "answer": 0,
+    "difficulty": 3,
+    "category": "killers"
+  },
+  {
+    "id": 31,
+    "question": "Quel addon du Cannibale augmente fortement la vitesse de balayage de la tronçonneuse ?",
+    "choices": ["Award-winning Chili", "The Grease", "Begrimed Chains", "Depth Gauge Rake"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "addons"
+  },
+  {
+    "id": 32,
+    "question": "Quel tueur possède le perk 'Save the Best for Last' ?",
+    "choices": ["Le Shape", "Le Ghost Face", "Le Cauchemar", "Le Clown"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "perks"
+  },
+  {
+    "id": 33,
+    "question": "Quel était l'ancien nom du perk 'Surge' ?",
+    "choices": ["Jolt", "Overcharge", "Pop Goes the Weasel", "Oppression"],
+    "answer": 0,
+    "difficulty": 5,
+    "category": "history"
+  },
+  {
+    "id": 34,
+    "question": "Quel survivant possède le perk 'Wiretap' ?",
+    "choices": ["Rebecca Chambers", "Ada Wong", "Jill Valentine", "Carlos Oliveira"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "survivors"
+  },
+  {
+    "id": 35,
+    "question": "Quel tueur utilise le pouvoir appelé 'Virulent Bound' ?",
+    "choices": ["Le Nemesis", "Le Mastermind", "Le Fléau", "Le Blight"],
+    "answer": 1,
+    "difficulty": 4,
+    "category": "killers"
+  },
+  {
+    "id": 36,
+    "question": "Quelle map est associée au Chevalier ?",
+    "choices": ["Eyrie of Crows", "Shattered Square", "Garden of Joy", "Greenville Square"],
+    "answer": 1,
+    "difficulty": 4,
+    "category": "maps"
+  },
+  {
+    "id": 37,
+    "question": "Quel tueur possède le rayon de terreur de base le plus petit ?",
+    "choices": ["Le Spectre", "Le Ghost Face", "La Chasseuse", "Le Cauchemar"],
+    "answer": 1,
+    "difficulty": 5,
+    "category": "general"
+  },
+  {
+    "id": 38,
+    "question": "Quel perk permet de voir l'aura du tueur après une palette stun ?",
+    "choices": ["Windows of Opportunity", "Any Means Necessary", "Champion of Light", "Parental Guidance"],
+    "answer": 2,
+    "difficulty": 4,
+    "category": "perks"
+  },
+  {
+    "id": 39,
+    "question": "Quel chapitre a introduit Mikaela Reid ?",
+    "choices": ["Hour of the Witch", "Forged in Fog", "Roots of Dread", "All Things Wicked"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "history"
+  },
+  {
+    "id": 40,
+    "question": "Quel tueur possède le pouvoir 'Yamaoka's Haunting' ?",
+    "choices": ["L'Esprit", "L'Oni", "La Sadako", "La Légion"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "killers"
+  },
+  {
+    "id": 41,
+    "question": "Quel survivant possède le perk 'Plot Twist' ?",
+    "choices": ["Alan Wake", "Nicolas Cage", "Steve Harrington", "Renato Lyra"],
+    "answer": 1,
+    "difficulty": 4,
+    "category": "survivors"
+  },
+  {
+    "id": 42,
+    "question": "Quelle ancienne mécanique permettait de saboter définitivement les crochets ?",
+    "choices": ["Le sabotage permanent", "Le hook burn", "Le hook collapse", "Le hook decay"],
+    "answer": 0,
+    "difficulty": 5,
+    "category": "history"
+  },
+  {
+    "id": 43,
+    "question": "Quel addon de la Nurse augmente le nombre de clignements ?",
+    "choices": ["Dark Cincture", "Bad Man's Last Breath", "Spasmodic Breath", "Heavy Panting"],
+    "answer": 0,
+    "difficulty": 5,
+    "category": "addons"
+  },
+  {
+    "id": 44,
+    "question": "Quel tueur est sorti avec le chapitre 'Portrait of a Murder' ?",
+    "choices": ["L'Artiste", "Le Dredge", "Le Chevalier", "Le Singularity"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "history"
+  },
+  {
+    "id": 45,
+    "question": "Quel perk bloque les générateurs après avoir porté un survivant ?",
+    "choices": ["Deadlock", "Corrupt Intervention", "Grim Embrace", "Thrilling Tremors"],
+    "answer": 3,
+    "difficulty": 4,
+    "category": "perks"
+  },
+  {
+    "id": 46,
+    "question": "Quel tueur utilise des biopods pour surveiller les survivants ?",
+    "choices": ["Le Singularity", "Le Nemesis", "La Marchande de Crânes", "Le Mastermind"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "killers"
+  },
+  {
+    "id": 47,
+    "question": "Quel survivant possède le perk 'Boon: Circle of Healing' ?",
+    "choices": ["Sable Ward", "Mikaela Reid", "Haddie Kaur", "Yui Kimura"],
+    "answer": 1,
+    "difficulty": 3,
+    "category": "survivors"
+  },
+  {
+    "id": 48,
+    "question": "Quel tueur possède le pouvoir 'Night Shroud' ?",
+    "choices": ["Le Shape", "Le Ghost Face", "Le Spectre", "Le Cauchemar"],
+    "answer": 1,
+    "difficulty": 4,
+    "category": "killers"
+  },
+  {
+    "id": 49,
+    "question": "Quel était le nom original de la map 'The Game' ?",
+    "choices": ["Gideon Meat Plant", "Saw Factory", "Gideon Facility", "The Slaughterhouse"],
+    "answer": 0,
+    "difficulty": 5,
+    "category": "maps"
+  },
+  {
+    "id": 50,
+    "question": "Quel perk du tueur révèle les survivants proches d'un générateur terminé ?",
+    "choices": ["Bitter Murmur", "Tinkerer", "Discordance", "Nowhere to Hide"],
+    "answer": 0,
+    "difficulty": 4,
+    "category": "perks"
+  },
+  {
+    "id": 51,
+    "question": "Quel créateur de contenu est considéré comme le tout premier partenaire officiel de Behaviour Interactive sur Dead by Daylight ?",
+    "choices": ["Monto", "OhTofu", "Puppers", "No0b3"],
+    "answer": 2,
+    "difficulty": 6,
+    "category": "community"
+  },
+  {
+    "id": 52,
+    "question": "Quel tueur a historiquement subi le plus grand nombre de killswitchs ou désactivations temporaires ?",
+    "choices": ["Le Chevalier", "Le Singularity", "Le Wesker", "Le Xénomorphe"],
+    "answer": 0,
+    "difficulty": 6,
+    "category": "history"
+  },
+  {
+    "id": 53,
+    "question": "Quel ancien addon du Clown augmentait tellement sa vitesse qu'il était surnommé 'Speed Limiter inversé' par la communauté ?",
+    "choices": ["Redhead's Pinky Finger", "Tattoo's Middle Finger", "Flask of Bleach", "Solvent Jug"],
+    "answer": 1,
+    "difficulty": 6,
+    "category": "addons"
+  },
+  {
+    "id": 54,
+    "question": "Quel survivant a été le premier à posséder un perk de type Boon ?",
+    "choices": ["Mikaela Reid", "Haddie Kaur", "Sable Ward", "Yoichi Asakawa"],
+    "answer": 0,
+    "difficulty": 6,
+    "category": "history"
+  },
+  {
+    "id": 55,
+    "question": "Quelle map possédait autrefois une infinité particulièrement célèbre près d'une fenêtre du bâtiment principal ?",
+    "choices": ["Haddonfield", "Coal Tower", "Blood Lodge", "Father Campbell's Chapel"],
+    "answer": 0,
+    "difficulty": 6,
+    "category": "history"
+  },
+  {
+    "id": 56,
+    "question": "Quel tueur pouvait autrefois frapper les survivants à travers certaines ouvertures grâce à un bug de collision devenu célèbre ?",
+    "choices": ["Le Pyramid Head", "Le Nemesis", "Le Cannibale", "Le Blight"],
+    "answer": 2,
+    "difficulty": 6,
+    "category": "bugs"
+  },
+  {
+    "id": 57,
+    "question": "Quel perk de survivant permettait autrefois de récupérer quasiment instantanément après une chute de grande hauteur avec une combinaison précise ?",
+    "choices": ["Balanced Landing", "Dead Hard", "Smash Hit", "Lithe"],
+    "answer": 0,
+    "difficulty": 6,
+    "category": "history"
+  },
+  {
+    "id": 58,
+    "question": "Quel tueur possédait initialement un Mori déclenchable sans condition via une offrande ultra rare après un seul hook ?",
+    "choices": ["Tous les tueurs", "Le Shape", "Le Trappeur", "Le Spectre"],
+    "answer": 0,
+    "difficulty": 6,
+    "category": "history"
+  },
+  {
+    "id": 59,
+    "question": "Quel ancien nom la communauté donnait-elle au build composé de Dead Hard, Decisive Strike, Unbreakable et Borrowed Time ?",
+    "choices": ["The Survivor Meta", "Exodia", "Second Chance Build", "Infinite Chances"],
+    "answer": 1,
+    "difficulty": 6,
+    "category": "community"
+  },
+  {
+    "id": 60,
+    "question": "Quel événement de Dead by Daylight a introduit les générateurs et crochets recouverts de pustules ?",
+    "choices": ["Moonrise", "Withering Blight", "Blood Moon", "Haunted by Daylight"],
+    "answer": 1,
+    "difficulty": 6,
+    "category": "events"
+  }
+]
+```
