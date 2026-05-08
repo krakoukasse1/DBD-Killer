@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gen Simulator — DBD Edition</title>
+  <title>DBD Gen Sim - Fidèle au jeu</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
       --dbd-red: #ff0000;
-      --dbd-progress: #bb0a0a;
-      --dbd-bg: #0a0a0a;
-      --qte-size: 180px;
+      --qte-size: 200px;
     }
 
     body {
@@ -24,39 +22,38 @@
       justify-content: center;
       min-height: 100vh;
       overflow: hidden;
+      user-select: none;
     }
 
-    /* ══ BARRE DE RÉPARATION (STYLE DBD) ══ */
+    /* ══ BARRE DE RÉPARATION (90s Progress) ══ */
     .repair-container {
-      width: 400px;
-      margin-bottom: 50px;
-      position: relative;
+      width: 450px;
+      margin-bottom: 60px;
     }
 
     .repair-label {
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      margin-bottom: 5px;
+      font-size: 1.3rem;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
       display: flex;
-      align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      color: #aaa;
     }
 
     .repair-bar-bg {
       width: 100%;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      height: 10px;
+      background: rgba(40, 40, 40, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       position: relative;
-      box-shadow: inset 0 0 10px #000;
+      overflow: hidden;
     }
 
     .repair-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #660000, var(--dbd-red));
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-      transition: width 0.1s linear;
+      background: linear-gradient(90deg, #800, var(--dbd-red));
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
     }
 
     /* ══ SKILL CHECK (QTE) ══ */
@@ -67,104 +64,101 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      visibility: hidden; /* Caché par défaut */
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s;
     }
 
-    .qte-wrapper.active { visibility: visible; }
+    .qte-wrapper.active { 
+        visibility: visible; 
+        opacity: 1;
+    }
 
-    /* Le cercle de base */
-    .qte-circle {
+    .qte-circle-base {
       position: absolute;
       width: 100%;
       height: 100%;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 4px solid rgba(255, 255, 255, 0.15);
       border-radius: 50%;
       box-sizing: border-box;
     }
 
-    /* Les Zones (SVG pour la précision des arcs) */
     .qte-svg {
       position: absolute;
-      transform: rotate(-90deg); /* Début à midi */
+      transform: rotate(-90deg);
       width: 100%;
       height: 100%;
     }
 
-    .zone-good {
-      fill: none;
-      stroke: white;
-      stroke-width: 12;
-      opacity: 0.8;
-    }
+    /* Zone BON (Bordure blanche, fond noir) */
+    .zone-good-border { fill: none; stroke: white; stroke-width: 12; }
+    .zone-good-bg { fill: none; stroke: #050505; stroke-width: 8; }
 
-    .zone-great {
-      fill: none;
-      stroke: white;
-      stroke-width: 12;
-    }
+    /* Zone EXCELLENT (Pleine blanche) */
+    .zone-excellent { fill: none; stroke: white; stroke-width: 12; }
 
-    /* L'aiguille rouge */
     .needle {
       position: absolute;
-      width: 4px;
+      width: 3px;
       height: 50%;
       background: var(--dbd-red);
       bottom: 50%;
-      left: calc(50% - 2px);
+      left: calc(50% - 1.5px);
       transform-origin: bottom center;
-      z-index: 10;
-      box-shadow: 0 0 8px red;
+      z-index: 20;
+      box-shadow: 0 0 10px red;
     }
 
-    /* Le centre "Space" */
     .qte-center {
-      width: 70px;
-      height: 35px;
-      border: 2px solid rgba(255, 255, 255, 0.6);
-      border-radius: 6px;
+      width: 80px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.8);
-      font-size: 1.2rem;
-      letter-spacing: 1px;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 1.4rem;
+      z-index: 30;
     }
 
-    /* Feedback text */
     .feedback {
       position: absolute;
-      top: -40px;
-      font-size: 1.5rem;
-      text-shadow: 0 0 10px black;
+      top: -50px;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px black;
+      pointer-events: none;
       opacity: 0;
     }
 
-    .feedback.show { animation: fadeUp 0.8s forwards; }
+    .feedback.show { animation: popFeedback 0.6s ease-out; }
 
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(0); }
-      20% { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-20px); }
+    @keyframes popFeedback {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: translateY(-30px); }
     }
 
-    .controls { margin-top: 40px; }
-    button {
-      padding: 10px 30px;
+    .start-btn {
+      padding: 15px 40px;
       font-family: 'Bebas Neue';
-      font-size: 1.5rem;
-      background: var(--dbd-red);
+      font-size: 1.8rem;
+      background: transparent;
       color: white;
-      border: none;
+      border: 2px solid white;
       cursor: pointer;
+      transition: 0.3s;
     }
+    .start-btn:hover { background: white; color: black; }
   </style>
 </head>
 <body>
 
   <div class="repair-container">
     <div class="repair-label">
-      <span id="label-text">REPARATION</span>
-      <span id="percent-text" style="margin-left: auto; color: rgba(255,255,255,0.5)">0%</span>
+      <span>RÉPARATION EN COURS...</span>
+      <span id="percentText">0%</span>
     </div>
     <div class="repair-bar-bg">
       <div id="genProgress" class="repair-bar-fill"></div>
@@ -173,164 +167,163 @@
 
   <div class="qte-wrapper" id="qteWrapper">
     <div class="feedback" id="feedback">EXCELLENT</div>
-    <div class="qte-circle"></div>
-    <svg class="qte-svg">
-      <!-- Zone blanche vide (Good) -->
-      <circle class="zone-good" cx="90" cy="90" r="84" id="svgGood" stroke-dasharray="40 527" stroke-dashoffset="0"></circle>
-      <!-- Zone blanche pleine (Great) -->
-      <circle class="zone-great" cx="90" cy="90" r="84" id="svgGreat" stroke-dasharray="10 527" stroke-dashoffset="0"></circle>
+    <div class="qte-circle-base"></div>
+    <svg class="qte-svg" viewBox="0 0 200 200">
+      <!-- Zone GOOD (Bordure) -->
+      <circle class="zone-good-border" cx="100" cy="100" r="90" id="svgGoodBorder" stroke-dasharray="40 565" stroke-dashoffset="0"></circle>
+      <!-- Zone GOOD (Intérieur noir pour l'effet "hollow") -->
+      <circle class="zone-good-bg" cx="100" cy="100" r="90" id="svgGoodBg" stroke-dasharray="38 565" stroke-dashoffset="0"></circle>
+      <!-- Zone EXCELLENT (Pleine) -->
+      <circle class="zone-excellent" cx="100" cy="100" r="90" id="svgExcellent" stroke-dasharray="10 565" stroke-dashoffset="0"></circle>
     </svg>
     <div class="needle" id="needle"></div>
     <div class="qte-center">SPACE</div>
   </div>
 
-  <div class="controls">
-    <button id="startBtn">COMMENCER LA RÉPARATION</button>
-  </div>
+  <button class="start-btn" id="startBtn">RÉPARER LE GÉNÉRATEUR</button>
 
   <script>
+    const settings = {
+      repairTimeSeconds: 90,
+      fps: 60,
+      needleSpeed: 2.2, // Plus lent et gérable
+      circumference: 2 * Math.PI * 90 // ~565
+    };
+
     const state = {
       progress: 0,
       isRunning: false,
       isQteActive: false,
-      needleRotation: 0,
-      qteZones: { start: 0, greatEnd: 0, goodEnd: 0 },
-      circumference: 2 * Math.PI * 84 // env 527
+      needleRot: 0,
+      zones: { start: 0, excellentEnd: 0, goodEnd: 0 }
     };
 
-    const elements = {
-      progressFill: document.getElementById('genProgress'),
-      percentText: document.getElementById('percent-text'),
-      qteWrapper: document.getElementById('qteWrapper'),
+    const el = {
+      bar: document.getElementById('genProgress'),
+      percent: document.getElementById('percentText'),
+      qte: document.getElementById('qteWrapper'),
       needle: document.getElementById('needle'),
-      svgGood: document.getElementById('svgGood'),
-      svgGreat: document.getElementById('svgGreat'),
+      svgGoodBorder: document.getElementById('svgGoodBorder'),
+      svgGoodBg: document.getElementById('svgGoodBg'),
+      svgExcellent: document.getElementById('svgExcellent'),
       feedback: document.getElementById('feedback'),
-      startBtn: document.getElementById('startBtn')
+      btn: document.getElementById('startBtn')
     };
 
-    function startRepair() {
+    function start() {
       state.isRunning = true;
-      elements.startBtn.style.display = 'none';
-      requestAnimationFrame(updateLoop);
-      scheduleNextQTE();
+      el.btn.style.display = 'none';
+      requestAnimationFrame(update);
+      scheduleQTE();
     }
 
-    function updateLoop() {
+    function update() {
       if (!state.isRunning) return;
 
-      // Progression lente (env 90s pour 100%)
-      state.progress += 0.05;
-      elements.progressFill.style.width = Math.min(state.progress, 100) + '%';
-      elements.percentText.innerText = Math.floor(state.progress) + '%';
+      // Calcul de la progression pour 90s
+      // $100 / (90s * 60fps)$
+      state.progress += (100 / (settings.repairTimeSeconds * settings.fps));
+      el.bar.style.width = Math.min(state.progress, 100) + '%';
+      el.percent.innerText = Math.floor(state.progress) + '%';
 
       if (state.isQteActive) {
-        state.needleRotation += 4; // Vitesse de l'aiguille
-        elements.needle.style.transform = `rotate(${state.needleRotation}deg)`;
+        state.needleRot += settings.needleSpeed;
+        el.needle.style.transform = `rotate(${state.needleRot}deg)`;
 
-        if (state.needleRotation > 360) {
-          failQTE();
-        }
+        if (state.needleRot > 360) fail();
       }
 
       if (state.progress < 100) {
-        requestAnimationFrame(updateLoop);
+        requestAnimationFrame(update);
       } else {
-        finishGen();
+        victory();
       }
-    }
-
-    function scheduleNextQTE() {
-      if (!state.isRunning) return;
-      const delay = 3000 + Math.random() * 5000;
-      setTimeout(triggerQTE, delay);
     }
 
     function triggerQTE() {
       if (!state.isRunning || state.isQteActive) return;
 
-      // Reset aiguille
-      state.needleRotation = 0;
-      
-      // Définir les zones (entre 60° et 300° pour éviter le haut)
-      const startAngle = 60 + Math.random() * 200;
-      const greatSize = 8; // Petit zone pleine
-      const goodSize = 35; // Zone vide plus large
+      state.needleRot = 0;
+      const startAngle = 80 + Math.random() * 180;
+      const excSize = 10; 
+      const goodSize = 45;
 
-      state.qteZones = {
+      state.zones = {
         start: startAngle,
-        greatEnd: startAngle + greatSize,
+        excEnd: startAngle + excSize,
         goodEnd: startAngle + goodSize
       };
 
-      // Update SVG
-      const offset = -startAngle; // Rotation inverse car SVG commence à 3h
-      elements.svgGood.style.strokeDashoffset = (offset / 360) * state.circumference;
-      elements.svgGood.style.strokeDasharray = `${(goodSize / 360) * state.circumference} ${state.circumference}`;
-      
-      elements.svgGreat.style.strokeDashoffset = (offset / 360) * state.circumference;
-      elements.svgGreat.style.strokeDasharray = `${(greatSize / 360) * state.circumference} ${state.circumference}`;
+      const offset = -startAngle;
+      const dash = (s) => `${(s / 360) * settings.circumference} ${settings.circumference}`;
+      const off = (a) => (a / 360) * settings.circumference;
+
+      el.svgExcellent.style.strokeDasharray = dash(excSize);
+      el.svgExcellent.style.strokeDashoffset = off(offset);
+
+      el.svgGoodBorder.style.strokeDasharray = dash(goodSize);
+      el.svgGoodBorder.style.strokeDashoffset = off(offset);
+
+      el.svgGoodBg.style.strokeDasharray = dash(goodSize - 2);
+      el.svgGoodBg.style.strokeDashoffset = off(offset - 1);
 
       state.isQteActive = true;
-      elements.qteWrapper.classList.add('active');
+      el.qte.classList.add('active');
     }
 
-    function handleInput() {
+    function checkInput() {
       if (!state.isQteActive) return;
-
-      const hit = state.needleRotation;
-      if (hit >= state.qteZones.start && hit <= state.qteZones.greatEnd) {
-        successQTE('EXCELLENT', 'white');
-        state.progress += 2; // Bonus
-      } else if (hit > state.qteZones.greatEnd && hit <= state.qteZones.goodEnd) {
-        successQTE('BON', '#ccc');
+      
+      const hit = state.needleRot;
+      if (hit >= state.zones.start && hit <= state.zones.excEnd) {
+        success("EXCELLENT !", "white", 3);
+      } else if (hit > state.zones.excEnd && hit <= state.zones.goodEnd) {
+        success("BON", "#ddd", 0);
       } else {
-        failQTE();
+        fail();
       }
     }
 
-    function successQTE(text, color) {
-      showFeedback(text, color);
-      endQTE();
+    function success(txt, color, bonus) {
+      showFeedback(txt, color);
+      state.progress = Math.min(100, state.progress + bonus);
+      stopQTE();
     }
 
-    function failQTE() {
-      showFeedback('RATÉ !', 'red');
-      state.progress = Math.max(0, state.progress - 5); // Pénalité
-      // Animation flash rouge
-      elements.progressFill.style.background = 'white';
-      setTimeout(() => elements.progressFill.style.background = '', 200);
-      endQTE();
+    function fail() {
+      showFeedback("RATÉ !", "red");
+      state.progress = Math.max(0, state.progress - 5);
+      el.bar.style.backgroundColor = "white";
+      setTimeout(() => el.bar.style.backgroundColor = "", 150);
+      stopQTE();
     }
 
-    function endQTE() {
+    function stopQTE() {
       state.isQteActive = false;
-      elements.qteWrapper.classList.remove('active');
-      scheduleNextQTE();
+      el.qte.classList.remove('active');
+      scheduleQTE();
     }
 
-    function showFeedback(text, color) {
-      elements.feedback.innerText = text;
-      elements.feedback.style.color = color;
-      elements.feedback.classList.remove('show');
-      void elements.feedback.offsetWidth; // Trigger reflow
-      elements.feedback.classList.add('show');
+    function scheduleQTE() {
+      setTimeout(() => { if(state.isRunning) triggerQTE(); }, 4000 + Math.random() * 6000);
     }
 
-    function finishGen() {
+    function showFeedback(txt, color) {
+      el.feedback.innerText = txt;
+      el.feedback.style.color = color;
+      el.feedback.classList.remove('show');
+      void el.feedback.offsetWidth;
+      el.feedback.classList.add('show');
+    }
+
+    function victory() {
       state.isRunning = false;
-      alert("Générateur réparé !");
+      alert("Générateur complété ! Le portail est ouvert.");
       location.reload();
     }
 
-    // Events
-    elements.startBtn.addEventListener('click', startRepair);
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        handleInput();
-      }
-    });
+    el.btn.addEventListener('click', start);
+    window.addEventListener('keydown', (e) => { if(e.code === 'Space') { e.preventDefault(); checkInput(); }});
   </script>
 </body>
 </html>
