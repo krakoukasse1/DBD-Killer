@@ -302,7 +302,15 @@
     }, delay);
   }
 
-  function play(snd) { try { snd.currentTime = 0; snd.play().catch(()=>{}); } catch(e){} }
+  function play(snd) {
+    try {
+      // Cloner le noeud audio pour permettre plusieurs lectures simultanées
+      // et éviter les problèmes de currentTime sur un son déjà en cours
+      const clone = snd.cloneNode();
+      clone.volume = snd.volume;
+      clone.play().catch(e => console.warn('Audio play failed:', e));
+    } catch(e) { console.warn('Audio error:', e); }
+  }
 
   /* ══ CONSTANTES DBD ══ */
   const REPAIR_TIME_MS = 90000;
