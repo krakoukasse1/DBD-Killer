@@ -314,7 +314,7 @@
 
   /* ══ CONSTANTES DBD ══ */
   const REPAIR_TIME_MS = 90000;
-  const NEEDLE_SPEED   = 2.4;
+  const NEEDLE_SPEED   = 1.8;  // DBD vanilla ~1 tour en 3.3s à 60fps
   const QTE_DELAY_MIN  = 18000;
   const QTE_DELAY_MAX  = 30000;
   const REGRESSION_PCT = 5;
@@ -440,9 +440,11 @@
   function triggerQTE(){
     if(!running || qteActive) return;
     needleRot = 0;
-    play(sndQteIn); // son d'apparition du QTE
+    setTimeout(() => play(sndQteIn), 500); // léger délai pour coller au visuel
 
-    const startDeg = 40 + Math.random() * 280;
+    // Zone safe : entre 80° et 270° — jamais en haut (zone rouge du dessin)
+    // L'aiguille part de 0°, donc on laisse ~80° de marge avant la zone
+    const startDeg = 80 + Math.random() * 190;
     const circ = CIRCUMFERENCE;
     const arcDash = deg => (deg/360)*circ;
     const arcOff  = deg => -(deg/360)*circ;
