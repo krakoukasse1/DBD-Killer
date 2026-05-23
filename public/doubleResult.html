@@ -134,6 +134,162 @@
     .action-btn.primary:hover { background: #cc0000; transform: scale(1.03); }
     .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
     .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+
+    /* ══ ANIMATION ROULETTE ══ */
+    .roulette-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Slot perso */
+    .slot-char-wrap {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid rgba(200,0,0,0.4);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .slot-char-wrap::before,
+    .slot-char-wrap::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 15%;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .slot-char-wrap::before { left: 0;  background: linear-gradient(to right, rgba(0,0,0,0.9), transparent); }
+    .slot-char-wrap::after  { right: 0; background: linear-gradient(to left,  rgba(0,0,0,0.9), transparent); }
+
+    .slot-char-line {
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, transparent, #cc0000 20%, #cc0000 80%, transparent);
+      box-shadow: 0 0 10px rgba(200,0,0,0.8);
+      transform: translateX(-50%);
+      z-index: 4;
+    }
+
+    .slot-char-track {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      will-change: transform;
+    }
+
+    .slot-char-item {
+      flex-shrink: 0;
+      width: 160px;
+      height: 140px;
+      margin: 0 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      filter: brightness(0.5);
+      transition: filter 0.3s;
+    }
+    .slot-char-item.winner { filter: brightness(1.1); }
+    .slot-char-item img {
+      width: 100px; height: 100px;
+      border-radius: 10px; object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .slot-char-item span {
+      font-size: 0.75rem; color: rgba(255,255,255,0.7);
+      letter-spacing: 1px; text-align: center;
+      max-width: 140px; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
+
+    /* Slots perks (4 colonnes) */
+    .slots-perks-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media(max-width:700px){ .slots-perks-row { grid-template-columns: repeat(2,1fr); } }
+
+    .slot-perk-wrap {
+      position: relative;
+      height: 130px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .slot-perk-wrap::before,
+    .slot-perk-wrap::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 25%;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .slot-perk-wrap::before { top: 0;    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); }
+    .slot-perk-wrap::after  { bottom: 0; background: linear-gradient(to top,    rgba(0,0,0,0.9), transparent); }
+
+    .slot-perk-line {
+      position: absolute;
+      left: 0; right: 0;
+      top: 50%; height: 2px;
+      background: linear-gradient(to right, transparent, rgba(200,0,0,0.7), transparent);
+      transform: translateY(-50%);
+      z-index: 4;
+    }
+
+    .slot-perk-track {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      will-change: transform;
+    }
+
+    .slot-perk-item {
+      flex-shrink: 0;
+      width: 100%;
+      height: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      filter: brightness(0.45);
+      transition: filter 0.3s;
+    }
+    .slot-perk-item.winner { filter: brightness(1.1); }
+    .slot-perk-item .perk-slot-img {
+      width: 56px; height: 56px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      overflow: hidden;
+    }
+    .slot-perk-item .perk-slot-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+    .slot-perk-item .perk-slot-name {
+      font-size: 0.65rem; color: rgba(255,255,255,0.65);
+      letter-spacing: 0.5px; text-align: center;
+      max-width: 100%; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap; padding: 0 4px;
+    }
+
+    /* Résultats finaux */
+    .final-results {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+    .final-results.visible { display: flex; }
   </style>
 </head>
 <body>
@@ -167,23 +323,39 @@
     <p id="result-subtitle">Chargement…</p>
   </div>
 
-  <!-- PERSONNAGE -->
-  <div class="character-card" id="charCard">
-    <img class="char-img" id="charImg" src="" alt="">
-    <div class="char-info">
-      <span class="char-label" id="charLabel">Personnage tiré</span>
-      <div class="char-name" id="charName">—</div>
-      <div class="char-type" id="charType"></div>
+  <!-- ANIMATION ROULETTE -->
+  <div class="roulette-section" id="rouletteSection">
+
+    <!-- Slot personnage -->
+    <div class="slot-char-wrap">
+      <div class="slot-char-line"></div>
+      <div class="slot-char-track" id="slotCharTrack"></div>
     </div>
+
+    <!-- Slots perks -->
+    <div class="slots-perks-row" id="slotsPerkRow"></div>
+
   </div>
 
-  <div class="section-label">4 Perks tirées</div>
+  <!-- RÉSULTATS FINAUX -->
+  <div class="final-results" id="finalResults">
 
-  <!-- PERKS -->
-  <div class="perks-grid" id="perksGrid"></div>
+    <div class="character-card" id="charCard">
+      <img class="char-img" id="charImg" src="" alt="">
+      <div class="char-info">
+        <span class="char-label" id="charLabel">Personnage tiré</span>
+        <div class="char-name" id="charName">—</div>
+        <div class="char-type" id="charType"></div>
+      </div>
+    </div>
+
+    <div class="section-label">4 Perks tirées</div>
+    <div class="perks-grid" id="perksGrid"></div>
+
+  </div>
 
   <!-- ACTIONS -->
-  <div class="result-actions">
+  <div class="result-actions" id="resultActions" style="display:none;">
     <button class="action-btn primary" id="redrawBtn">↻ Nouveau tirage</button>
     <button class="action-btn secondary" onclick="window.location.href='index.html'">← Accueil</button>
   </div>
@@ -199,12 +371,139 @@
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
 
-  // Charger les données des persos pour les images
+  // Charger les données persos pour les images
   const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
   const charList  = type === 'Killer' ? charsData.killers : charsData.survivors;
   const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
   const charIndex = {};
   charList.forEach(c => { charIndex[c.name] = c.img; });
+
+  // Info subtitle
+  document.getElementById('result-subtitle').textContent =
+    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+
+  // ══ PHASE 1 : ANIMATION ROULETTE ══
+
+  // --- Slot personnage (horizontal) ---
+  function buildCharSlot() {
+    const track = document.getElementById('slotCharTrack');
+    track.innerHTML = '';
+    // 30 persos aléatoires + le gagnant à la fin
+    const fakes = [...charList].sort(() => Math.random()-0.5).slice(0, 30);
+    const items = [...fakes, { name: character.name, img: character.img.split('/').pop() }];
+    items.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'slot-char-item';
+      const img = document.createElement('img');
+      img.src = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
+      img.alt = c.name;
+      img.onerror = () => { img.style.display='none'; };
+      const span = document.createElement('span');
+      span.textContent = c.name;
+      div.appendChild(img); div.appendChild(span);
+      track.appendChild(div);
+    });
+    return items.length;
+  }
+
+  // --- Slots perks (vertical × 4) ---
+  function buildPerkSlots() {
+    const row = document.getElementById('slotsPerkRow');
+    row.innerHTML = '';
+    perks.forEach((winPerk, slotIdx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'slot-perk-wrap';
+      const line = document.createElement('div');
+      line.className = 'slot-perk-line';
+      const track = document.createElement('div');
+      track.className = 'slot-perk-track';
+      track.id = 'perkTrack'+slotIdx;
+
+      // 20 perks aléatoires + gagnante
+      const allPerks = perks.concat(perks, perks, perks, perks).sort(()=>Math.random()-0.5).slice(0, 20);
+      const items = [...allPerks, winPerk];
+      items.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'slot-perk-item';
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'perk-slot-img';
+        imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
+        if (p.img) {
+          const img = document.createElement('img');
+          img.src = `assets/${p.img}`;
+          img.onload = () => { imgWrap.innerHTML=''; imgWrap.appendChild(img); };
+        }
+        const name = document.createElement('div');
+        name.className = 'perk-slot-name';
+        name.textContent = p.name;
+        item.appendChild(imgWrap); item.appendChild(name);
+        track.appendChild(item);
+      });
+
+      wrap.appendChild(line); wrap.appendChild(track);
+      row.appendChild(wrap);
+    });
+  }
+
+  const charCount = buildCharSlot();
+  buildPerkSlots();
+
+  // --- Animation ---
+  const ITEM_W    = 172; // width + margin d'un slot perso
+  const ITEM_H    = 130; // height d'un slot perk
+  const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
+
+  function animateCharSlot(totalItems) {
+    return new Promise(resolve => {
+      const track = document.getElementById('slotCharTrack');
+      const finalX = -((totalItems - 1) * ITEM_W) + (track.parentElement.offsetWidth / 2) - ITEM_W / 2;
+      track.style.transition = 'none';
+      track.style.transform  = 'translateX(0)';
+      void track.offsetWidth;
+      track.style.transition = `transform 2200ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
+      track.style.transform  = `translateX(${finalX}px)`;
+      setTimeout(() => {
+        // Marquer le gagnant
+        const items = track.querySelectorAll('.slot-char-item');
+        items[items.length-1].classList.add('winner');
+        resolve();
+      }, 2200);
+    });
+  }
+
+  function animatePerkSlots() {
+    return new Promise(resolve => {
+      let done = 0;
+      perks.forEach((_, idx) => {
+        const track = document.getElementById('perkTrack'+idx);
+        if (!track) return;
+        const items = track.querySelectorAll('.slot-perk-item');
+        const finalY = -((items.length - 1) * ITEM_H) + (ITEM_H / 2);
+        track.style.transition = 'none';
+        track.style.transform  = 'translateY(0)';
+        void track.offsetWidth;
+        const dur = STOP_DELAYS[idx];
+        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
+        track.style.transform  = `translateY(${finalY}px)`;
+        setTimeout(() => {
+          items[items.length-1].classList.add('winner');
+          done++;
+          if (done === perks.length) setTimeout(resolve, 400);
+        }, dur);
+      });
+    });
+  }
+
+  // Lancer les deux animations en parallèle
+  await Promise.all([
+    animateCharSlot(charCount),
+    animatePerkSlots()
+  ]);
+
+  // ══ PHASE 2 : AFFICHER LES RÉSULTATS ══
+  document.getElementById('rouletteSection').style.display = 'none';
+  document.getElementById('finalResults').classList.add('visible');
+  document.getElementById('resultActions').style.display   = 'flex';
 
   // Afficher personnage
   document.getElementById('result-subtitle').textContent =
