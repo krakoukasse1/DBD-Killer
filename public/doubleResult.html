@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tirage Double — DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .result-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* HERO */
+    .result-hero { text-align: center; }
+    .result-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 8px; }
+    .result-hero h1 span { color: #cc0000; }
+    .result-hero p { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.45); }
+
+    /* CARTE PERSONNAGE */
+    .character-card {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 32px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      width: 100%;
+      backdrop-filter: blur(8px);
+      animation: slide-in 0.5s ease forwards;
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .char-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid rgba(200,0,0,0.4);
+      box-shadow: 0 0 30px rgba(200,0,0,0.2);
+    }
+    .char-info {}
+    .char-label { font-family: sans-serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(200,0,0,0.8); margin-bottom: 6px; display: block; }
+    .char-name  { font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; letter-spacing: 3px; line-height: 1; }
+    .char-type  { font-family: sans-serif; font-size: 0.8rem; color: rgba(200,200,200,0.4); margin-top: 6px; letter-spacing: 1px; }
+
+    /* SÉPARATEUR */
+    .section-label {
+      font-family: sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+    .section-label::before,
+    .section-label::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+    /* PERKS */
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+    @media(max-width: 600px) { .perks-grid { grid-template-columns: 1fr; } }
+
+    .perk-banner {
+      display: grid;
+      grid-template-columns: 70px 70px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s;
+    }
+    .perk-banner.visible { opacity: 1; transform: translateX(0); }
+    .perk-banner:hover { border-color: rgba(255,255,255,0.16); }
+
+    .perk-img-wrap {
+      width: 70px; height: 70px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; flex-shrink: 0;
+      overflow: hidden;
+    }
+    .perk-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; display: block; }
+
+    .char-img-wrap {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .char-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+
+    .perk-text {}
+    .perk-name { font-size: 1rem; color: #fff; letter-spacing: 1.5px; margin-bottom: 3px; display: block; }
+    .perk-origin { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.35); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 7px; display: block; }
+    .perk-origin.generic { color: rgba(255,180,0,0.5); }
+    .perk-desc { font-family: sans-serif; font-size: 0.72rem; color: rgba(200,200,200,0.5); line-height: 1.5; }
+
+    /* ACTIONS */
+    .result-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .action-btn {
+      padding: 13px 28px; border-radius: 9px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px;
+      cursor: pointer; transition: all .2s; border: none;
+    }
+    .action-btn.primary { background: red; color: #fff; }
+    .action-btn.primary:hover { background: #cc0000; transform: scale(1.03); }
+    .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+    .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
+  </div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="bonus.html">Bonus</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
+
+<main class="result-page">
+
+  <div class="result-hero">
+    <h1>Ton <span>Build</span></h1>
+    <p id="result-subtitle">Chargement…</p>
+  </div>
+
+  <!-- PERSONNAGE -->
+  <div class="character-card" id="charCard">
+    <img class="char-img" id="charImg" src="" alt="">
+    <div class="char-info">
+      <span class="char-label" id="charLabel">Personnage tiré</span>
+      <div class="char-name" id="charName">—</div>
+      <div class="char-type" id="charType"></div>
+    </div>
+  </div>
+
+  <div class="section-label">4 Perks tirées</div>
+
+  <!-- PERKS -->
+  <div class="perks-grid" id="perksGrid"></div>
+
+  <!-- ACTIONS -->
+  <div class="result-actions">
+    <button class="action-btn primary" id="redrawBtn">↻ Nouveau tirage</button>
+    <button class="action-btn secondary" onclick="window.location.href='index.html'">← Accueil</button>
+  </div>
+
+</main>
+
+<script src="header.js"></script>
+<script>
+(async function(){
+
+  const raw = localStorage.getItem('doubleResult');
+  if (!raw) { window.location.href = 'index.html'; return; }
+  const result = JSON.parse(raw);
+  const { character, perks, type } = result;
+
+  // Charger les données des persos pour les images
+  const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
+  const charList  = type === 'Killer' ? charsData.killers : charsData.survivors;
+  const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
+  const charIndex = {};
+  charList.forEach(c => { charIndex[c.name] = c.img; });
+
+  // Afficher personnage
+  document.getElementById('result-subtitle').textContent =
+    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+  document.getElementById('charLabel').textContent =
+    type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
+  document.getElementById('charName').textContent = character.name;
+  document.getElementById('charType').textContent =
+    type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
+  document.getElementById('charImg').src = character.img;
+  document.getElementById('charImg').alt = character.name;
+
+  // Afficher les perks
+  const grid = document.getElementById('perksGrid');
+
+  perks.forEach((perk, idx) => {
+    const banner = document.createElement('div');
+    banner.className = 'perk-banner';
+
+    // Image perk
+    const perkWrap = document.createElement('div');
+    perkWrap.className = 'perk-img-wrap';
+    perkWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
+    if (perk.img) {
+      const img = document.createElement('img');
+      img.src = `assets/${perk.img}`;
+      img.alt = perk.name;
+      img.onerror = () => {};
+      img.onload  = () => { perkWrap.innerHTML = ''; perkWrap.appendChild(img); };
+    }
+
+    // Image personnage de la perk
+    const cWrap = document.createElement('div');
+    cWrap.className = 'char-img-wrap';
+    cWrap.textContent = perk.character ? '👤' : '✦';
+    if (perk.character && charIndex[perk.character]) {
+      const img = document.createElement('img');
+      img.src = `${charPath}${charIndex[perk.character]}`;
+      img.alt = perk.character;
+      img.onload = () => { cWrap.innerHTML = ''; cWrap.appendChild(img); };
+    }
+
+    // Texte
+    const text = document.createElement('div');
+    text.className = 'perk-text';
+    text.innerHTML = `
+      <span class="perk-name">${perk.name}</span>
+      <span class="perk-origin ${perk.character ? '' : 'generic'}">${perk.character || '✦ Générique'}</span>
+      <span class="perk-desc">${perk.description || ''}</span>
+    `;
+
+    banner.appendChild(perkWrap);
+    banner.appendChild(cWrap);
+    banner.appendChild(text);
+    grid.appendChild(banner);
+
+    // Animation décalée
+    setTimeout(() => banner.classList.add('visible'), idx * 150 + 200);
+  });
+
+  // Bouton rejouer
+  document.getElementById('redrawBtn').addEventListener('click', async () => {
+    // Recharger les données et refaire un tirage du même type
+    const [data, perksData] = await Promise.all([
+      fetch('data.json').then(r=>r.json()),
+      fetch('perks.json').then(r=>r.json()).catch(()=>null)
+    ]);
+
+    const rawList = type === 'Killer' ? data.killers : data.survivors;
+    const newChar = rawList[Math.floor(Math.random() * rawList.length)];
+    const basePath = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
+
+    let newPerks = [];
+    if (perksData) {
+      const section = type === 'Killer' ? perksData.killerPerks : perksData.survivorPerks;
+      const perkPool = [
+        ...section.generic.map(p => ({ ...p, character: null })),
+        ...section.characters.flatMap(c => c.perks.map(p => ({ ...p, character: c.character })))
+      ];
+      const shuffled = [...perkPool];
+      for (let i = shuffled.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      newPerks = shuffled.slice(0, 4);
+    }
+
+    localStorage.setItem('doubleResult', JSON.stringify({
+      character: { name: newChar.name, img: `${basePath}${newChar.img}` },
+      perks: newPerks,
+      type
+    }));
+    window.location.reload();
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -483,6 +483,31 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* Cards tirage double */
+    .draw-card.double-killer {
+      border-color: rgba(150,0,0,0.2);
+      background: rgba(0,0,0,0.55);
+    }
+    .draw-card.double-killer::before {
+      background: linear-gradient(135deg, rgba(200,0,0,0.12), rgba(80,0,180,0.08), transparent 65%);
+    }
+    .draw-card.double-killer:hover {
+      border-color: rgba(180,0,0,0.5);
+      box-shadow: 0 24px 48px rgba(150,0,0,0.15);
+    }
+    .draw-card.double-survivor {
+      border-color: rgba(0,60,150,0.2);
+      background: rgba(0,0,0,0.55);
+    }
+    .draw-card.double-survivor::before {
+      background: linear-gradient(135deg, rgba(0,100,200,0.12), rgba(0,150,80,0.08), transparent 65%);
+    }
+    .draw-card.double-survivor:hover {
+      border-color: rgba(0,100,200,0.5);
+      box-shadow: 0 24px 48px rgba(0,100,150,0.15);
+    }
+    .card-icons { display: flex; gap: 6px; margin-bottom: 14px; position: relative; z-index: 1; }
+
     @keyframes fade-up {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }

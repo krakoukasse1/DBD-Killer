@@ -162,27 +162,58 @@
     </div>
   </div>
 
-  <!-- PISTONS -->
-  <div class="pistons-wrap">
-    <div class="piston-col">
-      <div class="piston-label">P1</div>
-      <div class="piston-track"><div class="piston-rod" id="rod0"></div></div>
-      <div class="piston-dot" id="dot0"></div>
+  <!-- PISTONS (8 pistons = 4 paires, comme un V8) -->
+  <div class="pistons-wrap" style="flex-direction:column; gap:10px;">
+    <!-- Label faces -->
+    <div style="display:flex; justify-content:space-between; width:100%; padding:0 4px;">
+      <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face arrière</span>
+      <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face avant</span>
     </div>
-    <div class="piston-col">
-      <div class="piston-label">P2</div>
-      <div class="piston-track"><div class="piston-rod" id="rod1"></div></div>
-      <div class="piston-dot" id="dot1"></div>
-    </div>
-    <div class="piston-col">
-      <div class="piston-label">P3</div>
-      <div class="piston-track"><div class="piston-rod" id="rod2"></div></div>
-      <div class="piston-dot" id="dot2"></div>
-    </div>
-    <div class="piston-col">
-      <div class="piston-label">P4</div>
-      <div class="piston-track"><div class="piston-rod" id="rod3"></div></div>
-      <div class="piston-dot" id="dot3"></div>
+    <!-- Rangée 1 : face arrière (P1-P4) -->
+    <div style="display:flex; gap:12px; align-items:flex-end; justify-content:center;">
+      <div class="piston-col">
+        <div class="piston-label">P1</div>
+        <div class="piston-track"><div class="piston-rod" id="rod0"></div></div>
+        <div class="piston-dot" id="dot0"></div>
+      </div>
+      <div class="piston-col">
+        <div class="piston-label">P1</div>
+        <div class="piston-track"><div class="piston-rod" id="rod0b"></div></div>
+        <div class="piston-dot" id="dot0b"></div>
+      </div>
+      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
+      <div class="piston-col">
+        <div class="piston-label">P2</div>
+        <div class="piston-track"><div class="piston-rod" id="rod1"></div></div>
+        <div class="piston-dot" id="dot1"></div>
+      </div>
+      <div class="piston-col">
+        <div class="piston-label">P2</div>
+        <div class="piston-track"><div class="piston-rod" id="rod1b"></div></div>
+        <div class="piston-dot" id="dot1b"></div>
+      </div>
+      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
+      <div class="piston-col">
+        <div class="piston-label">P3</div>
+        <div class="piston-track"><div class="piston-rod" id="rod2"></div></div>
+        <div class="piston-dot" id="dot2"></div>
+      </div>
+      <div class="piston-col">
+        <div class="piston-label">P3</div>
+        <div class="piston-track"><div class="piston-rod" id="rod2b"></div></div>
+        <div class="piston-dot" id="dot2b"></div>
+      </div>
+      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
+      <div class="piston-col">
+        <div class="piston-label">P4</div>
+        <div class="piston-track"><div class="piston-rod" id="rod3"></div></div>
+        <div class="piston-dot" id="dot3"></div>
+      </div>
+      <div class="piston-col">
+        <div class="piston-label">P4</div>
+        <div class="piston-track"><div class="piston-rod" id="rod3b"></div></div>
+        <div class="piston-dot" id="dot3b"></div>
+      </div>
     </div>
   </div>
 
@@ -244,42 +275,48 @@
 
   // Config volumes
   pistonAudios.forEach(a => { a.loop = true; a.volume = 0; });
-  cliquetis.forEach(a => { a.volume = 0.45; });
-  sndStart.volume = 0.7; sndDone.volume = 0.8;
+  cliquetis.forEach(a => { a.volume = 0.5; });
+  sndStart.volume = 0.7; sndDone.volume = 0.9;
   sndQteIn.volume = 0.6; sndGreat.volume = 0.7;
-  sndGood.volume  = 0.6; sndFail.volume  = 0.75;
+  sndGood.volume  = 0.6; sndFail.volume  = 0.8;
 
-  // Paliers pistons : [startPct, fastPct]
+  // Paliers pistons — volumes et vitesses calés sur DBD
+  // En jeu : chaque paire ajoute une couche sonore, le tout monte en densité
+  // slowRate ~0.6x = son grave lent, fastRate monte jusqu'à 1.15x sur P4
+  // Les volumes s'accumulent : P1 est la base, P2-P4 s'ajoutent par-dessus
   const PISTON_CONFIG = [
-    { start: 0.1,  fast: 25,  audio: pistonAudios[0], slowVol: 0.25, fastVol: 0.5,  slowRate: 0.65, fastRate: 1.0  },
-    { start: 25.1, fast: 50,  audio: pistonAudios[1], slowVol: 0.2,  fastVol: 0.45, slowRate: 0.65, fastRate: 1.0  },
-    { start: 50.1, fast: 75,  audio: pistonAudios[2], slowVol: 0.2,  fastVol: 0.45, slowRate: 0.65, fastRate: 1.05 },
-    { start: 75.1, fast: 100, audio: pistonAudios[3], slowVol: 0.2,  fastVol: 0.4,  slowRate: 0.65, fastRate: 1.1  },
+    // P1 : piston de base, arrière — démarre grave et lent, devient la fondation
+    { start: 0.1,  fast: 25,  audio: pistonAudios[0], slowVol: 0.3,  fastVol: 0.55, slowRate: 0.6,  fastRate: 0.95 },
+    // P2 : s'ajoute à 25%, légèrement plus aigu
+    { start: 25.1, fast: 50,  audio: pistonAudios[1], slowVol: 0.25, fastVol: 0.5,  slowRate: 0.65, fastRate: 1.0  },
+    // P3 : à 50%, le générateur commence à vrombir sérieusement
+    { start: 50.1, fast: 75,  audio: pistonAudios[2], slowVol: 0.25, fastVol: 0.5,  slowRate: 0.65, fastRate: 1.05 },
+    // P4 : avant du générateur — dernier à démarrer, vitesse max
+    { start: 75.1, fast: 100, audio: pistonAudios[3], slowVol: 0.22, fastVol: 0.45, slowRate: 0.65, fastRate: 1.15 },
   ];
 
   function updatePistonAudio(progress) {
     PISTON_CONFIG.forEach((cfg, i) => {
       const a = cfg.audio;
       if (progress < cfg.start) {
-        // Inactif → fade out
-        a.volume = Math.max(0, a.volume - 0.02);
+        // Inactif → fade out rapide
+        a.volume = Math.max(0, a.volume - 0.03);
         if (a.volume === 0) { a.pause(); a.currentTime = 0; }
-        document.getElementById('rod'+i).className = 'piston-rod';
-        document.getElementById('dot'+i).className = 'piston-dot';
       } else if (progress < cfg.fast) {
-        // Slow
+        // Slow — fade in progressif
         if (a.paused) { a.play().catch(()=>{}); }
-        a.volume    = Math.min(cfg.slowVol, a.volume + 0.01);
+        a.volume       = Math.min(cfg.slowVol, a.volume + 0.008);
         a.playbackRate = cfg.slowRate;
-        document.getElementById('rod'+i).className = 'piston-rod slow';
-        document.getElementById('dot'+i).className = 'piston-dot active';
+        // Transition douce slow→fast basée sur position dans la plage
+        const t = (progress - cfg.start) / (cfg.fast - cfg.start);
+        a.playbackRate = cfg.slowRate + (cfg.fastRate - cfg.slowRate) * t * 0.3;
       } else {
-        // Fast
+        // Fast — volume plein + légère montée de pitch selon progression globale
         if (a.paused) { a.play().catch(()=>{}); }
-        a.volume    = Math.min(cfg.fastVol, a.volume + 0.01);
-        a.playbackRate = cfg.fastRate;
-        document.getElementById('rod'+i).className = 'piston-rod fast';
-        document.getElementById('dot'+i).className = 'piston-dot active';
+        a.volume       = Math.min(cfg.fastVol, a.volume + 0.012);
+        // Pitch monte très légèrement avec la progression (0% → +8% max)
+        const extra = (progress - cfg.fast) / (100 - cfg.fast) * 0.08;
+        a.playbackRate = Math.min(cfg.fastRate + extra, cfg.fastRate + 0.08);
       }
     });
   }
@@ -288,14 +325,18 @@
     pistonAudios.forEach(a => { a.pause(); a.currentTime = 0; a.volume = 0; });
   }
 
-  // Cliquetis aléatoires : toutes les 3-7s pendant la réparation
+  // Cliquetis aléatoires — plus fréquents quand la gen avance (comme dans DBD)
   let cliquetisTimeout = null;
   function scheduleCliquetis() {
     if (!running) return;
-    const delay = 3000 + Math.random() * 4000;
+    // Fréquence : 5-8s au début, 2-4s à 75%+
+    const baseDelay = progress > 75 ? 2000 : progress > 50 ? 3000 : progress > 25 ? 4000 : 5000;
+    const delay = baseDelay + Math.random() * 2000;
     cliquetisTimeout = setTimeout(() => {
       if (!running) return;
       const snd = cliquetis[Math.floor(Math.random() * cliquetis.length)];
+      // Volume qui monte avec la progression
+      snd.volume = 0.3 + (progress / 100) * 0.35;
       snd.currentTime = 0;
       snd.play().catch(()=>{});
       scheduleCliquetis();
@@ -314,7 +355,7 @@
 
   /* ══ CONSTANTES DBD ══ */
   const REPAIR_TIME_MS = 90000;
-  const NEEDLE_SPEED   = 2.4;
+  const NEEDLE_SPEED   = 1.8;  // DBD vanilla ~1 tour en 3.3s à 60fps
   const QTE_DELAY_MIN  = 18000;
   const QTE_DELAY_MAX  = 30000;
   const REGRESSION_PCT = 5;
@@ -440,9 +481,11 @@
   function triggerQTE(){
     if(!running || qteActive) return;
     needleRot = 0;
-    play(sndQteIn); // son d'apparition du QTE
+    setTimeout(() => play(sndQteIn), 500); // léger délai pour coller au visuel
 
-    const startDeg = 40 + Math.random() * 280;
+    // Zone safe : entre 80° et 270° — jamais en haut (zone rouge du dessin)
+    // L'aiguille part de 0°, donc on laisse ~80° de marge avant la zone
+    const startDeg = 80 + Math.random() * 190;
     const circ = CIRCUMFERENCE;
     const arcDash = deg => (deg/360)*circ;
     const arcOff  = deg => -(deg/360)*circ;
@@ -553,10 +596,14 @@
     document.getElementById('startBtn').disabled = false;
     document.getElementById('endOverlay').classList.remove('show');
     document.getElementById('repairLabel').textContent = 'EN ATTENTE';
-    // Reset visuels pistons
+    // Reset visuels pistons (8 pistons)
     for(let i=0;i<4;i++){
-      document.getElementById('rod'+i).className='piston-rod';
-      document.getElementById('dot'+i).className='piston-dot';
+      ['','b'].forEach(s => {
+        const r = document.getElementById('rod'+i+s);
+        const d = document.getElementById('dot'+i+s);
+        if(r) r.className='piston-rod';
+        if(d) d.className='piston-dot';
+      });
     }
     updateUI();
   }
