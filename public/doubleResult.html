@@ -382,6 +382,38 @@
   document.getElementById('result-subtitle').textContent =
     `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
 
+  // ══ PRÉCHARGEMENT DES IMAGES ══
+  function preloadImage(src) {
+    return new Promise(resolve => {
+      if (!src) { resolve(); return; }
+      const img = new Image();
+      img.onload = img.onerror = resolve;
+      img.src = src;
+    });
+  }
+
+  // Collecter toutes les URLs à précharger
+  const toPreload = [];
+
+  // Images des persos de la liste
+  charList.forEach(c => toPreload.push(`${charPath}${c.img}`));
+
+  // Image du perso gagnant
+  toPreload.push(character.img);
+
+  // Images des perks gagnantes
+  perks.forEach(p => { if (p.img) toPreload.push(`assets/${p.img}`); });
+
+  // Images des persos propriétaires des perks
+  perks.forEach(p => {
+    if (p.character && charIndex[p.character]) {
+      toPreload.push(`${charPath}${charIndex[p.character]}`);
+    }
+  });
+
+  // Précharger tout en parallèle avant de lancer l'animation
+  await Promise.all([...new Set(toPreload)].map(preloadImage));
+
   // ══ PHASE 1 : ANIMATION ROULETTE ══
 
   // --- Slot personnage (horizontal) ---
