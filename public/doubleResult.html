@@ -134,7 +134,7 @@
     .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
     .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
 
-    /* ══ ANIMATION ROULETTE (CSS KEYFRAMES DIRECTIONNEL) ══ */
+    /* ══ ANIMATION ROULETTE OPTIMISÉE POUR TOUT LE CATALOGUE ══ */
     .roulette-section {
       width: 100%;
       display: flex;
@@ -167,7 +167,7 @@
       position: absolute;
       left: 50%; top: 0; bottom: 0;
       width: 3px;
-      background: linear-gradient(to bottom, transparent, #cc0000 20%, #cc0000 80%, transparent);
+      background: #cc0000;
       box-shadow: 0 0 10px rgba(200,0,0,0.8);
       transform: translateX(-50%);
       z-index: 4;
@@ -177,9 +177,8 @@
       display: flex;
       align-items: center;
       height: 100%;
-      /* Centrage parfait initial du premier item */
-      padding-left: calc(50% - 80px); 
-      transform: translateX(0);
+      padding-left: calc(50% - 80px);
+      will-change: transform;
     }
 
     .slot-char-item {
@@ -236,7 +235,7 @@
       position: absolute;
       left: 0; right: 0;
       top: 50%; height: 2px;
-      background: linear-gradient(to right, transparent, rgba(200,0,0,0.7), transparent);
+      background: rgba(200,0,0,0.5);
       transform: translateY(-50%);
       z-index: 4;
     }
@@ -245,7 +244,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      transform: translateY(0);
+      will-change: transform;
     }
 
     .slot-perk-item {
@@ -296,18 +295,14 @@
   </div>
 
   <div class="roulette-section" id="rouletteSection">
-
     <div class="slot-char-wrap">
       <div class="slot-char-line"></div>
       <div class="slot-char-track" id="slotCharTrack"></div>
     </div>
-
     <div class="slots-perks-row" id="slotsPerkRow"></div>
-
   </div>
 
   <div class="final-results" id="finalResults">
-
     <div class="character-card" id="charCard">
       <img class="char-img" id="charImg" src="" alt="">
       <div class="char-info">
@@ -316,10 +311,8 @@
         <div class="char-type" id="charType"></div>
       </div>
     </div>
-
     <div class="section-label">4 Perks tirées</div>
     <div class="perks-grid" id="perksGrid"></div>
-
   </div>
 
   <div class="result-actions" id="resultActions" style="display:none;">
@@ -337,15 +330,12 @@
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
 
+  // Récupération de l'intégralité de tes catalogues
   const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
   let charList  = type === 'Killer' ? (charsData.killers || []) : (charsData.survivors || []);
   const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
   const charIndex = {};
   charList.forEach(c => { charIndex[c.name] = c.img; });
-
-  if (charList.length === 0) {
-    charList = [{ name: character.name, img: character.img.split('/').pop() }];
-  }
 
   const perksJson = await fetch('perks.json').then(r => r.json()).catch(() => null);
   let globalPerksPool = [];
@@ -355,11 +345,10 @@
       globalPerksPool = [...sec.generic, ...sec.characters.flatMap(c => c.perks)];
     }
   }
-  if(globalPerksPool.length === 0) { globalPerksPool = perks; }
 
   document.getElementById('result-subtitle').textContent = `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
 
-  // Grille finale
+  // Grille du bas (Gagnants fixes)
   const grid = document.getElementById('perksGrid');
   grid.innerHTML = '';
   perks.forEach((perk) => {
@@ -392,17 +381,24 @@
     grid.appendChild(banner);
   });
 
-  // --- Roulette Perso (Max 25 éléments pour éviter les crashs) ---
+  // --- ROULETTE PERSO : Mélange TOUT ton catalogue ---
   function buildCharSlot() {
     const track = document.getElementById('slotCharTrack');
     track.innerHTML = '';
-    let pool = [];
-    while (pool.length < 20) { pool = pool.concat(charList); }
-    const fakes = pool.sort(() => Math.random() - 0.5).slice(0, 18);
-    // Le gagnant est positionné exactement à l'index 18 (le 19ème élément)
-    const items = [...fakes, { name: character.name, img: character.img.split('/').pop() }];
     
-    items.forEach(c => {
+    // On mélange la liste complète de ton JSON
+    let fullShuffledPool = [...charList].sort(() => Math.random() - 0.5);
+    
+    // Si la liste est trop courte pour l'effet de défilement, on la duplique un peu
+    while(fullShuffledPool.length < 35) {
+      fullShuffledPool = fullShuffledPool.concat([...charList].sort(() => Math.random() - 0.5));
+    }
+    
+    // On tronque proprement et on place le VRAI gagnant tout à la fin
+    const finalItems = fullShuffledPool.slice(0, 30);
+    finalItems.push({ name: character.name, img: character.img.split('/').pop() });
+
+    finalItems.forEach(c => {
       const div = document.createElement('div');
       div.className = 'slot-char-item';
       const img = document.createElement('img');
@@ -412,10 +408,10 @@
       div.appendChild(img); div.appendChild(span);
       track.appendChild(div);
     });
-    return items.length;
+    return finalItems.length;
   }
 
-  // --- Roulette Perks ---
+  // --- ROULETTE PERKS : Mélange TOUTES les perks existantes ---
   function buildPerkSlots() {
     const row = document.getElementById('slotsPerkRow');
     row.innerHTML = '';
@@ -429,12 +425,16 @@
       track.className = 'slot-perk-track';
       track.id = 'perkTrack'+slotIdx;
 
-      let pPool = [];
-      while(pPool.length < 20) { pPool = pPool.concat(globalPerksPool); }
-      const fakes = pPool.sort(() => Math.random() - 0.5).slice(0, 15);
-      const items = [...fakes, winPerk]; 
+      // On pioche au hasard dans TOUT le catalogue de perks
+      let fullPerksShuffled = [...globalPerksPool].sort(() => Math.random() - 0.5);
+      while(fullPerksShuffled.length < 30) {
+        fullPerksShuffled = fullPerksShuffled.concat([...globalPerksPool].sort(() => Math.random() - 0.5));
+      }
       
-      items.forEach(p => {
+      const finalPerks = fullPerksShuffled.slice(0, 25);
+      finalPerks.push(winPerk); // Le vrai gagnant est le dernier élément de l'antenne
+
+      finalPerks.forEach(p => {
         const item = document.createElement('div');
         item.className = 'slot-perk-item';
         const imgWrap = document.createElement('div');
@@ -459,17 +459,17 @@
   const charCount = buildCharSlot();
   buildPerkSlots();
 
-  // --- Animation standard JS native par transition ---
+  // --- Animation fluide avec freinage parfait ---
   function runAnimations() {
     return new Promise(resolve => {
-      // Animation perso
+      // 1. Animation Personnage
       const charTrack = document.getElementById('slotCharTrack');
       const finalX = -((charCount - 1) * 160);
-      charTrack.style.transition = 'transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)';
+      charTrack.style.transition = 'transform 4s cubic-bezier(0.1, 0.8, 0.15, 1)';
       charTrack.style.transform = `translateX(${finalX}px)`;
 
-      // Animation perks
-      const delays = [2200, 2600, 3000, 3400];
+      // 2. Animation Perks
+      const delays = [2500, 3000, 3500, 4000];
       let completed = 0;
 
       perks.forEach((_, idx) => {
@@ -477,37 +477,36 @@
         const totalItems = perkTrack.querySelectorAll('.slot-perk-item').length;
         const finalY = -((totalItems - 1) * 130);
 
-        perkTrack.style.transition = `transform ${delays[idx]}ms cubic-bezier(0.1, 0.8, 0.1, 1)`;
+        perkTrack.style.transition = `transform ${delays[idx]}ms cubic-bezier(0.1, 0.8, 0.15, 1)`;
         perkTrack.style.transform = `translateY(${finalY}px)`;
 
         setTimeout(() => {
           completed++;
           if(completed === 4) resolve();
-        }, 3500); // Se synchronise sur la fin de l'anim principale
+        }, 4000);
       });
     });
   }
 
-  // Lancement après un léger temps mort pour laisser le DOM respirer
+  // Lancement
   setTimeout(async () => {
     await runAnimations();
 
-    // Remplissage carte finale
+    // Révélation finale
     document.getElementById('charLabel').textContent = type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
     document.getElementById('charName').textContent = character.name;
     document.getElementById('charType').textContent = type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
     document.getElementById('charImg').src = character.img;
 
-    // Affichage des blocs cachés
     document.getElementById('finalResults').classList.add('visible');
     document.getElementById('resultActions').style.display = 'flex';
     
     document.querySelectorAll('.perk-banner').forEach((banner, idx) => {
       setTimeout(() => banner.classList.add('visible'), idx * 150 + 100);
     });
-  }, 300);
+  }, 400);
 
-  // Redraw
+  // Bouton Nouveau Tirage
   document.getElementById('redrawBtn').addEventListener('click', async () => {
     const [data, perksData] = await Promise.all([
       fetch('data.json').then(r=>r.json()).catch(()=>({killers:[],survivors:[]})),
