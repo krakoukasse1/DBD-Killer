@@ -418,64 +418,122 @@
 
   // --- Slot personnage (horizontal) ---
   function buildCharSlot() {
-    const track = document.getElementById('slotCharTrack');
-    track.innerHTML = '';
-    // 30 persos aléatoires + le gagnant à la fin
-    const fakes = [...charList].sort(() => Math.random()-0.5).slice(0, 30);
-    const items = [...fakes, { name: character.name, img: character.img.split('/').pop() }];
-    items.forEach(c => {
-      const div = document.createElement('div');
-      div.className = 'slot-char-item';
-      const img = document.createElement('img');
-      img.src = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
-      img.alt = c.name;
-      img.onerror = () => { img.style.display='none'; };
-      const span = document.createElement('span');
-      span.textContent = c.name;
-      div.appendChild(img); div.appendChild(span);
-      track.appendChild(div);
+  const track = document.getElementById('slotCharTrack');
+  track.innerHTML = '';
+
+  const items = [];
+
+  // Génère beaucoup plus d'éléments
+  for (let i = 0; i < 80; i++) {
+    const randomChar = charList[Math.floor(Math.random() * charList.length)];
+    items.push({
+      name: randomChar.name,
+      img: randomChar.img
     });
-    return items.length;
   }
+
+  // Ajouter le gagnant à la fin
+  items.push({
+    name: character.name,
+    img: character.img.split('/').pop()
+  });
+
+  items.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'slot-char-item';
+
+    const img = document.createElement('img');
+    img.src = c.img.includes('/')
+      ? c.img
+      : `${charPath}${c.img}`;
+
+    img.alt = c.name;
+    img.onerror = () => { img.style.display = 'none'; };
+
+    const span = document.createElement('span');
+    span.textContent = c.name;
+
+    div.appendChild(img);
+    div.appendChild(span);
+
+    track.appendChild(div);
+  });
+
+  return items.length;
+}
 
   // --- Slots perks (vertical × 4) ---
   function buildPerkSlots() {
-    const row = document.getElementById('slotsPerkRow');
-    row.innerHTML = '';
-    perks.forEach((winPerk, slotIdx) => {
-      const wrap = document.createElement('div');
-      wrap.className = 'slot-perk-wrap';
-      const line = document.createElement('div');
-      line.className = 'slot-perk-line';
-      const track = document.createElement('div');
-      track.className = 'slot-perk-track';
-      track.id = 'perkTrack'+slotIdx;
+  const row = document.getElementById('slotsPerkRow');
+  row.innerHTML = '';
 
-      // 20 perks aléatoires + gagnante
-      const allPerks = perks.concat(perks, perks, perks, perks).sort(()=>Math.random()-0.5).slice(0, 20);
-      const items = [...allPerks, winPerk];
-      items.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'slot-perk-item';
-        const imgWrap = document.createElement('div');
-        imgWrap.className = 'perk-slot-img';
-        imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
-        if (p.img) {
-          const img = document.createElement('img');
-          img.src = `assets/${p.img}`;
-          img.onload = () => { imgWrap.innerHTML=''; imgWrap.appendChild(img); };
-        }
-        const name = document.createElement('div');
-        name.className = 'perk-slot-name';
-        name.textContent = p.name;
-        item.appendChild(imgWrap); item.appendChild(name);
-        track.appendChild(item);
-      });
+  // Pool COMPLET des perks
+  let perkPool = [];
 
-      wrap.appendChild(line); wrap.appendChild(track);
-      row.appendChild(wrap);
-    });
+  perks.forEach(p => perkPool.push(p));
+
+  // Ajoute plein de fausses perks
+  while (perkPool.length < 100) {
+    const random = perks[Math.floor(Math.random() * perks.length)];
+    perkPool.push(random);
   }
+
+  perks.forEach((winPerk, slotIdx) => {
+
+    const wrap = document.createElement('div');
+    wrap.className = 'slot-perk-wrap';
+
+    const line = document.createElement('div');
+    line.className = 'slot-perk-line';
+
+    const track = document.createElement('div');
+    track.className = 'slot-perk-track';
+    track.id = 'perkTrack' + slotIdx;
+
+    // Beaucoup d'éléments avant le gagnant
+    const shuffled = [...perkPool]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 40);
+
+    const items = [...shuffled, winPerk];
+
+    items.forEach(p => {
+
+      const item = document.createElement('div');
+      item.className = 'slot-perk-item';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'perk-slot-img';
+
+      imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
+
+      if (p.img) {
+        const img = document.createElement('img');
+
+        img.src = `assets/${p.img}`;
+
+        img.onload = () => {
+          imgWrap.innerHTML = '';
+          imgWrap.appendChild(img);
+        };
+      }
+
+      const name = document.createElement('div');
+      name.className = 'perk-slot-name';
+      name.textContent = p.name;
+
+      item.appendChild(imgWrap);
+      item.appendChild(name);
+
+      track.appendChild(item);
+    });
+
+    wrap.appendChild(line);
+    wrap.appendChild(track);
+
+    row.appendChild(wrap);
+  });
+}
 
   const charCount = buildCharSlot();
   buildPerkSlots();
