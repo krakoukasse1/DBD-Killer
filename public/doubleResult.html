@@ -50,7 +50,7 @@
       border: 2px solid rgba(200,0,0,0.4);
       box-shadow: 0 0 30px rgba(200,0,0,0.2);
     }
-    .char-info {}
+    
     .char-label { font-family: sans-serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(200,0,0,0.8); margin-bottom: 6px; display: block; }
     .char-name  { font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; letter-spacing: 3px; line-height: 1; }
     .char-type  { font-family: sans-serif; font-size: 0.8rem; color: rgba(200,200,200,0.4); margin-top: 6px; letter-spacing: 1px; }
@@ -117,7 +117,7 @@
     }
     .char-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
 
-    .perk-text {}
+    
     .perk-name { font-size: 1rem; color: #fff; letter-spacing: 1.5px; margin-bottom: 3px; display: block; }
     .perk-origin { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.35); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 7px; display: block; }
     .perk-origin.generic { color: rgba(255,180,0,0.5); }
@@ -487,19 +487,26 @@
 
   function animateCharSlot(totalItems) {
     return new Promise(resolve => {
-      const track = document.getElementById('slotCharTrack');
-      const finalX = -((totalItems - 1) * ITEM_W) + (track.parentElement.offsetWidth / 2) - ITEM_W / 2;
+      const track   = document.getElementById('slotCharTrack');
+      const wrapper = track.parentElement;
+      // Centre le gagnant (dernier item) sur la ligne rouge (centre du wrapper)
+      const wrapW   = wrapper.offsetWidth;
+      const finalX  = -(( totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
+
       track.style.transition = 'none';
       track.style.transform  = 'translateX(0)';
       void track.offsetWidth;
-      track.style.transition = `transform 2200ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
+
+      const dur = 3000;
+      track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
       track.style.transform  = `translateX(${finalX}px)`;
+
       setTimeout(() => {
-        // Marquer le gagnant
+        track.querySelectorAll('.slot-char-item').forEach(it => it.classList.remove('winner'));
         const items = track.querySelectorAll('.slot-char-item');
-        items[items.length-1].classList.add('winner');
+        items[items.length - 1].classList.add('winner');
         resolve();
-      }, 2200);
+      }, dur);
     });
   }
 
@@ -507,20 +514,29 @@
     return new Promise(resolve => {
       let done = 0;
       perks.forEach((_, idx) => {
-        const track = document.getElementById('perkTrack'+idx);
+        const track   = document.getElementById('perkTrack' + idx);
         if (!track) return;
-        const items = track.querySelectorAll('.slot-perk-item');
-        const finalY = -((items.length - 1) * ITEM_H) + (ITEM_H / 2);
+        const wrapper = track.parentElement;
+        const wrapH   = wrapper.offsetHeight; // hauteur visible du slot
+        const items   = track.querySelectorAll('.slot-perk-item');
+        const total   = items.length;
+
+        // On veut que le DERNIER item soit centré dans le wrapper
+        // translateY pour amener item[total-1] au centre : -(total-1)*ITEM_H + wrapH/2 - ITEM_H/2
+        const finalY = -((total - 1) * ITEM_H) + (wrapH / 2) - (ITEM_H / 2);
+
         track.style.transition = 'none';
         track.style.transform  = 'translateY(0)';
         void track.offsetWidth;
+
         const dur = STOP_DELAYS[idx];
-        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
+        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
         track.style.transform  = `translateY(${finalY}px)`;
+
         setTimeout(() => {
-          items[items.length-1].classList.add('winner');
+          items[total - 1].classList.add('winner');
           done++;
-          if (done === perks.length) setTimeout(resolve, 400);
+          if (done === perks.length) setTimeout(resolve, 500);
         }, dur);
       });
     });
