@@ -134,7 +134,7 @@
     .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
     .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
 
-    /* ══ ANIMATION ROULETTE OPTIMISÉE POUR TOUT LE CATALOGUE ══ */
+    /* ══ ANIMATION ROULETTE GRANDE LOOP ══ */
     .roulette-section {
       width: 100%;
       display: flex;
@@ -190,6 +190,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      /* Optimisation anti-disparition pour les longues listes */
+      content-visibility: auto;
+      contain-intrinsic-size: 160px 140px;
     }
     .slot-char-item img {
       width: 100px; height: 100px;
@@ -330,7 +333,6 @@
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
 
-  // Récupération de l'intégralité de tes catalogues
   const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
   let charList  = type === 'Killer' ? (charsData.killers || []) : (charsData.survivors || []);
   const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
@@ -381,21 +383,20 @@
     grid.appendChild(banner);
   });
 
-  // --- ROULETTE PERSO : Mélange TOUT ton catalogue ---
+  // --- ROULETTE PERSO MAX LOOP (60 ÉLÉMENTS) ---
   function buildCharSlot() {
     const track = document.getElementById('slotCharTrack');
     track.innerHTML = '';
     
-    // On mélange la liste complète de ton JSON
     let fullShuffledPool = [...charList].sort(() => Math.random() - 0.5);
     
-    // Si la liste est trop courte pour l'effet de défilement, on la duplique un peu
-    while(fullShuffledPool.length < 35) {
+    // On duplique intelligemment pour atteindre une très longue boucle de défilement
+    while(fullShuffledPool.length < 65) {
       fullShuffledPool = fullShuffledPool.concat([...charList].sort(() => Math.random() - 0.5));
     }
     
-    // On tronque proprement et on place le VRAI gagnant tout à la fin
-    const finalItems = fullShuffledPool.slice(0, 30);
+    // On prend exactement 59 fakes et on met le vrai gagnant en 60ème position
+    const finalItems = fullShuffledPool.slice(0, 59);
     finalItems.push({ name: character.name, img: character.img.split('/').pop() });
 
     finalItems.forEach(c => {
@@ -411,7 +412,7 @@
     return finalItems.length;
   }
 
-  // --- ROULETTE PERKS : Mélange TOUTES les perks existantes ---
+  // --- Roulette Perks (Alignée sur 30 éléments pour garder le rythme) ---
   function buildPerkSlots() {
     const row = document.getElementById('slotsPerkRow');
     row.innerHTML = '';
@@ -425,14 +426,13 @@
       track.className = 'slot-perk-track';
       track.id = 'perkTrack'+slotIdx;
 
-      // On pioche au hasard dans TOUT le catalogue de perks
       let fullPerksShuffled = [...globalPerksPool].sort(() => Math.random() - 0.5);
-      while(fullPerksShuffled.length < 30) {
+      while(fullPerksShuffled.length < 35) {
         fullPerksShuffled = fullPerksShuffled.concat([...globalPerksPool].sort(() => Math.random() - 0.5));
       }
       
-      const finalPerks = fullPerksShuffled.slice(0, 25);
-      finalPerks.push(winPerk); // Le vrai gagnant est le dernier élément de l'antenne
+      const finalPerks = fullPerksShuffled.slice(0, 29);
+      finalPerks.push(winPerk);
 
       finalPerks.forEach(p => {
         const item = document.createElement('div');
@@ -459,17 +459,17 @@
   const charCount = buildCharSlot();
   buildPerkSlots();
 
-  // --- Animation fluide avec freinage parfait ---
+  // --- Animation fluide avec ajustement du timing pour la longue piste ---
   function runAnimations() {
     return new Promise(resolve => {
-      // 1. Animation Personnage
+      // 1. Animation Personnage (Sur 60 éléments, on augmente légèrement le temps à 4.5s pour garder un effet réaliste)
       const charTrack = document.getElementById('slotCharTrack');
       const finalX = -((charCount - 1) * 160);
-      charTrack.style.transition = 'transform 4s cubic-bezier(0.1, 0.8, 0.15, 1)';
+      charTrack.style.transition = 'transform 4.5s cubic-bezier(0.05, 0.75, 0.1, 1)';
       charTrack.style.transform = `translateX(${finalX}px)`;
 
-      // 2. Animation Perks
-      const delays = [2500, 3000, 3500, 4000];
+      // 2. Animation Perks (Échelonnées pour finir en décalé après le personnage)
+      const delays = [2500, 3200, 3800, 4400];
       let completed = 0;
 
       perks.forEach((_, idx) => {
@@ -483,7 +483,7 @@
         setTimeout(() => {
           completed++;
           if(completed === 4) resolve();
-        }, 4000);
+        }, 4500);
       });
     });
   }
