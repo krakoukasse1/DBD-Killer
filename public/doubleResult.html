@@ -192,10 +192,7 @@
       justify-content: center;
       gap: 8px;
       filter: brightness(0.5);
-      transition: filter 0.3s, transform 0.3s;
-      /* Anti-disparition bug Chrome/Webkit */
-      transform: translateZ(0);
-      contain: layout;
+      transition: filter 0.3s;
     }
     .slot-char-item.winner { filter: brightness(1.1); }
     .slot-char-item img {
@@ -267,10 +264,7 @@
       padding: 8px;
       box-sizing: border-box;
       filter: brightness(0.45);
-      transition: filter 0.3s, transform 0.3s;
-      /* Anti-disparition bug Chrome/Webkit */
-      transform: translateZ(0);
-      contain: layout;
+      transition: filter 0.3s;
     }
     .slot-perk-item.winner { filter: brightness(1.1); }
     .slot-perk-item .perk-slot-img {
