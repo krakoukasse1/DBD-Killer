@@ -7,6 +7,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
+    /* ÉCRAN DE PRÉCHARGEMENT (STYLE JEU VIDÉO) */
+    #preloader {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #0a0a0a;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-title { color: #fff; font-size: 2rem; letter-spacing: 3px; }
+    .loader-title span { color: #cc0000; }
+    .loader-bar-wrap { width: 250px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+    .loader-bar { width: 0%; height: 100%; background: #cc0000; transition: width 0.1s ease; }
+    .loader-text { font-family: sans-serif; font-size: 0.8rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+
+    /* PAGE PRINCIPALE */
     .result-page {
       max-width: 900px;
       margin: 0 auto;
@@ -134,7 +160,7 @@
     .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
     .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
 
-    /* ══ ANIMATION ROULETTE GRANDE LOOP ══ */
+    /* ══ ROULETTE ══ */
     .roulette-section {
       width: 100%;
       display: flex;
@@ -190,9 +216,6 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      /* Optimisation anti-disparition pour les longues listes */
-      content-visibility: auto;
-      contain-intrinsic-size: 160px 140px;
     }
     .slot-char-item img {
       width: 100px; height: 100px;
@@ -290,6 +313,15 @@
 </head>
 <body>
 
+<!-- ÉCRAN DE PRÉCHARGEMENT JEU VIDÉO -->
+<div id="preloader">
+  <div class="loader-title">CHARGEMENT DES <span>ASSETS</span>...</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar" id="loaderBar"></div>
+  </div>
+  <div class="loader-text" id="loaderText">0%</div>
+</div>
+
 <main class="result-page">
 
   <div class="result-hero">
@@ -305,6 +337,7 @@
     <div class="slots-perks-row" id="slotsPerkRow"></div>
   </div>
 
+  <!-- RÉSULTATS FINAUX -->
   <div class="final-results" id="finalResults">
     <div class="character-card" id="charCard">
       <img class="char-img" id="charImg" src="" alt="">
@@ -318,6 +351,7 @@
     <div class="perks-grid" id="perksGrid"></div>
   </div>
 
+  <!-- ACTIONS -->
   <div class="result-actions" id="resultActions" style="display:none;">
     <button class="action-btn primary" id="redrawBtn">↻ Nouveau tirage</button>
     <button class="action-btn secondary" onclick="window.location.href='index.html'">← Accueil</button>
@@ -350,7 +384,7 @@
 
   document.getElementById('result-subtitle').textContent = `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
 
-  // Grille du bas (Gagnants fixes)
+  // Grille finale
   const grid = document.getElementById('perksGrid');
   grid.innerHTML = '';
   perks.forEach((perk) => {
@@ -383,30 +417,29 @@
     grid.appendChild(banner);
   });
 
-  // Index cible où sera placé le gagnant dans le défilement
   const TARGET_CHAR_INDEX = 55; 
   const TARGET_PERK_INDEX = 25;
 
-  // --- ROULETTE PERSO (Gagnant au milieu de la boucle) ---
+  let urlsToPreload = [];
+
+  // --- ROULETTE PERSO ---
   function buildCharSlot() {
     const track = document.getElementById('slotCharTrack');
     track.innerHTML = '';
-    
     let fullShuffledPool = [...charList].sort(() => Math.random() - 0.5);
     while(fullShuffledPool.length < 70) {
       fullShuffledPool = fullShuffledPool.concat([...charList].sort(() => Math.random() - 0.5));
     }
-    
-    // On crée la liste finale de 68 éléments
     const finalItems = fullShuffledPool.slice(0, 68);
-    // On injecte le VRAI gagnant à la position cible (ex: 56ème élément)
     finalItems[TARGET_CHAR_INDEX] = { name: character.name, img: character.img.split('/').pop() };
 
     finalItems.forEach(c => {
       const div = document.createElement('div');
       div.className = 'slot-char-item';
       const img = document.createElement('img');
-      img.src = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
+      const srcUrl = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
+      img.src = srcUrl;
+      urlsToPreload.push(srcUrl); // On ajoute au catalogue à précharger
       const span = document.createElement('span');
       span.textContent = c.name;
       div.appendChild(img); div.appendChild(span);
@@ -414,11 +447,10 @@
     });
   }
 
-  // --- ROULETTE PERKS (Gagnants au milieu des colonnes) ---
+  // --- ROULETTE PERKS ---
   function buildPerkSlots() {
     const row = document.getElementById('slotsPerkRow');
     row.innerHTML = '';
-    
     perks.forEach((winPerk, slotIdx) => {
       const wrap = document.createElement('div');
       wrap.className = 'slot-perk-wrap';
@@ -432,9 +464,7 @@
       while(fullPerksShuffled.length < 40) {
         fullPerksShuffled = fullPerksShuffled.concat([...globalPerksPool].sort(() => Math.random() - 0.5));
       }
-      
       const finalPerks = fullPerksShuffled.slice(0, 35);
-      // On injecte le vrai gagnant au milieu de la colonne
       finalPerks[TARGET_PERK_INDEX] = winPerk;
 
       finalPerks.forEach(p => {
@@ -445,8 +475,10 @@
         imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
         if (p.img) {
           const img = document.createElement('img');
-          img.src = `assets/${p.img}`;
-          img.onload = () => { imgWrap.innerHTML=''; imgWrap.appendChild(img); };
+          const srcUrl = `assets/${p.img}`;
+          img.src = srcUrl;
+          urlsToPreload.push(srcUrl); // On ajoute au catalogue à précharger
+          imgWrap.appendChild(img);
         }
         const name = document.createElement('div');
         name.className = 'perk-slot-name';
@@ -459,19 +491,53 @@
     });
   }
 
+  // On injecte aussi les images de la carte finale au préchargement
+  urlsToPreload.push(character.img);
+  perks.forEach(p => { if(p.img) urlsToPreload.push(`assets/${p.img}`); });
+
   buildCharSlot();
   buildPerkSlots();
 
-  // --- Animations ciblées (on s'arrête pile sur l'index du gagnant) ---
+  // Nettoyage des doublons d'URL pour ne pas télécharger 10 fois la même image
+  urlsToPreload = [...new Set(urlsToPreload)];
+
+  // --- GESTIONNAIRE DE PRÉCHARGEMENT COMPATIBLE JEU VIDÉO ---
+  function preloadImages(urls) {
+    return new Promise(resolve => {
+      let loadedCount = 0;
+      const total = urls.length;
+      if (total === 0) resolve();
+
+      const bar = document.getElementById('loaderBar');
+      const text = document.getElementById('loaderText');
+
+      urls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+        
+        // Dès qu'une image est en mémoire cache (succès ou erreur de lien cassé)
+        img.onload = img.onerror = () => {
+          loadedCount++;
+          const percent = Math.floor((loadedCount / total) * 100);
+          bar.style.width = percent + '%';
+          text.textContent = percent + '%';
+
+          if (loadedCount === total) {
+            setTimeout(resolve, 200); // Petit délai fluide pour la jauge à 100%
+          }
+        };
+      });
+    });
+  }
+
+  // --- Fonctions animations de la roulette ---
   function runAnimations() {
     return new Promise(resolve => {
-      // 1. Déplacement horizontal du Perso vers son index cible (chaque item fait 160px de large)
       const charTrack = document.getElementById('slotCharTrack');
       const finalX = -(TARGET_CHAR_INDEX * 160); 
       charTrack.style.transition = 'transform 4.5s cubic-bezier(0.05, 0.75, 0.1, 1)';
       charTrack.style.transform = `translateX(${finalX}px)`;
 
-      // 2. Déplacement vertical des Perks vers leur index cible (chaque item fait 130px de haut)
       const delays = [2500, 3200, 3800, 4400];
       let completed = 0;
 
@@ -490,7 +556,14 @@
     });
   }
 
-  // Lancement
+  // --- SÉQUENCE DE LANCEMENT ---
+  // 1. On attend que les assets soient téléchargés à 100%
+  await preloadImages(urlsToPreload);
+
+  // 2. On masque le preloader
+  document.getElementById('preloader').classList.add('hidden');
+
+  // 3. On lance immédiatement l'animation (zéro attente !)
   setTimeout(async () => {
     await runAnimations();
 
@@ -506,7 +579,7 @@
     document.querySelectorAll('.perk-banner').forEach((banner, idx) => {
       setTimeout(() => banner.classList.add('visible'), idx * 150 + 100);
     });
-  }, 400);
+  }, 200);
 
   // Bouton Nouveau Tirage
   document.getElementById('redrawBtn').addEventListener('click', async () => {
