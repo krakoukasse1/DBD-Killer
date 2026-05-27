@@ -367,570 +367,409 @@
 (async function(){
 
   const raw = localStorage.getItem('doubleResult');
-  if (!raw) {
-    window.location.href = 'index.html';
-    return;
-  }
-
+  if (!raw) { window.location.href = 'index.html'; return; }
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
 
-  // Charger les données persos
-  const charsData = await fetch('data.json')
-    .then(r => r.json())
-    .catch(() => ({ killers: [], survivors: [] }));
-
-  const charList  = type === 'Killer'
-    ? charsData.killers
-    : charsData.survivors;
-
-  const charPath = type === 'Killer'
-    ? 'assets/Killer/'
-    : 'assets/Survivor/';
-
+  // Charger les données persos pour les images
+  const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
+  const charList  = type === 'Killer' ? charsData.killers : charsData.survivors;
+  const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
   const charIndex = {};
+  charList.forEach(c => { charIndex[c.name] = c.img; });
 
-  charList.forEach(c => {
-    charIndex[c.name] = c.img;
-  });
-
-  // Subtitle
+  // Info subtitle
   document.getElementById('result-subtitle').textContent =
     `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
 
-  // ═══════════════════════════════
-  // PRÉCHARGEMENT IMAGES
-  // ═══════════════════════════════
-
+  // ══ PRÉCHARGEMENT DES IMAGES ══
   function preloadImage(src) {
     return new Promise(resolve => {
-
-      if (!src) {
-        resolve();
-        return;
-      }
-
+      if (!src) { resolve(); return; }
       const img = new Image();
-
       img.onload = img.onerror = resolve;
       img.src = src;
     });
   }
 
+  // Collecter toutes les URLs à précharger
   const toPreload = [];
 
-  // Persos
-  charList.forEach(c => {
-    toPreload.push(`${charPath}${c.img}`);
-  });
+  // Images des persos de la liste
+  charList.forEach(c => toPreload.push(`${charPath}${c.img}`));
 
-  // Perso gagnant
+  // Image du perso gagnant
   toPreload.push(character.img);
 
-  // Perks
-  perks.forEach(p => {
-    if (p.img) {
-      toPreload.push(`assets/${p.img}`);
-    }
-  });
+  // Images des perks gagnantes
+  perks.forEach(p => { if (p.img) toPreload.push(`assets/${p.img}`); });
 
-  // Images propriétaires perks
+  // Images des persos propriétaires des perks
   perks.forEach(p => {
-
     if (p.character && charIndex[p.character]) {
       toPreload.push(`${charPath}${charIndex[p.character]}`);
     }
+  });
+
+  // Précharger tout en parallèle avant de lancer l'animation
+  await Promise.all([...new Set(toPreload)].map(preloadImage));
+
+  // ══ PHASE 1 : ANIMATION ROULETTE ══
+
+  // --- Slot personnage (horizontal) ---
+ function buildCharSlot() {
+
+  const track = document.getElementById('slotCharTrack');
+
+  track.innerHTML = '';
+
+  const before = [];
+  const after  = [];
+
+  // Avant le gagnant
+  for (let i = 0; i < 50; i++) {
+
+    const randomChar =
+      charList[Math.floor(Math.random() * charList.length)];
+
+    before.push({
+      name: randomChar.name,
+      img: randomChar.img
+    });
+  }
+
+  // Après le gagnant
+  for (let i = 0; i < 20; i++) {
+
+    const randomChar =
+      charList[Math.floor(Math.random() * charList.length)];
+
+    after.push({
+      name: randomChar.name,
+      img: randomChar.img
+    });
+  }
+
+  const winner = {
+    name: character.name,
+    img: character.img.split('/').pop()
+  };
+
+  const items = [
+    ...before,
+    winner,
+    ...after
+  ];
+
+  items.forEach(c => {
+
+    const div = document.createElement('div');
+    div.className = 'slot-char-item';
+
+    const img = document.createElement('img');
+
+    img.src = c.img.includes('/')
+      ? c.img
+      : `${charPath}${c.img}`;
+
+    const span = document.createElement('span');
+
+    span.textContent = c.name;
+
+    div.appendChild(img);
+    div.appendChild(span);
+
+    track.appendChild(div);
 
   });
 
-  await Promise.all(
-    [...new Set(toPreload)].map(preloadImage)
-  );
+  return before.length;
+}
 
-  // ═══════════════════════════════
-  // SLOT PERSONNAGE
-  // ═══════════════════════════════
-
-  function buildCharSlot() {
-
-    const track = document.getElementById('slotCharTrack');
-
-    track.innerHTML = '';
-
-    const items = [];
-
-    // Longue roulette
-    for (let i = 0; i < 80; i++) {
-
-      const randomChar =
-        charList[Math.floor(Math.random() * charList.length)];
-
-      items.push({
-        name: randomChar.name,
-        img: randomChar.img
-      });
-    }
-
-    // Gagnant à la fin
-    items.push({
-      name: character.name,
-      img: character.img.split('/').pop()
-    });
-
-    items.forEach(c => {
-
-      const div = document.createElement('div');
-      div.className = 'slot-char-item';
-
-      const img = document.createElement('img');
-
-      img.src = c.img.includes('/')
-        ? c.img
-        : `${charPath}${c.img}`;
-
-      img.alt = c.name;
-
-      img.onerror = () => {
-        img.style.display = 'none';
-      };
-
-      const span = document.createElement('span');
-      span.textContent = c.name;
-
-      div.appendChild(img);
-      div.appendChild(span);
-
-      track.appendChild(div);
-    });
-
-    return items.length;
-  }
-
-  // ═══════════════════════════════
-  // SLOT PERKS
-  // ═══════════════════════════════
-
+  // --- Slots perks (vertical × 4) ---
   function buildPerkSlots() {
 
-    const row = document.getElementById('slotsPerkRow');
+  const row = document.getElementById('slotsPerkRow');
 
-    row.innerHTML = '';
+  row.innerHTML = '';
 
-    perks.forEach((winPerk, slotIdx) => {
+  perks.forEach((winPerk, slotIdx) => {
 
-      const wrap = document.createElement('div');
-      wrap.className = 'slot-perk-wrap';
+    const wrap = document.createElement('div');
+    wrap.className = 'slot-perk-wrap';
 
-      const line = document.createElement('div');
-      line.className = 'slot-perk-line';
+    const line = document.createElement('div');
+    line.className = 'slot-perk-line';
 
-      const track = document.createElement('div');
-      track.className = 'slot-perk-track';
-      track.id = 'perkTrack' + slotIdx;
+    const track = document.createElement('div');
+    track.className = 'slot-perk-track';
+    track.id = 'perkTrack' + slotIdx;
 
-      // Beaucoup d'éléments
-      const fakePerks = [];
+    const before = [];
+    const after  = [];
 
-      for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 25; i++) {
 
-        const randomPerk =
-          perks[Math.floor(Math.random() * perks.length)];
+      const random =
+        perks[Math.floor(Math.random() * perks.length)];
 
-        fakePerks.push(randomPerk);
+      before.push(random);
+    }
+
+    for (let i = 0; i < 10; i++) {
+
+      const random =
+        perks[Math.floor(Math.random() * perks.length)];
+
+      after.push(random);
+    }
+
+    const items = [
+      ...before,
+      winPerk,
+      ...after
+    ];
+
+    items.forEach(p => {
+
+      const item = document.createElement('div');
+      item.className = 'slot-perk-item';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'perk-slot-img';
+
+      if (p.img) {
+
+        const img = document.createElement('img');
+
+        img.src = `assets/${p.img}`;
+
+        imgWrap.appendChild(img);
+
       }
 
-      const items = [...fakePerks, winPerk];
+      const name = document.createElement('div');
 
-      items.forEach(p => {
+      name.className = 'perk-slot-name';
+      name.textContent = p.name;
 
-        const item = document.createElement('div');
-        item.className = 'slot-perk-item';
+      item.appendChild(imgWrap);
+      item.appendChild(name);
 
-        const imgWrap = document.createElement('div');
-        imgWrap.className = 'perk-slot-img';
-
-        imgWrap.textContent =
-          type === 'Killer' ? '🔪' : '🏃';
-
-        if (p.img) {
-
-          const img = document.createElement('img');
-
-          img.src = `assets/${p.img}`;
-
-          img.onload = () => {
-
-            imgWrap.innerHTML = '';
-            imgWrap.appendChild(img);
-
-          };
-        }
-
-        const name = document.createElement('div');
-
-        name.className = 'perk-slot-name';
-        name.textContent = p.name;
-
-        item.appendChild(imgWrap);
-        item.appendChild(name);
-
-        track.appendChild(item);
-      });
-
-      wrap.appendChild(line);
-      wrap.appendChild(track);
-
-      row.appendChild(wrap);
+      track.appendChild(item);
 
     });
-  }
 
-  const charCount = buildCharSlot();
+    wrap.appendChild(line);
+    wrap.appendChild(track);
 
+    row.appendChild(wrap);
+
+    track.dataset.winnerIndex = before.length;
+
+  });
+
+}
+
+  const charWinnerIndex  = buildCharSlot();
   buildPerkSlots();
 
-  // ═══════════════════════════════
-  // ANIMATIONS
-  // ═══════════════════════════════
-
-  const ITEM_W = 172;
-  const ITEM_H = 130;
-
-  const STOP_DELAYS = [
-    1800,
-    2500,
-    3200,
-    3900
-  ];
-
-  // --- PERSONNAGE ---
+  // --- Animation ---
+  const ITEM_W    = 172; // width + margin d'un slot perso
+  const ITEM_H    = 130; // height d'un slot perk
+  const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
 
   function animateCharSlot(totalItems) {
-
     return new Promise(resolve => {
-
       const track   = document.getElementById('slotCharTrack');
       const wrapper = track.parentElement;
-
-      const wrapW = wrapper.offsetWidth;
-
-      const finalX =
-        -((totalItems - 1) * ITEM_W)
-        + (wrapW / 2)
-        - (ITEM_W / 2);
+      // Centre le gagnant (dernier item) sur la ligne rouge (centre du wrapper)
+      const wrapW   = wrapper.offsetWidth;
+      const finalX  = -(( totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
 
       track.style.transition = 'none';
       track.style.transform  = 'translateX(0)';
+      void track.offsetWidth;
+
+      const dur = 3000;
+      track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+      track.style.transform  = `translateX(${finalX}px)`;
+
+      setTimeout(() => {
+        track.querySelectorAll('.slot-char-item').forEach(it => it.classList.remove('winner'));
+        const items = track.querySelectorAll('.slot-char-item');
+        items[items.length - 1].classList.add('winner');
+        resolve();
+      }, dur);
+    });
+  }
+
+  function animatePerkSlots() {
+
+  return new Promise(resolve => {
+
+    let done = 0;
+
+    perks.forEach((_, idx) => {
+
+      const track =
+        document.getElementById('perkTrack' + idx);
+
+      if (!track) return;
+
+      const wrapper = track.parentElement;
+
+      const wrapH = wrapper.offsetHeight;
+
+      const items =
+        track.querySelectorAll('.slot-perk-item');
+
+      const winnerIndex =
+        parseInt(track.dataset.winnerIndex);
+
+      const finalY =
+        -(winnerIndex * ITEM_H)
+        + (wrapH / 2)
+        - (ITEM_H / 2);
+
+      track.style.transition = 'none';
+      track.style.transform  = 'translateY(0)';
 
       void track.offsetWidth;
 
-      const dur = 3200;
+      const dur = STOP_DELAYS[idx];
 
       track.style.transition =
         `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
 
       track.style.transform =
-        `translateX(${finalX}px)`;
+        `translateY(${finalY}px)`;
 
       setTimeout(() => {
 
-        track
-          .querySelectorAll('.slot-char-item')
-          .forEach(it => it.classList.remove('winner'));
-
-        const items =
-          track.querySelectorAll('.slot-char-item');
-
-        items[items.length - 1]
+        items[winnerIndex]
           .classList.add('winner');
 
-        resolve();
+        done++;
+
+        if (done === perks.length) {
+
+          setTimeout(resolve, 500);
+
+        }
 
       }, dur);
 
     });
 
-  }
+  });
 
-  // --- PERKS ---
+}
 
-  function animatePerkSlots() {
-
-    return new Promise(resolve => {
-
-      let done = 0;
-
-      perks.forEach((_, idx) => {
-
-        const track =
-          document.getElementById('perkTrack' + idx);
-
-        if (!track) return;
-
-        const wrapper = track.parentElement;
-
-        const wrapH = wrapper.offsetHeight;
-
-        const items =
-          track.querySelectorAll('.slot-perk-item');
-
-        const total = items.length;
-
-        const finalY =
-          -((total - 1) * ITEM_H)
-          + (wrapH / 2)
-          - (ITEM_H / 2);
-
-        track.style.transition = 'none';
-        track.style.transform  = 'translateY(0)';
-
-        void track.offsetWidth;
-
-        const dur = STOP_DELAYS[idx];
-
-        track.style.transition =
-          `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
-
-        track.style.transform =
-          `translateY(${finalY}px)`;
-
-        setTimeout(() => {
-
-          items[total - 1]
-            .classList.add('winner');
-
-          done++;
-
-          if (done === perks.length) {
-
-            setTimeout(resolve, 500);
-
-          }
-
-        }, dur);
-
-      });
-
-    });
-
-  }
-
-  // Lancer les animations
+  // Lancer les deux animations en parallèle
   await Promise.all([
-    animateCharSlot(charCount),
+    animateCharSlot(charWinnerIndex),
     animatePerkSlots()
   ]);
 
-  // ═══════════════════════════════
-  // AFFICHAGE FINAL
-  // ═══════════════════════════════
-
+  // ══ PHASE 2 : AFFICHER LES RÉSULTATS ══
   document.getElementById('rouletteSection').style.display = 'none';
+  document.getElementById('finalResults').classList.add('visible');
+  document.getElementById('resultActions').style.display   = 'flex';
 
-  document
-    .getElementById('finalResults')
-    .classList.add('visible');
-
-  document.getElementById('resultActions').style.display = 'flex';
-
-  // Perso
+  // Afficher personnage
+  document.getElementById('result-subtitle').textContent =
+    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
   document.getElementById('charLabel').textContent =
-    type === 'Killer'
-      ? '🔪 Tueur tiré'
-      : '🏃 Survivant tiré';
-
-  document.getElementById('charName').textContent =
-    character.name;
-
+    type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
+  document.getElementById('charName').textContent = character.name;
   document.getElementById('charType').textContent =
-    type === 'Killer'
-      ? 'Tueur — Dead by Daylight'
-      : 'Survivant — Dead by Daylight';
+    type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
+  document.getElementById('charImg').src = character.img;
+  document.getElementById('charImg').alt = character.name;
 
-  document.getElementById('charImg').src =
-    character.img;
-
-  document.getElementById('charImg').alt =
-    character.name;
-
-  // Perks
+  // Afficher les perks
   const grid = document.getElementById('perksGrid');
 
   perks.forEach((perk, idx) => {
-
     const banner = document.createElement('div');
     banner.className = 'perk-banner';
 
     // Image perk
     const perkWrap = document.createElement('div');
     perkWrap.className = 'perk-img-wrap';
-
-    perkWrap.textContent =
-      type === 'Killer' ? '🔪' : '🏃';
-
+    perkWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
     if (perk.img) {
-
       const img = document.createElement('img');
-
       img.src = `assets/${perk.img}`;
       img.alt = perk.name;
-
-      img.onload = () => {
-
-        perkWrap.innerHTML = '';
-        perkWrap.appendChild(img);
-
-      };
+      img.onerror = () => {};
+      img.onload  = () => { perkWrap.innerHTML = ''; perkWrap.appendChild(img); };
     }
 
-    // Image personnage
+    // Image personnage de la perk
     const cWrap = document.createElement('div');
     cWrap.className = 'char-img-wrap';
-
-    cWrap.textContent =
-      perk.character ? '👤' : '✦';
-
-    if (
-      perk.character &&
-      charIndex[perk.character]
-    ) {
-
+    cWrap.textContent = perk.character ? '👤' : '✦';
+    if (perk.character && charIndex[perk.character]) {
       const img = document.createElement('img');
-
-      img.src =
-        `${charPath}${charIndex[perk.character]}`;
-
+      img.src = `${charPath}${charIndex[perk.character]}`;
       img.alt = perk.character;
-
-      img.onload = () => {
-
-        cWrap.innerHTML = '';
-        cWrap.appendChild(img);
-
-      };
+      img.onload = () => { cWrap.innerHTML = ''; cWrap.appendChild(img); };
     }
 
     // Texte
     const text = document.createElement('div');
-
     text.className = 'perk-text';
-
     text.innerHTML = `
       <span class="perk-name">${perk.name}</span>
-      <span class="perk-origin ${perk.character ? '' : 'generic'}">
-        ${perk.character || '✦ Générique'}
-      </span>
-      <span class="perk-desc">
-        ${perk.description || ''}
-      </span>
+      <span class="perk-origin ${perk.character ? '' : 'generic'}">${perk.character || '✦ Générique'}</span>
+      <span class="perk-desc">${perk.description || ''}</span>
     `;
 
     banner.appendChild(perkWrap);
     banner.appendChild(cWrap);
     banner.appendChild(text);
-
     grid.appendChild(banner);
 
-    // Apparition
-    setTimeout(() => {
-
-      banner.classList.add('visible');
-
-    }, idx * 150 + 200);
-
+    // Animation décalée
+    setTimeout(() => banner.classList.add('visible'), idx * 150 + 200);
   });
 
-  // ═══════════════════════════════
-  // BOUTON REJOUER
-  // ═══════════════════════════════
+  // Bouton rejouer
+  document.getElementById('redrawBtn').addEventListener('click', async () => {
+    // Recharger les données et refaire un tirage du même type
+    const [data, perksData] = await Promise.all([
+      fetch('data.json').then(r=>r.json()),
+      fetch('perks.json').then(r=>r.json()).catch(()=>null)
+    ]);
 
-  document
-    .getElementById('redrawBtn')
-    .addEventListener('click', async () => {
+    const rawList = type === 'Killer' ? data.killers : data.survivors;
+    const newChar = rawList[Math.floor(Math.random() * rawList.length)];
+    const basePath = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
 
-      const [data, perksData] = await Promise.all([
-
-        fetch('data.json')
-          .then(r => r.json()),
-
-        fetch('perks.json')
-          .then(r => r.json())
-          .catch(() => null)
-
-      ]);
-
-      const rawList =
-        type === 'Killer'
-          ? data.killers
-          : data.survivors;
-
-      const newChar =
-        rawList[Math.floor(Math.random() * rawList.length)];
-
-      const basePath =
-        type === 'Killer'
-          ? 'assets/Killer/'
-          : 'assets/Survivor/';
-
-      let newPerks = [];
-
-      if (perksData) {
-
-        const section =
-          type === 'Killer'
-            ? perksData.killerPerks
-            : perksData.survivorPerks;
-
-        const perkPool = [
-
-          ...section.generic.map(p => ({
-            ...p,
-            character: null
-          })),
-
-          ...section.characters.flatMap(c =>
-            c.perks.map(p => ({
-              ...p,
-              character: c.character
-            }))
-          )
-
-        ];
-
-        const shuffled = [...perkPool];
-
-        for (let i = shuffled.length - 1; i > 0; i--) {
-
-          const j =
-            Math.floor(Math.random() * (i + 1));
-
-          [shuffled[i], shuffled[j]] =
-          [shuffled[j], shuffled[i]];
-
-        }
-
-        newPerks = shuffled.slice(0, 4);
-
+    let newPerks = [];
+    if (perksData) {
+      const section = type === 'Killer' ? perksData.killerPerks : perksData.survivorPerks;
+      const perkPool = [
+        ...section.generic.map(p => ({ ...p, character: null })),
+        ...section.characters.flatMap(c => c.perks.map(p => ({ ...p, character: c.character })))
+      ];
+      const shuffled = [...perkPool];
+      for (let i = shuffled.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
+      newPerks = shuffled.slice(0, 4);
+    }
 
-      localStorage.setItem(
-        'doubleResult',
-        JSON.stringify({
-
-          character: {
-            name: newChar.name,
-            img: `${basePath}${newChar.img}`
-          },
-
-          perks: newPerks,
-          type
-
-        })
-      );
-
-      window.location.reload();
-
-    });
+    localStorage.setItem('doubleResult', JSON.stringify({
+      character: { name: newChar.name, img: `${basePath}${newChar.img}` },
+      perks: newPerks,
+      type
+    }));
+    window.location.reload();
+  });
 
 })();
 </script>
