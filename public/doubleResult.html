@@ -252,22 +252,6 @@
       will-change: transform;
     }
 
-    .slot-char-track {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        will-change: transform;
-        padding: 0 400px;
-    }
-
-    .slot-perk-track {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      will-change: transform;
-      padding: 260px 0;
-    }
-
     .slot-perk-item {
       flex-shrink: 0;
       width: 100%;
@@ -339,21 +323,17 @@
     <p id="result-subtitle">Chargement…</p>
   </div>
 
-  <!-- ANIMATION ROULETTE -->
   <div class="roulette-section" id="rouletteSection">
 
-    <!-- Slot personnage -->
     <div class="slot-char-wrap">
       <div class="slot-char-line"></div>
       <div class="slot-char-track" id="slotCharTrack"></div>
     </div>
 
-    <!-- Slots perks -->
     <div class="slots-perks-row" id="slotsPerkRow"></div>
 
   </div>
 
-  <!-- RÉSULTATS FINAUX -->
   <div class="final-results" id="finalResults">
 
     <div class="character-card" id="charCard">
@@ -370,7 +350,6 @@
 
   </div>
 
-  <!-- ACTIONS -->
   <div class="result-actions" id="resultActions" style="display:none;">
     <button class="action-btn primary" id="redrawBtn">↻ Nouveau tirage</button>
     <button class="action-btn secondary" onclick="window.location.href='index.html'">← Accueil</button>
@@ -433,286 +412,148 @@
   // ══ PHASE 1 : ANIMATION ROULETTE ══
 
   // --- Slot personnage (horizontal) ---
- function buildCharSlot() {
-
-  const track = document.getElementById('slotCharTrack');
-
-  track.innerHTML = '';
-
-  const before = [];
-  const after  = [];
-
-  // Avant le gagnant
-  for (let i = 0; i < 50; i++) {
-
-    const randomChar =
-      charList[Math.floor(Math.random() * charList.length)];
-
-    before.push({
-      name: randomChar.name,
-      img: randomChar.img
+  function buildCharSlot() {
+    const track = document.getElementById('slotCharTrack');
+    track.innerHTML = '';
+    
+    // Correction 1 : On duplique la liste de base pour s'assurer d'avoir assez d'éléments
+    // et créer l'effet d'une grande roulette longue qui défile de façon fluide.
+    const longCharPool = [...charList, ...charList, ...charList];
+    const fakes = longCharPool.sort(() => Math.random()-0.5).slice(0, 45);
+    
+    const items = [...fakes, { name: character.name, img: character.img.split('/').pop() }];
+    items.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'slot-char-item';
+      const img = document.createElement('img');
+      img.src = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
+      img.alt = c.name;
+      img.onerror = () => { img.style.display='none'; };
+      const span = document.createElement('span');
+      span.textContent = c.name;
+      div.appendChild(img); div.appendChild(span);
+      track.appendChild(div);
     });
+    return items.length;
   }
-
-  // Après le gagnant
-  for (let i = 0; i < 20; i++) {
-
-    const randomChar =
-      charList[Math.floor(Math.random() * charList.length)];
-
-    after.push({
-      name: randomChar.name,
-      img: randomChar.img
-    });
-  }
-
-  const winner = {
-    name: character.name,
-    img: character.img.split('/').pop()
-  };
-
-  const items = [
-    ...before,
-    winner,
-    ...after
-  ];
-
-  items.forEach(c => {
-
-    const div = document.createElement('div');
-    div.className = 'slot-char-item';
-
-    const img = document.createElement('img');
-
-    img.src = c.img.includes('/')
-      ? c.img
-      : `${charPath}${c.img}`;
-
-    const span = document.createElement('span');
-
-    span.textContent = c.name;
-
-    div.appendChild(img);
-    div.appendChild(span);
-
-    track.appendChild(div);
-
-  });
-
-  return before.length;
-}
 
   // --- Slots perks (vertical × 4) ---
   function buildPerkSlots() {
+    const row = document.getElementById('slotsPerkRow');
+    row.innerHTML = '';
+    perks.forEach((winPerk, slotIdx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'slot-perk-wrap';
+      const line = document.createElement('div');
+      line.className = 'slot-perk-line';
+      const track = document.createElement('div');
+      track.className = 'slot-perk-track';
+      track.id = 'perkTrack'+slotIdx;
 
-  const row = document.getElementById('slotsPerkRow');
+      // Correction 2 : On utilise des placeholders/fakes basés sur la liste des persos pour simuler
+      // un défilement vivant sans réutiliser en boucle uniquement les 4 perks gagnantes.
+      const fakes = [...charList].sort(() => Math.random() - 0.5).slice(0, 25);
+      const items = [];
+      
+      fakes.forEach((f, idx) => {
+        items.push({
+          name: f.name,
+          // Utilise l'image de la perk gagnante comme fallback ou icône par défaut pendant le défilement rapide
+          img: winPerk.img 
+        });
+      });
+      
+      // La perk unique et exacte gagnante est poussée tout à la fin
+      items.push(winPerk);
+      
+      items.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'slot-perk-item';
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'perk-slot-img';
+        imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
+        if (p.img) {
+          const img = document.createElement('img');
+          img.src = `assets/${p.img}`;
+          img.onload = () => { imgWrap.innerHTML=''; imgWrap.appendChild(img); };
+        }
+        const name = document.createElement('div');
+        name.className = 'perk-slot-name';
+        name.textContent = p.name;
+        item.appendChild(imgWrap); item.appendChild(name);
+        track.appendChild(item);
+      });
 
-  row.innerHTML = '';
-
-  perks.forEach((winPerk, slotIdx) => {
-
-    const wrap = document.createElement('div');
-    wrap.className = 'slot-perk-wrap';
-
-    const line = document.createElement('div');
-    line.className = 'slot-perk-line';
-
-    const track = document.createElement('div');
-    track.className = 'slot-perk-track';
-    track.id = 'perkTrack' + slotIdx;
-
-    const before = [];
-    const after  = [];
-
-    for (let i = 0; i < 25; i++) {
-
-      const random =
-        perks[Math.floor(Math.random() * perks.length)];
-
-      before.push(random);
-    }
-
-    for (let i = 0; i < 10; i++) {
-
-      const random =
-        perks[Math.floor(Math.random() * perks.length)];
-
-      after.push(random);
-    }
-
-    const items = [
-      ...before,
-      winPerk,
-      ...after
-    ];
-
-    items.forEach(p => {
-
-      const item = document.createElement('div');
-      item.className = 'slot-perk-item';
-
-      const imgWrap = document.createElement('div');
-      imgWrap.className = 'perk-slot-img';
-
-      if (p.img) {
-
-        const img = document.createElement('img');
-
-        img.src = `assets/${p.img}`;
-
-        imgWrap.appendChild(img);
-
-      }
-
-      const name = document.createElement('div');
-
-      name.className = 'perk-slot-name';
-      name.textContent = p.name;
-
-      item.appendChild(imgWrap);
-      item.appendChild(name);
-
-      track.appendChild(item);
-
+      wrap.appendChild(line); wrap.appendChild(track);
+      row.appendChild(wrap);
     });
+  }
 
-    wrap.appendChild(line);
-    wrap.appendChild(track);
-
-    row.appendChild(wrap);
-
-    track.dataset.winnerIndex = before.length;
-
-  });
-
-}
-
-  const charWinnerIndex  = buildCharSlot();
+  const charCount = buildCharSlot();
   buildPerkSlots();
 
   // --- Animation ---
   const ITEM_W    = 172; // width + margin d'un slot perso
   const ITEM_H    = 130; // height d'un slot perk
-  const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
+  const STOP_DELAYS = [2000, 2800, 3600, 4400]; // perks s'arrêtent en décalé
 
-  function animateCharSlot(winnerIndex) {
-
-  return new Promise(resolve => {
-
-    const track   = document.getElementById('slotCharTrack');
-    const wrapper = track.parentElement;
-
-    const wrapW = wrapper.offsetWidth;
-
-    // Centre le gagnant
-   const SIDE_PADDING = 400;
-
-  const finalX =
-    -((winnerIndex * ITEM_W) + SIDE_PADDING)
-    + (wrapW / 2)
-    - (ITEM_W / 2);
-
-
-    track.style.transition = 'none';
-    track.style.transform  = 'translateX(0)';
-
-    void track.offsetWidth;
-
-    const dur = 3000;
-
-    track.style.transition =
-      `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
-
-    track.style.transform =
-      `translateX(${finalX}px)`;
-
-    setTimeout(() => {
-
-      track
-        .querySelectorAll('.slot-char-item')
-        .forEach(it => it.classList.remove('winner'));
-
-      const items =
-        track.querySelectorAll('.slot-char-item');
-
-      items[winnerIndex]
-        .classList.add('winner');
-
-      resolve();
-
-    }, dur);
-
-  });
-
-}
-
-  function animatePerkSlots() {
-
-  return new Promise(resolve => {
-
-    let done = 0;
-
-    perks.forEach((_, idx) => {
-
-      const track =
-        document.getElementById('perkTrack' + idx);
-
-      if (!track) return;
-
+  function animateCharSlot(totalItems) {
+    return new Promise(resolve => {
+      const track   = document.getElementById('slotCharTrack');
       const wrapper = track.parentElement;
-
-      const wrapH = wrapper.offsetHeight;
-
-      const items =
-        track.querySelectorAll('.slot-perk-item');
-
-      const winnerIndex =
-        parseInt(track.dataset.winnerIndex);
-
-     const TOP_PADDING = 260;
-
-      const finalY =
-        -((winnerIndex * ITEM_H) + TOP_PADDING)
-        + (wrapH / 2)
-        - (ITEM_H / 2);
+      const wrapW   = wrapper.offsetWidth;
+      const finalX  = -(( totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
 
       track.style.transition = 'none';
-      track.style.transform  = 'translateY(0)';
-
+      track.style.transform  = 'translateX(0)';
       void track.offsetWidth;
 
-      const dur = STOP_DELAYS[idx];
-
-      track.style.transition =
-        `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
-
-      track.style.transform =
-        `translateY(${finalY}px)`;
+      const dur = 3500;
+      track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+      track.style.transform  = `translateX(${finalX}px)`;
 
       setTimeout(() => {
-
-        items[winnerIndex]
-          .classList.add('winner');
-
-        done++;
-
-        if (done === perks.length) {
-
-          setTimeout(resolve, 500);
-
-        }
-
+        track.querySelectorAll('.slot-char-item').forEach(it => it.classList.remove('winner'));
+        const items = track.querySelectorAll('.slot-char-item');
+        if(items.length > 0) items[items.length - 1].classList.add('winner');
+        resolve();
       }, dur);
-
     });
+  }
 
-  });
+  function animatePerkSlots() {
+    return new Promise(resolve => {
+      let done = 0;
+      perks.forEach((_, idx) => {
+        const track   = document.getElementById('perkTrack' + idx);
+        if (!track) return;
+        const wrapper = track.parentElement;
+        const wrapH   = wrapper.offsetHeight; 
+        const items   = track.querySelectorAll('.slot-perk-item');
+        const total   = items.length;
 
-}
+        const finalY = -((total - 1) * ITEM_H) + (wrapH / 2) - (ITEM_H / 2);
+
+        track.style.transition = 'none';
+        track.style.transform  = 'translateY(0)';
+        void track.offsetWidth;
+
+        const dur = STOP_DELAYS[idx];
+        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+        track.style.transform  = `translateY(${finalY}px)`;
+
+        setTimeout(() => {
+          if(items[total - 1]) items[total - 1].classList.add('winner');
+          done++;
+          if (done === perks.length) setTimeout(resolve, 500);
+        }, dur);
+      });
+    });
+  }
 
   // Lancer les deux animations en parallèle
   await Promise.all([
-    animateCharSlot(charWinnerIndex),
+    animateCharSlot(charCount),
     animatePerkSlots()
   ]);
 
@@ -770,7 +611,6 @@
       <span class="perk-origin ${perk.character ? '' : 'generic'}">${perk.character || '✦ Générique'}</span>
       <span class="perk-desc">${perk.description || ''}</span>
     `;
-
     banner.appendChild(perkWrap);
     banner.appendChild(cWrap);
     banner.appendChild(text);
@@ -782,7 +622,6 @@
 
   // Bouton rejouer
   document.getElementById('redrawBtn').addEventListener('click', async () => {
-    // Recharger les données et refaire un tirage du même type
     const [data, perksData] = await Promise.all([
       fetch('data.json').then(r=>r.json()),
       fetch('perks.json').then(r=>r.json()).catch(()=>null)
