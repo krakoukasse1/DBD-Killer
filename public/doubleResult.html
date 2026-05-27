@@ -579,30 +579,53 @@
   const ITEM_H    = 130; // height d'un slot perk
   const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
 
-  function animateCharSlot(totalItems) {
-    return new Promise(resolve => {
-      const track   = document.getElementById('slotCharTrack');
-      const wrapper = track.parentElement;
-      // Centre le gagnant (dernier item) sur la ligne rouge (centre du wrapper)
-      const wrapW   = wrapper.offsetWidth;
-      const finalX  = -(( totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
+  function animateCharSlot(winnerIndex) {
 
-      track.style.transition = 'none';
-      track.style.transform  = 'translateX(0)';
-      void track.offsetWidth;
+  return new Promise(resolve => {
 
-      const dur = 3000;
-      track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
-      track.style.transform  = `translateX(${finalX}px)`;
+    const track   = document.getElementById('slotCharTrack');
+    const wrapper = track.parentElement;
 
-      setTimeout(() => {
-        track.querySelectorAll('.slot-char-item').forEach(it => it.classList.remove('winner'));
-        const items = track.querySelectorAll('.slot-char-item');
-        items[items.length - 1].classList.add('winner');
-        resolve();
-      }, dur);
-    });
-  }
+    const wrapW = wrapper.offsetWidth;
+
+    // Centre le gagnant
+    const finalX =
+      -(winnerIndex * ITEM_W)
+      + (wrapW / 2)
+      - (ITEM_W / 2);
+
+    track.style.transition = 'none';
+    track.style.transform  = 'translateX(0)';
+
+    void track.offsetWidth;
+
+    const dur = 3000;
+
+    track.style.transition =
+      `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+
+    track.style.transform =
+      `translateX(${finalX}px)`;
+
+    setTimeout(() => {
+
+      track
+        .querySelectorAll('.slot-char-item')
+        .forEach(it => it.classList.remove('winner'));
+
+      const items =
+        track.querySelectorAll('.slot-char-item');
+
+      items[winnerIndex]
+        .classList.add('winner');
+
+      resolve();
+
+    }, dur);
+
+  });
+
+}
 
   function animatePerkSlots() {
 
