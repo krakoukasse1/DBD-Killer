@@ -354,7 +354,7 @@
     fetch('data.json').then(r => r.json())
   ]);
 
-  let currentType = 'killer';
+  let currentType = 'killer'; // Sera écrasé par l'URL si présent
   let selectedChars = new Set();
   let isSpinning = false;
 
@@ -362,13 +362,22 @@
   document.querySelectorAll('.type-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       if (isSpinning) return;
-      document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentType = tab.dataset.type;
-      buildCharGrid();
-      reset();
+      switchTab(tab.dataset.type);
     });
   });
+
+  // Fonction centralisée pour changer d'onglet proprement
+  function switchTab(type) {
+    currentType = type;
+    document.querySelectorAll('.type-tab').forEach(t => {
+      t.classList.remove('active');
+      if (t.dataset.type === currentType) {
+        t.classList.add('active');
+      }
+    });
+    buildCharGrid();
+    reset();
+  }
 
   // ── GRILLE PERSOS ──
   function buildCharGrid() {
@@ -413,9 +422,7 @@
   // ── POOL ──
   function getPool() {
     const data = currentType === 'killer' ? perksData.killerPerks : perksData.survivorPerks;
-    // Perks génériques : character = null
     const pool = data.generic.map(p => ({ ...p, character: null }));
-    // Perks de persos : on injecte le nom du perso dans chaque perk
     data.characters.forEach(e => {
       if (selectedChars.has(e.character)) {
         e.perks.forEach(p => pool.push({ ...p, character: e.character }));
@@ -443,7 +450,6 @@
   }
 
   function perkIcon(perk) {
-    // Retourne emoji selon le type de perk
     const icons = { mobility: '💨', healing: '💚', stealth: '👁️', information: '🔍',
       'anti-killer': '🛡️', team: '🤝', endgame: '⚡', efficiency: '⚙️',
       survival: '❤️', looting: '📦', sabotage: '🔧', tracking: '👣',
@@ -457,7 +463,6 @@
     const row = document.getElementById('slots-row');
     row.innerHTML = '';
 
-    // Pour chaque slot, on génère une liste de perks aléatoires qui défilent
     drawnPerks.forEach((winner, slotIdx) => {
       const slot = document.createElement('div');
       slot.className = `slot-machine ${currentType}`;
@@ -468,7 +473,6 @@
       const track = document.createElement('div');
       track.className = 'slot-track';
 
-      // Générer ~25 items aléatoires + le gagnant en dernière position visible
       const fakeCount = 25;
       const allItems = [];
 
@@ -476,7 +480,7 @@
         const rand = fullPool[Math.floor(Math.random() * fullPool.length)];
         allItems.push(rand);
       }
-      allItems.push(winner); // le gagnant est le dernier
+      allItems.push(winner);
 
       allItems.forEach(perk => {
         const item = document.createElement('div');
@@ -511,9 +515,7 @@
   }
 
   // ── ANIMATION ──
-  // Délais d'arrêt en ms pour chaque slot
   const STOP_DELAYS = [1800, 2600, 3400, 4200];
-  const SPIN_DURATION = 5000; // durée totale de la transition CSS
 
   function animateSlots(drawnPerks) {
     return new Promise(resolve => {
@@ -523,30 +525,22 @@
       slots.forEach((slot, idx) => {
         const track = slot.querySelector('.slot-track');
         const itemCount = track.children.length;
-        const itemH = 160; // hauteur d'un item en px
-
-        // Position de départ : on veut afficher le premier item
-        // Position finale : dernier item (le gagnant) centré
+        const itemH = 160;
         const finalOffset = -(itemCount - 1) * itemH;
 
-        // Démarre immédiatement : scroll rapide
         track.style.transition = 'none';
         track.style.transform  = 'translateY(0)';
 
-        // Force reflow
         void track.offsetHeight;
 
-        // Lance l'animation CSS
         const stopDelay = STOP_DELAYS[idx];
         track.style.transition = `transform ${stopDelay}ms cubic-bezier(0.12, 0.8, 0.3, 1)`;
         track.style.transform  = `translateY(${finalOffset}px)`;
 
-        // Quand ce slot s'arrête
         setTimeout(() => {
           slot.classList.add('stopped');
           stoppedCount++;
           if (stoppedCount === slots.length) {
-            // Petit délai avant de révéler les bandeaux
             setTimeout(resolve, 600);
           }
         }, stopDelay);
@@ -564,7 +558,6 @@
       const banner = document.createElement('div');
       banner.className = 'result-banner';
 
-      // Image perk
       const perkImgWrap = document.createElement('div');
       perkImgWrap.className = 'banner-perk-img';
       const bPerkImg = document.createElement('img');
@@ -573,7 +566,6 @@
       bPerkImg.onerror = () => { perkImgWrap.removeChild(bPerkImg); perkImgWrap.textContent = perkIcon(perk); };
       perkImgWrap.appendChild(bPerkImg);
 
-      // Image personnage
       const charImgWrap = document.createElement('div');
       charImgWrap.className = 'banner-char-img';
       charImgWrap.textContent = currentType === 'killer' ? '🔪' : '🏃';
@@ -590,7 +582,6 @@
         charImgWrap.textContent = '✦';
       }
 
-      // Texte
       const text = document.createElement('div');
       text.className = 'banner-text';
 
@@ -631,11 +622,9 @@
       banner.appendChild(text);
       section.appendChild(banner);
 
-      // Apparition en décalé
       setTimeout(() => banner.classList.add('visible'), idx * 180 + 100);
     });
 
-    // Bouton redraw
     document.getElementById('redraw-btn').style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -650,7 +639,6 @@
     document.getElementById('draw-btn').disabled = true;
     document.getElementById('redraw-btn').style.display = 'none';
 
-    // Fisher-Yates → 4 perks uniques
     const shuffled = [...pool];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -658,21 +646,15 @@
     }
     const drawn = shuffled.slice(0, 4);
 
-    // Reset résultats
     reset(false);
 
-    // Construire et afficher les slots
     const slotsSection = document.getElementById('slots-section');
     slotsSection.classList.add('visible');
     buildSlots(drawn, pool);
 
-    // Scroll vers les slots
     slotsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    // Animer
     await animateSlots(drawn);
-
-    // Afficher les bandeaux
     showBanners(drawn);
 
     isSpinning = false;
@@ -709,8 +691,22 @@
     updatePoolInfo(); reset();
   });
 
-  // ── INIT ──
-  buildCharGrid();
+  // ── INIT DYNAMIQUE PAR URL ──
+  const urlParams = new URLSearchParams(window.location.search);
+  const typeParam = urlParams.get('type');
+
+  if (typeParam) {
+    const cleanType = typeParam.toLowerCase();
+    // Gère le singulier/pluriel et la casse (ex: survivors -> survivor)
+    if (cleanType.startsWith('surv')) {
+      currentType = 'survivor';
+    } else if (cleanType.startsWith('kill')) {
+      currentType = 'killer';
+    }
+  }
+
+  // Lance l'onglet détecté
+  switchTab(currentType);
 })();
 </script>
 
