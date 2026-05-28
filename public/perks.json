@@ -663,20 +663,20 @@
     "generic": [
       {
         "id": "k_gen_01",
-        "name": "Barbecue et Chili",
-        "img": "perks/killer/BarbecueChili.png",
+        "name": "Boucher Sadique",
+        "img": "perks/killer/BoucherSadique.png",
         "character": null,
-        "description": "Après avoir accroché un Survivant, les Auras de tous les Survivants à plus de 60 mètres du crochet sont révélées pendant 4 secondes. Chaque accrochage unique accorde 25% de bonus de points de sang.",
+        "description": "Les attaques de base infligent Hemoragie et Estropiement pendant 70/80/90s, rendant le soins plus long et dimunuent le soins tant que la personne n'est pas totalement soigné",
         "type": "information",
-        "buffs": ["Vision des survivants éloignés après accrochage", "Bonus de points de sang"],
+        "buffs": ["Soins plus lent", "Bonus de points de sang"],
         "debuffs": []
       },
       {
         "id": "k_gen_02",
-        "name": "Sournoiserie",
-        "img": "perks/killer/Sournoiserie.png",
+        "name": "Crochet Flagellateur: Sanctuaire Monstrueux",
+        "img": "perks/killer/CrochetFlagellateurSanctuaireMonstrueux.png",
         "character": null,
-        "description": "Réduit ton rayon de terreur de 8 mètres. Augmente ta vitesse de déplacement en Rôdeur de 2/4/6%.",
+        "description": "Des crochets flagellateur apparaisent dans la cave et quelques un en dehors, rendant la mort sur le crochet plus de rapide de 20%",
         "type": "stealth",
         "buffs": ["Rayon de terreur réduit", "Vitesse en rôdeur augmentée"],
         "debuffs": []

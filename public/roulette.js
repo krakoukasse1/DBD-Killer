@@ -23,18 +23,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return 0;
   }
-
-  function loadCharactersAndStart() {
+function loadCharactersAndStart() {
     if (activeCharacters && activeCharacters.length > 0) {
       displayCharacters(activeCharacters, "local");
     } else {
       fetch("data.json")
         .then(r => r.json())
         .then(data => {
-          if (characterType === "Killer") activeCharacters = data.killers;
-          else if (characterType === "Survivor") activeCharacters = data.survivors;
-          else activeCharacters = data.killers;
-          displayCharacters(activeCharacters, characterType);
+          // Force la première lettre en majuscule et le reste en minuscule (ex: "killer" ou "KILLER" devient "Killer")
+          const formattedType = characterType.charAt(0).toUpperCase() + characterType.slice(1).toLowerCase();
+
+          if (formattedType === "Killer") {
+            activeCharacters = data.killers;
+          } else if (formattedType === "Survivor") {
+            activeCharacters = data.survivors;
+          } else {
+            activeCharacters = data.killers; // Valeur par défaut
+          }
+          
+          displayCharacters(activeCharacters, formattedType);
         })
         .catch(err => {
           console.error("Erreur lecture data.json", err);
