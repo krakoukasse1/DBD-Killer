@@ -80,7 +80,7 @@
 
     /* ══════════════════════════════════
        MACHINE À SOUS — 4 SLOTS
-    ══════════════════════════════════ */
+     ══════════════════════════════════ */
     .slots-section {
       display: none;
       flex-direction: column;
@@ -111,7 +111,6 @@
     .slot-machine.stopped { border-color: rgba(200,0,0,0.5); }
     .slot-machine.stopped.survivor { border-color: rgba(0,80,200,0.5); }
 
-    /* Dégradés haut/bas pour l'effet de profondeur */
     .slot-machine::before,
     .slot-machine::after {
       content: "";
@@ -124,7 +123,6 @@
     .slot-machine::before { top: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); }
     .slot-machine::after  { bottom: 0; background: linear-gradient(to top,   rgba(0,0,0,0.9), transparent); }
 
-    /* Ligne de sélection centrale */
     .slot-line {
       position: absolute;
       left: 0; right: 0;
@@ -186,7 +184,7 @@
 
     /* ══════════════════════════════════
        BANDEAUX RÉSULTAT
-    ══════════════════════════════════ */
+     ══════════════════════════════════ */
     .result-section {
       display: none;
       flex-direction: column;
@@ -270,10 +268,9 @@
       font-family: sans-serif; font-size: 0.62rem;
       padding: 2px 8px; border-radius: 10px;
     }
-    .perk-tag.buff   { background: rgba(0,180,80,0.12);  color: rgba(80,220,120,0.8); }
+    .perk-tag.buff  { background: rgba(0,180,80,0.12);  color: rgba(80,220,120,0.8); }
     .perk-tag.debuff { background: rgba(200,0,0,0.12);   color: rgba(255,80,80,0.8); }
 
-    /* ── REDRAW ── */
     .redraw-btn {
       display: block; margin: 24px auto 0;
       padding: 12px 32px;
@@ -284,11 +281,26 @@
       cursor: pointer; transition: all 0.2s;
     }
     .redraw-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+
+    /* ══════════════════════════════════
+       MODE AUTOLAUNCH (STREAM OVERLAY)
+     ══════════════════════════════════ */
+    body.stream-mode header { display: none !important; }
+    body.stream-mode .perk-hero { display: none !important; }
+    body.stream-mode .type-tabs { display: none !important; }
+    body.stream-mode .section-title { display: none !important; }
+    body.stream-mode .section-sub { display: none !important; }
+    body.stream-mode .chip-actions { display: none !important; }
+    body.stream-mode .char-select-grid { display: none !important; }
+    body.stream-mode .pool-info { display: none !important; }
+    body.stream-mode .draw-perk-btn { display: none !important; }
+    body.stream-mode .redraw-btn { display: none !important; }
+    body.stream-mode .perk-page { padding: 10px 0; max-width: 100%; }
   </style>
 </head>
 <body>
 
-<header>
+<header id="site-header">
   <div class="header-left">
     <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
     <p>Roulette DBD</p>
@@ -354,7 +366,7 @@
     fetch('data.json').then(r => r.json())
   ]);
 
-  let currentType = 'killer'; // Sera écrasé par l'URL si présent
+  let currentType = 'killer';
   let selectedChars = new Set();
   let isSpinning = false;
 
@@ -366,14 +378,11 @@
     });
   });
 
-  // Fonction centralisée pour changer d'onglet proprement
   function switchTab(type) {
     currentType = type;
     document.querySelectorAll('.type-tab').forEach(t => {
       t.classList.remove('active');
-      if (t.dataset.type === currentType) {
-        t.classList.add('active');
-      }
+      if (t.dataset.type === currentType) t.classList.add('active');
     });
     buildCharGrid();
     reset();
@@ -625,8 +634,11 @@
       setTimeout(() => banner.classList.add('visible'), idx * 180 + 100);
     });
 
-    document.getElementById('redraw-btn').style.display = 'block';
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // On n'affiche le bouton Redraw que si on n'est PAS en mode stream automatique
+    if (!document.body.classList.contains('stream-mode')) {
+      document.getElementById('redraw-btn').style.display = 'block';
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   // ── TIRAGE PRINCIPAL ──
@@ -652,7 +664,9 @@
     slotsSection.classList.add('visible');
     buildSlots(drawn, pool);
 
-    slotsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!document.body.classList.contains('stream-mode')) {
+      slotsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     await animateSlots(drawn);
     showBanners(drawn);
@@ -691,22 +705,34 @@
     updatePoolInfo(); reset();
   });
 
-  // ── INIT DYNAMIQUE PAR URL ──
+  // ── INIT ET LOGIQUE D'AUTOLAUNCH STREAM ──
   const urlParams = new URLSearchParams(window.location.search);
   const typeParam = urlParams.get('type');
 
   if (typeParam) {
-    const cleanType = typeParam.toLowerCase();
-    // Gère le singulier/pluriel et la casse (ex: survivors -> survivor)
+    const cleanType = typeParam.toLowerCase().trim();
     if (cleanType.startsWith('surv')) {
       currentType = 'survivor';
     } else if (cleanType.startsWith('kill')) {
       currentType = 'killer';
     }
-  }
 
-  // Lance l'onglet détecté
-  switchTab(currentType);
+    // 🌟 ACTIVATION DU MODE OVERLAY STREAM 🌟
+    // On ajoute une classe globale pour cacher l'UI de configuration via CSS
+    document.body.classList.add('stream-mode');
+    
+    // Initialise les données de l'onglet ciblé
+    switchTab(currentType);
+    
+    // Lance le tirage instantanément (avec un mini délai de 300ms pour garantir le chargement du DOM)
+    setTimeout(() => {
+      draw();
+    }, 300);
+
+  } else {
+    // Mode standard si pas de paramètre URL
+    switchTab(currentType);
+  }
 })();
 </script>
 
