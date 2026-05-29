@@ -532,6 +532,7 @@
     <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
     <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
     <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="mapRoulette.html">Roulette maps</a></li>
     <li class="list-li"><a href="bonus.html">Bonus</a></li>
     <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
     <li class="list-li">
@@ -545,14 +546,13 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- ══ HERO ══ -->
 <section class="hero">
   <p class="hero-eyebrow">Dead by Daylight — Outil communautaire</p>
   <h1 class="hero-title">
     Roulette
     <span class="accent">DBD</span>
   </h1>
-  <p class="hero-sub">Laisse le sort décider de ton prochain personnage. Tueur ou survivant — que le tirage commence.</p>
+  <p class="hero-sub">Laisse le sort décider de ton prochain personnage ou de ta prochaine destination. Que le tirage commence.</p>
 
   <div class="quick-draw">
     <div class="draw-card killer" id="quick-killer">
@@ -571,16 +571,24 @@
     </div>
   </div>
 
-  <!-- TIRAGE DOUBLE -->
   <div class="quick-draw" style="opacity:0;animation:fade-up 0.7s 0.7s ease forwards;">
-    <div class="draw-card" id="quick-double-killer" style="width:260px;">
+    <div class="draw-card double-killer" id="quick-double-killer">
       <div style="display:flex;gap:6px;margin-bottom:14px;position:relative;z-index:1;font-size:1.8rem;">🔪<span style="opacity:0.4;font-size:1.2rem;align-self:center;">+</span>⚙️</div>
-      <span class="card-label" style="color:rgba(200,0,200,0.7);">Tirage double</span>
+      <span class="card-label" style="color:rgba(255,80,80,0.7);">Tirage double</span>
       <span class="card-title-text">Tueur + Perks</span>
       <p class="card-desc" id="double-killer-desc">Tire un tueur et 4 perks aléatoires d'un coup</p>
       <span class="card-arrow">↗</span>
     </div>
-    <div class="draw-card" id="quick-double-survivor" style="width:260px;">
+    
+    <div class="draw-card map" id="quick-map">
+      <span class="card-icon">🗺️</span>
+      <span class="card-label">Destination</span>
+      <span class="card-title-text">Roulette Maps</span>
+      <p class="card-desc">Sélectionne une carte avec l'animation Mario Kart</p>
+      <span class="card-arrow">↗</span>
+    </div>
+
+    <div class="draw-card double-survivor" id="quick-double-survivor">
       <div style="display:flex;gap:6px;margin-bottom:14px;position:relative;z-index:1;font-size:1.8rem;">🏃<span style="opacity:0.4;font-size:1.2rem;align-self:center;">+</span>⚙️</div>
       <span class="card-label" style="color:rgba(0,150,255,0.7);">Tirage double</span>
       <span class="card-title-text">Survivant + Perks</span>
@@ -595,7 +603,6 @@
   </div>
 </section>
 
-<!-- ══ COMMENT ÇA MARCHE ══ -->
 <section class="section-how">
   <div class="reveal">
     <p class="section-label">Fonctionnement</p>
@@ -611,7 +618,7 @@
     <div class="step-card reveal delay-2">
       <span class="step-number">02</span>
       <span class="step-title">Lance la roulette</span>
-      <p class="step-desc">La roulette style CSGO défile à toute vitesse sur tes personnages sélectionnés et ralentit jusqu'au tirage final. Le suspense est garanti.</p>
+      <p class="step-desc">La roulette style CSGO ou Mario Kart défile à toute vitesse sur tes éléments sélectionnés et s'arrête sur le tirage final. Le suspense est garanti.</p>
     </div>
     <div class="step-card reveal delay-3">
       <span class="step-number">03</span>
@@ -621,11 +628,9 @@
   </div>
 </section>
 
-<!-- ══ SHOWCASE ══ -->
 <div class="section-showcase">
   <div class="showcase-inner">
 
-    <!-- Bloc 1 : Liste des persos -->
     <div class="showcase-row">
       <div class="showcase-text reveal-left">
         <p class="section-label">Étape 1</p>
@@ -641,13 +646,12 @@
       </div>
     </div>
 
-    <!-- Bloc 2 : Roulette -->
     <div class="showcase-row reverse">
       <div class="showcase-text reveal-right">
         <p class="section-label">Étape 2</p>
         <h3>La <em>roulette</em> tourne</h3>
-        <p>Inspirée des roulettes de skins CS:GO, elle défile rapidement sur les personnages avant de ralentir progressivement et de s'arrêter sur le tiré.</p>
-        <p>Un son de tick accompagne chaque défilement — l'ambiance est là.</p>
+        <p>Inspirée des roulettes de skins CS:GO pour les persos et de l'effet lumineux Mario Kart pour les maps, l'application s'adapte au mode de jeu choisi avec des transitions fluides.</p>
+        <p>Un son de tick ou un effet visuel dynamique accompagne chaque défilement — l'ambiance est là.</p>
       </div>
       <div class="reveal-left">
         <div class="showcase-placeholder" id="placeholder-2">
@@ -657,13 +661,12 @@
       </div>
     </div>
 
-    <!-- Bloc 3 : Twitch -->
     <div class="showcase-row">
       <div class="showcase-text reveal-left">
         <p class="section-label">Bonus Streamer</p>
         <h3>Annonce le tirage <em>en direct</em></h3>
         <p>Active le mode Streamer depuis ton profil. Après chaque tirage, le résultat est automatiquement posté dans ton chat Twitch.</p>
-        <p>Tes viewers voient le résultat en même temps que toi. L'historique de tous tes tirages est conservé dans ton profil.</p>
+        <p>Tes viewers voient le résultat en même temps que toi. L'historique de tous tes tirages (Persos, Perks, Maps) est conservé dans ton profil.</p>
       </div>
       <div class="reveal-right">
         <div class="showcase-placeholder" id="placeholder-3">
@@ -676,7 +679,6 @@
   </div>
 </div>
 
-<!-- ══ FEATURES ══ -->
 <section class="section-features">
   <div class="reveal">
     <p class="section-label">Pourquoi Roulette DBD ?</p>
@@ -692,10 +694,10 @@
       </div>
     </div>
     <div class="feature-item reveal delay-2">
-      <span class="feature-icon">❤️</span>
+      <span class="feature-icon">🗺️</span>
       <div class="feature-text">
-        <h4>Personnages favoris</h4>
-        <p>Connecte-toi avec Twitch et sauvegarde tes persos préférés. La roulette rapide utilisera uniquement tes favoris.</p>
+        <h4>Gestion des Maps</h4>
+        <p>Une roulette dédiée aux cartes avec intégration automatique du Killswitch (les maps désactivées par les dévs apparaissent grisées et sautées).</p>
       </div>
     </div>
     <div class="feature-item reveal delay-3">
@@ -708,8 +710,8 @@
     <div class="feature-item reveal delay-4">
       <span class="feature-icon">📜</span>
       <div class="feature-text">
-        <h4>Historique des tirages</h4>
-        <p>Retrouve tous tes tirages passés dans ton profil. Date, type et personnage tiré — tout est conservé.</p>
+        <h4>Historique complet</h4>
+        <p>Retrouve tous tes tirages passés dans ton profil. Date, type, personnages, perks et maps tirées — tout est conservé.</p>
       </div>
     </div>
     <div class="feature-item reveal delay-1">
@@ -729,21 +731,26 @@
   </div>
 </section>
 
-<!-- ══ CTA FINAL ══ -->
 <section class="section-cta">
   <h2 class="reveal">
     Prêt à jouer ?
     <span>Lance le tirage.</span>
   </h2>
-  <p class="reveal delay-1">Choisis ton camp et laisse la roulette décider.</p>
+  <p class="reveal delay-1">Choisis ton camp ou ta carte et laisse la roulette décider.</p>
   <div class="cta-buttons reveal delay-2">
-    <div class="draw-card killer" id="cta-killer" style="width:220px;">
+    <div class="draw-card killer" id="cta-killer" style="width:200px;">
       <span class="card-icon">🔪</span>
       <span class="card-label">Tirage rapide</span>
       <span class="card-title-text">Tueur</span>
       <span class="card-arrow">↗</span>
     </div>
-    <div class="draw-card survivor" id="cta-survivor" style="width:220px;">
+    <div class="draw-card map" id="cta-map" style="width:200px;">
+      <span class="card-icon">🗺️</span>
+      <span class="card-label">Destination</span>
+      <span class="card-title-text">Map</span>
+      <span class="card-arrow">↗</span>
+    </div>
+    <div class="draw-card survivor" id="cta-survivor" style="width:200px;">
       <span class="card-icon">🏃</span>
       <span class="card-label">Tirage rapide</span>
       <span class="card-title-text">Survivant</span>
@@ -772,7 +779,7 @@
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
     .forEach(el => observer.observe(el));
 
-  // ── TIRAGE RAPIDE ──
+  // ── TOAST INFOS ──
   const toast = document.getElementById('toast');
   function showToast(msg) {
     toast.textContent = msg;
@@ -789,7 +796,7 @@
       isConnected = true;
       const profile = await fetch('/api/profile', { credentials: 'include' }).then(r => r.json());
       killerFavorites = profile.killers || [];
-      survivorFavorites = profile.survivors || [];
+      surveyorFavorites = profile.survivors || [];
     }
   } catch (_) {}
 
@@ -801,6 +808,14 @@
       ? `Lance la roulette sur tes ${survivorFavorites.length} survivants favoris`
       : `Lance la roulette sur tous les survivants (aucun favori défini)`;
   }
+
+  // LOGIQUE DE REDIRECTION DES MAPS
+  function openMapRoulette() {
+    window.location.href = 'mapRoulette.html';
+  }
+
+  document.getElementById('quick-map').addEventListener('click', openMapRoulette);
+  document.getElementById('cta-map').addEventListener('click', openMapRoulette);
 
   function quickDraw(type) {
     const rawList = type === 'Killer' ? data.killers : data.survivors;
