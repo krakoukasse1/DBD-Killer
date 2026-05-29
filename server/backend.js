@@ -233,42 +233,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
     const profile = await Profile.findOne({ login: twitch.login });
     const streamerMode = profile?.streamerMode || false;
 
-    // Envoyer sur Twitch uniquement si mode Streamer activé
-    if (streamerMode) {
-      const client = new tmi.Client({
-        identity: {
-          username: twitch.login,
-          password: `oauth:${twitch.access_token}`
-        },
-        channels: [twitch.login]
-      });
-      await client.connect();
-
-      // --- PERSONNALISATION DU MESSAGE TWITCH ---
-      const drawMode = req.body.drawMode || 'character';
-      const perksList = req.body.perks || [];
-      let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
-
-      if (drawMode === 'perks' && perksList.length > 0) {
-        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-        twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
-      } else if (drawMode === 'double' && perksList.length > 0) {
-        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-        twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
-      } 
-      // 🗺️ AJOUT : Gestion du message Twitch pour le tirage de MAP
-      else if (drawMode === 'map') {
-        const mapName = perksList[0] || '';
-        // Exemple de rendu : "🗺️ Tirage Map DBD : Épave du Nostromo - Forêt Profonde de Dvarka !"
-        twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
-      }
-
-      await client.say(twitch.login, twitchMessage);
-      await client.disconnect();
-    }
-
-    // Sauvegarder dans l'historique MongoDB (max 50 entrées)
-    // Fonctionne directement car req.body.perks contient maintenant le [winner.dataset.name] envoyé par la roulette
+    // 1. PRIORITÉ : Sauvegarder immédiatement dans l'historique MongoDB
     await Profile.findOneAndUpdate(
       { login: twitch.login },
       {
@@ -282,21 +247,65 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
               img: req.body.img || '', 
               perks: req.body.perks || [] 
             }],
-            $position: 0, 
-            $slice: 50    
+            $position: 0, // Insertion en haut de la liste
+            $slice: 50    // Conserver uniquement les 50 derniers tirages
           }
         }
       },
       { upsert: true }
     );
 
-    res.json({ ok: true, drawValue });
+    // 2. EN ARRIÈRE-PLAN : Envoyer sur Twitch si le mode Streamer est activé
+    if (streamerMode) {
+      // On lance une fonction asynchrone immédiatement exécutée (IIFE) sans "await" global
+      // pour que l'API réponde tout de suite au client sans attendre Twitch
+      (async () => {
+        let client;
+        try {
+          client = new tmi.Client({
+            identity: {
+              username: twitch.login,
+              password: `oauth:${twitch.access_token}`
+            },
+            channels: [twitch.login]
+          });
+          
+          await client.connect();
+
+          const drawMode = req.body.drawMode || 'character';
+          const perksList = req.body.perks || [];
+          let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
+
+          if (drawMode === 'perks' && perksList.length > 0) {
+            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+            twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
+          } else if (drawMode === 'double' && perksList.length > 0) {
+            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+            twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
+          } else if (drawMode === 'map') {
+            const mapName = perksList[0] || '';
+            twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
+          }
+
+          await client.say(twitch.login, twitchMessage);
+        } catch (twitchErr) {
+          console.error("❌ Échec de l'annonce Twitch :", twitchErr.message);
+        } finally {
+          if (client) {
+            await client.disconnect().catch(() => {});
+          }
+        }
+      })();
+    }
+
+    // Réponse immédiate au navigateur
+    return res.json({ ok: true, drawValue });
+
   } catch (e) {
-    console.error('Draw error:', e);
-    res.status(500).json({ error: 'Server error', detail: e.message });
+    console.error('❌ Erreur générale lors du tirage:', e);
+    return res.status(500).json({ error: 'Server error', detail: e.message });
   }
 });
-
 // =====================
 // START
 // =====================
