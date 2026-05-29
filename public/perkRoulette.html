@@ -701,19 +701,27 @@
     console.warn("Classes CSS non trouvées, repli sur une sauvegarde générique.");
   }
 
-  // Envoi au backend
+ // === CODE CORRIGÉ ET ADAPTÉ À TES VARIABLES SCRIPT ===
+if (drawnPerks && drawnPerks.length > 0) {
+  // On mappe ton tableau pour extraire uniquement le nom et l'image propre
+  const finalPerksSaved = drawnPerks.map(p => ({
+    name: p.name,
+    img: p.img // p.img contient déjà le bon nom de fichier (ex: "iconPerk.png")
+  }));
+
   fetch("/api/draw-and-announce", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({
-      items: ["4 Perks"], // Nom générique pour l'historique
-      characterType: typeof currentType !== 'undefined' ? currentType : "?", // Récupère "killer" ou "survivor"
-      drawMode: "perks", // Pour l'onglet "Perks" du profil
+      items: ["4 Perks"],
+      characterType: type || "?", // Utilise ta variable globale 'type' (killer/survivor)
+      drawMode: "perks",
       img: "", 
-      perks: finalPerksSaved // Notre tableau d'objets { name, img } propre
+      perks: finalPerksSaved // Envoie le tableau correctement rempli !
     })
   }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
+}
 
 } catch (error) {
   console.error("Erreur lors de la préparation de la sauvegarde historique :", error);
