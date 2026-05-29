@@ -144,7 +144,7 @@
       card.dataset.img = map.img;
 
       const img = document.createElement('img');
-      img.src = `assets/Maps/${map.img}`;
+      img.src = `assets/maps/${map.img}`;
       img.onerror = () => { img.src = 'assets/dbd logo.png'; }; // Sécurité image manquante
       
       card.appendChild(img);
