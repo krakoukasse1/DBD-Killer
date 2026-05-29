@@ -87,23 +87,104 @@ function updateCount(countId, n) {
 }
 
 // --- Historique ---
-function buildHistory(history) {
-  const tbody = document.querySelector('#history tbody');
-  tbody.innerHTML = '';
+// Remplacer toute la fonction buildHistory() dans profile.js
 
-  if (!history.length) {
-    tbody.innerHTML = '<tr class="history-empty"><td colspan="3">Aucun tirage pour l\'instant</td></tr>';
-    return;
+function buildHistory(history) {
+  const container = document.querySelector('.history-scroll');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="history-tabs">
+      <button class="htab active" data-mode="all">Tous</button>
+      <button class="htab" data-mode="character">🎭 Personnages</button>
+      <button class="htab" data-mode="perks">⚙️ Perks</button>
+      <button class="htab" data-mode="double">🎲 Double</button>
+    </div>
+    <div id="historyCards"></div>
+  `;
+
+  function renderCards(mode) {
+    const wrap = document.getElementById('historyCards');
+    const filtered = mode === 'all' ? history : history.filter(h => (h.drawMode || 'character') === mode);
+
+    if (!filtered.length) {
+      wrap.innerHTML = '<p class="history-empty-msg">Aucun tirage dans cette catégorie</p>';
+      return;
+    }
+
+    wrap.innerHTML = '';
+    filtered.forEach(item => {
+      const m = item.drawMode || 'character';
+      const card = document.createElement('div');
+      card.className = 'hcard';
+
+      if (m === 'character') {
+        // Carte personnage simple
+        const imgSrc = item.img
+          ? item.img
+          : (item.characterType === 'Killer'
+              ? `assets/Killer/${item.name}.png`
+              : `assets/Survivor/${item.name}.png`);
+        card.innerHTML = `
+          <div class="hcard-left">
+            <img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">
+            <div>
+              <span class="hcard-mode">🎭 ${item.characterType || '?'}</span>
+              <span class="hcard-name">${item.name}</span>
+              <span class="hcard-date">${item.date}</span>
+            </div>
+          </div>`;
+
+      } else if (m === 'perks') {
+        // Carte perks
+        const perksHTML = (item.perks || []).map(p => {
+          const img = typeof p === 'object' && p.img
+            ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
+            : `<span class="hcard-perk-fallback">⚙️</span>`;
+          const name = typeof p === 'object' ? p.name : p;
+          return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
+        }).join('');
+        card.innerHTML = `
+          <div class="hcard-top">
+            <span class="hcard-mode">⚙️ Perks ${item.characterType || ''}</span>
+            <span class="hcard-date">${item.date}</span>
+          </div>
+          <div class="hcard-perks-row">${perksHTML}</div>`;
+
+      } else if (m === 'double') {
+        // Carte double : perso + perks
+        const imgSrc = item.img || '';
+        const perksHTML = (item.perks || []).map(p => {
+          const img = typeof p === 'object' && p.img
+            ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
+            : `<span class="hcard-perk-fallback">⚙️</span>`;
+          const name = typeof p === 'object' ? p.name : p;
+          return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
+        }).join('');
+        card.innerHTML = `
+          <div class="hcard-left" style="margin-bottom:10px">
+            <img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">
+            <div>
+              <span class="hcard-mode">🎲 Double ${item.characterType || ''}</span>
+              <span class="hcard-name">${item.name}</span>
+              <span class="hcard-date">${item.date}</span>
+            </div>
+          </div>
+          <div class="hcard-perks-row">${perksHTML}</div>`;
+      }
+
+      wrap.appendChild(card);
+    });
   }
 
-  history.forEach(item => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${item.date}</td>
-      <td>${item.characterType || item.type || "?"}</td>
-      <td>${item.name}</td>
-    `;
-    tbody.appendChild(tr);
+  renderCards('all');
+
+  container.querySelectorAll('.htab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      container.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderCards(tab.dataset.mode);
+    });
   });
 }
 

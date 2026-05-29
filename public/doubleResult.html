@@ -580,7 +580,7 @@
         items: [character.name],
         characterType: type,
         drawMode: 'double',
-        perks: perks.map(p => ({ name: p.name }))
+        perks: perks.map(p => ({ name: p.name, img: p.img }))
       })
     }).catch(() => {});
 
