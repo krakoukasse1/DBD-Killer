@@ -671,24 +671,53 @@
     await animateSlots(drawn);
     showBanners(drawn);
 
-    // === CODE À RAJOUTER DANS PERKROULETTE POUR SAUVEGARDER ===
-        const finalPerksSaved = selectedPerks.map(p => ({
-          name: p.name,
-          img: p.img
-        }));
+    try {
+  // On va chercher les 4 éléments qui ont la classe "perk-card" (ou le container de tes résultats)
+  // et on récupère les textes et les images directement dedans.
+  const perkCards = document.querySelectorAll('.perk-card'); 
+  const finalPerksSaved = [];
 
-        fetch("/api/draw-and-announce", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            items: ["4 Perks"], // Nom générique pour éviter d'écrire "perks"
-            characterType: currentType || "?", // "killer" ou "survivor"
-            drawMode: "perks", // Active l'onglet "Perks" dans le profil !
-            img: "", 
-            perks: finalPerksSaved // Envoie le tableau des 4 perks gagnantes
-          })
-        }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
+  perkCards.forEach(card => {
+    const nameEl = card.querySelector('.perk-name');
+    const imgEl = card.querySelector('img');
+    
+    if (nameEl) {
+      // On nettoie le chemin de l'image (ex: "assets/perk_icon.png" -> "perk_icon.png")
+      let imgPath = "";
+      if (imgEl && imgEl.getAttribute('src')) {
+        imgPath = imgEl.getAttribute('src').replace('assets/', '');
+      }
+      
+      finalPerksSaved.push({
+        name: nameEl.textContent.trim(),
+        img: imgPath
+      });
+    }
+  });
+
+  // Si jamais tes cartes n'utilisent pas la classe ".perk-card", on met une sécurité :
+  // Si le tableau est vide, on crée un historique textuel pour éviter le crash
+  if (finalPerksSaved.length === 0) {
+    console.warn("Classes CSS non trouvées, repli sur une sauvegarde générique.");
+  }
+
+  // Envoi au backend
+  fetch("/api/draw-and-announce", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      items: ["4 Perks"], // Nom générique pour l'historique
+      characterType: typeof currentType !== 'undefined' ? currentType : "?", // Récupère "killer" ou "survivor"
+      drawMode: "perks", // Pour l'onglet "Perks" du profil
+      img: "", 
+      perks: finalPerksSaved // Notre tableau d'objets { name, img } propre
+    })
+  }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
+
+} catch (error) {
+  console.error("Erreur lors de la préparation de la sauvegarde historique :", error);
+}
 
     isSpinning = false;
     document.getElementById('draw-btn').disabled = false;
