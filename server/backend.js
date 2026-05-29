@@ -234,7 +234,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
     const streamerMode = profile?.streamerMode || false;
 
     // Envoyer sur Twitch uniquement si mode Streamer activé
-   if (streamerMode) {
+    if (streamerMode) {
       const client = new tmi.Client({
         identity: {
           username: twitch.login,
@@ -255,6 +255,12 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       } else if (drawMode === 'double' && perksList.length > 0) {
         const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
         twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
+      } 
+      // 🗺️ AJOUT : Gestion du message Twitch pour le tirage de MAP
+      else if (drawMode === 'map') {
+        const mapName = perksList[0] || '';
+        // Exemple de rendu : "🗺️ Tirage Map DBD : Épave du Nostromo - Forêt Profonde de Dvarka !"
+        twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
       }
 
       await client.say(twitch.login, twitchMessage);
@@ -262,6 +268,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
     }
 
     // Sauvegarder dans l'historique MongoDB (max 50 entrées)
+    // Fonctionne directement car req.body.perks contient maintenant le [winner.dataset.name] envoyé par la roulette
     await Profile.findOneAndUpdate(
       { login: twitch.login },
       {
@@ -269,14 +276,14 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
           history: {
             $each: [{ 
               date: new Date().toLocaleString('fr-FR'), 
-              drawMode: req.body.drawMode || 'character', // Sauvegarde le BON mode (character, perks, double)
+              drawMode: req.body.drawMode || 'character', 
               characterType: req.body.characterType || '?', 
-              name: req.body.drawMode === 'perks' ? '4 Perks' : drawValue, // Évite d'écrire "perks" comme un nom de perso
-              img: req.body.img || '', // Sauvegarde le nom exact du fichier image (ex: Marchande.png)
-              perks: req.body.perks || [] // Sauvegarde le tableau des perks tirées
+              name: req.body.drawMode === 'perks' ? '4 Perks' : drawValue, 
+              img: req.body.img || '', 
+              perks: req.body.perks || [] 
             }],
-            $position: 0, // insertion en début de tableau
-            $slice: 50    // garder max 50 entrées
+            $position: 0, 
+            $slice: 50    
           }
         }
       },
