@@ -292,40 +292,40 @@
     tick();
 });
 
-  function endAnimation(winner) {
+ function endAnimation(winner) {
+  setTimeout(() => {
+    // 1. Faire s'évanouir toute la grille
+    grid.classList.add('fade-out');
+    drawBtn.style.display = 'none';
+    document.getElementById('hero-section').style.display = 'none';
+
+    // 2. Préparer le bloc du résultat final
+    document.getElementById('final-img').src = `assets/maps/${winner.dataset.img}`;
+    document.getElementById('final-realm').textContent = winner.dataset.realm;
+    document.getElementById('final-name').textContent = winner.dataset.name;
+
     setTimeout(() => {
-      // 1. Faire s'évanouir toute la grille
-      grid.classList.add('fade-out');
-      drawBtn.style.display = 'none';
-      document.getElementById('hero-section').style.display = 'none';
+      // 3. Afficher en grand avec l'effet fluide
+      grid.style.display = 'none';
+      finalContainer.classList.add('visible');
+      
+      // 4. SAUVEGARDE ET TWITCH DANS LE BACKEND
+      fetch("/api/draw-and-announce", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          items: [winner.dataset.realm],
+          characterType: "Map",
+          drawMode: "map", 
+          img: winner.dataset.img,
+          perks: [winner.dataset.name] // On met le nom de la map ici pour que le backend le stocke dans le tableau existant
+        })
+      }).catch(err => console.warn("Sauvegarde échouée", err));
 
-      // 2. Préparer le bloc du résultat final
-      document.getElementById('final-img').src = `assets/maps/${winner.dataset.img}`;
-      document.getElementById('final-realm').textContent = winner.dataset.realm;
-      document.getElementById('final-name').textContent = winner.dataset.name;
-
-      setTimeout(() => {
-        // 3. Afficher en grand avec l'effet fluide
-        grid.style.display = 'none';
-        finalContainer.classList.add('visible');
-        
-        // 4. SAUVEGARDE ET TWITCH DANS LE BACKEND
-        fetch("/api/draw-and-announce", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            items: [winner.dataset.realm],
-            characterType: "Map",
-            drawMode: "map", // Nouvelle valeur pour cibler un onglet "Maps"
-            img: winner.dataset.img,
-            perks: []
-          })
-        }).catch(err => console.warn("Sauvegarde échouée", err));
-
-      }, 800); // Temps correspondant à la transition CSS d'évanouissement
-    }, 1000); // Petite pause dramatique sur la carte sélectionnée
-  }
+    }, 800); // Temps correspondant à la transition CSS d'évanouissement
+  }, 1000); // Petite pause dramatique sur la carte sélectionnée
+}
 
   // Bouton Recommencer
   document.getElementById('reset-btn').addEventListener('click', () => {

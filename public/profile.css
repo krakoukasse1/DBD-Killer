@@ -597,3 +597,74 @@
   color: rgba(255,255,255,0.25); text-align: center;
   padding: 20px; font-style: italic;
 }
+
+.history-card-layout.map-theme {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  transition: background 0.2s;
+}
+
+.history-card-layout.map-theme:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Forcer l'image miniature de la map à garder ses proportions sans s'écraser */
+.history-map-thumb {
+  width: 90px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: block;
+}
+
+.history-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex: 1;
+}
+
+.history-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+/* Petit badge Rouge DBD pour identifier le type de tirage */
+.map-badge {
+  background: #cc0000;
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+.history-time-date {
+  font-family: sans-serif;
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.history-title-realm {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.history-sub-map {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  color: #888;
+}

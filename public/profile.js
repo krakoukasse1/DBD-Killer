@@ -93,34 +93,32 @@ function buildHistory(history) {
   const container = document.querySelector('.history-scroll');
   if (!container) return;
 
+  // AJOUT DE L'ONGLET MAPS ICI
   container.innerHTML = `
     <div class="history-tabs">
       <button class="htab active" data-mode="all">Tous</button>
       <button class="htab" data-mode="character">🎭 Personnages</button>
       <button class="htab" data-mode="perks">⚙️ Perks</button>
       <button class="htab" data-mode="double">🎲 Double</button>
+      <button class="htab" data-mode="map">🗺️ Maps</button>
     </div>
     <div id="historyCards"></div>
   `;
 
-  // On récupère la liste globale pour corriger les chemins d'images à la volée si besoin
   fetch('data.json')
     .then(r => r.json())
     .then(data => {
       const globalImgIndex = {};
-      // On associe le NOM du perso à sa vraie image et son type
       data.killers.forEach(c => { globalImgIndex[c.name] = { img: c.img, type: 'Killer' }; });
       data.survivors.forEach(c => { globalImgIndex[c.name] = { img: c.img, type: 'Survivor' }; });
 
       function getCorrectImgSrc(item) {
         if (!item.name) return '';
-        // Si la DB a déjà stocké un nom de fichier propre (ex: Marchande.png)
-        if (item.img && item.img.set && (item.img.includes('.png') || item.img.includes('.jpg')) && !item.img.includes(item.name)) {
+        if (item.img && typeof item.img === 'string' && (item.img.includes('.png') || item.img.includes('.jpg')) && !item.img.includes(item.name)) {
           let cleanImg = item.img.split('/').pop();
           let type = item.characterType === 'Killer' || item.characterType === 'killer' ? 'Killer' : 'Survivor';
           return `assets/${type}/${cleanImg}`;
         }
-        // Sinon, on cherche dans le dictionnaire data.json via le nom du personnage
         const match = globalImgIndex[item.name];
         if (match) {
           return `assets/${match.type}/${match.img}`;
@@ -143,10 +141,24 @@ function buildHistory(history) {
           const card = document.createElement('div');
           card.className = 'hcard';
 
-          // Nettoyage de l'affichage du type
           let displayType = item.characterType ? item.characterType.charAt(0).toUpperCase() + item.characterType.slice(1).toLowerCase() : '?';
 
-          if (m === 'character') {
+          // 🗺️ CONDITION 1 : GESTION DU RENDU DE LA MAP
+          if (m === 'map') {
+            // Dans endAnimation, tu as envoyé le nom de la map (ex: "Forêt Profonde") dans le tableau perks
+            const mapStructureName = item.perks && item.perks[0] ? item.perks[0] : '';
+            
+            card.innerHTML = `
+              <div class="hcard-left">
+                <img class="hcard-char-img map-thumb" src="assets/maps/${item.img || 'default.png'}" onerror="this.src='assets/maps/default.png'" style="width: 80px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <div>
+                  <span class="hcard-mode" style="color: #cc0000;">🗺️ Map</span>
+                  <span class="hcard-name">${item.name}</span> ${mapStructureName ? `<span class="hcard-map-structure" style="font-size: 0.85rem; color: #aaa; display: block; font-family: sans-serif;">${mapStructureName}</span>` : ''}
+                  <span class="hcard-date">${item.date}</span>
+                </div>
+              </div>`;
+
+          } else if (m === 'character') {
             const imgSrc = getCorrectImgSrc(item);
             card.innerHTML = `
               <div class="hcard-left">
