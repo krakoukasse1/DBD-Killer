@@ -29,7 +29,7 @@
   display: grid;
   /* CORRECTION : minmax à 140px au lieu de 180px pour afficher plus de colonnes et éviter le défilement */
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
+  gap: 6px;
   margin-bottom: 40px;
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
@@ -187,42 +187,70 @@
 
   shuffleAndBuildGrid();
 
-  drawBtn.addEventListener('click', async () => {
+ drawBtn.addEventListener('click', async () => {
     drawBtn.disabled = true;
-    const cards = document.querySelectorAll('.map-card');
-    if(cards.length === 0) return;
+    
+    // 0. CHARGEMENT ET CONFIGURATION DU SON
+    const rollSound = new Audio('assets/Roll.mp3');
+    rollSound.volume = 0.4; // Optionnel : ajuste le volume entre 0.0 et 1.0 si le son est trop fort
 
+    // On récupère toutes les cartes, et on filtre celles qui sont actives
+    const allCards = document.querySelectorAll('.map-card');
+    const activeCards = document.querySelectorAll('.map-card:not(.disabled)');
+    
+    if (activeCards.length === 0) {
+        drawBtn.disabled = false;
+        return;
+    }
+
+    // 1. TIRAGE AU SORT DU GAGNANT (Vrai hasard)
+    const randomActiveCard = activeCards[Math.floor(Math.random() * activeCards.length)];
+    // On trouve son index réel dans la liste globale de toutes les cartes
+    const targetIndex = Array.from(allCards).indexOf(randomActiveCard);
+
+    // 2. CONFIGURATION DE L'ANIMATION
     let currentIndex = 0;
-    let currentDelay = 50; // Vitesse de départ ultra rapide (ms)
-    const maxDuration = 9000; // Durée de l'animation en millisecondes (~9 à 10s pour le suspense)
+    let currentDelay = 50; 
+    const maxDuration = 9000; // ~9 secondes de suspense
     const startTime = Date.now();
 
     function tick() {
-      // Retirer la surbrillance de la carte précédente
-      cards.forEach(c => c.classList.remove('highlight'));
-      
-      // Allumer la carte actuelle
-      cards[currentIndex].classList.add('highlight');
+        // Retirer la surbrillance de toutes les cartes
+        allCards.forEach(c => c.classList.remove('highlight'));
+        
+        // Allumer la carte actuelle
+        allCards[currentIndex].classList.add('highlight');
 
-      // Passer à la carte suivante
-      currentIndex = (currentIndex + 1) % cards.length;
+        // 🔊 JOUER LE SON À CHAQUE CHANGEMENT DE CARTE
+        // Remet le son au début pour permettre le chevauchement rapide des bruits
+        rollSound.currentTime = 0; 
+        rollSound.play().catch(error => {
+            // Sécurité au cas où le navigateur bloque l'audio automatique avant interaction
+            console.log("Lecture audio bloquée ou en attente :", error);
+        });
 
-      const elapsed = Date.now() - startTime;
+        const elapsed = Date.now() - startTime;
 
-      if (elapsed < maxDuration) {
-        // Ralentissement progressif (effet Mario Kart)
-        // Plus le temps passe, plus le délai augmente exponentiellement
-        currentDelay = 50 + Math.pow(elapsed / maxDuration, 3) * 600;
+        // 3. GESTION DE L'ARRÊT
+        // Si le temps est écoulé ET qu'on vient d'atteindre la carte cible (targetIndex)
+        if (elapsed >= maxDuration && currentIndex === targetIndex) {
+            // ARRÊT DU TIRAGE : La carte actuelle est la vraie gagnante tirée au sort !
+            endAnimation(allCards[currentIndex]);
+            return; 
+        }
+
+        // Passer à la carte suivante (on tourne en boucle sur TOUTES les cartes)
+        currentIndex = (currentIndex + 1) % allCards.length;
+
+        // Ralentissement progressif
+        const progress = Math.min(elapsed / maxDuration, 1);
+        currentDelay = 50 + Math.pow(progress, 3) * 600;
+
         setTimeout(tick, currentDelay);
-      } else {
-        // ARRÊT DU TIRAGE : La carte allumée actuellement est la gagnante !
-        const winnerCard = cards[(currentIndex - 1 + cards.length) % cards.length];
-        endAnimation(winnerCard);
-      }
     }
 
     tick();
-  });
+});
 
   function endAnimation(winner) {
     setTimeout(() => {
@@ -232,7 +260,7 @@
       document.getElementById('hero-section').style.display = 'none';
 
       // 2. Préparer le bloc du résultat final
-      document.getElementById('final-img').src = `assets/Maps/${winner.dataset.img}`;
+      document.getElementById('final-img').src = `assets/maps/${winner.dataset.img}`;
       document.getElementById('final-realm').textContent = winner.dataset.realm;
       document.getElementById('final-name').textContent = winner.dataset.name;
 
