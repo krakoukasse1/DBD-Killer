@@ -231,9 +231,16 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
 
   try {
     const profile = await Profile.findOne({ login: twitch.login });
-    const streamerMode = profile?.streamerMode || false;
+    
+    // 🔍 SÉCURITÉ : On force la conversion en booléen au cas où c'est stocké en chaîne "true"/"false"
+    const streamerMode = profile && (profile.streamerMode === true || profile.streamerMode === 'true');
 
-    // 1. PRIORITÉ : Sauvegarder immédiatement dans l'historique MongoDB
+    // 📢 LOGS DE DÉBOGAGE (Regarde ton terminal Node.js !)
+    console.log(`[TIRAGE] Utilisateur : ${twitch.login}`);
+    console.log(`[TIRAGE] Mode Streamer détecté en BDD :`, profile?.streamerMode);
+    console.log(`[TIRAGE] Mode Streamer validé par le script :`, streamerMode);
+
+    // 1. Sauvegarder dans l'historique MongoDB
     await Profile.findOneAndUpdate(
       { login: twitch.login },
       {
@@ -247,18 +254,18 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
               img: req.body.img || '', 
               perks: req.body.perks || [] 
             }],
-            $position: 0, // Insertion en haut de la liste
-            $slice: 50    // Conserver uniquement les 50 derniers tirages
+            $position: 0, 
+            $slice: 50    
           }
         }
       },
       { upsert: true }
     );
 
-    // 2. EN ARRIÈRE-PLAN : Envoyer sur Twitch si le mode Streamer est activé
+    // 2. Envoyer sur Twitch si activé
     if (streamerMode) {
-      // On lance une fonction asynchrone immédiatement exécutée (IIFE) sans "await" global
-      // pour que l'API réponde tout de suite au client sans attendre Twitch
+      console.log("[TWITCH] Enclenchement de l'envoi du message...");
+      
       (async () => {
         let client;
         try {
@@ -288,17 +295,19 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
           }
 
           await client.say(twitch.login, twitchMessage);
+          console.log(`[TWITCH] Message envoyé avec succès : "${twitchMessage}"`);
         } catch (twitchErr) {
-          console.error("❌ Échec de l'annonce Twitch :", twitchErr.message);
+          console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.message);
         } finally {
           if (client) {
             await client.disconnect().catch(() => {});
           }
         }
       })();
+    } else {
+      console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
     }
 
-    // Réponse immédiate au navigateur
     return res.json({ ok: true, drawValue });
 
   } catch (e) {
