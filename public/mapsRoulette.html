@@ -206,10 +206,17 @@
     const randomActiveCard = activeCards[Math.floor(Math.random() * activeCards.length)];
     const targetIndex = Array.from(allCards).indexOf(randomActiveCard);
 
-    // 2. CONFIGURATION DE L'ANIMATION
+    // 2. CONFIGURATION DE LA DURÉE ALÉATOIRE (Entre 3000ms et 8000ms)
+    const minDuration = 3000;
+    const maxDuration = 8000;
+    // Génère une durée au hasard, par exemple 3750ms, 5200ms, etc.
+    const randomTotalDuration = Math.random() * (maxDuration - minDuration) + minDuration;
+
+    // Le freinage s'enclenche à la fin de la durée aléatoire moins le temps nécessaire pour freiner (~1.2s)
+    const brakingTriggerTime = Math.max(1500, randomTotalDuration - 1200);
+
     let currentIndex = 0;
-    let currentDelay = 50; // Vitesse rapide constante du début
-    const minDuration = 7000; // Reste à fond pendant au moins 7 secondes
+    let currentDelay = 50; 
     const startTime = Date.now();
     let isBraking = false;
     let stepsToTarget = 0;
@@ -229,10 +236,9 @@
         const elapsed = Date.now() - startTime;
 
         // 3. ENCLENCHEMENT DU FREINAGE SUR LES DERNIERS ÉLÉMENTS
-        if (!isBraking && elapsed >= minDuration) {
+        if (!isBraking && elapsed >= brakingTriggerTime) {
             isBraking = true;
-            // On calcule la distance (le nombre de cartes) qui nous sépare de la cible
-            // On ajoute un tour complet (allCards.length) pour avoir le temps de freiner proprement
+            // Calcule le nombre de pas restants pour atteindre la cible (avec 1 tour de bonus pour amortir le freinage)
             stepsToTarget = (targetIndex - currentIndex + allCards.length) % allCards.length + allCards.length;
             initialBrakingSteps = stepsToTarget;
         }
@@ -245,14 +251,13 @@
                 return; 
             }
             
-            // Calcul du ralentissement uniquement basé sur la proximité de la cible
-            // Plus "stepsToTarget" est proche de 0, plus le délai augmente fortement
+            // Décélération progressive mais nerveuse sur la fin
             const brakeProgress = 1 - (stepsToTarget / initialBrakingSteps);
-            currentDelay = 50 + Math.pow(brakeProgress, 4) * 750; // Puissance 4 pour un freinage sec sur la fin
+            currentDelay = 50 + Math.pow(brakeProgress, 4) * 750;
             
             stepsToTarget--;
         } else {
-            // Tant qu'on ne freine pas, petite variation aléatoire de vitesse pour casser la monotonie
+            // Rythme de croisière rapide avec légère variation humaine
             currentDelay = 45 + Math.random() * 10;
         }
 
