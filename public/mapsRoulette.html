@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roulette Maps — DBD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .map-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px 80px; text-align: center; }
+    
+    .map-hero h1 { font-size: clamp(3rem, 7vw, 5.5rem); color: #fff; letter-spacing: 4px; margin-bottom: 30px; }
+    .map-hero h1 span { color: #cc0000; }
+
+    /* GRILLE DES CARTES */
+    .maps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .maps-grid.fade-out { opacity: 0; transform: scale(0.9); pointer-events: none; }
+
+    .map-card {
+      position: relative;
+      background: #111;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+      filter: brightness(0.35); /* Sombre par défaut */
+      transition: border-color 0.2s, filter 0.1s ease;
+    }
+    .map-card img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* EFFET FLASH MARIO KART */
+    .map-card.highlight {
+      filter: brightness(1.6);
+      border-color: #ffcc00;
+      box-shadow: 0 0 20px #ffcc00;
+      z-index: 10;
+    }
+
+    .map-card.disabled {
+    filter: brightness(0.15) grayscale(1); /* Plus sombre et totalement en noir et blanc */
+    border-color: rgba(255, 0, 0, 0.3); /* Bordure rouge très sombre */
+    cursor: not-allowed;
+    }
+
+    /* Optionnel : Ajoute une petite mention "Indisponible" par-dessus la carte */
+    .map-card.disabled::after {
+    content: "DÉSACTIVÉE";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: rgba(204, 0, 0, 0.8);
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    padding: 2px 8px;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    }
+
+    /* BOUTON LANCR */
+    .btn-draw-map {
+      display: block; width: 100%; max-width: 350px; margin: 0 auto; padding: 16px;
+      background: #cc0000; color: #fff; border: none; border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-draw-map:hover { background: #b30000; transform: scale(1.02); }
+    .btn-draw-map:disabled { background: #441111; color: #888; cursor: not-allowed; transform: none; }
+
+    /* ÉCRAN DU RÉSULTAT FINAL RECHERCHÉ */
+    .final-result-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .final-result-container.visible { display: flex; opacity: 1; transform: scale(1); }
+
+    .final-map-img-wrap {
+      width: 100%; max-width: 650px;
+      aspect-ratio: 16/9;
+      border: 4px solid #cc0000;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(204, 0, 0, 0.4);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .final-map-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+    .final-map-realm { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #fff; letter-spacing: 2px; margin: 0; }
+    .final-map-name { font-family: sans-serif; font-size: 1.2rem; color: #aaa; margin: 5px 0 25px; }
+  </style>
+</head>
+<body>
+
+<header id="site-header"></header> <main class="map-page">
+  <div class="map-hero" id="hero-section">
+    <h1>Roulette <span>Maps</span></h1>
+  </div>
+
+  <button class="btn-draw-map" id="draw-btn">🎲 Sélectionner une Map</button>
+  <br><br>
+
+  <div class="maps-grid" id="maps-grid"></div>
+
+  <div class="final-result-container" id="final-result">
+    <div class="final-map-img-wrap">
+      <img id="final-img" src="" alt="Map">
+    </div>
+    <h2 class="final-map-realm" id="final-realm">Nom du Royaume</h2>
+    <p class="final-map-name" id="final-name">Nom de la structure</p>
+    <button class="btn-draw-map" id="reset-btn" style="background:transparent; border:1px solid #555;">↻ Recommencer</button>
+  </div>
+</main>
+
+<script src="header.js"></script>
+<script>
+(async function() {
+  const maps = await fetch('maps.json').then(r => r.json());
+  const grid = document.getElementById('maps-grid');
+  const drawBtn = document.getElementById('draw-btn');
+  const finalContainer = document.getElementById('final-result');
+
+  // Mélanger le tableau de maps (Fisher-Yates) et générer la grille HTML
+  function shuffleAndBuildGrid() {
+    grid.innerHTML = '';
+    const shuffledMaps = [...maps].sort(() => Math.random() - 0.5);
+    
+    shuffledMaps.forEach((map, index) => {
+      const card = document.createElement('div');
+      card.className = 'map-card';
+      card.dataset.index = index;
+      card.dataset.realm = map.realm;
+      card.dataset.name = map.name;
+      card.dataset.img = map.img;
+
+      const img = document.createElement('img');
+      img.src = `assets/Maps/${map.img}`;
+      img.onerror = () => { img.src = 'assets/dbd logo.png'; }; // Sécurité image manquante
+      
+      card.appendChild(img);
+      grid.appendChild(card);
+    });
+  }
+
+  shuffleAndBuildGrid();
+
+  drawBtn.addEventListener('click', async () => {
+    drawBtn.disabled = true;
+    const cards = document.querySelectorAll('.map-card');
+    if(cards.length === 0) return;
+
+    let currentIndex = 0;
+    let currentDelay = 50; // Vitesse de départ ultra rapide (ms)
+    const maxDuration = 9000; // Durée de l'animation en millisecondes (~9 à 10s pour le suspense)
+    const startTime = Date.now();
+
+    function tick() {
+      // Retirer la surbrillance de la carte précédente
+      cards.forEach(c => c.classList.remove('highlight'));
+      
+      // Allumer la carte actuelle
+      cards[currentIndex].classList.add('highlight');
+
+      // Passer à la carte suivante
+      currentIndex = (currentIndex + 1) % cards.length;
+
+      const elapsed = Date.now() - startTime;
+
+      if (elapsed < maxDuration) {
+        // Ralentissement progressif (effet Mario Kart)
+        // Plus le temps passe, plus le délai augmente exponentiellement
+        currentDelay = 50 + Math.pow(elapsed / maxDuration, 3) * 600;
+        setTimeout(tick, currentDelay);
+      } else {
+        // ARRÊT DU TIRAGE : La carte allumée actuellement est la gagnante !
+        const winnerCard = cards[(currentIndex - 1 + cards.length) % cards.length];
+        endAnimation(winnerCard);
+      }
+    }
+
+    tick();
+  });
+
+  function endAnimation(winner) {
+    setTimeout(() => {
+      // 1. Faire s'évanouir toute la grille
+      grid.classList.add('fade-out');
+      drawBtn.style.display = 'none';
+      document.getElementById('hero-section').style.display = 'none';
+
+      // 2. Préparer le bloc du résultat final
+      document.getElementById('final-img').src = `assets/Maps/${winner.dataset.img}`;
+      document.getElementById('final-realm').textContent = winner.dataset.realm;
+      document.getElementById('final-name').textContent = winner.dataset.name;
+
+      setTimeout(() => {
+        // 3. Afficher en grand avec l'effet fluide
+        grid.style.display = 'none';
+        finalContainer.classList.add('visible');
+        
+        // 4. SAUVEGARDE ET TWITCH DANS LE BACKEND
+        fetch("/api/draw-and-announce", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            items: [winner.dataset.realm],
+            characterType: "Map",
+            drawMode: "map", // Nouvelle valeur pour cibler un onglet "Maps"
+            img: winner.dataset.img,
+            perks: []
+          })
+        }).catch(err => console.warn("Sauvegarde échouée", err));
+
+      }, 800); // Temps correspondant à la transition CSS d'évanouissement
+    }, 1000); // Petite pause dramatique sur la carte sélectionnée
+  }
+
+  // Bouton Recommencer
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    finalContainer.classList.remove('visible');
+    grid.style.display = 'grid';
+    setTimeout(() => {
+      grid.classList.remove('fade-out');
+      drawBtn.style.display = 'block';
+      drawBtn.disabled = false;
+      document.getElementById('hero-section').style.display = 'block';
+      shuffleAndBuildGrid();
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
