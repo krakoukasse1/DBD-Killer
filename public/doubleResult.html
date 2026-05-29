@@ -572,6 +572,18 @@
     document.getElementById('charType').textContent = type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
     document.getElementById('charImg').src = character.img;
 
+    fetch('/api/draw-and-announce', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        items: [character.name],
+        characterType: type,
+        drawMode: 'double',
+        perks: perks.map(p => ({ name: p.name }))
+      })
+    }).catch(() => {});
+
     document.getElementById('finalResults').classList.add('visible');
     document.getElementById('resultActions').style.display = 'flex';
     

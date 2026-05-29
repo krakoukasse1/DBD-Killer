@@ -178,7 +178,9 @@ function loadCharactersAndStart() {
           credentials: "include",
           body: JSON.stringify({
             items: [selectedCharacter.name],
-            characterType: characterType || "?"
+            characterType: characterType || "?",
+            drawMode: "character",
+            perks: []
           })
         }).catch(err => console.warn("Annonce Twitch échouée (non connecté ?)", err));
 

@@ -27,8 +27,10 @@ const profileSchema = new mongoose.Schema({
   anonymousMode: { type: Boolean, default: false },
   history: [{
     date: String,
+    drawMode: { type: String, default: 'character' }, // 'character' | 'perks' | 'double'
     characterType: String,
-    name: String
+    name: String,
+    perks: { type: [String], default: [] }
   }]
 });
 

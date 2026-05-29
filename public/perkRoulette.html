@@ -671,6 +671,18 @@
     await animateSlots(drawn);
     showBanners(drawn);
 
+    fetch('/api/draw-and-announce', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        items: ['perks'],
+        characterType: currentType,
+        drawMode: 'perks',
+        perks: drawn.map(p => ({ name: p.name }))
+      })
+    }).catch(() => {});
+
     isSpinning = false;
     document.getElementById('draw-btn').disabled = false;
   }
