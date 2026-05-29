@@ -7,97 +7,236 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .map-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px 80px; text-align: center; }
-    
-    .map-hero h1 { font-size: clamp(3rem, 7vw, 5.5rem); color: #fff; letter-spacing: 4px; margin-bottom: 30px; }
-    .map-hero h1 span { color: #cc0000; }
-
-    /* GRILLE DES CARTES */
-    .maps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 15px;
-      margin-bottom: 40px;
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .maps-grid.fade-out { opacity: 0; transform: scale(0.9); pointer-events: none; }
-
-    .map-card {
-      position: relative;
-      background: #111;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
-      aspect-ratio: 16/10;
-      filter: brightness(0.35); /* Sombre par défaut */
-      transition: border-color 0.2s, filter 0.1s ease;
-    }
-    .map-card img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* EFFET FLASH MARIO KART */
-    .map-card.highlight {
-      filter: brightness(1.6);
-      border-color: #ffcc00;
-      box-shadow: 0 0 20px #ffcc00;
-      z-index: 10;
-    }
-
-    .map-card.disabled {
-    filter: brightness(0.15) grayscale(1); /* Plus sombre et totalement en noir et blanc */
-    border-color: rgba(255, 0, 0, 0.3); /* Bordure rouge très sombre */
-    cursor: not-allowed;
-    }
-
-    /* Optionnel : Ajoute une petite mention "Indisponible" par-dessus la carte */
-    .map-card.disabled::after {
-    content: "DÉSACTIVÉE";
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(-15deg);
-    background: rgba(204, 0, 0, 0.8);
-    color: white;
+    /* ===========================
+   GLOBAL
+=========================== */
+* {
+    box-sizing: border-box;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    padding: 2px 8px;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("assets/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: burlywood;
+    height: 100vh;
+    overflow: hidden; /* Empêche le scroll global si tout tient sur l'écran */
+}
+
+/* Filtre sombre pour la lisibilité */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 70px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.img-logo {
+    height: 50px;
+    width: auto;
+}
+
+.list-ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 10px;
+}
+
+.list-li {
+    list-style: none;
+    margin: 0;
+    padding: 0 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.list-li a {
+    color: blanchedalmond;
+    padding: 5px 10px;
+    border-left: 2px solid ghostwhite;
+    border-right: 2px solid ghostwhite;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.list-li a:hover {
+    transform: scale(1.1);
+    background-color: red;
+}
+
+/* ===========================
+   BODY / CONTENEUR MAPS
+=========================== */
+.body-index {
+    margin: 10px auto;
+    padding: 15px;
+    max-width: 1400px;
+    height: calc(100vh - 100px); /* Prend l'espace restant sans dépasser */
+    background-color: rgba(20, 20, 20, 0.7);
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.body-index h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+/* ===========================
+   GRILLE DES MAPS (Plus compacte)
+=========================== */
+#maps-container {
+    display: grid;
+    /* Augmente le nombre de colonnes en réduisant la taille min des maps (130px au lieu de 200px) */
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    overflow-y: auto; /* Au cas où il y aurait vraiment trop de maps sur un écran minuscule */
+    max-height: 60vh; 
+}
+
+.map-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.map-card img {
+    width: 100%;
+    height: 90px; /* Hauteur fixe réduite pour tasser les lignes */
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.7);
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.map-name {
+    padding: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ccc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hover basique sur une map */
+.map-card:hover img {
+    filter: brightness(1);
+}
+
+/* ===========================
+   NOUVELLE ESTHÉTIQUE DE SÉLECTION (EFFET GLOW ROUGE)
+=========================== */
+.map-card.selected {
+    transform: scale(1.05);
+    z-index: 2;
+    box-shadow: 0 0 15px 3px rgba(255, 0, 0, 0.8), inset 0 0 15px rgba(255, 0, 0, 0.5);
+    animation: pulse-selection 1.5s infinite alternate;
+}
+
+.map-card.selected img {
+    filter: brightness(1.2) saturate(1.2);
+}
+
+.map-card.selected .map-name {
+    color: #ff3333;
+    background: rgba(20, 0, 0, 0.9);
+    font-weight: bold;
+}
+
+@keyframes pulse-selection {
+    0% {
+        box-shadow: 0 0 12px 2px rgba(255, 0, 0, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.9);
+    }
+}
+
+/* ===========================
+   BOUTON DE TIRAGE & RÉSULTAT
+=========================== */
+.roulette-draw {
+    display: inline-block;
+    margin: 10px auto;
+    padding: 10px 40px;
+    font-size: 1.8rem;
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
     letter-spacing: 1px;
-    border-radius: 4px;
-    }
+}
 
-    /* BOUTON LANCR */
-    .btn-draw-map {
-      display: block; width: 100%; max-width: 350px; margin: 0 auto; padding: 16px;
-      background: #cc0000; color: #fff; border: none; border-radius: 8px;
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 2px;
-      cursor: pointer; transition: background 0.2s, transform 0.15s;
-    }
-    .btn-draw-map:hover { background: #b30000; transform: scale(1.02); }
-    .btn-draw-map:disabled { background: #441111; color: #888; cursor: not-allowed; transform: none; }
+.roulette-draw:hover {
+    transform: scale(1.05);
+    background-color: #cc0000;
+}
 
-    /* ÉCRAN DU RÉSULTAT FINAL RECHERCHÉ */
-    .final-result-container {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: scale(0.7);
-      transition: opacity 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .final-result-container.visible { display: flex; opacity: 1; transform: scale(1); }
+.winner {
+    min-height: 35px;
+    font-size: 1.5rem;
+    color: burlywood;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(255,0,0,0.4);
+}
 
-    .final-map-img-wrap {
-      width: 100%; max-width: 650px;
-      aspect-ratio: 16/9;
-      border: 4px solid #cc0000;
-      border-radius: 16px;
-      box-shadow: 0 0 40px rgba(204, 0, 0, 0.4);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .final-map-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-
-    .final-map-realm { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #fff; letter-spacing: 2px; margin: 0; }
-    .final-map-name { font-family: sans-serif; font-size: 1.2rem; color: #aaa; margin: 5px 0 25px; }
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media screen and (max-width: 768px) {
+    body { overflow-y: auto; }
+    .body-index { height: auto; }
+    #maps-container { max-height: none; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+    .map-card img { height: 70px; }
+}
   </style>
 </head>
 <body>
