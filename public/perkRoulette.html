@@ -671,60 +671,59 @@
     await animateSlots(drawn);
     showBanners(drawn);
 
-    try {
-  // On va chercher les 4 éléments qui ont la classe "perk-card" (ou le container de tes résultats)
-  // et on récupère les textes et les images directement dedans.
-  const perkCards = document.querySelectorAll('.perk-card'); 
+ try {
   const finalPerksSaved = [];
+  
+  // On récupère toutes les images à l'intérieur de tes slots de roulette.
+  // (Ajuste '.slot img' ou '.roulette img' si tes conteneurs ont une autre classe)
+  const perkImages = document.querySelectorAll('.slot img, .roulette img, .perk-card img');
 
-  perkCards.forEach(card => {
-    const nameEl = card.querySelector('.perk-name');
-    const imgEl = card.querySelector('img');
+  perkImages.forEach(img => {
+    let imgSrc = img.getAttribute('src') || '';
+    // On extrait juste le nom du fichier (ex: assets/Perks/Boucher.png -> Boucher.png)
+    let cleanImg = imgSrc.split('/').pop(); 
     
-    if (nameEl) {
-      // On nettoie le chemin de l'image (ex: "assets/perk_icon.png" -> "perk_icon.png")
-      let imgPath = "";
-      if (imgEl && imgEl.getAttribute('src')) {
-        imgPath = imgEl.getAttribute('src').replace('assets/', '');
-      }
-      
+    // On cherche le titre associé. Souvent c'est l'attribut 'alt', 'title' de l'image, 
+    // ou un texte juste à côté dans le même conteneur.
+    let perkName = img.getAttribute('alt') || img.getAttribute('title') || "";
+    
+    // Si pas de alt/title, on cherche un texte dans le parent direct de l'image
+    if (!perkName && img.parentElement) {
+      perkName = img.parentElement.textContent.trim();
+    }
+
+    if (cleanImg && !cleanImg.includes('back') && finalPerksSaved.length < 4) {
       finalPerksSaved.push({
-        name: nameEl.textContent.trim(),
-        img: imgPath
+        name: perkName || cleanImg.replace('.png', '').replace(/_/g, ' '),
+        img: cleanImg
       });
     }
   });
 
-  // Si jamais tes cartes n'utilisent pas la classe ".perk-card", on met une sécurité :
-  // Si le tableau est vide, on crée un historique textuel pour éviter le crash
-  if (finalPerksSaved.length === 0) {
-    console.warn("Classes CSS non trouvées, repli sur une sauvegarde générique.");
+  // Détermination du type (Killer ou Survivor) basée sur l'URL ou une classe de la page
+  let detectedType = "killer";
+  if (window.location.href.toLowerCase().includes('surv') || document.body.classList.contains('survivor')) {
+    detectedType = "survivor";
+  } else if (typeof type !== 'undefined') {
+    detectedType = type;
   }
 
- // === CODE CORRIGÉ ET ADAPTÉ À TES VARIABLES SCRIPT ===
-if (drawnPerks && drawnPerks.length > 0) {
-  // On mappe ton tableau pour extraire uniquement le nom et l'image propre
-  const finalPerksSaved = drawnPerks.map(p => ({
-    name: p.name,
-    img: p.img // p.img contient déjà le bon nom de fichier (ex: "iconPerk.png")
-  }));
-
+  // Envoi au backend
   fetch("/api/draw-and-announce", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify({
       items: ["4 Perks"],
-      characterType: type || "?", // Utilise ta variable globale 'type' (killer/survivor)
+      characterType: detectedType,
       drawMode: "perks",
       img: "", 
-      perks: finalPerksSaved // Envoie le tableau correctement rempli !
+      perks: finalPerksSaved // Envoie le tableau reconstruit dynamiquement
     })
   }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
-}
 
 } catch (error) {
-  console.error("Erreur lors de la préparation de la sauvegarde historique :", error);
+  console.error("Erreur lors de la capture des perks :", error);
 }
 
     isSpinning = false;
