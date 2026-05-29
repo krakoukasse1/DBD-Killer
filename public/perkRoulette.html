@@ -642,6 +642,7 @@
   }
 
   // ── TIRAGE PRINCIPAL ──
+ // ── TIRAGE PRINCIPAL CORRIGÉ ──
   async function draw() {
     if (isSpinning) return;
     const pool = getPool();
@@ -656,6 +657,7 @@
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+    // C'est cette variable 'drawn' qui contient nos 4 compétences !
     const drawn = shuffled.slice(0, 4);
 
     reset(false);
@@ -671,60 +673,34 @@
     await animateSlots(drawn);
     showBanners(drawn);
 
- try {
-  const finalPerksSaved = [];
-  
-  // On récupère toutes les images à l'intérieur de tes slots de roulette.
-  // (Ajuste '.slot img' ou '.roulette img' si tes conteneurs ont une autre classe)
-  const perkImages = document.querySelectorAll('.slot img, .roulette img, .perk-card img');
+    // ========================================================
+    // LOGIQUE DE SAUVEGARDE HISTORIQUE — SÉCURISÉE ET PROPRE
+    // ========================================================
+    try {
+      if (drawn && drawn.length > 0) {
+        // On prépare le tableau pour la base de données
+        const finalPerksSaved = drawn.map(p => ({
+          name: p.name,
+          img: p.img // p.img contient déjà la chaîne correcte, ex: "Perks/BoucherSadique.png"
+        }));
 
-  perkImages.forEach(img => {
-    let imgSrc = img.getAttribute('src') || '';
-    // On extrait juste le nom du fichier (ex: assets/Perks/Boucher.png -> Boucher.png)
-    let cleanImg = imgSrc.split('/').pop(); 
-    
-    // On cherche le titre associé. Souvent c'est l'attribut 'alt', 'title' de l'image, 
-    // ou un texte juste à côté dans le même conteneur.
-    let perkName = img.getAttribute('alt') || img.getAttribute('title') || "";
-    
-    // Si pas de alt/title, on cherche un texte dans le parent direct de l'image
-    if (!perkName && img.parentElement) {
-      perkName = img.parentElement.textContent.trim();
+        // Envoi au backend
+        fetch("/api/draw-and-announce", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            items: ["4 Perks"],
+            characterType: currentType, // Utilise la variable globale 'killer' ou 'survivor'
+            drawMode: "perks",          // Cible l'onglet 'Perks' du profil
+            img: "", 
+            perks: finalPerksSaved      // Envoie le tableau contenant les 4 perks
+          })
+        }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
+      }
+    } catch (error) {
+      console.error("Erreur lors de la sauvegarde des perks :", error);
     }
-
-    if (cleanImg && !cleanImg.includes('back') && finalPerksSaved.length < 4) {
-      finalPerksSaved.push({
-        name: perkName || cleanImg.replace('.png', '').replace(/_/g, ' '),
-        img: cleanImg
-      });
-    }
-  });
-
-  // Détermination du type (Killer ou Survivor) basée sur l'URL ou une classe de la page
-  let detectedType = "killer";
-  if (window.location.href.toLowerCase().includes('surv') || document.body.classList.contains('survivor')) {
-    detectedType = "survivor";
-  } else if (typeof type !== 'undefined') {
-    detectedType = type;
-  }
-
-  // Envoi au backend
-  fetch("/api/draw-and-announce", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      items: ["4 Perks"],
-      characterType: detectedType,
-      drawMode: "perks",
-      img: "", 
-      perks: finalPerksSaved // Envoie le tableau reconstruit dynamiquement
-    })
-  }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
-
-} catch (error) {
-  console.error("Erreur lors de la capture des perks :", error);
-}
 
     isSpinning = false;
     document.getElementById('draw-btn').disabled = false;
