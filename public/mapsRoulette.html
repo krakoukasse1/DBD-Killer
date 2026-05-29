@@ -190,11 +190,10 @@
  drawBtn.addEventListener('click', async () => {
     drawBtn.disabled = true;
     
-    // 0. CHARGEMENT ET CONFIGURATION DU SON
+    // CHARGEMENT ET CONFIGURATION DU SON
     const rollSound = new Audio('assets/Roll.mp3');
-    rollSound.volume = 0.4; // Optionnel : ajuste le volume entre 0.0 et 1.0 si le son est trop fort
+    rollSound.volume = 0.4;
 
-    // On récupère toutes les cartes, et on filtre celles qui sont actives
     const allCards = document.querySelectorAll('.map-card');
     const activeCards = document.querySelectorAll('.map-card:not(.disabled)');
     
@@ -203,16 +202,18 @@
         return;
     }
 
-    // 1. TIRAGE AU SORT DU GAGNANT (Vrai hasard)
+    // 1. TIRAGE AU SORT DU GAGNANT
     const randomActiveCard = activeCards[Math.floor(Math.random() * activeCards.length)];
-    // On trouve son index réel dans la liste globale de toutes les cartes
     const targetIndex = Array.from(allCards).indexOf(randomActiveCard);
 
     // 2. CONFIGURATION DE L'ANIMATION
     let currentIndex = 0;
-    let currentDelay = 50; 
-    const maxDuration = 9000; // ~9 secondes de suspense
+    let currentDelay = 50; // Vitesse rapide constante du début
+    const minDuration = 7000; // Reste à fond pendant au moins 7 secondes
     const startTime = Date.now();
+    let isBraking = false;
+    let stepsToTarget = 0;
+    let initialBrakingSteps = 0;
 
     function tick() {
         // Retirer la surbrillance de toutes les cartes
@@ -221,30 +222,42 @@
         // Allumer la carte actuelle
         allCards[currentIndex].classList.add('highlight');
 
-        // 🔊 JOUER LE SON À CHAQUE CHANGEMENT DE CARTE
-        // Remet le son au début pour permettre le chevauchement rapide des bruits
+        // Jouer le son
         rollSound.currentTime = 0; 
-        rollSound.play().catch(error => {
-            // Sécurité au cas où le navigateur bloque l'audio automatique avant interaction
-            console.log("Lecture audio bloquée ou en attente :", error);
-        });
+        rollSound.play().catch(o => {});
 
         const elapsed = Date.now() - startTime;
 
-        // 3. GESTION DE L'ARRÊT
-        // Si le temps est écoulé ET qu'on vient d'atteindre la carte cible (targetIndex)
-        if (elapsed >= maxDuration && currentIndex === targetIndex) {
-            // ARRÊT DU TIRAGE : La carte actuelle est la vraie gagnante tirée au sort !
-            endAnimation(allCards[currentIndex]);
-            return; 
+        // 3. ENCLENCHEMENT DU FREINAGE SUR LES DERNIERS ÉLÉMENTS
+        if (!isBraking && elapsed >= minDuration) {
+            isBraking = true;
+            // On calcule la distance (le nombre de cartes) qui nous sépare de la cible
+            // On ajoute un tour complet (allCards.length) pour avoir le temps de freiner proprement
+            stepsToTarget = (targetIndex - currentIndex + allCards.length) % allCards.length + allCards.length;
+            initialBrakingSteps = stepsToTarget;
         }
 
-        // Passer à la carte suivante (on tourne en boucle sur TOUTES les cartes)
-        currentIndex = (currentIndex + 1) % allCards.length;
+        // 4. GESTION DE L'ARRÊT ET DE LA VITESSE
+        if (isBraking) {
+            if (stepsToTarget === 0 && currentIndex === targetIndex) {
+                // ARRÊT PILE SUR LA CIBLE
+                endAnimation(allCards[currentIndex]);
+                return; 
+            }
+            
+            // Calcul du ralentissement uniquement basé sur la proximité de la cible
+            // Plus "stepsToTarget" est proche de 0, plus le délai augmente fortement
+            const brakeProgress = 1 - (stepsToTarget / initialBrakingSteps);
+            currentDelay = 50 + Math.pow(brakeProgress, 4) * 750; // Puissance 4 pour un freinage sec sur la fin
+            
+            stepsToTarget--;
+        } else {
+            // Tant qu'on ne freine pas, petite variation aléatoire de vitesse pour casser la monotonie
+            currentDelay = 45 + Math.random() * 10;
+        }
 
-        // Ralentissement progressif
-        const progress = Math.min(elapsed / maxDuration, 1);
-        currentDelay = 50 + Math.pow(progress, 3) * 600;
+        // Passer à la carte suivante
+        currentIndex = (currentIndex + 1) % allCards.length;
 
         setTimeout(tick, currentDelay);
     }
