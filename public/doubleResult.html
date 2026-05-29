@@ -572,17 +572,19 @@
     document.getElementById('charType').textContent = type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
     document.getElementById('charImg').src = character.img;
 
-    fetch('/api/draw-and-announce', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+    // === CODE À RAJOUTER POUR ENREGISTRER LE DOUBLE TIRAGE ===
+    fetch("/api/draw-and-announce", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({
-        items: [character.name],
-        characterType: type,
-        drawMode: 'double',
-        perks: perks.map(p => ({ name: p.name, img: p.img }))
+        items: [character.name], // Le nom du Tueur ou Survivant
+        characterType: type || "?", // "Killer" ou "Survivor"
+        drawMode: "double", // Active l'onglet "Double" dans le profil !
+        img: character.img.split('/').pop(), // Extrait "Marchande.png" proprement
+        perks: perks.map(p => ({ name: p.name, img: p.img })) // Sauvegarde les 4 perks tirées
       })
-    }).catch(() => {});
+    }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
 
     document.getElementById('finalResults').classList.add('visible');
     document.getElementById('resultActions').style.display = 'flex';

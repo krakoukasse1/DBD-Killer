@@ -220,6 +220,9 @@ app.delete('/api/delete-account', requireAuth, async (req, res) => {
 // =====================
 // DRAW & ANNOUNCE
 // =====================
+// =====================
+// DRAW & ANNOUNCE — CORRIGÉ
+// =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
   const items = req.body.items || [];
@@ -250,7 +253,14 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       {
         $push: {
           history: {
-            $each: [{ date: new Date().toLocaleString('fr-FR'), characterType: req.body.characterType || '?', name: drawValue }],
+            $each: [{ 
+              date: new Date().toLocaleString('fr-FR'), 
+              drawMode: req.body.drawMode || 'character', // Sauvegarde le BON mode (character, perks, double)
+              characterType: req.body.characterType || '?', 
+              name: req.body.drawMode === 'perks' ? '4 Perks' : drawValue, // Évite d'écrire "perks" comme un nom de perso
+              img: req.body.img || '', // Sauvegarde le nom exact du fichier image (ex: Marchande.png)
+              perks: req.body.perks || [] // Sauvegarde le tableau des perks tirées
+            }],
             $position: 0, // insertion en début de tableau
             $slice: 50    // garder max 50 entrées
           }

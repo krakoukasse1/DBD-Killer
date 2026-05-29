@@ -171,7 +171,7 @@ function loadCharactersAndStart() {
           winnerContainer.classList.add("visible");
         }
 
-        // FIX : envoi du type de personnage pour l'historique + URLs relatives
+        // FIX : envoi complet pour l'historique avec le nom de l'image d'origine
         fetch("/api/draw-and-announce", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -180,6 +180,7 @@ function loadCharactersAndStart() {
             items: [selectedCharacter.name],
             characterType: characterType || "?",
             drawMode: "character",
+            img: selectedCharacter.img, // Envoie "Marchande.png" (ou l'URL complète si elle vient du localstorage)
             perks: []
           })
         }).catch(err => console.warn("Annonce Twitch échouée (non connecté ?)", err));

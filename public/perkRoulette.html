@@ -671,17 +671,24 @@
     await animateSlots(drawn);
     showBanners(drawn);
 
-    fetch('/api/draw-and-announce', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        items: ['perks'],
-        characterType: currentType,
-        drawMode: 'perks',
-        perks: drawn.map(p => ({ name: p.name, img: p.img }))
-      })
-    }).catch(() => {});
+    // === CODE À RAJOUTER DANS PERKROULETTE POUR SAUVEGARDER ===
+        const finalPerksSaved = selectedPerks.map(p => ({
+          name: p.name,
+          img: p.img
+        }));
+
+        fetch("/api/draw-and-announce", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            items: ["4 Perks"], // Nom générique pour éviter d'écrire "perks"
+            characterType: currentType || "?", // "killer" ou "survivor"
+            drawMode: "perks", // Active l'onglet "Perks" dans le profil !
+            img: "", 
+            perks: finalPerksSaved // Envoie le tableau des 4 perks gagnantes
+          })
+        }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
 
     isSpinning = false;
     document.getElementById('draw-btn').disabled = false;

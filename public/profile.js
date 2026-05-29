@@ -103,89 +103,114 @@ function buildHistory(history) {
     <div id="historyCards"></div>
   `;
 
-  function renderCards(mode) {
-    const wrap = document.getElementById('historyCards');
-    const filtered = mode === 'all' ? history : history.filter(h => (h.drawMode || 'character') === mode);
+  // On récupère la liste globale pour corriger les chemins d'images à la volée si besoin
+  fetch('data.json')
+    .then(r => r.json())
+    .then(data => {
+      const globalImgIndex = {};
+      // On associe le NOM du perso à sa vraie image et son type
+      data.killers.forEach(c => { globalImgIndex[c.name] = { img: c.img, type: 'Killer' }; });
+      data.survivors.forEach(c => { globalImgIndex[c.name] = { img: c.img, type: 'Survivor' }; });
 
-    if (!filtered.length) {
-      wrap.innerHTML = '<p class="history-empty-msg">Aucun tirage dans cette catégorie</p>';
-      return;
-    }
-
-    wrap.innerHTML = '';
-    filtered.forEach(item => {
-      const m = item.drawMode || 'character';
-      const card = document.createElement('div');
-      card.className = 'hcard';
-
-      if (m === 'character') {
-        // Carte personnage simple
-        const imgSrc = item.img
-          ? item.img
-          : (item.characterType === 'Killer'
-              ? `assets/Killer/${item.name}.png`
-              : `assets/Survivor/${item.name}.png`);
-        card.innerHTML = `
-          <div class="hcard-left">
-            <img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">
-            <div>
-              <span class="hcard-mode">🎭 ${item.characterType || '?'}</span>
-              <span class="hcard-name">${item.name}</span>
-              <span class="hcard-date">${item.date}</span>
-            </div>
-          </div>`;
-
-      } else if (m === 'perks') {
-        // Carte perks
-        const perksHTML = (item.perks || []).map(p => {
-          const img = typeof p === 'object' && p.img
-            ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
-            : `<span class="hcard-perk-fallback">⚙️</span>`;
-          const name = typeof p === 'object' ? p.name : p;
-          return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
-        }).join('');
-        card.innerHTML = `
-          <div class="hcard-top">
-            <span class="hcard-mode">⚙️ Perks ${item.characterType || ''}</span>
-            <span class="hcard-date">${item.date}</span>
-          </div>
-          <div class="hcard-perks-row">${perksHTML}</div>`;
-
-      } else if (m === 'double') {
-        // Carte double : perso + perks
-        const imgSrc = item.img || '';
-        const perksHTML = (item.perks || []).map(p => {
-          const img = typeof p === 'object' && p.img
-            ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
-            : `<span class="hcard-perk-fallback">⚙️</span>`;
-          const name = typeof p === 'object' ? p.name : p;
-          return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
-        }).join('');
-        card.innerHTML = `
-          <div class="hcard-left" style="margin-bottom:10px">
-            <img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">
-            <div>
-              <span class="hcard-mode">🎲 Double ${item.characterType || ''}</span>
-              <span class="hcard-name">${item.name}</span>
-              <span class="hcard-date">${item.date}</span>
-            </div>
-          </div>
-          <div class="hcard-perks-row">${perksHTML}</div>`;
+      function getCorrectImgSrc(item) {
+        if (!item.name) return '';
+        // Si la DB a déjà stocké un nom de fichier propre (ex: Marchande.png)
+        if (item.img && item.img.set && (item.img.includes('.png') || item.img.includes('.jpg')) && !item.img.includes(item.name)) {
+          let cleanImg = item.img.split('/').pop();
+          let type = item.characterType === 'Killer' || item.characterType === 'killer' ? 'Killer' : 'Survivor';
+          return `assets/${type}/${cleanImg}`;
+        }
+        // Sinon, on cherche dans le dictionnaire data.json via le nom du personnage
+        const match = globalImgIndex[item.name];
+        if (match) {
+          return `assets/${match.type}/${match.img}`;
+        }
+        return '';
       }
 
-      wrap.appendChild(card);
-    });
-  }
+      function renderCards(mode) {
+        const wrap = document.getElementById('historyCards');
+        const filtered = mode === 'all' ? history : history.filter(h => h.drawMode === mode);
 
-  renderCards('all');
+        if (!filtered.length) {
+          wrap.innerHTML = '<p class="history-empty-msg">Aucun tirage dans cette catégorie</p>';
+          return;
+        }
 
-  container.querySelectorAll('.htab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      renderCards(tab.dataset.mode);
-    });
-  });
+        wrap.innerHTML = '';
+        filtered.forEach(item => {
+          const m = item.drawMode || 'character';
+          const card = document.createElement('div');
+          card.className = 'hcard';
+
+          // Nettoyage de l'affichage du type
+          let displayType = item.characterType ? item.characterType.charAt(0).toUpperCase() + item.characterType.slice(1).toLowerCase() : '?';
+
+          if (m === 'character') {
+            const imgSrc = getCorrectImgSrc(item);
+            card.innerHTML = `
+              <div class="hcard-left">
+                ${imgSrc ? `<img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">` : '<span class="hcard-char-fallback">🎭</span>'}
+                <div>
+                  <span class="hcard-mode">🎭 ${displayType}</span>
+                  <span class="hcard-name">${item.name}</span>
+                  <span class="hcard-date">${item.date}</span>
+                </div>
+              </div>`;
+
+          } else if (m === 'perks') {
+            const perksHTML = (item.perks || []).map(p => {
+              const img = typeof p === 'object' && p.img
+                ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
+                : `<span class="hcard-perk-fallback">⚙️</span>`;
+              const name = typeof p === 'object' ? p.name : p;
+              return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
+            }).join('');
+            
+            card.innerHTML = `
+              <div class="hcard-top">
+                <span class="hcard-mode">⚙️ Perks ${displayType}</span>
+                <span class="hcard-date">${item.date}</span>
+              </div>
+              <div class="hcard-perks-row">${perksHTML}</div>`;
+
+          } else if (m === 'double') {
+            const imgSrc = getCorrectImgSrc(item);
+            const perksHTML = (item.perks || []).map(p => {
+              const img = typeof p === 'object' && p.img
+                ? `<img src="assets/${p.img}" onerror="this.style.display='none'">`
+                : `<span class="hcard-perk-fallback">⚙️</span>`;
+              const name = typeof p === 'object' ? p.name : p;
+              return `<div class="hcard-perk-item">${img}<span>${name}</span></div>`;
+            }).join('');
+            
+            card.innerHTML = `
+              <div class="hcard-left" style="margin-bottom:10px">
+                ${imgSrc ? `<img class="hcard-char-img" src="${imgSrc}" onerror="this.style.display='none'">` : '<span class="hcard-char-fallback">🎲</span>'}
+                <div>
+                  <span class="hcard-mode">🎲 Double ${displayType}</span>
+                  <span class="hcard-name">${item.name}</span>
+                  <span class="hcard-date">${item.date}</span>
+                </div>
+              </div>
+              <div class="hcard-perks-row">${perksHTML}</div>`;
+          }
+
+          wrap.appendChild(card);
+        });
+      }
+
+      renderCards('all');
+
+      container.querySelectorAll('.htab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          container.querySelectorAll('.htab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderCards(tab.dataset.mode);
+        });
+      });
+    })
+    .catch(err => console.error("Erreur lors du rendu de l'historique:", err));
 }
 
 // --- Sauvegarde ---
