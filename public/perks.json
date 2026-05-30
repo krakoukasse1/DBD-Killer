@@ -3,83 +3,143 @@
     "generic": [
       {
         "id": "s_gen_01",
-        "name": "Détermination",
-        "img": "perks/survivor/Determination.png",
+        "name": "Ce n'est pas en Train d'Arriver",
+        "img": "perks/survivor/Cenestpasentraindarriver.png",
         "character": null,
-        "description": "Lorsque tu es en état Mourant, chaque seconde passée dans cet état recharge une progression vers un token. Au maximum 3 tokens. Chaque token est consommé pour ignorer un coup supplémentaire en état Mourant.",
+        "description": "Lorque vous êtes blessé, augmente la zone de succès des test d'habileté de 10/20/30%",
         "type": "survival",
         "buffs": ["Résistance supplémentaire en état Mourant"],
         "debuffs": []
       },
       {
         "id": "s_gen_02",
-        "name": "Emprise",
-        "img": "perks/survivor/Emprise.png",
+        "name": "Déjà-Vu",
+        "img": "perks/survivor/Deja-Vu.png",
         "character": null,
-        "description": "Chaque fois qu'un générateur est terminé, tu bénéficies d'un bonus de vitesse de sprint de 3/4/5% pendant 45 secondes.",
+        "description": "L'aura des 3 générateurs les plus proche est revelé + Augmente votre vitesse de Réparation sur ces Générateurs de 4/5/6 %.",
         "type": "mobility",
-        "buffs": ["Bonus de vitesse après chaque générateur terminé"],
+        "buffs": ["Bonus de vitesse de réparation","Aura des génerateur"],
         "debuffs": []
       },
       {
         "id": "s_gen_03",
-        "name": "Robustesse",
-        "img": "perks/survivor/Robustesse.png",
+        "name": "Resistance",
+        "img": "perks/survivor/Resistance.png",
         "character": null,
-        "description": "Lorsque tu es Blessé, ta vitesse de réparation, de sabotage, de recherche et d'ouverture de coffres est augmentée de 9/12/15%.",
+        "description": "Lorsque tu es Blessé, ta vitesse de réparation, de sabotage, de recherche et d'ouverture de coffres est augmentée de 3/6/9%.",
         "type": "efficiency",
         "buffs": ["Vitesse d'action augmentée quand blessé"],
         "debuffs": []
       },
       {
         "id": "s_gen_04",
-        "name": "Solidarité",
-        "img": "perks/survivor/Solidarite.png",
+        "name": "Espoir",
+        "img": "perks/survivor/Espoir.png",
         "character": null,
-        "description": "Lorsqu'un autre Survivant est soigné à côté de toi, tu récupères 50% de la guérison en même temps.",
-        "type": "healing",
-        "buffs": ["Guérison passive partagée"],
+        "description": "Octroie un Effet de Statut Rapidité lorsque les portes sont alimenté de 5/6/7%",
+        "type": "mobility",
+        "buffs": ["Vitesse augmenté lors de la phase final"],
         "debuffs": []
       },
       {
         "id": "s_gen_05",
-        "name": "Auto-soin",
-        "img": "perks/survivor/AutoSoin.png",
+        "name": "Instinct de Pillard",
+        "img": "perks/survivor/InstinctPillard.png",
         "character": null,
-        "description": "Tu peux te soigner toi-même sans trousse de premiers soins, mais à une vitesse réduite de 50%.",
+        "description": "Vous voyez les coffre et au sol dans un rayon de 32/48/64m et augmente la rareté des objets a l'interieur",
         "type": "healing",
-        "buffs": ["Soin sans trousse possible"],
-        "debuffs": ["Vitesse de soin réduite de 50%"]
+        "buffs": ["Reperage des coffres","Rareté accru"],
+        "debuffs": []
       },
       {
         "id": "s_gen_06",
-        "name": "Sprint Burst",
-        "img": "perks/survivor/SprintBurst.png",
+        "name": "Frisson",
+        "img": "perks/survivor/Frisson.png",
         "character": null,
-        "description": "Lorsque tu commences à courir, tu bénéficies d'un bonus de vitesse de sprint de 150% pendant 3 secondes. Récupération de 60/50/40 secondes.",
-        "type": "mobility",
-        "buffs": ["Burst de vitesse au départ en course"],
+        "description": "Lorsque le tueur est a 36m, la perk s'active, si le tueur regarde vers vous augmente la vitesse de toutes les actions de 2/4/6% et persiste 0,5s",
+        "type": "information",
+        "buffs": ["Information de la présence du tueur","Vitesse d'actions augmenté"],
         "debuffs": ["Longue récupération"]
       },
       {
         "id": "s_gen_07",
-        "name": "Sauts de puce",
-        "img": "perks/survivor/SautsDePuce.png",
+        "name": "Lien avec l'Obsession",
+        "img": "perks/survivor/LienObsession.png",
         "character": null,
-        "description": "Tu peux traverser les fenêtres et sauter par-dessus les palettes 30% plus vite. Cette perk se désactive après 3/3/3 utilisations.",
-        "type": "mobility",
-        "buffs": ["Vault rapide"],
-        "debuffs": ["Limité à 3 utilisations"]
+        "description": "Chaque fois que le Tueur lit votre Aura, l'Aura du tueur vous est revelé et votre vitesse de soins, réparation et purification est augmenté de 2/4/6%. Si vous êtes l'obsession actuelle du Tueur, l'effet suivant se déclenche automatiquement toutes les 30 secondes et votre aura est revelé au tueur pendant 3s",
+        "type": "information",
+        "buffs": ["Information sur les perk du tueur","Vitesse d'action augmenté","Aura du tueur revelé"],
+        "debuffs": ["Votre aura est revelé potentiellement toutes les 30s"]
       },
       {
         "id": "s_gen_08",
-        "name": "Coup de pied bien placé",
-        "img": "perks/survivor/CoupDePiedBienPlace.png",
+        "name": "Nous Y Arriverons",
+        "img": "perks/survivor/NousYArriverons.png",
         "character": null,
-        "description": "Après avoir été libéré ou t'être libéré d'un crochet, tu peux effectuer une action de sabotage rapide sans outil, immobilisant le Tueur pendant 2,5/3/3,5 secondes.",
-        "type": "anti-killer",
-        "buffs": ["Immobilise le tueur après unhook"],
+        "description": "Lorsque vous sauvez un Survivant d'un Crochet, votre Vitesse de Soins lorsque vous soignez les autres est augmentée de 100 % pendant les 30/60/90 secondes.",
+        "type": "survival",
+        "buffs": ["Soins grandement augmenté"],
         "debuffs": []
+      },
+       {
+        "id": "s_gen_09",
+        "name": "On n'Abandonne Personne",
+        "img": "perks/survivor/OnAbandonnePersonne.png",
+        "character": null,
+        "description": "Revele l'Aura de tous les survivants, augmente votre vitesse de Décrochage et de Soins de 50/75/100 et donne au survivant decroché 7% de Rapidité pendant 10s lorsque les portes sont alimenté",
+        "type": "survival",
+        "buffs": ["Aura des survivants","Vitesse de décrochage augmenté"],
+        "debuffs": ["Uniquement a la fin de la partie"]
+      },
+       {
+        "id": "s_gen_10",
+        "name": "Nous Y Arriverons",
+        "img": "perks/survivor/NousYArriverons.png",
+        "character": null,
+        "description": "Lorsque vous sauvez un Survivant d'un Crochet, votre Vitesse de Soins lorsque vous soignez les autres est augmentée de 100 % pendant les 30/60/90 secondes.",
+        "type": "survival",
+        "buffs": ["Soins grandement augmenté"],
+        "debuffs": []
+      }, 
+      {
+        "id": "s_gen_11",
+        "name": "Petit Gibier",
+        "img": "perks/survivor/PetitGibier.png",
+        "character": null,
+        "description": "Recevez un avertissement sonore quand vous regardez dans la direction de Totems dans un cône de 45 ° et dans un rayon de 8/10/12 mètres avec un délai de 14/12/10s a chaque utilisation",
+        "type": "information",
+        "buffs": ["Indication d'un totem a proximité"],
+        "debuffs": ["N'indique pas l'aura du totem"]
+      },
+      {
+        "id": "s_gen_12",
+        "name": "Poids Plume",
+        "img": "perks/survivor/PoidsPlume.png",
+        "character": null,
+        "description": "Réduit la durée de visibilité de vos Marques d'Éraflure de 3/4/5s et les rend plus confuse",
+        "type": "survival",
+        "buffs": ["Piste plus difficile a suivre pour le Tueur"],
+        "debuffs": [""]
+      },
+      {
+        "id": "s_gen_13",
+        "name": "Prémonition",
+        "img": "perks/survivor/Premonition.png",
+        "character": null,
+        "description": "Recevez un avertissement sonore quand vous regardez dans la direction du Tueur dans un cône de 45 ° et dans un rayon de 36 mètres avec un delai de recuperation de 60/45/30s",
+        "type": "information",
+        "buffs": ["Information de la présence du tueur"],
+        "debuffs": ["Delai de recuperation","Pas très précis"]
+      },
+      {
+        "id": "s_gen_14",
+        "name": "Viande Glissante",
+        "img": "perks/survivor/ViandeGlissante.png",
+        "character": null,
+        "description": "Accorde 3 tentatives supplémentaires pour se libérer soi-même d'un Crochet et vos chances d'évasion d'un Crochet sont augmentées de 2/3/4 %",
+        "type": "survival",
+        "buffs": ["Augmentation du nombre de tentative de décrochage","Possibilité de décrochage en P1 contournant le systeme anti-suicide"],
+        "debuffs": ["Uniquement pour la P1","ne garantis pas le décrochage"]
       }
     ],
     "characters": [
@@ -683,52 +743,102 @@
       },
       {
         "id": "k_gen_03",
-        "name": "Terrain miné",
-        "img": "perks/killer/TerrainMine.png",
+        "name": "Espions de l'Ombre ",
+        "img": "perks/killer/EspionOmbre.png",
         "character": null,
-        "description": "Génère 2/3/4 traquenards au début de la partie autour de générateurs aléatoires. Un Survivant déclenchant un traquenard révèle son Aura pendant 5 secondes.",
+        "description": "À chaque fois que vous vous trouvez dans un rayon de 20/28/36 mètres d'un Corbeau qui a été effrayé par un Survivant proche, vous êtes alerté par un Fort Bruit d'Alerte.",
         "type": "information",
-        "buffs": ["Traquenards au départ", "Révèle les survivants pris au piège"],
+        "buffs": ["Alerte d'un survivant proche"],
         "debuffs": []
       },
       {
         "id": "k_gen_04",
-        "name": "Nécromancien",
-        "img": "perks/killer/Necromancien.png",
+        "name": "Espoir Brisé",
+        "img": "perks/killer/EspoirBrise.png",
         "character": null,
-        "description": "Lorsqu'un générateur est terminé, les Auras de tous les Survivants sont révélées pendant 5 secondes.",
+        "description": "Chaque fois que vous éteignez un Totem de Bénédiction il est détruit a la place et vous voyez les survivants dans son aura pendant 6/7/8s",
         "type": "information",
         "buffs": ["Vision de tous les survivants après chaque générateur terminé"],
         "debuffs": []
       },
       {
         "id": "k_gen_05",
-        "name": "Esprit de vengeance",
-        "img": "perks/killer/EspritDeVengeance.png",
+        "name": "Implacable",
+        "img": "perks/killer/Implacable.png",
         "character": null,
-        "description": "Lorsqu'un Survivant t'aveugle avec une lampe de poche ou t'étourdit avec une palette, tu gains un token. Chaque token donne 3% de vitesse de mouvement (max 3 tokens).",
+        "description": "Le temps de récupération de vos Attaques de Base ratées est réduit de 20/25/30 %. ",
         "type": "mobility",
-        "buffs": ["Vitesse augmentée après étourdissement"],
+        "buffs": ["Vitesse augmentée après coup raté"],
         "debuffs": []
       },
       {
         "id": "k_gen_06",
-        "name": "Discordance",
-        "img": "perks/killer/Discordance.png",
+        "name": "Inquiétant",
+        "img": "perks/killer/Inquietant.png",
         "character": null,
-        "description": "Lorsque 2 Survivants ou plus réparent le même générateur, le générateur est mis en surbrillance en jaune pendant 20 secondes. Peut être déclenché une fois toutes les 20/15/10 secondes.",
-        "type": "information",
-        "buffs": ["Détecte les groupes de réparateurs"],
-        "debuffs": []
+        "description": "Votre Rayon de Terreur est étendu de 20/25/30 %",
+        "type": "chase",
+        "buffs": ["Augmente votre rayon de terreur","Utile avec des combo comme Clownorophobie"],
+        "debuffs": ["Moins discret"]
       },
       {
         "id": "k_gen_07",
-        "name": "Surveillance",
-        "img": "perks/killer/Surveillance.png",
+        "name": "Insidieux",
+        "img": "perks/killer/Insidieux.png",
         "character": null,
-        "description": "Après avoir été à moins de 32 mètres d'un générateur pendant 30 secondes, tu entends un son de régression. Les générateurs dont tu t'éloignes continuent à régresser.",
-        "type": "map-control",
-        "buffs": ["Régression améliorée des générateurs"],
+        "description": "Octroie l'Effet de Statut Indétectable après être resté immobile pendant 3/2/1 seconde(s). ",
+        "type": "stealth",
+        "buffs": ["Indetectable"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_08",
+        "name": "Murmure Amer",
+        "img": "perks/killer/MurmureAmer.png",
+        "character": null,
+        "description": "Chaque fois qu'un Générateur est complètement réparé, l'Aura des Survivants situés dans un rayon de 16 mètres du Générateur vous est révélée pendant 5 secondes. Quand le dernier Générateur est complètement réparé, l'Aura de tous les Survivants vous est révélée pendant 5/7/10 secondes. ",
+        "type": "information",
+        "buffs": ["Empêche la régression des générateurs après un touché"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_09",
+        "name": "Murmures",
+        "img": "perks/killer/Murmures.png",
+        "character": null,
+        "description": "Lorsqu'au moins un Survivant se trouve dans un rayon de 48/40/32 mètres de votre position, vous entendez sporadiquement le murmure de l'Entité",
+        "type": "information",
+        "buffs": ["Detecte les survivants a proximité"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_10",
+        "name": "Pisteur",
+        "img": "perks/killer/Pisteur.png",
+        "character": null,
+        "description": "L'Aura des Survivants qui sont en État Critique vous est révélée lorsqu'ils se trouvent dans un rayon de 20/28/36 mètres autour de vous. ",
+        "type": "information",
+        "buffs": ["Aura des survivants a terre"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_11",
+        "name": "Poigne de Fer",
+        "img": "perks/killer/PoigneFer.png",
+        "character": null,
+        "description": "Après avoir touché un Survivant en cours de poursuite, les générateurs ne régressent pas pendant 16/18/20 secondes.",
+        "type": "anti-gen",
+        "buffs": ["Empêche la régression des générateurs après un touché"],
+        "debuffs": []
+      },
+      {
+        "id": "k_gen_08",
+        "name": "Persistance",
+        "img": "perks/killer/Persistance.png",
+        "character": null,
+        "description": "Après avoir touché un Survivant en cours de poursuite, les générateurs ne régressent pas pendant 16/18/20 secondes.",
+        "type": "anti-gen",
+        "buffs": ["Empêche la régression des générateurs après un touché"],
         "debuffs": []
       },
       {
@@ -741,6 +851,7 @@
         "buffs": ["Empêche la régression des générateurs après un touché"],
         "debuffs": []
       }
+      
     ],
     "characters": [
       {

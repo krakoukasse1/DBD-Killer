@@ -5,31 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DBD Gen Simulator</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
   <style>
-    :root { --dbd-red: #ff0000; --qte-size: 220px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root { 
+      --dbd-red: #ff0000; 
+      --qte-size: 220px; 
+    }
 
+    body {
+      background-color: #0c0d0f;
+      color: #fff;
+      font-family: "Arial Narrow", Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER STYLE (Simulation) */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .img-logo { height: 35px; opacity: 0.8; }
+    .list-ul { display: flex; list-style: none; gap: 15px; align-items: center; }
+    .list-li a { color: #aaa; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .list-li a:hover { color: #fff; }
+    .twitch-button { display: flex; align-items: center; gap: 5px; background: #6441a5; padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; }
+
+    /* SIMULATOR MAIN PAGE */
     .sim-page {
       display: flex; flex-direction: column; align-items: center;
-      justify-content: flex-start; padding: 40px 20px 80px; gap: 36px; min-height: 100vh;
+      justify-content: flex-start; padding: 40px 20px 80px; gap: 36px; flex: 1;
     }
 
     .sim-hero { text-align: center; }
-    .sim-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 6px; }
+    .sim-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 6px; }
     .sim-hero h1 span { color: #cc0000; }
     .sim-hero p { font-family: sans-serif; font-size: 0.82rem; color: rgba(200,200,200,0.4); letter-spacing: 1px; }
 
     /* STATS */
     .stats-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-    .stat-pill { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 20px; text-align: center; min-width: 80px; }
-    .stat-pill .val { font-size: 1.6rem; color: #fff; letter-spacing: 1px; display: block; }
+    .stat-pill { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 20px; text-align: center; min-width: 90px; }
+    .stat-pill .val { font-size: 1.6rem; color: #fff; letter-spacing: 1px; display: block; font-weight: bold; }
     .stat-pill .lbl { font-family: sans-serif; font-size: 0.62rem; color: rgba(200,200,200,0.35); letter-spacing: 1.5px; text-transform: uppercase; }
 
     /* REPAIR BAR */
     .repair-container { width: min(480px, 90vw); }
     .repair-label { font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 8px; display: flex; justify-content: space-between; color: #aaa; }
-    .repair-bar-bg { width: 100%; height: 12px; background: rgba(40,40,40,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden; }
-    .repair-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #800, var(--dbd-red)); box-shadow: 0 0 14px rgba(255,0,0,0.5); border-radius: 6px; transition: background 0.15s; }
+    .repair-bar-bg { width: 100%; height: 16px; background: linear-gradient(180deg, #18191d 0%, #0c0d0f 28%, #0c0d0f 72%, #20222a 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; position: relative; }
+    .repair-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #800, var(--dbd-red)); box-shadow: 0 0 14px rgba(255,0,0,0.5); transition: width 0.04s linear; }
     .repair-bar-fill.regressing { background: linear-gradient(90deg, #440, #ff6600); box-shadow: 0 0 14px rgba(255,100,0,0.5); }
 
     /* PISTONS */
@@ -37,57 +67,65 @@
       display: flex; gap: 20px; align-items: flex-end; justify-content: center;
       padding: 16px 24px; background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
+      width: min(480px, 90vw);
     }
     .piston-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .piston-label { font-family: sans-serif; font-size: 0.6rem; color: rgba(200,200,200,0.3); letter-spacing: 1px; text-transform: uppercase; }
     .piston-track { width: 20px; height: 64px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; position: relative; overflow: hidden; }
     .piston-rod { position: absolute; width: 12px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #999, #555); border-radius: 3px; height: 28px; top: 4px; }
+    
+    /* Animations de pistons déclenchées par JS */
     .piston-rod.slow { animation: piston-move 0.85s ease-in-out infinite; }
     .piston-rod.fast { animation: piston-move 0.35s ease-in-out infinite; }
     .piston-col:nth-child(2) .piston-rod { animation-delay: 0.17s; }
-    .piston-col:nth-child(3) .piston-rod { animation-delay: 0s; }
     .piston-col:nth-child(4) .piston-rod { animation-delay: 0.17s; }
+    .piston-col:nth-child(7) .piston-rod { animation-delay: 0.3s; }
+    .piston-col:nth-child(9) .piston-rod { animation-delay: 0.3s; }
+    
     @keyframes piston-move { 0%,100% { top: 4px; } 50% { top: calc(100% - 32px); } }
     .piston-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.08); transition: background 0.3s; }
     .piston-dot.active { background: #cc0000; box-shadow: 0 0 6px rgba(200,0,0,0.7); }
 
-    /* QTE */
+    /* SKILL CHECK (QTE MODIFIÉ CANVAS) */
     .qte-wrapper {
       position: relative; width: var(--qte-size); height: var(--qte-size);
       display: flex; align-items: center; justify-content: center;
       visibility: hidden; opacity: 0; transition: opacity 0.15s;
     }
     .qte-wrapper.active { visibility: visible; opacity: 1; }
-    .qte-circle-base { position: absolute; width: 100%; height: 100%; border: 4px solid rgba(255,255,255,0.1); border-radius: 50%; box-sizing: border-box; }
-    .qte-svg { position: absolute; transform: rotate(-90deg); width: 100%; height: 100%; }
-    .zone-good-border { fill: none; stroke: white;   stroke-width: 14; }
-    .zone-good-bg     { fill: none; stroke: #050505; stroke-width: 10; }
-    .zone-excellent   { fill: none; stroke: white;   stroke-width: 14; }
-    .needle { position: absolute; width: 3px; height: 50%; background: var(--dbd-red); bottom: 50%; left: calc(50% - 1.5px); transform-origin: bottom center; z-index: 20; box-shadow: 0 0 10px red; }
-    .qte-center { width: 88px; height: 44px; border: 2px solid rgba(255,255,255,0.35); border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); font-size: 1.3rem; z-index: 30; }
-    .feedback { position: absolute; top: -48px; font-size: 1.8rem; font-weight: bold; text-shadow: 2px 2px 4px black; pointer-events: none; opacity: 0; white-space: nowrap; }
-    .feedback.show { animation: popFeedback 0.65s ease-out forwards; }
-    @keyframes popFeedback { 0%{opacity:0;transform:scale(0.5)} 40%{opacity:1;transform:scale(1.2)} 100%{opacity:0;transform:translateY(-24px)} }
+    #scCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .qte-center { width: 88px; height: 44px; border: 2px solid rgba(255,255,255,0.35); border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); font-size: 1.1rem; font-weight: bold; z-index: 30; letter-spacing: 1px; }
+    
+    /* FEEDBACK TEXT */
+    .feedback { position: absolute; top: -48px; font-size: 1.8rem; font-weight: bold; text-shadow: 2px 2px 4px black; pointer-events: none; opacity: 0; white-space: nowrap; z-index: 40; }
+    .feedback.show { animation: popFeedback 0.85s ease-out forwards; }
+    .feedback.great { color: #f5d84a; }
+    .feedback.good { color: #d4cdb8; }
+    .feedback.miss { color: #c04030; }
+    
+    @keyframes popFeedback { 0%{opacity:0;transform:scale(0.5)} 30%{opacity:1;transform:scale(1.1)} 100%{opacity:0;transform:translateY(-30px)} }
 
-    /* BOUTONS */
+    /* CONTROLS */
     .sim-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .sim-btn { padding: 14px 32px; border-radius: 9px; font-family: 'Bebas Neue',sans-serif; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; border: none; transition: all 0.2s; }
+    .sim-btn { padding: 14px 32px; border-radius: 9px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; border: none; transition: all 0.2s; text-transform: uppercase; }
     .sim-btn.start { background: red; color: #fff; box-shadow: 0 4px 20px rgba(200,0,0,0.25); }
     .sim-btn.start:hover { background: #cc0000; transform: scale(1.03); }
     .sim-btn.reset { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
     .sim-btn.reset:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
     .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
-    /* SUCCÈS */
+    /* SUCCÈS / ACHIEVEMENTS */
     .achievements-wrap { width: min(720px, 90vw); }
-    .achievements-title { font-size: 1.2rem; color: #fff; letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .achievements-title { font-size: 1.2rem; color: #fff; letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); font-family: 'Bebas Neue', sans-serif; }
     .achievements-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
     @media(max-width:600px){ .achievements-grid { grid-template-columns: 1fr 1fr; } }
-    .ach { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; transition: border-color 0.4s, background 0.4s; }
+    
+    .ach { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; transition: all 0.4s; }
     .ach.unlocked { border-color: rgba(255,180,0,0.45); background: rgba(255,180,0,0.07); }
     .ach-icon { font-size: 1.4rem; flex-shrink: 0; filter: grayscale(1); transition: filter 0.4s; }
     .ach.unlocked .ach-icon { filter: grayscale(0); }
-    .ach-name { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; transition: color 0.4s; display: block; }
+    .ach-text { display: flex; flex-direction: column; }
+    .ach-name { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; font-weight: bold; transition: color 0.4s; }
     .ach.unlocked .ach-name { color: #fff; }
     .ach-desc { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.25); line-height: 1.4; transition: color 0.4s; }
     .ach.unlocked .ach-desc { color: rgba(200,200,200,0.55); }
@@ -95,9 +133,9 @@
     /* OVERLAY FIN */
     .end-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 18px; backdrop-filter: blur(6px); }
     .end-overlay.show { display: flex; }
-    .end-overlay h2 { font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
+    .end-overlay h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
     .end-overlay h2 span { color: #00cc44; }
-    .end-time { font-size: 2.2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; }
+    .end-time { font-size: 2.2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; font-weight: bold; }
     .end-sub { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.5); letter-spacing: 1px; }
 
     /* TOAST */
@@ -109,20 +147,16 @@
 
 <header>
   <div class="header-left">
-    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
-    <p>Roulette DBD</p>
+    <img class="img-logo" src="https://via.placeholder.com/35" alt="Logo">
+    <p style="letter-spacing: 1px; font-weight: bold;">Roulette DBD</p>
   </div>
-  <div class="menu-toggle">☰</div>
   <ul class="list-ul">
-    <li class="list-li"><a href="index.html">Accueil</a></li>
-    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
-    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
-    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
-    <li class="list-li"><a href="bonus.html">Bonus</a></li>
-    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li"><a href="#">Accueil</a></li>
+    <li class="list-li"><a href="#">Liste tueurs</a></li>
+    <li class="list-li"><a href="#">Liste survivants</a></li>
+    <li class="list-li"><a href="#">Bonus</a></li>
     <li class="list-li">
       <div id="twitch-btn" class="twitch-button">
-        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
         <span>Connexion Twitch</span>
       </div>
     </li>
@@ -134,7 +168,7 @@
 <div class="end-overlay" id="endOverlay">
   <h2>GEN <span>TERMINÉE</span> !</h2>
   <div class="end-time" id="endTime">0:00</div>
-  <div class="end-sub" id="endSub"></div>
+  <div class="end-sub" id="endSub">Félicitations, les portes de sortie sont alimentées !</div>
   <button class="sim-btn start" id="endRestartBtn" style="margin-top:8px">↻ Recommencer</button>
 </div>
 
@@ -162,22 +196,19 @@
     </div>
   </div>
 
-  <!-- PISTONS (8 pistons = 4 paires, comme un V8) -->
   <div class="pistons-wrap" style="flex-direction:column; gap:10px;">
-    <!-- Label faces -->
     <div style="display:flex; justify-content:space-between; width:100%; padding:0 4px;">
       <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face arrière</span>
       <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face avant</span>
     </div>
-    <!-- Rangée 1 : face arrière (P1-P4) -->
-    <div style="display:flex; gap:12px; align-items:flex-end; justify-content:center;">
+    <div style="display:flex; gap:12px; align-items:flex-end; justify-content:center; width:100%;">
       <div class="piston-col">
         <div class="piston-label">P1</div>
         <div class="piston-track"><div class="piston-rod" id="rod0"></div></div>
         <div class="piston-dot" id="dot0"></div>
       </div>
       <div class="piston-col">
-        <div class="piston-label">P1</div>
+        <div class="piston-label">P1b</div>
         <div class="piston-track"><div class="piston-rod" id="rod0b"></div></div>
         <div class="piston-dot" id="dot0b"></div>
       </div>
@@ -188,7 +219,7 @@
         <div class="piston-dot" id="dot1"></div>
       </div>
       <div class="piston-col">
-        <div class="piston-label">P2</div>
+        <div class="piston-label">P2b</div>
         <div class="piston-track"><div class="piston-rod" id="rod1b"></div></div>
         <div class="piston-dot" id="dot1b"></div>
       </div>
@@ -199,7 +230,7 @@
         <div class="piston-dot" id="dot2"></div>
       </div>
       <div class="piston-col">
-        <div class="piston-label">P3</div>
+        <div class="piston-label">P3b</div>
         <div class="piston-track"><div class="piston-rod" id="rod2b"></div></div>
         <div class="piston-dot" id="dot2b"></div>
       </div>
@@ -210,23 +241,16 @@
         <div class="piston-dot" id="dot3"></div>
       </div>
       <div class="piston-col">
-        <div class="piston-label">P4</div>
+        <div class="piston-label">P4b</div>
         <div class="piston-track"><div class="piston-rod" id="rod3b"></div></div>
         <div class="piston-dot" id="dot3b"></div>
       </div>
     </div>
   </div>
 
-  <!-- QTE -->
   <div class="qte-wrapper" id="qteWrapper">
     <div class="feedback" id="feedback">EXCELLENT</div>
-    <div class="qte-circle-base"></div>
-    <svg class="qte-svg" viewBox="0 0 220 220">
-      <circle class="zone-good-border" cx="110" cy="110" r="100" id="svgGoodBorder" stroke-dasharray="0 629" stroke-dashoffset="0"/>
-      <circle class="zone-good-bg"     cx="110" cy="110" r="100" id="svgGoodBg"     stroke-dasharray="0 629" stroke-dashoffset="0"/>
-      <circle class="zone-excellent"   cx="110" cy="110" r="100" id="svgExcellent"  stroke-dasharray="0 629" stroke-dashoffset="0"/>
-    </svg>
-    <div class="needle" id="needle"></div>
+    <canvas id="scCanvas" width="220" height="220"></canvas>
     <div class="qte-center">SPACE</div>
   </div>
 
@@ -242,384 +266,369 @@
 
 </main>
 
-<script src="header.js"></script>
 <script>
 (function(){
+  // ── CONFIGURATION & VARIABLES GLOBALES ──
+  const TOTAL_MS = 90000; // 90 secondes pour faire une gen seul standard
+  const SC_INTERVAL_MS = 4500; // Fréquence de test des QTE (toutes les 4.5s environ)
+  
+  let running = false;
+  let startTime = null;
+  let savedElapsed = 0; 
+  let elapsed = 0;
+  let lastSCTime = 0;
+  let timerInterval = null;
+  let globalSeconds = 0;
+  let raf = null;
 
-  const S = 'assets/sounds/';
+  // Stats Counters
+  let countSuccess = 0;
+  let countGreat = 0;
+  let countFail = 0;
 
-  /* ══ SYSTÈME AUDIO EN COUCHES ══ */
+  // Éléments du DOM
+  const genProgress = document.getElementById('genProgress');
+  const percentText = document.getElementById('percentText');
+  const repairLabel = document.getElementById('repairLabel');
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const endOverlay = document.getElementById('endOverlay');
+  const endTime = document.getElementById('endTime');
+  const endRestartBtn = document.getElementById('endRestartBtn');
+  const feedback = document.getElementById('feedback');
 
-  // Couche 1 : Pistons (4 fichiers joués en boucle à des intervalles calculés)
-  // Chaque piston est un Audio indépendant en loop
-  const pistonAudios = [
-    new Audio(S + 'Piston_Low.mp3'),     // P1 — slow au début
-    new Audio(S + 'Piston_Medium.mp3'),  // P2
-    new Audio(S + 'Piston_1Fast.mp3'),   // P3
-    new Audio(S + 'Piston2_Fast.mp3'),   // P4
+  const statTime = document.getElementById('statTime');
+  const statSuccess = document.getElementById('statSuccess');
+  const statGreat = document.getElementById('statGreat');
+  const statFail = document.getElementById('statFail');
+
+  // SUCCÈS DONNÉES
+  const achievements = [
+    { id: 'first_great', name: 'Technicien Né', desc: 'Réussir une excellente vérification.', icon: '🛠️', unlocked: false },
+    { id: 'no_errors', name: 'Pro du Moteur', desc: 'Atteindre 50% sans rater un seul QTE.', icon: '⚡', unlocked: false },
+    { id: 'gen_done', name: 'Ingénieur de l\'Ombre', desc: 'Terminer entièrement la génératrice.', icon: '🏆', unlocked: false }
   ];
 
-  // Couche 2 : Cliquetis aléatoires (fil de réparation)
-  const cliquetis = [
-    new Audio(S + 'Cliquet_Song.mp3'),
-    new Audio(S + 'Cliquet_Song2.mp3'),
-  ];
-
-  // Sons événementiels
-  const sndStart  = new Audio(S + 'Generator_Starting.mp3');
-  const sndDone   = new Audio(S + 'gen_complete.mp3');
-  const sndQteIn  = new Audio(S + 'QTE_Entree.mp3');
-  const sndGreat  = new Audio(S + 'QTE_Parfait.mp3');
-  const sndGood   = new Audio(S + 'QTE_Good.mp3');
-  const sndFail   = new Audio(S + 'QTE_Failed.mp3');
-
-  // Config volumes
-  pistonAudios.forEach(a => { a.loop = true; a.volume = 0; });
-  cliquetis.forEach(a => { a.volume = 0.5; });
-  sndStart.volume = 0.7; sndDone.volume = 0.9;
-  sndQteIn.volume = 0.6; sndGreat.volume = 0.7;
-  sndGood.volume  = 0.6; sndFail.volume  = 0.8;
-
-  // Paliers pistons — volumes et vitesses calés sur DBD
-  // En jeu : chaque paire ajoute une couche sonore, le tout monte en densité
-  // slowRate ~0.6x = son grave lent, fastRate monte jusqu'à 1.15x sur P4
-  // Les volumes s'accumulent : P1 est la base, P2-P4 s'ajoutent par-dessus
-  const PISTON_CONFIG = [
-    // P1 : piston de base, arrière — démarre grave et lent, devient la fondation
-    { start: 0.1,  fast: 25,  audio: pistonAudios[0], slowVol: 0.3,  fastVol: 0.55, slowRate: 0.6,  fastRate: 0.95 },
-    // P2 : s'ajoute à 25%, légèrement plus aigu
-    { start: 25.1, fast: 50,  audio: pistonAudios[1], slowVol: 0.25, fastVol: 0.5,  slowRate: 0.65, fastRate: 1.0  },
-    // P3 : à 50%, le générateur commence à vrombir sérieusement
-    { start: 50.1, fast: 75,  audio: pistonAudios[2], slowVol: 0.25, fastVol: 0.5,  slowRate: 0.65, fastRate: 1.05 },
-    // P4 : avant du générateur — dernier à démarrer, vitesse max
-    { start: 75.1, fast: 100, audio: pistonAudios[3], slowVol: 0.22, fastVol: 0.45, slowRate: 0.65, fastRate: 1.15 },
-  ];
-
-  function updatePistonAudio(progress) {
-    PISTON_CONFIG.forEach((cfg, i) => {
-      const a = cfg.audio;
-      if (progress < cfg.start) {
-        // Inactif → fade out rapide
-        a.volume = Math.max(0, a.volume - 0.03);
-        if (a.volume === 0) { a.pause(); a.currentTime = 0; }
-      } else if (progress < cfg.fast) {
-        // Slow — fade in progressif
-        if (a.paused) { a.play().catch(()=>{}); }
-        a.volume       = Math.min(cfg.slowVol, a.volume + 0.008);
-        a.playbackRate = cfg.slowRate;
-        // Transition douce slow→fast basée sur position dans la plage
-        const t = (progress - cfg.start) / (cfg.fast - cfg.start);
-        a.playbackRate = cfg.slowRate + (cfg.fastRate - cfg.slowRate) * t * 0.3;
-      } else {
-        // Fast — volume plein + légère montée de pitch selon progression globale
-        if (a.paused) { a.play().catch(()=>{}); }
-        a.volume       = Math.min(cfg.fastVol, a.volume + 0.012);
-        // Pitch monte très légèrement avec la progression (0% → +8% max)
-        const extra = (progress - cfg.fast) / (100 - cfg.fast) * 0.08;
-        a.playbackRate = Math.min(cfg.fastRate + extra, cfg.fastRate + 0.08);
-      }
+  // ── INITIALISATION DES SUCCÈS ──
+  const achGrid = document.getElementById('achievementsGrid');
+  function renderAchievements() {
+    achGrid.innerHTML = '';
+    achievements.forEach(ach => {
+      achGrid.innerHTML += `
+        <div class="ach ${ach.unlocked ? 'unlocked' : ''}" id="ach-${ach.id}">
+          <div class="ach-icon">${ach.icon}</div>
+          <div class="ach-text">
+            <span class="ach-name">${ach.name}</span>
+            <span class="ach-desc">${ach.desc}</span>
+          </div>
+        </div>
+      `;
     });
   }
+  renderAchievements();
 
-  function stopAllPistons() {
-    pistonAudios.forEach(a => { a.pause(); a.currentTime = 0; a.volume = 0; });
-  }
-
-  // Cliquetis aléatoires — plus fréquents quand la gen avance (comme dans DBD)
-  let cliquetisTimeout = null;
-  function scheduleCliquetis() {
-    if (!running) return;
-    // Fréquence : 5-8s au début, 2-4s à 75%+
-    const baseDelay = progress > 75 ? 2000 : progress > 50 ? 3000 : progress > 25 ? 4000 : 5000;
-    const delay = baseDelay + Math.random() * 2000;
-    cliquetisTimeout = setTimeout(() => {
-      if (!running) return;
-      const snd = cliquetis[Math.floor(Math.random() * cliquetis.length)];
-      // Volume qui monte avec la progression
-      snd.volume = 0.3 + (progress / 100) * 0.35;
-      snd.currentTime = 0;
-      snd.play().catch(()=>{});
-      scheduleCliquetis();
-    }, delay);
-  }
-
-  function play(snd) {
-    try {
-      // Cloner le noeud audio pour permettre plusieurs lectures simultanées
-      // et éviter les problèmes de currentTime sur un son déjà en cours
-      const clone = snd.cloneNode();
-      clone.volume = snd.volume;
-      clone.play().catch(e => console.warn('Audio play failed:', e));
-    } catch(e) { console.warn('Audio error:', e); }
-  }
-
-  /* ══ CONSTANTES DBD ══ */
-  const REPAIR_TIME_MS = 90000;
-  const NEEDLE_SPEED   = 1.8;  // DBD vanilla ~1 tour en 3.3s à 60fps
-  const QTE_DELAY_MIN  = 18000;
-  const QTE_DELAY_MAX  = 30000;
-  const REGRESSION_PCT = 5;
-  const GREAT_SIZE_DEG = 10;
-  const GOOD_SIZE_DEG  = 45;
-  const CIRCUMFERENCE  = 2 * Math.PI * 100;
-
-  /* ══ ÉTAT ══ */
-  let running=false, progress=0, elapsed=0, lastTs=0;
-  let qteActive=false, needleRot=0, zones={};
-  let regressing=false, regressTarget=0;
-  let stats={success:0,great:0,fail:0};
-  let greatStreak=0, currentFails=0;
-  let animId=null, qteTimeout=null;
-
-  /* ══ SUCCÈS ══ */
-  const ACHS = [
-    {id:'first',      icon:'⚙️', name:'Première Répare',    desc:'Terminer ta première génératrice'},
-    {id:'five_gens',  icon:'🔧', name:'Mécanicien',         desc:'Terminer 5 génératrices'},
-    {id:'ten_gens',   icon:'🛠️', name:'Expert',             desc:'Terminer 10 génératrices'},
-    {id:'no_fail',    icon:'🎯', name:'Intouchable',        desc:'Finir une gen sans rater de QTE'},
-    {id:'streak_5',   icon:'⭐', name:'Précision',          desc:'5 excellents d\'affilée'},
-    {id:'streak_10',  icon:'🌟', name:'Maestro',            desc:'10 excellents d\'affilée'},
-    {id:'speed_60',   icon:'⚡', name:'Express',            desc:'Finir une gen en moins de 60s'},
-    {id:'speed_45',   icon:'🚀', name:'Speedrun',           desc:'Finir une gen en moins de 45s'},
-    {id:'legend',     icon:'💎', name:'Légende',            desc:'100 excellents au total'},
-  ];
-
-  let unlocked   = new Set(JSON.parse(localStorage.getItem('dbd_sim_ach')   || '[]'));
-  let totalGreat = parseInt(localStorage.getItem('dbd_sim_great') || '0');
-  let totalGens  = parseInt(localStorage.getItem('dbd_sim_gens')  || '0');
-
-  function saveAch()  { localStorage.setItem('dbd_sim_ach',   JSON.stringify([...unlocked])); }
-  function saveStats(){ localStorage.setItem('dbd_sim_great', totalGreat); localStorage.setItem('dbd_sim_gens', totalGens); }
-
-  function checkAchs(genTimeMs){
-    [
-      {id:'first',     ok: totalGens>=1},
-      {id:'five_gens', ok: totalGens>=5},
-      {id:'ten_gens',  ok: totalGens>=10},
-      {id:'no_fail',   ok: totalGens>=1 && currentFails===0},
-      {id:'streak_5',  ok: greatStreak>=5},
-      {id:'streak_10', ok: greatStreak>=10},
-      {id:'speed_60',  ok: totalGens>=1 && genTimeMs<60000},
-      {id:'speed_45',  ok: totalGens>=1 && genTimeMs<45000},
-      {id:'legend',    ok: totalGreat>=100},
-    ].forEach(c => {
-      if(!unlocked.has(c.id) && c.ok){
-        unlocked.add(c.id); saveAch(); renderAchs();
-        showAchToast('🏆 ' + ACHS.find(a=>a.id===c.id)?.name + ' débloqué !');
-      }
-    });
-  }
-
-  function renderAchs(){
-    const g = document.getElementById('achievementsGrid');
-    g.innerHTML = '';
-    ACHS.forEach(a => {
-      const div = document.createElement('div');
-      div.className = 'ach' + (unlocked.has(a.id) ? ' unlocked' : '');
-      div.innerHTML = `<span class="ach-icon">${a.icon}</span><div><span class="ach-name">${a.name}</span><p class="ach-desc">${a.desc}</p></div>`;
-      g.appendChild(div);
-    });
-  }
-
-  let toastTimeout = null;
-  function showAchToast(msg){
-    const t = document.getElementById('achToast');
-    clearTimeout(toastTimeout);
-    t.textContent = msg; t.classList.add('show');
-    toastTimeout = setTimeout(()=>t.classList.remove('show'), 3500);
-  }
-
-  /* ══ BOUCLE ══ */
-  function tick(ts){
-    if(!running) return;
-    const dt = lastTs ? ts - lastTs : 0;
-    lastTs = ts;
-    elapsed += dt;
-
-    if(!regressing){
-      progress += (100 / REPAIR_TIME_MS) * dt;
-    } else {
-      progress -= 2 * (dt / 1000);
-      if(progress <= regressTarget){ progress = regressTarget; regressing = false; }
-      if(progress < 0) progress = 0;
+  function triggerAchievement(id) {
+    const ach = achievements.find(a => a.id === id);
+    if (ach && !ach.unlocked) {
+      ach.unlocked = true;
+      renderAchievements();
+      const toast = document.getElementById('achToast');
+      toast.textContent = `🏆 Succès Déverrouillé : ${ach.name}`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
+  }
 
-    if(qteActive){
-      needleRot += NEEDLE_SPEED;
-      document.getElementById('needle').style.transform = `rotate(${needleRot}deg)`;
-      if(needleRot >= 360) onFail();
+  // ── MOTEUR CANVAS DU SKILL CHECK (Inspiré du fichier 1) ──
+  const canvas = document.getElementById("scCanvas");
+  const ctx = canvas.getContext("2d");
+  const CX = 110, CY = 110, R = 85; 
+  const GOOD_SIZE = 42 * Math.PI / 180;
+  const GREAT_SIZE = 8 * Math.PI / 180;
+  const START_ANGLE = -Math.PI / 2; // Midi
+
+  let needleAngle = START_ANGLE;
+  let successAngle = 0;
+  let scActive = false;
+  let scRAF = null;
+
+  function randomSuccessAngle() {
+    // Calcul de zone sécurisée/aléatoire (portion basse et droite du cadran)
+    const minAngle = 0; // 3h
+    const maxAngle = Math.PI * 1.2; // ~10h
+    successAngle = minAngle + Math.random() * (maxAngle - minAngle);
+  }
+
+  function drawSC() {
+    ctx.clearRect(0, 0, 220, 220);
+
+    // 1. Arc global gris de fond
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255,255,255,0.1)";
+    ctx.lineWidth = 10;
+    ctx.stroke();
+
+    // 2. Zone GOOD (Blanc externe large)
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
+    ctx.strokeStyle = "rgba(255,255,255,0.8)";
+    ctx.lineWidth = 14;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // Encart sombre intérieur pour le style DBD
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
+    ctx.strokeStyle = "#121212";
+    ctx.lineWidth = 8;
+    ctx.stroke();
+
+    // 3. Zone GREAT (Plein blanc au début de l'arc)
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, successAngle, successAngle + GREAT_SIZE);
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 14;
+    ctx.stroke();
+
+    // 4. L'aiguille indicatrice rouge
+    const innerR = 40, outerR = R + 18;
+    ctx.beginPath();
+    ctx.moveTo(CX + innerR * Math.cos(needleAngle), CY + innerR * Math.sin(needleAngle));
+    ctx.lineTo(CX + outerR * Math.cos(needleAngle), CY + outerR * Math.sin(needleAngle));
+    ctx.strokeStyle = "var(--dbd-red)";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.stroke();
+  }
+
+  function animateSC() {
+    needleAngle += 0.032; // Vitesse de l'aiguille
+    
+    if (needleAngle >= START_ANGLE + Math.PI * 2) {
+      // Tour complet fini sans input -> Manqué !
+      processQteResult('miss');
+      return;
     }
-
-    updateUI();
-    updatePistonAudio(progress);
-
-    if(progress >= 100){ onGenDone(); return; }
-    animId = requestAnimationFrame(tick);
+    
+    drawSC();
+    if (scActive) scRAF = requestAnimationFrame(animateSC);
   }
 
-  /* ══ UI ══ */
-  function updateUI(){
-    const bar = document.getElementById('genProgress');
-    bar.style.width = Math.min(progress, 100) + '%';
-    bar.className = 'repair-bar-fill' + (regressing ? ' regressing' : '');
-    document.getElementById('percentText').textContent = Math.floor(progress) + '%';
-    document.getElementById('repairLabel').textContent = regressing ? 'RÉGRESSION...' : (running ? 'RÉPARATION EN COURS...' : 'EN ATTENTE');
-    const s = Math.floor(elapsed/1000);
-    document.getElementById('statTime').textContent    = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-    document.getElementById('statSuccess').textContent = stats.success;
-    document.getElementById('statGreat').textContent   = stats.great;
-    document.getElementById('statFail').textContent    = stats.fail;
-  }
-
-  /* ══ QTE ══ */
-  function scheduleQTE(){
-    if(!running) return;
-    const delay = QTE_DELAY_MIN + Math.random() * (QTE_DELAY_MAX - QTE_DELAY_MIN);
-    qteTimeout = setTimeout(triggerQTE, delay);
-  }
-
-  function triggerQTE(){
-    if(!running || qteActive) return;
-    needleRot = 0;
-    setTimeout(() => play(sndQteIn), 500); // léger délai pour coller au visuel
-
-    // Zone safe : entre 80° et 270° — jamais en haut (zone rouge du dessin)
-    // L'aiguille part de 0°, donc on laisse ~80° de marge avant la zone
-    const startDeg = 80 + Math.random() * 190;
-    const circ = CIRCUMFERENCE;
-    const arcDash = deg => (deg/360)*circ;
-    const arcOff  = deg => -(deg/360)*circ;
-
-    const gBord = document.getElementById('svgGoodBorder');
-    const gBg   = document.getElementById('svgGoodBg');
-    const gExc  = document.getElementById('svgExcellent');
-
-    gBord.style.strokeDasharray  = `${arcDash(GOOD_SIZE_DEG)} ${circ}`;
-    gBord.style.strokeDashoffset = arcOff(startDeg);
-    gBg.style.strokeDasharray    = `${arcDash(GOOD_SIZE_DEG-2)} ${circ}`;
-    gBg.style.strokeDashoffset   = arcOff(startDeg-1);
-    gExc.style.strokeDasharray   = `${arcDash(GREAT_SIZE_DEG)} ${circ}`;
-    gExc.style.strokeDashoffset  = arcOff(startDeg);
-
-    zones = { start: startDeg, excEnd: startDeg + GREAT_SIZE_DEG, goodEnd: startDeg + GOOD_SIZE_DEG };
-    qteActive = true;
+  function showSC() {
+    randomSuccessAngle();
+    needleAngle = START_ANGLE;
+    scActive = true;
     document.getElementById('qteWrapper').classList.add('active');
+    scRAF = requestAnimationFrame(animateSC);
   }
 
-  function checkInput(){
-    if(!qteActive) return;
-    const hit = needleRot % 360;
-    if(hit >= zones.start && hit <= zones.excEnd)       onSuccess('EXCELLENT !', '#fff', true);
-    else if(hit > zones.excEnd && hit <= zones.goodEnd) onSuccess('BON', '#ccc', false);
-    else                                                 onFail();
+  function hideSC() {
+    scActive = false;
+    cancelAnimationFrame(scRAF);
+    document.getElementById('qteWrapper').classList.remove('active');
+    ctx.clearRect(0, 0, 220, 220);
   }
 
-  function onSuccess(txt, color, isGreat){
-    stats.success++;
-    if(isGreat){
-      stats.great++; greatStreak++; totalGreat++;
-      play(sndGreat);
+  function checkHit() {
+    if (!scActive) return;
+
+    const current = ((needleAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+    const target = ((successAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+    const diff = ((current - target) + Math.PI*2) % (Math.PI*2);
+
+    if (diff >= 0 && diff <= GREAT_SIZE) {
+      processQteResult('great');
+    } else if (diff >= 0 && diff <= GOOD_SIZE) {
+      processQteResult('good');
     } else {
-      greatStreak = 0;
-      play(sndGood);
+      processQteResult('miss');
     }
-    showFeedback(txt, color);
-    stopQTE();
-    checkAchs(null);
   }
 
-  function onFail(){
-    if(!qteActive) return;
-    stats.fail++; greatStreak = 0; currentFails++;
-    regressing = true;
-    regressTarget = Math.max(0, progress - REGRESSION_PCT);
-    play(sndFail);
-    // Flash barre
-    const bar = document.getElementById('genProgress');
-    bar.style.background = 'white';
-    setTimeout(()=>{ bar.style.background=''; }, 160);
-    showFeedback('RATÉ !', '#ff4444');
-    stopQTE();
-  }
-
-  function stopQTE(){
-    qteActive = false;
-    document.getElementById('qteWrapper').classList.remove('active');
-    scheduleQTE();
-  }
-
-  function showFeedback(txt, color){
-    const f = document.getElementById('feedback');
-    f.textContent = txt; f.style.color = color;
-    f.classList.remove('show');
-    void f.offsetWidth;
-    f.classList.add('show');
-  }
-
-  /* ══ FIN ══ */
-  function onGenDone(){
-    running = false; progress = 100;
-    clearTimeout(qteTimeout); clearTimeout(cliquetisTimeout);
-    cancelAnimationFrame(animId);
-    stopAllPistons();
-    play(sndDone);
-    totalGens++;
-    checkAchs(elapsed);
-    saveStats();
-    updateUI();
-
-    const s = Math.floor(elapsed/1000);
-    document.getElementById('endTime').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-    document.getElementById('endSub').textContent  = `${stats.success} réussies · ${stats.great} excellentes · ${stats.fail} ratées`;
-    document.getElementById('endOverlay').classList.add('show');
-  }
-
-  /* ══ CONTRÔLES ══ */
-  function startGame(){
-    if(running) return;
-    running=true; lastTs=0;
-    document.getElementById('startBtn').disabled = true;
-    play(sndStart);
-    setTimeout(scheduleQTE, 3000); // petit délai avant premier QTE
-    scheduleCliquetis();
-    animId = requestAnimationFrame(tick);
-  }
-
-  function resetGame(){
-    running=false; progress=0; elapsed=0; lastTs=0;
-    qteActive=false; regressing=false; greatStreak=0; currentFails=0;
-    stats={success:0,great:0,fail:0};
-    clearTimeout(qteTimeout); clearTimeout(cliquetisTimeout);
-    cancelAnimationFrame(animId);
-    stopAllPistons();
-    document.getElementById('qteWrapper').classList.remove('active');
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('endOverlay').classList.remove('show');
-    document.getElementById('repairLabel').textContent = 'EN ATTENTE';
-    // Reset visuels pistons (8 pistons)
-    for(let i=0;i<4;i++){
-      ['','b'].forEach(s => {
-        const r = document.getElementById('rod'+i+s);
-        const d = document.getElementById('dot'+i+s);
-        if(r) r.className='piston-rod';
-        if(d) d.className='piston-dot';
-      });
+  function processQteResult(type) {
+    hideSC();
+    feedback.className = `feedback show ${type}`;
+    
+    if (type === 'great') {
+      feedback.textContent = "EXCELLENT !";
+      countGreat++;
+      statGreat.textContent = countGreat;
+      triggerAchievement('first_great');
+      // Bonus progression (+2s)
+      savedElapsed = Math.min(TOTAL_MS, savedElapsed + 2000);
+    } 
+    else if (type === 'good') {
+      feedback.textContent = "BON RECONNU";
+      countSuccess++;
+      statSuccess.textContent = countSuccess;
+    } 
+    else {
+      feedback.textContent = "EXPLOSION !";
+      countFail++;
+      statFail.textContent = countFail;
+      // Régression instantanée (-4s de pénalité)
+      savedElapsed = Math.max(0, savedElapsed - 4000);
+      
+      // Animation flash orange/régression sur la barre
+      genProgress.classList.add('regressing');
+      setTimeout(() => genProgress.classList.remove('regressing'), 800);
     }
-    updateUI();
+
+    setTimeout(() => feedback.classList.remove('show'), 800);
+
+    // Relance de la boucle principale du jeu après QTE
+    setTimeout(() => {
+      if (running && savedElapsed < TOTAL_MS) {
+        startTime = null; 
+        raf = requestAnimationFrame(tick);
+      }
+    }, 400);
   }
 
-  document.getElementById('startBtn').addEventListener('click', startGame);
-  document.getElementById('resetBtn').addEventListener('click', resetGame);
-  document.getElementById('endRestartBtn').addEventListener('click', ()=>{ resetGame(); startGame(); });
+  // ── MOTEUR DE PROGRESSION DES PISTONS (Fichier 2) ──
+  function updatePistons(pct) {
+    // Étape 1 : P1 (0%+)
+    document.getElementById('rod0').className = pct > 0 ? "piston-rod slow" : "piston-rod";
+    document.getElementById('rod0b').className = pct > 0 ? "piston-rod slow" : "piston-rod";
+    document.getElementById('dot0').className = pct > 0 ? "piston-dot active" : "piston-dot";
+    document.getElementById('dot0b').className = pct > 0 ? "piston-dot active" : "piston-dot";
 
-  window.addEventListener('keydown', e=>{
-    if(e.code==='Space'){ e.preventDefault(); if(!running) startGame(); else checkInput(); }
+    // Étape 2 : P2 (25%+)
+    const p2Act = pct >= 25;
+    document.getElementById('rod1').className = p2Act ? "piston-rod slow" : "piston-rod";
+    document.getElementById('rod1b').className = p2Act ? "piston-rod slow" : "piston-rod";
+    document.getElementById('dot1').className = p2Act ? "piston-dot active" : "piston-dot";
+    document.getElementById('dot1b').className = p2Act ? "piston-dot active" : "piston-dot";
+
+    // Étape 3 : P3 (50%+)
+    const p3Act = pct >= 50;
+    document.getElementById('rod2').className = p3Act ? "piston-rod fast" : "piston-rod";
+    document.getElementById('rod2b').className = p3Act ? "piston-rod fast" : "piston-rod";
+    document.getElementById('dot2').className = p3Act ? "piston-dot active" : "piston-dot";
+    document.getElementById('dot2b').className = p3Act ? "piston-dot active" : "piston-dot";
+
+    // Étape 4 : P4 (75%+)
+    const p4Act = pct >= 75;
+    document.getElementById('rod3').className = p4Act ? "piston-rod fast" : "piston-rod";
+    document.getElementById('rod3b').className = p4Act ? "piston-rod fast" : "piston-rod";
+    document.getElementById('dot3').className = p4Act ? "piston-dot active" : "piston-dot";
+    document.getElementById('dot3b').className = p4Act ? "piston-dot active" : "piston-dot";
+
+    // Succès bonus secret
+    if (pct >= 50 && countFail === 0) {
+      triggerAchievement('no_errors');
+    }
+  }
+
+  // ── BOUCLE TICK DE LA RÉPARATION GÉNÉRALE ──
+  function tick(ts) {
+    if (!startTime) startTime = ts;
+    elapsed = (ts - startTime) + savedElapsed;
+    
+    const pct = Math.min((elapsed / TOTAL_MS) * 100, 100);
+    
+    // Rendu graphique de la progression
+    genProgress.style.width = pct + '%';
+    percentText.textContent = Math.floor(pct) + '%';
+    updatePistons(pct);
+
+    // Déclencheur Algorithmique de QTE (Fichier 1)
+    if (elapsed - lastSCTime >= SC_INTERVAL_MS && elapsed > 1000 && pct < 95) {
+      lastSCTime = elapsed;
+      running = true; 
+      savedElapsed = elapsed;
+      cancelAnimationFrame(raf);
+      showSC(); // Interruption pour lancer le QTE
+      return;
+    }
+
+    // Condition Finale Réparée
+    if (pct >= 100) {
+      stopSimulation(true);
+      return;
+    }
+
+    if (running) raf = requestAnimationFrame(tick);
+  }
+
+  // Chronomètre UI (Format MM:SS)
+  function startClock() {
+    timerInterval = setInterval(() => {
+      globalSeconds++;
+      let m = Math.floor(globalSeconds / 60);
+      let s = globalSeconds % 60;
+      statTime.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+    }, 1000);
+  }
+
+  function stopSimulation(isFinished = false) {
+    running = false;
+    cancelAnimationFrame(raf);
+    clearInterval(timerInterval);
+    startBtn.disabled = false;
+    repairLabel.textContent = isFinished ? "TERMINÉE" : "EN ATTENTE";
+
+    if (isFinished) {
+      triggerAchievement('gen_done');
+      endTime.textContent = statTime.textContent;
+      endOverlay.classList.add('show');
+    }
+  }
+
+  // ── GESTIONNAIRES D'ÉVÉNEMENTS ──
+  startBtn.addEventListener('click', () => {
+    if (!running) {
+      running = true;
+      startBtn.disabled = true;
+      repairLabel.textContent = "RÉPARATION EN COURS...";
+      startTime = null;
+      lastSCTime = elapsed;
+      startClock();
+      raf = requestAnimationFrame(tick);
+    }
   });
-  document.getElementById('qteWrapper').addEventListener('click', ()=>{ if(running) checkInput(); });
 
-  /* ══ INIT ══ */
-  renderAchs();
-  updateUI();
+  function resetSim() {
+    stopSimulation();
+    savedElapsed = 0;
+    elapsed = 0;
+    lastSCTime = 0;
+    globalSeconds = 0;
+    countSuccess = 0;
+    countGreat = 0;
+    countFail = 0;
+
+    // Reset UI Texts
+    statTime.textContent = "0:00";
+    statSuccess.textContent = "0";
+    statGreat.textContent = "0";
+    statFail.textContent = "0";
+    percentText.textContent = "0%";
+    genProgress.style.width = "0%";
+    
+    updatePistons(0);
+    hideSC();
+    endOverlay.classList.remove('show');
+  }
+
+  resetBtn.addEventListener('click', resetSim);
+  endRestartBtn.addEventListener('click', resetSim);
+
+  // Écoute touches clavier (Espace pour le Skill Check)
+  window.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+      if (scActive) {
+        e.preventDefault();
+        checkHit();
+      }
+    }
+  });
+
+  // Touch/Click Support Mobile sur le module QTE
+  document.getElementById('qteWrapper').addEventListener('click', () => {
+    if (scActive) checkHit();
+  });
 
 })();
 </script>
