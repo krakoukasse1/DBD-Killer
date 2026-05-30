@@ -6,8 +6,11 @@
 <title>DBD</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
   body {
-    background-color: #111;
+    /* Image de fond de la map avec filtre sombre pour le contraste */
+    background: linear-gradient(rgba(12, 13, 15, 0.75), rgba(12, 13, 15, 0.75)), url('assets/logo/bg_repairmg1.png') no-repeat center center fixed;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,12 +19,29 @@
     font-family: "Arial Narrow", Arial, sans-serif;
     gap: 40px;
     user-select: none;
+    overflow: hidden;
   }
 
   /* INFO ZONE AUDIO */
-  .audio-info { position: fixed; top: 15px; font-size: 11px; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 1px; }
+  .audio-info { position: fixed; top: 15px; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; z-index: 10; }
 
-  /* BARRE */
+  /* IMAGE PRINCIPALE AU MILIEU (Mise en avant) */
+  .main-logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .main-logo {
+    width: 320px; /* Taille imposante pour le mettre en avant */
+    height: auto;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+  }
+
+  /* BARRE DE REPARATION */
   .hud { position: fixed; bottom: 98px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; user-select: none; z-index: 10; }
   .bar-block { position: relative; display: flex; flex-direction: column; }
   .repair-text { position: absolute; top: -16px; left: 2px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(210,208,200,0.7); text-shadow: 0 1px 3px rgba(0,0,0,0.95); white-space: nowrap; }
@@ -33,10 +53,10 @@
   .dbd-bar-fill.regressing .dbd-bar-fill-inner { background: linear-gradient(180deg, #440, #ff6600); box-shadow: 0 0 14px rgba(255,100,0,0.5); }
   .dbd-bar-bevel { position: absolute; inset: 0; pointer-events: none; z-index: 3; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 22%, transparent 40%, transparent 60%, rgba(0,0,0,0.05) 78%, rgba(0,0,0,0.4) 100%); border-radius: 2px; box-shadow: inset 2px 0 5px rgba(0,0,0,0.55), inset -2px 0 5px rgba(0,0,0,0.55); }
 
-  /* SKILL CHECK */
+  /* SKILL CHECK (Z-index au-dessus du logo central) */
   .sc-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; transition: opacity 0.1s; z-index: 100; }
   .sc-overlay.visible { opacity: 1; pointer-events: all; }
-  .sc-wrap { position: relative; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 60%, transparent 100%); border-radius: 50%; }
+  .sc-wrap { position: relative; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); border-radius: 50%; }
   #scCanvas { position: absolute; inset: 0; width: 300px; height: 300px; }
   .sc-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: black; border: 3px solid white; border-radius: 6px; color: white; font-family: Arial, sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 3px; padding: 12px 30px; user-select: none; }
 
@@ -46,7 +66,7 @@
     top: 32px; right: 32px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     background: none;
     padding: 0;
     pointer-events: none;
@@ -54,9 +74,14 @@
     transform: translateX(20px);
     transition: opacity 0.18s, transform 0.18s;
     z-index: 200;
-    min-width: 240px;
+    min-width: 280px;
   }
   .sc-notif.show { opacity: 1; transform: translateX(0); }
+  
+  /* Logo Skillcheck inséré à gauche de la notification */
+  .sc-notif-icon-wrap { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sc-notif-icon { width: 100%; height: auto; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8)); }
+
   .sc-notif-text { display: flex; flex-direction: column; flex: 1; gap: 0; }
   .sc-notif-label {
     font-family: Arial, sans-serif;
@@ -89,13 +114,19 @@
   .sc-notif-circle canvas { position: absolute; inset: 0; }
 
   /* COMPTEUR GÉNÉRATEURS bas gauche */
-  .gen-counter { position: fixed; bottom: 32px; left: 32px; display: flex; align-items: center; gap: 8px; pointer-events: none; z-index: 50; }
+  .gen-counter { position: fixed; bottom: 32px; left: 32px; display: flex; align-items: center; gap: 12px; pointer-events: none; z-index: 50; }
+  .gen-icon-wrap { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+  .gen-icon { width: 100%; height: auto; opacity: 0.9; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
   .gen-count-text { font-family: Arial, sans-serif; font-size: 52px; font-weight: bold; color: rgba(220,215,200,0.92); text-shadow: 0 2px 8px rgba(0,0,0,0.95); letter-spacing: 1px; line-height: 1; }
 </style>
 </head>
 <body>
 
 <div class="audio-info">Cliquez sur l'écran pour activer le son et lancer la réparation</div>
+
+<div class="main-logo-container">
+  <img src="assets/logo/generatorsmainimage.png" alt="Generator Main" class="main-logo">
+</div>
 
 <div class="hud">
   <div class="bar-block">
@@ -115,6 +146,9 @@
 </div>
 
 <div class="sc-notif" id="scNotif">
+  <div class="sc-notif-icon-wrap">
+    <img src="assets/logo/skillcheck.png" alt="Icon" class="sc-notif-icon">
+  </div>
   <div class="sc-notif-text">
     <div class="sc-notif-label">TEST D'HABILETÉ&nbsp;: <span id="notifWord"></span></div>
     <div class="sc-notif-points-row">
@@ -127,11 +161,14 @@
 </div>
 
 <div class="gen-counter" id="genCounter">
+  <div class="gen-icon-wrap">
+    <img src="assets/logo/generators.png" alt="Gen Icon" class="gen-icon">
+  </div>
   <div class="gen-count-text" id="genCountText">5</div>
 </div>
 
 <script>
-// ── SYSTÈME AUDIO EMBARQUÉ (Fichier 2) ──
+// ── SYSTÈME AUDIO EMBARQUÉ ──
 const S = 'assets/sounds/';
 
 const pistonAudios = [
@@ -153,7 +190,6 @@ const sndGreat  = new Audio(S + 'QTE_Parfait.mp3');
 const sndGood   = new Audio(S + 'QTE_Good.mp3');
 const sndFail   = new Audio(S + 'QTE_Failed.mp3');
 
-// Configurations initiales des volumes
 pistonAudios.forEach(a => { a.loop = true; a.volume = 0; });
 cliquetis.forEach(a => { a.volume = 0.5; });
 sndStart.volume = 0.7; sndDone.volume = 0.9;
@@ -167,10 +203,8 @@ function unlockAudioAndStart() {
   audioUnlocked = true;
   document.querySelector('.audio-info').style.display = 'none';
 
-  // Force l'initialisation sur navigateur
   pistonAudios.forEach(a => { a.play().then(() => a.pause()).catch(() => {}); });
   
-  // Démarrage de la simulation
   sndStart.play().catch(() => {});
   running = true;
   savedElapsed = 0; 
@@ -181,7 +215,6 @@ function unlockAudioAndStart() {
 function handleAudioLayers(pct) {
   if (!audioUnlocked) return;
 
-  // Gestion graduée des pistes de sons moteurs selon le pourcentage
   if (pct > 0) {
     pistonAudios[0].play().catch(() => {});
     pistonAudios[0].volume = 0.35;
@@ -203,7 +236,6 @@ function handleAudioLayers(pct) {
     pistonAudios[3].playbackRate = 1.0;
   }
 
-  // Cliquetis de réparation aléatoires
   if (Math.random() < 0.015) {
     let sound = cliquetis[Math.floor(Math.random() * cliquetis.length)];
     sound.play().catch(() => {});
@@ -214,7 +246,7 @@ function killEngineSounds() {
   pistonAudios.forEach(a => { a.pause(); a.volume = 0; });
 }
 
-// ── SKILL CHECK CANVAS ORIGINAL (Fichier 1) ──
+// ── SKILL CHECK CANVAS ORIGINAL ──
 const canvas = document.getElementById("scCanvas");
 const ctx    = canvas.getContext("2d");
 const CX = 150, CY = 150, R = 120;
@@ -270,7 +302,7 @@ function drawSC() {
   ctx.lineCap     = "round";
   ctx.stroke();
 
-  // Aiguille Rouge Originale #ff1200
+  // Aiguille Rouge Fine Originale
   const innerR = 55, outerR = R + 35;
   ctx.beginPath();
   ctx.moveTo(CX + innerR * Math.cos(needleAngle), CY + innerR * Math.sin(needleAngle));
@@ -304,7 +336,7 @@ function animateSC() {
 }
 
 function showSC() {
-  sndQteIn.play().catch(() => {}); // Alerte sonore de QTE
+  sndQteIn.play().catch(() => {});
   randomSuccessAngle();
   needleAngle = START_ANGLE;
   scActive    = true;
@@ -348,7 +380,6 @@ function triggerPenalty() {
   elapsed = savedElapsed;
   setProgress((elapsed / TOTAL_MS) * 100);
   
-  // Effet visuel rouge flash sur la jauge
   fill.classList.add('regressing');
   setTimeout(() => fill.classList.remove('regressing'), 600);
 }
@@ -363,7 +394,7 @@ function resumeTickAfterQTE() {
   }, 600);
 }
 
-// SCORE ET CERLES DE NOTIFICATIONS D'ORIGINE
+// SCORE ET CERLES DE NOTIFICATIONS
 let totalScore   = 0;
 const MAX_SCORE  = 5000;
 
@@ -397,7 +428,6 @@ function showResult(type) {
   const labels = { great: 'EXCELLENT', good: 'GOOD', miss: 'MANQUÉ' };
   const pts    = { great: 300, good: 100, miss: 0 };
 
-  // Remise en place exacte des classes HTML pour colorer le texte
   word.innerHTML = `<span class="${type}">${labels[type]}</span>`;
 
   const gained = pts[type];
@@ -434,22 +464,20 @@ function tick(ts) {
   setProgress(pct);
   handleAudioLayers(pct);
 
-  // Déclencheur automatique de QTE
   if (elapsed - lastSCTime >= SC_INTERVAL_MS && elapsed > 500) {
     lastSCTime = elapsed;
     running = false;
     savedElapsed = elapsed;
-    killEngineSounds(); // On coupe le moteur pendant le skillcheck
+    killEngineSounds();
     showSC();
     return;
   }
 
-  // Fin de la jauge
   if (pct >= 100) {
     running = false; 
     setProgress(100);
     killEngineSounds();
-    sndDone.play().catch(() => {}); // Son de gen terminé
+    sndDone.play().catch(() => {});
     repairGen();
     
     setTimeout(() => {
