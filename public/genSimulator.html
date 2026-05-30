@@ -1,636 +1,485 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DBD Gen Simulator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    :root { 
-      --dbd-red: #ff0000; 
-      --qte-size: 220px; 
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBD</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: "Arial Narrow", Arial, sans-serif;
+    gap: 40px;
+    user-select: none;
+  }
 
-    body {
-      background-color: #0c0d0f;
-      color: #fff;
-      font-family: "Arial Narrow", Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  /* INFO ZONE AUDIO */
+  .audio-info { position: fixed; top: 15px; font-size: 11px; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* HEADER STYLE (Simulation) */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background: rgba(0,0,0,0.5);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .header-left { display: flex; align-items: center; gap: 10px; }
-    .img-logo { height: 35px; opacity: 0.8; }
-    .list-ul { display: flex; list-style: none; gap: 15px; align-items: center; }
-    .list-li a { color: #aaa; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    .list-li a:hover { color: #fff; }
-    .twitch-button { display: flex; align-items: center; gap: 5px; background: #6441a5; padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; }
+  /* BARRE */
+  .hud { position: fixed; bottom: 98px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; user-select: none; z-index: 10; }
+  .bar-block { position: relative; display: flex; flex-direction: column; }
+  .repair-text { position: absolute; top: -16px; left: 2px; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(210,208,200,0.7); text-shadow: 0 1px 3px rgba(0,0,0,0.95); white-space: nowrap; }
+  .dbd-bar-outer { position: relative; width: 380px; height: 16px; border-radius: 2px; background: linear-gradient(180deg, #18191d 0%, #0c0d0f 28%, #0c0d0f 72%, #20222a 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.95), inset 0 -1px 2px rgba(255,255,255,0.03), 0 3px 12px rgba(0,0,0,0.8); overflow: hidden; }
+  .dbd-bar-outer::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(90deg, transparent 0px, transparent 3px, rgba(255,255,255,0.013) 3px, rgba(255,255,255,0.013) 4px); pointer-events: none; z-index: 1; }
+  .dbd-bar-fill { position: absolute; top: 0; left: 0; bottom: 0; width: 0%; transition: width 0.04s linear; overflow: hidden; border-radius: 1px; z-index: 2; }
+  .dbd-bar-fill-inner { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(70,75,80,0.55) 0%, rgba(105,110,115,0.7) 16%, rgba(155,160,163,0.88) 30%, rgba(215,220,225,0.97) 43%, rgba(255,255,255,1) 50%, rgba(215,220,225,0.97) 57%, rgba(155,160,163,0.88) 70%, rgba(105,110,115,0.7) 84%, rgba(55,60,65,0.5) 100%); box-shadow: 0 0 7px 2px rgba(190,205,220,0.35); }
+  .dbd-bar-fill-inner::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 8px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55)); }
+  .dbd-bar-fill.regressing .dbd-bar-fill-inner { background: linear-gradient(180deg, #440, #ff6600); box-shadow: 0 0 14px rgba(255,100,0,0.5); }
+  .dbd-bar-bevel { position: absolute; inset: 0; pointer-events: none; z-index: 3; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 22%, transparent 40%, transparent 60%, rgba(0,0,0,0.05) 78%, rgba(0,0,0,0.4) 100%); border-radius: 2px; box-shadow: inset 2px 0 5px rgba(0,0,0,0.55), inset -2px 0 5px rgba(0,0,0,0.55); }
 
-    /* SIMULATOR MAIN PAGE */
-    .sim-page {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: flex-start; padding: 40px 20px 80px; gap: 36px; flex: 1;
-    }
+  /* SKILL CHECK */
+  .sc-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; transition: opacity 0.1s; z-index: 100; }
+  .sc-overlay.visible { opacity: 1; pointer-events: all; }
+  .sc-wrap { position: relative; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 60%, transparent 100%); border-radius: 50%; }
+  #scCanvas { position: absolute; inset: 0; width: 300px; height: 300px; }
+  .sc-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: black; border: 3px solid white; border-radius: 6px; color: white; font-family: Arial, sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 3px; padding: 12px 30px; user-select: none; }
 
-    .sim-hero { text-align: center; }
-    .sim-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 7vw, 5rem); color: #fff; letter-spacing: 4px; line-height: 0.9; margin-bottom: 6px; }
-    .sim-hero h1 span { color: #cc0000; }
-    .sim-hero p { font-family: sans-serif; font-size: 0.82rem; color: rgba(200,200,200,0.4); letter-spacing: 1px; }
+  /* RESULT NOTIFICATION style DBD */
+  .sc-notif {
+    position: fixed;
+    top: 32px; right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    padding: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.18s, transform 0.18s;
+    z-index: 200;
+    min-width: 240px;
+  }
+  .sc-notif.show { opacity: 1; transform: translateX(0); }
+  .sc-notif-text { display: flex; flex-direction: column; flex: 1; gap: 0; }
+  .sc-notif-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(210,205,195,0.92);
+    white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  }
+  .sc-notif-label .great { color: #f5d84a; }
+  .sc-notif-label .good  { color: #d4cdb8; }
+  .sc-notif-label .miss  { color: #c04030; }
 
-    /* STATS */
-    .stats-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-    .stat-pill { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 20px; text-align: center; min-width: 90px; }
-    .stat-pill .val { font-size: 1.6rem; color: #fff; letter-spacing: 1px; display: block; font-weight: bold; }
-    .stat-pill .lbl { font-family: sans-serif; font-size: 0.62rem; color: rgba(200,200,200,0.35); letter-spacing: 1.5px; text-transform: uppercase; }
+  .sc-notif-points-row {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .sc-notif-spacer { visibility: hidden; letter-spacing: 1.2px; }
+  .sc-notif-points { color: #c0392b; text-shadow: 0 1px 4px rgba(0,0,0,0.9); font-size: 11px; letter-spacing: 1px; }
 
-    /* REPAIR BAR */
-    .repair-container { width: min(480px, 90vw); }
-    .repair-label { font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 8px; display: flex; justify-content: space-between; color: #aaa; }
-    .repair-bar-bg { width: 100%; height: 16px; background: linear-gradient(180deg, #18191d 0%, #0c0d0f 28%, #0c0d0f 72%, #20222a 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; position: relative; }
-    .repair-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #800, var(--dbd-red)); box-shadow: 0 0 14px rgba(255,0,0,0.5); transition: width 0.04s linear; }
-    .repair-bar-fill.regressing { background: linear-gradient(90deg, #440, #ff6600); box-shadow: 0 0 14px rgba(255,100,0,0.5); }
+  /* Cercle de score à droite */
+  .sc-notif-circle { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+  .sc-notif-circle canvas { position: absolute; inset: 0; }
 
-    /* PISTONS */
-    .pistons-wrap {
-      display: flex; gap: 20px; align-items: flex-end; justify-content: center;
-      padding: 16px 24px; background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
-      width: min(480px, 90vw);
-    }
-    .piston-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .piston-label { font-family: sans-serif; font-size: 0.6rem; color: rgba(200,200,200,0.3); letter-spacing: 1px; text-transform: uppercase; }
-    .piston-track { width: 20px; height: 64px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; position: relative; overflow: hidden; }
-    .piston-rod { position: absolute; width: 12px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #999, #555); border-radius: 3px; height: 28px; top: 4px; }
-    
-    /* Animations de pistons déclenchées par JS */
-    .piston-rod.slow { animation: piston-move 0.85s ease-in-out infinite; }
-    .piston-rod.fast { animation: piston-move 0.35s ease-in-out infinite; }
-    .piston-col:nth-child(2) .piston-rod { animation-delay: 0.17s; }
-    .piston-col:nth-child(4) .piston-rod { animation-delay: 0.17s; }
-    .piston-col:nth-child(7) .piston-rod { animation-delay: 0.3s; }
-    .piston-col:nth-child(9) .piston-rod { animation-delay: 0.3s; }
-    
-    @keyframes piston-move { 0%,100% { top: 4px; } 50% { top: calc(100% - 32px); } }
-    .piston-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.08); transition: background 0.3s; }
-    .piston-dot.active { background: #cc0000; box-shadow: 0 0 6px rgba(200,0,0,0.7); }
-
-    /* SKILL CHECK (QTE MODIFIÉ CANVAS) */
-    .qte-wrapper {
-      position: relative; width: var(--qte-size); height: var(--qte-size);
-      display: flex; align-items: center; justify-content: center;
-      visibility: hidden; opacity: 0; transition: opacity 0.15s;
-    }
-    .qte-wrapper.active { visibility: visible; opacity: 1; }
-    #scCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .qte-center { width: 88px; height: 44px; border: 2px solid rgba(255,255,255,0.35); border-radius: 4px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.85); font-size: 1.1rem; font-weight: bold; z-index: 30; letter-spacing: 1px; }
-    
-    /* FEEDBACK TEXT */
-    .feedback { position: absolute; top: -48px; font-size: 1.8rem; font-weight: bold; text-shadow: 2px 2px 4px black; pointer-events: none; opacity: 0; white-space: nowrap; z-index: 40; }
-    .feedback.show { animation: popFeedback 0.85s ease-out forwards; }
-    .feedback.great { color: #f5d84a; }
-    .feedback.good { color: #d4cdb8; }
-    .feedback.miss { color: #c04030; }
-    
-    @keyframes popFeedback { 0%{opacity:0;transform:scale(0.5)} 30%{opacity:1;transform:scale(1.1)} 100%{opacity:0;transform:translateY(-30px)} }
-
-    /* CONTROLS */
-    .sim-controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .sim-btn { padding: 14px 32px; border-radius: 9px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; border: none; transition: all 0.2s; text-transform: uppercase; }
-    .sim-btn.start { background: red; color: #fff; box-shadow: 0 4px 20px rgba(200,0,0,0.25); }
-    .sim-btn.start:hover { background: #cc0000; transform: scale(1.03); }
-    .sim-btn.reset { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
-    .sim-btn.reset:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
-    .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-
-    /* SUCCÈS / ACHIEVEMENTS */
-    .achievements-wrap { width: min(720px, 90vw); }
-    .achievements-title { font-size: 1.2rem; color: #fff; letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.07); font-family: 'Bebas Neue', sans-serif; }
-    .achievements-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-    @media(max-width:600px){ .achievements-grid { grid-template-columns: 1fr 1fr; } }
-    
-    .ach { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; transition: all 0.4s; }
-    .ach.unlocked { border-color: rgba(255,180,0,0.45); background: rgba(255,180,0,0.07); }
-    .ach-icon { font-size: 1.4rem; flex-shrink: 0; filter: grayscale(1); transition: filter 0.4s; }
-    .ach.unlocked .ach-icon { filter: grayscale(0); }
-    .ach-text { display: flex; flex-direction: column; }
-    .ach-name { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; font-weight: bold; transition: color 0.4s; }
-    .ach.unlocked .ach-name { color: #fff; }
-    .ach-desc { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.25); line-height: 1.4; transition: color 0.4s; }
-    .ach.unlocked .ach-desc { color: rgba(200,200,200,0.55); }
-
-    /* OVERLAY FIN */
-    .end-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 18px; backdrop-filter: blur(6px); }
-    .end-overlay.show { display: flex; }
-    .end-overlay h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 6rem); color: #fff; letter-spacing: 4px; text-align: center; }
-    .end-overlay h2 span { color: #00cc44; }
-    .end-time { font-size: 2.2rem; color: rgba(255,255,255,0.8); letter-spacing: 3px; font-weight: bold; }
-    .end-sub { font-family: sans-serif; font-size: 0.85rem; color: rgba(200,200,200,0.5); letter-spacing: 1px; }
-
-    /* TOAST */
-    .ach-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(10,10,10,0.95); border: 1px solid rgba(255,180,0,0.4); border-radius: 10px; padding: 12px 24px; font-family: sans-serif; font-size: 0.85rem; color: #ffd700; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 300; white-space: nowrap; }
-    .ach-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  </style>
+  /* COMPTEUR GÉNÉRATEURS bas gauche */
+  .gen-counter { position: fixed; bottom: 32px; left: 32px; display: flex; align-items: center; gap: 8px; pointer-events: none; z-index: 50; }
+  .gen-count-text { font-family: Arial, sans-serif; font-size: 52px; font-weight: bold; color: rgba(220,215,200,0.92); text-shadow: 0 2px 8px rgba(0,0,0,0.95); letter-spacing: 1px; line-height: 1; }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <img class="img-logo" src="https://via.placeholder.com/35" alt="Logo">
-    <p style="letter-spacing: 1px; font-weight: bold;">Roulette DBD</p>
+<div class="audio-info">Cliquez sur l'écran pour activer le son et lancer la réparation</div>
+
+<div class="hud">
+  <div class="bar-block">
+    <span class="repair-text">Repair</span>
+    <div class="dbd-bar-outer">
+      <div class="dbd-bar-fill" id="fill"><div class="dbd-bar-fill-inner"></div></div>
+      <div class="dbd-bar-bevel"></div>
+    </div>
   </div>
-  <ul class="list-ul">
-    <li class="list-li"><a href="#">Accueil</a></li>
-    <li class="list-li"><a href="#">Liste tueurs</a></li>
-    <li class="list-li"><a href="#">Liste survivants</a></li>
-    <li class="list-li"><a href="#">Bonus</a></li>
-    <li class="list-li">
-      <div id="twitch-btn" class="twitch-button">
-        <span>Connexion Twitch</span>
-      </div>
-    </li>
-  </ul>
-</header>
-
-<div class="ach-toast" id="achToast"></div>
-
-<div class="end-overlay" id="endOverlay">
-  <h2>GEN <span>TERMINÉE</span> !</h2>
-  <div class="end-time" id="endTime">0:00</div>
-  <div class="end-sub" id="endSub">Félicitations, les portes de sortie sont alimentées !</div>
-  <button class="sim-btn start" id="endRestartBtn" style="margin-top:8px">↻ Recommencer</button>
 </div>
 
-<main class="sim-page">
-
-  <div class="sim-hero">
-    <h1>Gen <span>Simulator</span></h1>
-    <p>Répare la génératrice exactement comme dans DBD — appuie sur ESPACE pour les QTE</p>
+<div class="sc-overlay" id="scOverlay">
+  <div class="sc-wrap">
+    <canvas id="scCanvas" width="300" height="300"></canvas>
+    <div class="sc-label">SPACE</div>
   </div>
+</div>
 
-  <div class="stats-row">
-    <div class="stat-pill"><span class="val" id="statTime">0:00</span><span class="lbl">Temps</span></div>
-    <div class="stat-pill"><span class="val" id="statSuccess">0</span><span class="lbl">Réussies</span></div>
-    <div class="stat-pill"><span class="val" id="statGreat">0</span><span class="lbl">Excellentes</span></div>
-    <div class="stat-pill"><span class="val" id="statFail">0</span><span class="lbl">Ratées</span></div>
-  </div>
-
-  <div class="repair-container">
-    <div class="repair-label">
-      <span id="repairLabel">EN ATTENTE</span>
-      <span id="percentText">0%</span>
-    </div>
-    <div class="repair-bar-bg">
-      <div id="genProgress" class="repair-bar-fill"></div>
+<div class="sc-notif" id="scNotif">
+  <div class="sc-notif-text">
+    <div class="sc-notif-label">TEST D'HABILETÉ&nbsp;: <span id="notifWord"></span></div>
+    <div class="sc-notif-points-row">
+      <span class="sc-notif-spacer">TEST D'HABILETÉ&nbsp;: </span><span class="sc-notif-points" id="notifPoints"></span>
     </div>
   </div>
-
-  <div class="pistons-wrap" style="flex-direction:column; gap:10px;">
-    <div style="display:flex; justify-content:space-between; width:100%; padding:0 4px;">
-      <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face arrière</span>
-      <span style="font-family:sans-serif;font-size:0.6rem;color:rgba(200,200,200,0.25);letter-spacing:2px;text-transform:uppercase;">Face avant</span>
-    </div>
-    <div style="display:flex; gap:12px; align-items:flex-end; justify-content:center; width:100%;">
-      <div class="piston-col">
-        <div class="piston-label">P1</div>
-        <div class="piston-track"><div class="piston-rod" id="rod0"></div></div>
-        <div class="piston-dot" id="dot0"></div>
-      </div>
-      <div class="piston-col">
-        <div class="piston-label">P1b</div>
-        <div class="piston-track"><div class="piston-rod" id="rod0b"></div></div>
-        <div class="piston-dot" id="dot0b"></div>
-      </div>
-      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
-      <div class="piston-col">
-        <div class="piston-label">P2</div>
-        <div class="piston-track"><div class="piston-rod" id="rod1"></div></div>
-        <div class="piston-dot" id="dot1"></div>
-      </div>
-      <div class="piston-col">
-        <div class="piston-label">P2b</div>
-        <div class="piston-track"><div class="piston-rod" id="rod1b"></div></div>
-        <div class="piston-dot" id="dot1b"></div>
-      </div>
-      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
-      <div class="piston-col">
-        <div class="piston-label">P3</div>
-        <div class="piston-track"><div class="piston-rod" id="rod2"></div></div>
-        <div class="piston-dot" id="dot2"></div>
-      </div>
-      <div class="piston-col">
-        <div class="piston-label">P3b</div>
-        <div class="piston-track"><div class="piston-rod" id="rod2b"></div></div>
-        <div class="piston-dot" id="dot2b"></div>
-      </div>
-      <div style="width:1px;height:64px;background:rgba(255,255,255,0.06);align-self:center;"></div>
-      <div class="piston-col">
-        <div class="piston-label">P4</div>
-        <div class="piston-track"><div class="piston-rod" id="rod3"></div></div>
-        <div class="piston-dot" id="dot3"></div>
-      </div>
-      <div class="piston-col">
-        <div class="piston-label">P4b</div>
-        <div class="piston-track"><div class="piston-rod" id="rod3b"></div></div>
-        <div class="piston-dot" id="dot3b"></div>
-      </div>
-    </div>
+  <div class="sc-notif-circle">
+    <canvas id="circleCanvas" width="48" height="48"></canvas>
   </div>
+</div>
 
-  <div class="qte-wrapper" id="qteWrapper">
-    <div class="feedback" id="feedback">EXCELLENT</div>
-    <canvas id="scCanvas" width="220" height="220"></canvas>
-    <div class="qte-center">SPACE</div>
-  </div>
-
-  <div class="sim-controls">
-    <button class="sim-btn start" id="startBtn">▶ Commencer</button>
-    <button class="sim-btn reset" id="resetBtn">↺ Réinitialiser</button>
-  </div>
-
-  <div class="achievements-wrap">
-    <div class="achievements-title">🏆 Succès</div>
-    <div class="achievements-grid" id="achievementsGrid"></div>
-  </div>
-
-</main>
+<div class="gen-counter" id="genCounter">
+  <div class="gen-count-text" id="genCountText">5</div>
+</div>
 
 <script>
-(function(){
-  // ── CONFIGURATION & VARIABLES GLOBALES ──
-  const TOTAL_MS = 90000; // 90 secondes pour faire une gen seul standard
-  const SC_INTERVAL_MS = 4500; // Fréquence de test des QTE (toutes les 4.5s environ)
+// ── SYSTÈME AUDIO EMBARQUÉ (Fichier 2) ──
+const S = 'assets/sounds/';
+
+const pistonAudios = [
+  new Audio(S + 'Piston_Low.mp3'),
+  new Audio(S + 'Piston_Medium.mp3'),
+  new Audio(S + 'Piston_1Fast.mp3'),
+  new Audio(S + 'Piston2_Fast.mp3'),
+];
+
+const cliquetis = [
+  new Audio(S + 'Cliquet_Song.mp3'),
+  new Audio(S + 'Cliquet_Song2.mp3'),
+];
+
+const sndStart  = new Audio(S + 'Generator_Starting.mp3');
+const sndDone   = new Audio(S + 'gen_complete.mp3');
+const sndQteIn  = new Audio(S + 'QTE_Entree.mp3');
+const sndGreat  = new Audio(S + 'QTE_Parfait.mp3');
+const sndGood   = new Audio(S + 'QTE_Good.mp3');
+const sndFail   = new Audio(S + 'QTE_Failed.mp3');
+
+// Configurations initiales des volumes
+pistonAudios.forEach(a => { a.loop = true; a.volume = 0; });
+cliquetis.forEach(a => { a.volume = 0.5; });
+sndStart.volume = 0.7; sndDone.volume = 0.9;
+sndQteIn.volume = 0.6; sndGreat.volume = 0.7;
+sndGood.volume  = 0.6; sndFail.volume  = 0.8;
+
+let audioUnlocked = false;
+
+function unlockAudioAndStart() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+  document.querySelector('.audio-info').style.display = 'none';
+
+  // Force l'initialisation sur navigateur
+  pistonAudios.forEach(a => { a.play().then(() => a.pause()).catch(() => {}); });
   
-  let running = false;
-  let startTime = null;
-  let savedElapsed = 0; 
-  let elapsed = 0;
-  let lastSCTime = 0;
-  let timerInterval = null;
-  let globalSeconds = 0;
-  let raf = null;
+  // Démarrage de la simulation
+  sndStart.play().catch(() => {});
+  running = true;
+  savedElapsed = 0; 
+  startTime = null;
+  raf = requestAnimationFrame(tick);
+}
 
-  // Stats Counters
-  let countSuccess = 0;
-  let countGreat = 0;
-  let countFail = 0;
+function handleAudioLayers(pct) {
+  if (!audioUnlocked) return;
 
-  // Éléments du DOM
-  const genProgress = document.getElementById('genProgress');
-  const percentText = document.getElementById('percentText');
-  const repairLabel = document.getElementById('repairLabel');
-  const startBtn = document.getElementById('startBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const endOverlay = document.getElementById('endOverlay');
-  const endTime = document.getElementById('endTime');
-  const endRestartBtn = document.getElementById('endRestartBtn');
-  const feedback = document.getElementById('feedback');
-
-  const statTime = document.getElementById('statTime');
-  const statSuccess = document.getElementById('statSuccess');
-  const statGreat = document.getElementById('statGreat');
-  const statFail = document.getElementById('statFail');
-
-  // SUCCÈS DONNÉES
-  const achievements = [
-    { id: 'first_great', name: 'Technicien Né', desc: 'Réussir une excellente vérification.', icon: '🛠️', unlocked: false },
-    { id: 'no_errors', name: 'Pro du Moteur', desc: 'Atteindre 50% sans rater un seul QTE.', icon: '⚡', unlocked: false },
-    { id: 'gen_done', name: 'Ingénieur de l\'Ombre', desc: 'Terminer entièrement la génératrice.', icon: '🏆', unlocked: false }
-  ];
-
-  // ── INITIALISATION DES SUCCÈS ──
-  const achGrid = document.getElementById('achievementsGrid');
-  function renderAchievements() {
-    achGrid.innerHTML = '';
-    achievements.forEach(ach => {
-      achGrid.innerHTML += `
-        <div class="ach ${ach.unlocked ? 'unlocked' : ''}" id="ach-${ach.id}">
-          <div class="ach-icon">${ach.icon}</div>
-          <div class="ach-text">
-            <span class="ach-name">${ach.name}</span>
-            <span class="ach-desc">${ach.desc}</span>
-          </div>
-        </div>
-      `;
-    });
+  // Gestion graduée des pistes de sons moteurs selon le pourcentage
+  if (pct > 0) {
+    pistonAudios[0].play().catch(() => {});
+    pistonAudios[0].volume = 0.35;
+    pistonAudios[0].playbackRate = 0.65 + (pct / 100) * 0.3;
   }
-  renderAchievements();
-
-  function triggerAchievement(id) {
-    const ach = achievements.find(a => a.id === id);
-    if (ach && !ach.unlocked) {
-      ach.unlocked = true;
-      renderAchievements();
-      const toast = document.getElementById('achToast');
-      toast.textContent = `🏆 Succès Déverrouillé : ${ach.name}`;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+  if (pct >= 25) {
+    pistonAudios[1].play().catch(() => {});
+    pistonAudios[1].volume = 0.4;
+    pistonAudios[1].playbackRate = 0.75 + ((pct - 25) / 75) * 0.2;
+  }
+  if (pct >= 50) {
+    pistonAudios[2].play().catch(() => {});
+    pistonAudios[2].volume = 0.45;
+    pistonAudios[2].playbackRate = 0.85 + ((pct - 50) / 50) * 0.2;
+  }
+  if (pct >= 75) {
+    pistonAudios[3].play().catch(() => {});
+    pistonAudios[3].volume = 0.5;
+    pistonAudios[3].playbackRate = 1.0;
   }
 
-  // ── MOTEUR CANVAS DU SKILL CHECK (Inspiré du fichier 1) ──
-  const canvas = document.getElementById("scCanvas");
-  const ctx = canvas.getContext("2d");
-  const CX = 110, CY = 110, R = 85; 
-  const GOOD_SIZE = 42 * Math.PI / 180;
-  const GREAT_SIZE = 8 * Math.PI / 180;
-  const START_ANGLE = -Math.PI / 2; // Midi
-
-  let needleAngle = START_ANGLE;
-  let successAngle = 0;
-  let scActive = false;
-  let scRAF = null;
-
-  function randomSuccessAngle() {
-    // Calcul de zone sécurisée/aléatoire (portion basse et droite du cadran)
-    const minAngle = 0; // 3h
-    const maxAngle = Math.PI * 1.2; // ~10h
-    successAngle = minAngle + Math.random() * (maxAngle - minAngle);
+  // Cliquetis de réparation aléatoires
+  if (Math.random() < 0.015) {
+    let sound = cliquetis[Math.floor(Math.random() * cliquetis.length)];
+    sound.play().catch(() => {});
   }
+}
 
-  function drawSC() {
-    ctx.clearRect(0, 0, 220, 220);
+function killEngineSounds() {
+  pistonAudios.forEach(a => { a.pause(); a.volume = 0; });
+}
 
-    // 1. Arc global gris de fond
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(255,255,255,0.1)";
-    ctx.lineWidth = 10;
-    ctx.stroke();
+// ── SKILL CHECK CANVAS ORIGINAL (Fichier 1) ──
+const canvas = document.getElementById("scCanvas");
+const ctx    = canvas.getContext("2d");
+const CX = 150, CY = 150, R = 120;
+const GOOD_SIZE  = 40 * Math.PI / 180;
+const GREAT_SIZE = 8  * Math.PI / 180;
 
-    // 2. Zone GOOD (Blanc externe large)
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
-    ctx.strokeStyle = "rgba(255,255,255,0.8)";
-    ctx.lineWidth = 14;
-    ctx.lineCap = "round";
-    ctx.stroke();
+const START_ANGLE = -Math.PI / 2;
+let needleAngle  = START_ANGLE;
+let successAngle = Math.PI * 1.7;
+let scActive     = false;
+let scRAF        = null;
 
-    // Encart sombre intérieur pour le style DBD
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
-    ctx.strokeStyle = "#121212";
-    ctx.lineWidth = 8;
-    ctx.stroke();
+function randomSuccessAngle() {
+  const forbidden_start = START_ANGLE - 0.6;
+  const forbidden_end   = START_ANGLE + Math.PI / 2 + GOOD_SIZE + 0.2;
+  const range = (forbidden_start + Math.PI * 2) - forbidden_end - GOOD_SIZE - 0.1;
+  successAngle = forbidden_end + Math.random() * range;
+}
 
-    // 3. Zone GREAT (Plein blanc au début de l'arc)
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, successAngle, successAngle + GREAT_SIZE);
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 14;
-    ctx.stroke();
+function drawSC() {
+  ctx.clearRect(0, 0, 300, 300);
 
-    // 4. L'aiguille indicatrice rouge
-    const innerR = 40, outerR = R + 18;
-    ctx.beginPath();
-    ctx.moveTo(CX + innerR * Math.cos(needleAngle), CY + innerR * Math.sin(needleAngle));
-    ctx.lineTo(CX + outerR * Math.cos(needleAngle), CY + outerR * Math.sin(needleAngle));
-    ctx.strokeStyle = "var(--dbd-red)";
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.stroke();
-  }
+  ctx.beginPath();
+  ctx.arc(CX, CY, R, 0, Math.PI * 2);
+  ctx.strokeStyle = "#d7d7d7";
+  ctx.lineWidth   = 8;
+  ctx.stroke();
 
-  function animateSC() {
-    needleAngle += 0.032; // Vitesse de l'aiguille
-    
-    if (needleAngle >= START_ANGLE + Math.PI * 2) {
-      // Tour complet fini sans input -> Manqué !
-      processQteResult('miss');
-      return;
-    }
-    
-    drawSC();
-    if (scActive) scRAF = requestAnimationFrame(animateSC);
-  }
+  ctx.beginPath();
+  ctx.arc(CX, CY, R - 8, 0, Math.PI * 2);
+  ctx.strokeStyle = "#121212";
+  ctx.lineWidth   = 8;
+  ctx.stroke();
 
-  function showSC() {
-    randomSuccessAngle();
-    needleAngle = START_ANGLE;
-    scActive = true;
-    document.getElementById('qteWrapper').classList.add('active');
-    scRAF = requestAnimationFrame(animateSC);
-  }
+  ctx.beginPath();
+  ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth   = 14;
+  ctx.lineCap     = "round";
+  ctx.stroke();
 
-  function hideSC() {
-    scActive = false;
-    cancelAnimationFrame(scRAF);
-    document.getElementById('qteWrapper').classList.remove('active');
-    ctx.clearRect(0, 0, 220, 220);
-  }
+  ctx.beginPath();
+  ctx.arc(CX, CY, R, successAngle, successAngle + GOOD_SIZE);
+  ctx.strokeStyle = "#3d3d3d";
+  ctx.lineWidth   = 8;
+  ctx.lineCap     = "round";
+  ctx.stroke();
 
-  function checkHit() {
-    if (!scActive) return;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R, successAngle, successAngle + GREAT_SIZE);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth   = 10;
+  ctx.lineCap     = "round";
+  ctx.stroke();
 
-    const current = ((needleAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
-    const target = ((successAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
-    const diff = ((current - target) + Math.PI*2) % (Math.PI*2);
+  // Aiguille Rouge Originale #ff1200
+  const innerR = 55, outerR = R + 35;
+  ctx.beginPath();
+  ctx.moveTo(CX + innerR * Math.cos(needleAngle), CY + innerR * Math.sin(needleAngle));
+  ctx.lineTo(CX + outerR * Math.cos(needleAngle), CY + outerR * Math.sin(needleAngle));
+  ctx.strokeStyle = "#ff1200";
+  ctx.lineWidth   = 3;
+  ctx.lineCap     = "round";
+  ctx.stroke();
 
-    if (diff >= 0 && diff <= GREAT_SIZE) {
-      processQteResult('great');
-    } else if (diff >= 0 && diff <= GOOD_SIZE) {
-      processQteResult('good');
-    } else {
-      processQteResult('miss');
-    }
-  }
+  ctx.beginPath();
+  ctx.arc(CX, CY, 5, 0, Math.PI * 2);
+  ctx.fillStyle = "#111";
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(CX, CY, 3, 0, Math.PI * 2);
+  ctx.fillStyle = "#ddd";
+  ctx.fill();
+}
 
-  function processQteResult(type) {
+function animateSC() {
+  needleAngle += 0.025;
+  if (needleAngle >= START_ANGLE + Math.PI * 2) {
     hideSC();
-    feedback.className = `feedback show ${type}`;
-    
-    if (type === 'great') {
-      feedback.textContent = "EXCELLENT !";
-      countGreat++;
-      statGreat.textContent = countGreat;
-      triggerAchievement('first_great');
-      // Bonus progression (+2s)
-      savedElapsed = Math.min(TOTAL_MS, savedElapsed + 2000);
-    } 
-    else if (type === 'good') {
-      feedback.textContent = "BON RECONNU";
-      countSuccess++;
-      statSuccess.textContent = countSuccess;
-    } 
-    else {
-      feedback.textContent = "EXPLOSION !";
-      countFail++;
-      statFail.textContent = countFail;
-      // Régression instantanée (-4s de pénalité)
-      savedElapsed = Math.max(0, savedElapsed - 4000);
-      
-      // Animation flash orange/régression sur la barre
-      genProgress.classList.add('regressing');
-      setTimeout(() => genProgress.classList.remove('regressing'), 800);
+    showResult('miss');
+    triggerPenalty();
+    resumeTickAfterQTE();
+    return;
+  }
+  drawSC();
+  if (scActive) scRAF = requestAnimationFrame(animateSC);
+}
+
+function showSC() {
+  sndQteIn.play().catch(() => {}); // Alerte sonore de QTE
+  randomSuccessAngle();
+  needleAngle = START_ANGLE;
+  scActive    = true;
+  document.getElementById('scOverlay').classList.add('visible');
+  scRAF = requestAnimationFrame(animateSC);
+}
+
+function hideSC() {
+  scActive = false;
+  cancelAnimationFrame(scRAF);
+  document.getElementById('scOverlay').classList.remove('visible');
+  ctx.clearRect(0, 0, 300, 300);
+}
+
+function checkHit() {
+  if (!scActive) return;
+  const a = ((needleAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+  const s = ((successAngle % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+  const diff = ((a - s) + Math.PI*2) % (Math.PI*2);
+  const isGreat = diff >= 0 && diff <= GREAT_SIZE;
+  const isGood  = diff >= 0 && diff <= GOOD_SIZE;
+  
+  hideSC();
+  if (isGreat) {
+    sndGreat.play().catch(() => {});
+    showResult('great');
+  } else if (isGood) {
+    sndGood.play().catch(() => {});
+    showResult('good');
+  } else {
+    showResult('miss');
+    triggerPenalty();
+  }
+  
+  resumeTickAfterQTE();
+}
+
+function triggerPenalty() {
+  sndFail.play().catch(() => {});
+  savedElapsed = Math.max(0, elapsed - TOTAL_MS * 0.15);
+  elapsed = savedElapsed;
+  setProgress((elapsed / TOTAL_MS) * 100);
+  
+  // Effet visuel rouge flash sur la jauge
+  fill.classList.add('regressing');
+  setTimeout(() => fill.classList.remove('regressing'), 600);
+}
+
+function resumeTickAfterQTE() {
+  setTimeout(() => {
+    if (!running && gensLeft > 0) { 
+      running = true; 
+      startTime = null; 
+      raf = requestAnimationFrame(tick); 
     }
+  }, 600);
+}
 
-    setTimeout(() => feedback.classList.remove('show'), 800);
+// SCORE ET CERLES DE NOTIFICATIONS D'ORIGINE
+let totalScore   = 0;
+const MAX_SCORE  = 5000;
 
-    // Relance de la boucle principale du jeu après QTE
+function drawCircle(ratio) {
+  const c    = document.getElementById('circleCanvas');
+  const cctx = c.getContext('2d');
+  const cx = 24, cy = 24, r = 20;
+  cctx.clearRect(0, 0, 48, 48);
+
+  cctx.beginPath();
+  cctx.arc(cx, cy, r, 0, Math.PI * 2);
+  cctx.strokeStyle = 'rgba(80,80,80,0.5)';
+  cctx.lineWidth = 4;
+  cctx.stroke();
+
+  if (ratio > 0) {
+    cctx.beginPath();
+    cctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + ratio * Math.PI * 2);
+    cctx.strokeStyle = '#c0392b';
+    cctx.lineWidth = 4;
+    cctx.lineCap = 'round';
+    cctx.stroke();
+  }
+}
+
+function showResult(type) {
+  const notif  = document.getElementById('scNotif');
+  const word   = document.getElementById('notifWord');
+  const points = document.getElementById('notifPoints');
+
+  const labels = { great: 'EXCELLENT', good: 'GOOD', miss: 'MANQUÉ' };
+  const pts    = { great: 300, good: 100, miss: 0 };
+
+  // Remise en place exacte des classes HTML pour colorer le texte
+  word.innerHTML = `<span class="${type}">${labels[type]}</span>`;
+
+  const gained = pts[type];
+  points.textContent = gained > 0 ? '+' + gained : '';
+
+  totalScore = Math.min(MAX_SCORE, totalScore + gained);
+  drawCircle(totalScore / MAX_SCORE);
+
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 2000);
+}
+
+// ── COMPTEUR GÉNÉRATEURS ──
+let gensLeft = 5;
+function repairGen() {
+  if (gensLeft <= 0) return;
+  gensLeft--;
+  document.getElementById('genCountText').textContent = gensLeft;
+}
+
+// ── BARRE DE REPARATION PRINCIPALE ──
+const TOTAL_MS       = 90000;
+const SC_INTERVAL_MS = 4000;
+const fill     = document.getElementById('fill');
+let startTime = null, savedElapsed = 0, elapsed = 0, running = false, raf = null;
+let lastSCTime = 0;
+
+function setProgress(pct) { fill.style.width = pct + '%'; }
+
+function tick(ts) {
+  if (!startTime) startTime = ts;
+  elapsed = (ts - startTime) + savedElapsed;
+  const pct = Math.min((elapsed / TOTAL_MS) * 100, 100);
+  setProgress(pct);
+  handleAudioLayers(pct);
+
+  // Déclencheur automatique de QTE
+  if (elapsed - lastSCTime >= SC_INTERVAL_MS && elapsed > 500) {
+    lastSCTime = elapsed;
+    running = false;
+    savedElapsed = elapsed;
+    killEngineSounds(); // On coupe le moteur pendant le skillcheck
+    showSC();
+    return;
+  }
+
+  // Fin de la jauge
+  if (pct >= 100) {
+    running = false; 
+    setProgress(100);
+    killEngineSounds();
+    sndDone.play().catch(() => {}); // Son de gen terminé
+    repairGen();
+    
     setTimeout(() => {
-      if (running && savedElapsed < TOTAL_MS) {
-        startTime = null; 
+      if (gensLeft > 0) {
+        elapsed = 0; savedElapsed = 0; startTime = null; lastSCTime = 0;
+        setProgress(0);
+        sndStart.play().catch(() => {});
+        running = true;
         raf = requestAnimationFrame(tick);
       }
-    }, 400);
+    }, 800);
+    return;
   }
+  if (running) raf = requestAnimationFrame(tick);
+}
 
-  // ── MOTEUR DE PROGRESSION DES PISTONS (Fichier 2) ──
-  function updatePistons(pct) {
-    // Étape 1 : P1 (0%+)
-    document.getElementById('rod0').className = pct > 0 ? "piston-rod slow" : "piston-rod";
-    document.getElementById('rod0b').className = pct > 0 ? "piston-rod slow" : "piston-rod";
-    document.getElementById('dot0').className = pct > 0 ? "piston-dot active" : "piston-dot";
-    document.getElementById('dot0b').className = pct > 0 ? "piston-dot active" : "piston-dot";
-
-    // Étape 2 : P2 (25%+)
-    const p2Act = pct >= 25;
-    document.getElementById('rod1').className = p2Act ? "piston-rod slow" : "piston-rod";
-    document.getElementById('rod1b').className = p2Act ? "piston-rod slow" : "piston-rod";
-    document.getElementById('dot1').className = p2Act ? "piston-dot active" : "piston-dot";
-    document.getElementById('dot1b').className = p2Act ? "piston-dot active" : "piston-dot";
-
-    // Étape 3 : P3 (50%+)
-    const p3Act = pct >= 50;
-    document.getElementById('rod2').className = p3Act ? "piston-rod fast" : "piston-rod";
-    document.getElementById('rod2b').className = p3Act ? "piston-rod fast" : "piston-rod";
-    document.getElementById('dot2').className = p3Act ? "piston-dot active" : "piston-dot";
-    document.getElementById('dot2b').className = p3Act ? "piston-dot active" : "piston-dot";
-
-    // Étape 4 : P4 (75%+)
-    const p4Act = pct >= 75;
-    document.getElementById('rod3').className = p4Act ? "piston-rod fast" : "piston-rod";
-    document.getElementById('rod3b').className = p4Act ? "piston-rod fast" : "piston-rod";
-    document.getElementById('dot3').className = p4Act ? "piston-dot active" : "piston-dot";
-    document.getElementById('dot3b').className = p4Act ? "piston-dot active" : "piston-dot";
-
-    // Succès bonus secret
-    if (pct >= 50 && countFail === 0) {
-      triggerAchievement('no_errors');
+// INITIALISATEURS D'ÉVÉNEMENTS
+window.addEventListener('click', unlockAudioAndStart);
+window.addEventListener('keydown', e => {
+  if (e.code === 'Space') {
+    if (!audioUnlocked) {
+      unlockAudioAndStart();
+    } else if (scActive) {
+      e.preventDefault(); 
+      checkHit(); 
     }
   }
-
-  // ── BOUCLE TICK DE LA RÉPARATION GÉNÉRALE ──
-  function tick(ts) {
-    if (!startTime) startTime = ts;
-    elapsed = (ts - startTime) + savedElapsed;
-    
-    const pct = Math.min((elapsed / TOTAL_MS) * 100, 100);
-    
-    // Rendu graphique de la progression
-    genProgress.style.width = pct + '%';
-    percentText.textContent = Math.floor(pct) + '%';
-    updatePistons(pct);
-
-    // Déclencheur Algorithmique de QTE (Fichier 1)
-    if (elapsed - lastSCTime >= SC_INTERVAL_MS && elapsed > 1000 && pct < 95) {
-      lastSCTime = elapsed;
-      running = true; 
-      savedElapsed = elapsed;
-      cancelAnimationFrame(raf);
-      showSC(); // Interruption pour lancer le QTE
-      return;
-    }
-
-    // Condition Finale Réparée
-    if (pct >= 100) {
-      stopSimulation(true);
-      return;
-    }
-
-    if (running) raf = requestAnimationFrame(tick);
-  }
-
-  // Chronomètre UI (Format MM:SS)
-  function startClock() {
-    timerInterval = setInterval(() => {
-      globalSeconds++;
-      let m = Math.floor(globalSeconds / 60);
-      let s = globalSeconds % 60;
-      statTime.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
-    }, 1000);
-  }
-
-  function stopSimulation(isFinished = false) {
-    running = false;
-    cancelAnimationFrame(raf);
-    clearInterval(timerInterval);
-    startBtn.disabled = false;
-    repairLabel.textContent = isFinished ? "TERMINÉE" : "EN ATTENTE";
-
-    if (isFinished) {
-      triggerAchievement('gen_done');
-      endTime.textContent = statTime.textContent;
-      endOverlay.classList.add('show');
-    }
-  }
-
-  // ── GESTIONNAIRES D'ÉVÉNEMENTS ──
-  startBtn.addEventListener('click', () => {
-    if (!running) {
-      running = true;
-      startBtn.disabled = true;
-      repairLabel.textContent = "RÉPARATION EN COURS...";
-      startTime = null;
-      lastSCTime = elapsed;
-      startClock();
-      raf = requestAnimationFrame(tick);
-    }
-  });
-
-  function resetSim() {
-    stopSimulation();
-    savedElapsed = 0;
-    elapsed = 0;
-    lastSCTime = 0;
-    globalSeconds = 0;
-    countSuccess = 0;
-    countGreat = 0;
-    countFail = 0;
-
-    // Reset UI Texts
-    statTime.textContent = "0:00";
-    statSuccess.textContent = "0";
-    statGreat.textContent = "0";
-    statFail.textContent = "0";
-    percentText.textContent = "0%";
-    genProgress.style.width = "0%";
-    
-    updatePistons(0);
-    hideSC();
-    endOverlay.classList.remove('show');
-  }
-
-  resetBtn.addEventListener('click', resetSim);
-  endRestartBtn.addEventListener('click', resetSim);
-
-  // Écoute touches clavier (Espace pour le Skill Check)
-  window.addEventListener('keydown', e => {
-    if (e.code === 'Space') {
-      if (scActive) {
-        e.preventDefault();
-        checkHit();
-      }
-    }
-  });
-
-  // Touch/Click Support Mobile sur le module QTE
-  document.getElementById('qteWrapper').addEventListener('click', () => {
-    if (scActive) checkHit();
-  });
-
-})();
+});
+document.getElementById('scOverlay').addEventListener('click', () => { if (scActive) checkHit(); });
 </script>
+
 </body>
 </html>
