@@ -1,0 +1,431 @@
+{
+  "survivor_items": [
+    {
+      "id": "lampe_poche_standard",
+      "name": "Lampe de poche",
+      "category": "Flashlight",
+      "rarity": "Uncommon",
+      "background": "Une lampe de poche standard en métal offrant une meilleure durabilité pour aveugler le tueur. 8 Charges, offrant une durée d'utilisation de 8 secondes.",
+      "addons_supported": ["accessoire_ampoule_electrique", "accessoire_lentille_large", "accessoire_poignee_cuir", "accessoire_filament_bas_amperage", "accessoire_lentilles_focales", "accessoire_optique_reflexion_totale", "accessoire_pile_haute_performance", "accessoire_poignee_caoutchouc", "accessoire_lampe_halogene_intense", "accessoire_pile_longue_duree", "accessoire_lentille_saphir", "accessoire_ampoule_bizarre"]
+    },
+    {
+      "id": "lampe_poche_sport",
+      "name": "Lampe torche de Sport",
+      "category": "Flashlight",
+      "rarity": "Rare",
+      "background": "Une lampe de poche standard en métal offrant une meilleure durabilité pour aveugler le tueur. 8 Charges, offrant une durée d'utilisation de 8 secondes. Augmente la Précision de +20 %.",
+      "addons_supported": ["accessoire_ampoule_electrique", "accessoire_lentille_large", "accessoire_poignee_cuir", "accessoire_filament_bas_amperage", "accessoire_lentilles_focales", "accessoire_optique_reflexion_totale", "accessoire_pile_haute_performance", "accessoire_poignee_caoutchouc", "accessoire_lampe_halogene_intense", "accessoire_pile_longue_duree", "accessoire_lentille_saphir", "accessoire_ampoule_bizarre"]
+    },
+    {
+      "id": "lampe_poche_utilitaire",
+      "name": "Lampe de poche utilitaire",
+      "category": "Flashlight",
+      "rarity": "Very Rare",
+      "background": "Une lampe robuste de qualité professionnelle qui produit un faisceau intense et puissant. 12 Charges, offrant une durée d'utilisation de 12 secondes, Augmente l'Éclat du faisceau de +30, Augmente la durée de l'Aveuglement de +15 %. %.",
+      "addons_supported": ["accessoire_ampoule_electrique", "accessoire_lentille_large", "accessoire_poignee_cuir", "accessoire_filament_bas_amperage", "accessoire_lentilles_focales", "accessoire_optique_reflexion_totale", "accessoire_pile_haute_performance", "accessoire_poignee_caoutchouc", "accessoire_lampe_halogene_intense", "accessoire_pile_longue_duree", "accessoire_lentille_saphir", "accessoire_ampoule_bizarre"]
+    },
+    {
+      "id": "trousse_soins_camping",
+      "name": "Trousse de soins de camping",
+      "category": "Medkit",
+      "rarity": "Common",
+      "background": "Une petite trousse de secours contenant le strict minimum pour refermer les plaies superficielles. Possede 24 charges",
+      "addons_supported": ["accessoire_gants_caoutchouc", "accessoire_pansements", "accessoire_sutures_cutanees", "accessoire_ciseaux_medicaux", "accessoire_fil_aiguille", "accessoire_rouleau_sparadrap", "accessoire_eponge", "accessoire_bande_gaze", "accessoire_suture_chirurgicale", "accessoire_agent_styptique", "accessoire_pansement_abdominal", "accessoire_pansements_hydrogels", "accessoire_seringue_antihemorragique"]
+    },
+    {
+      "id": "trousse_soins_secours",
+      "name": "Trousse de Premiers Soins",
+      "category": "Medkit",
+      "rarity": "Uncommon",
+      "background": "Une trousse standard contenant du matériel médical de base pour se soigner soi-même ou un allié.",
+      "addons_supported": ["accessoire_gants_caoutchouc", "accessoire_pansements", "accessoire_sutures_cutanees", "accessoire_ciseaux_medicaux", "accessoire_fil_aiguille", "accessoire_rouleau_sparadrap", "accessoire_eponge", "accessoire_bande_gaze", "accessoire_suture_chirurgicale", "accessoire_agent_styptique", "accessoire_pansement_abdominal", "accessoire_pansements_hydrogels", "accessoire_seringue_antihemorragique"]
+    },
+    {
+      "id": "trousse_soins_urgence",
+      "name": "Trousse de soins d'urgence",
+      "category": "Medkit",
+      "rarity": "Rare",
+      "background": "Du matériel médical stérilisé conçu pour panser rapidement les blessures les plus graves.",
+      "addons_supported": ["accessoire_gants_caoutchouc", "accessoire_pansements", "accessoire_sutures_cutanees", "accessoire_ciseaux_medicaux", "accessoire_fil_aiguille", "accessoire_rouleau_sparadrap", "accessoire_eponge", "accessoire_bande_gaze", "accessoire_suture_chirurgicale", "accessoire_agent_styptique", "accessoire_pansement_abdominal", "accessoire_pansements_hydrogels", "accessoire_seringue_antihemorragique"]
+    },
+    {
+      "id": "trousse_soins_ranger",
+      "name": "Trousse de soins de Garde Forestier",
+      "category": "Medkit",
+      "rarity": "Very Rare",
+      "background": "Une grande sacoche médicale en toile garnie de fournitures haut de gamme pour une efficacité maximale sur le terrain.",
+      "addons_supported": ["accessoire_gants_caoutchouc", "accessoire_pansements", "accessoire_sutures_cutanees", "accessoire_ciseaux_medicaux", "accessoire_fil_aiguille", "accessoire_rouleau_sparadrap", "accessoire_eponge", "accessoire_bande_gaze", "accessoire_suture_chirurgicale", "accessoire_agent_styptique", "accessoire_pansement_abdominal", "accessoire_pansements_hydrogels", "accessoire_seringue_antihemorragique"]
+    },
+    {
+      "id": "boite_outils_usee",
+      "name": "Boîte à outils usée",
+      "category": "Toolbox",
+      "rarity": "Common",
+      "background": "Une boîte rouillée contenant des outils désuets. Légèrement instable pour réparer les générateurs ou saboter les crochets.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "boite_outils",
+      "name": "Boîte à Outils",
+      "category": "Toolbox",
+      "rarity": "Uncommon",
+      "background": "Remplie de clés et de tournevis, elle est idéale pour accélérer grandement la réparation des générateurs.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "boite_outils_spacieuse",
+      "name": "Boîte à Outils Spacieuse",
+      "category": "Toolbox",
+      "rarity": "Rare",
+      "background": "Une large boîte contenant une grande quantité de pièces de rechange, offrant une excellente durabilité.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "boite_outils_mecanicien",
+      "name": "Boîte à Outils de Mécanicien",
+      "category": "Toolbox",
+      "rarity": "Rare",
+      "background": "Contient des outils lourds comme des scies, parfaits pour saboter rapidement les crochets du tueur.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "boite_outils_technicien",
+      "name": "Boîte à Outils de Technicien",
+      "category": "Toolbox",
+      "rarity": "Rare",
+      "background": "Des outils de haute précision qui permettent une vitesse de réparation de générateur inégalée, au détriment de sa capacité.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "boite_outils_alex",
+      "name": "Boîte à outils d'Alex",
+      "category": "Toolbox",
+      "rarity": "Very Rare",
+      "background": "Une boîte à outils personnalisée, lourde et spécialisée à l'extrême dans le sabotage des crochets.",
+      "addons_supported": ["accessoire_chiffon_propre", "accessoire_ferraille", "accessoire_instructions", "accessoire_bobine_fil", "accessoire_fil_couper", "accessoire_gants_protection", "accessoire_pince_ressort", "accessoire_tourillons", "accessoire_cle_ajustable", "accessoire_scie_metaux", "accessoire_piece_flambant_neuve"]
+    },
+    {
+      "id": "carte_cryptique",
+      "name": "Carte cryptique",
+      "category": "Map",
+      "rarity": "Rare",
+      "background": "Un morceau de parchemin qui révèle l'emplacement des générateurs à proximité lorsque vous la consultez.",
+      "addons_supported": []
+    },
+    {
+      "id": "carte_rare",
+      "name": "Carte",
+      "category": "Map",
+      "rarity": "Uncommon",
+      "background": "Un morceau de parchemin qui révèle l'emplacement des générateurs à proximité lorsque vous la consultez.",
+      "addons_supported": []
+    },
+    {
+      "id": "carte_annote",
+      "name": "Carte annoté",
+      "category": "Map",
+      "rarity": "Rare",
+      "background": "Une carte mystique et détaillée qui suit automatiquement les objectifs, les portails, les pièges et la trappe.",
+      "addons_supported": []
+    },
+    {
+      "id": "cle_cassee",
+      "name": "Clé cassée",
+      "category": "Key",
+      "rarity": "Common",
+      "background": "Une clé brisée sans pouvoir intrinsèque, mais qui sert de canalisateur surpuissant pour certains accessoires de vision.",
+      "addons_supported": ["accessoire_pile", "accessoire_alliance_unique", "accessoire_ambre_sang"]
+    },
+    {
+      "id": "cle_terne",
+      "name": "Clé terne",
+      "category": "Key",
+      "rarity": "Uncommon",
+      "background": "Une clé à l'aspect runique capable d'ouvrir de force la trappe lorsqu'elle est fermée.",
+      "addons_supported": ["accessoire_pile", "accessoire_alliance_unique", "accessoire_ambre_sang"]
+    },
+    {
+      "id": "passe_partout",
+      "name": "Passe-partout",
+      "category": "Key",
+      "rarity": "Rare",
+      "background": "Une clé squelette ancienne, débordante d'énergie texturée, capable d'ouvrir la trappe et dotée d'une grande durabilité.",
+      "addons_supported": ["accessoire_pile", "accessoire_alliance_unique", "accessoire_ambre_sang"]
+    }
+  ],
+  "addons": [
+    {
+      "id": "accessoire_ampoule_electrique",
+      "name": "Ampoule Électrique",
+      "category": "Flashlight",
+      "description": "Augmente de +20 % l'éclat du faisceau. Augmente de +10 % la durée de l'Aveuglement.",
+      "background": "Une petite ampoule de lampe de poche à la puissance plus élevée qui garantit un faisceau plus lumineux."
+    },
+    {
+      "id": "accessoire_lentille_large",
+      "name": "Lentille Large",
+      "category": "Flashlight",
+      "description": "Réduit de -25 % la portée du faisceau de la Lampe de Poche. Élargit de +25 % le faisceau de la Lampe de Poche.",
+      "background": "Une lentille fine et large en parfait état. Conçue pour élargir le faisceau de la lampe de poche au détriment de la portée à laquelle elle est efficace."
+    },
+    {
+      "id": "accessoire_pile",
+      "name": "Pile",
+      "category": "Key",
+      "description": "Ajoute +2 secondes d'utilisation à la Clé.",
+      "background": "Une pile standard de marque inconnue."
+    },
+    {
+      "id": "accessoire_poignee_cuir",
+      "name": "Poignée en Cuir",
+      "category": "Flashlight",
+      "description": "Augmente de +20 % la précision de la Lampe de Poche.",
+      "background": "Une bande de cuir enroulée autour de la lampe de poche pour améliorer la prise en main."
+    },
+    {
+      "id": "accessoire_filament_bas_amperage",
+      "name": "Filament Bas Ampérage",
+      "category": "Flashlight",
+      "description": "Réduit de -24 % la consommation de piles de la Lampe de Poche.",
+      "background": "Une ampoule à filament conçue pour prolonger la durée de vie des piles d'une lampe de poche."
+    },
+    {
+      "id": "accessoire_lentilles_focales",
+      "name": "Lentilles Focales",
+      "category": "Flashlight",
+      "description": "Augmente de +25 % la portée du faisceau de la Lampe de Poche. Réduit de -15 % le rayon du faisceau de la Lampe de Poche. Augmente de +20 % l'éclat du faisceau. Augmente de +10 % la durée de l'Aveuglement.",
+      "background": "Une lentille de verre épaisse qui concentre le faisceau de la lampe de poche pour augmenter son intensité."
+    },
+    {
+      "id": "accessoire_optique_reflexion_totale",
+      "name": "Optique à Réflexion Totale",
+      "category": "Flashlight",
+      "description": "Augmente de +30 % l'éclat du faisceau. Augmente de +15 % la durée de l'Aveuglement.",
+      "background": "Assemblage d'une lentille et d'un réflecteur qui agrandit le faisceau de la lampe de poche."
+    },
+    {
+      "id": "accessoire_pile_haute_performance",
+      "name": "Pile Haute Performance",
+      "category": "Flashlight",
+      "description": "Ajoute 4 secondes d'utilisation à la Lampe de Poche.",
+      "background": "Une pile portant la mention « puissance industrielle »."
+    },
+    {
+      "id": "accessoire_poignee_caoutchouc",
+      "name": "Poignée en Caoutchouc",
+      "category": "Flashlight",
+      "description": "Augmente de +40 % la précision de la Lampe de Poche.",
+      "background": "Une poignée en caoutchouc spécialement conçue pour s'adapter aux lampes de poche pour en améliorer la prise en main."
+    },
+    {
+      "id": "accessoire_lampe_halogene_intense",
+      "name": "Lampe Halogène Intense",
+      "category": "Flashlight",
+      "description": "Augmente de +40 % de l'éclat du faisceau. Augmente de +20 % la durée de l'Aveuglement.",
+      "background": "Une ampoule chimique qui génère une lumière intense."
+    },
+    {
+      "id": "accessoire_pile_longue_duree",
+      "name": "Pile Longue Durée",
+      "category": "Flashlight",
+      "description": "Ajoute 6 secondes d'utilisation à la Lampe de Poche.",
+      "background": "Un modèle récent de pile qui dure plus longtemps."
+    },
+    {
+      "id": "accessoire_lentille_saphir",
+      "name": "Lentille Haut de Gamme en Saphir",
+      "category": "Flashlight",
+      "description": "Augmente de +25 % la portée de la Lampe de Poche. Augmente de +30 % l'éclat du faisceau. Augmente de +15 % la durée d'Aveuglement. Élargit de -25 % le faisceau de la Lampe de Poche.",
+      "background": "Une large lentille en saphir impossible à rayer qui optimise la puissance et la portée du faisceau de lumière."
+    },
+    {
+      "id": "accessoire_ampoule_bizarre",
+      "name": "Ampoule Bizarre",
+      "category": "Flashlight",
+      "description": "Augmente de +50 % l'éclat du faisceau. Augmente de +25 % la durée de l'Aveuglement. Augmente de +12 % la consommation d'énergie de la Lampe de Poche.",
+      "background": "Une ampoule lourde et complètement opaque d'origine inconnue qui émet une faible lumière même quand la lampe est éteinte."
+    },
+    {
+      "id": "accessoire_alliance_unique",
+      "name": "Alliance Unique",
+      "category": "Key",
+      "description": "Dévoile l'Aura de l'Obsession à tout moment. Ne nécessite pas de Canaliser l'Énergie de la Clé. Réduit les chances de devenir l'Obsession du Tueur de -100 %.",
+      "background": "Une alliance gravée qui est apparue du Brouillard et résonne d'une énergie incompréhensible et indescriptible."
+    },
+    {
+      "id": "accessoire_ambre_sang",
+      "name": "Ambre de Sang",
+      "category": "Key",
+      "description": "Révèle l'Aura du Tueur dans un rayon de 32 mètres. Augmente la dépense d'énergie de la clé de 100 %.",
+      "background": "Ambre rouge sang strié de veines noires. L'ambre est chaud au toucher."
+    },
+    {
+      "id": "accessoire_gants_caoutchouc",
+      "name": "Gants de Caoutchouc",
+      "category": "Medkit",
+      "description": "Augmente de +10 % le bonus de progression en cas Tests d'Habileté Excellents.",
+      "background": "Des gants médicaux jetables pour éviter les contaminations croisées."
+    },
+    {
+      "id": "accessoire_pansements",
+      "name": "Pansements",
+      "category": "Medkit",
+      "description": "Ajoute +8 Charges à la Trousse de Soins.",
+      "background": "Un paquet de pansements que l'on trouve en général dans les trousses de soins."
+    },
+    {
+      "id": "accessoire_sutures_cutanees",
+      "name": "Sutures Cutanées",
+      "category": "Medkit",
+      "description": "Augmente la vitesse de soins de +5 %.",
+      "background": "Sparadrap de qualité médicale utilisé pour refermer de petites blessures."
+    },
+    {
+      "id": "accessoire_ciseaux_medicaux",
+      "name": "Ciseaux Médicaux",
+      "category": "Medkit",
+      "description": "Augmente la vitesse de soins de +10 %.",
+      "background": "Des ciseaux conçus pour couper facilement le textile."
+    },
+    {
+      "id": "accessoire_fil_aiguille",
+      "name": "Fil et Aiguille",
+      "category": "Medkit",
+      "description": "Augmente de +10 % les chances de générer un Test d'Habileté. Augmente la vitesse de progression bonus de +5 % en cas de Tests d'Habileté Excellents.",
+      "background": "Ce n'est pas vraiment un instrument médical à proprement parler, mais ça peut être utilisé pour refermer rapidement et douloureusement une plaie ouverte."
+    },
+    {
+      "id": "accessoire_rouleau_sparadrap",
+      "name": "Rouleau de Sparadrap",
+      "category": "Medkit",
+      "description": "Ajoute +8 Charges à la Trousse de Soins. Augmente la vitesse de Soins de +5 %.",
+      "background": "Un rouleau de bandages adhésifs pratiques pour couvrir rapidement les blessures ne nécessitant pas de pansements compliqués."
+    },
+    {
+      "id": "accessoire_eponge",
+      "name": "Éponge",
+      "category": "Medkit",
+      "description": "Augmente de +20 % la taille du Tests d'Habileté bonus.",
+      "background": "Une simple éponge utilisée pour absorber les excès de sang, permettant un accès plus facile aux blessures."
+    },
+    {
+      "id": "accessoire_bande_gaze",
+      "name": "Bande de Gaze",
+      "category": "Medkit",
+      "description": "Ajoute +10 Charges à la Trousse de Soins.",
+      "background": "De la gaze stérile utilisée pour traiter toutes sortes de blessures. Fait partie d'un ensemble complet de soins."
+    },
+    {
+      "id": "accessoire_suture_chirurgicale",
+      "name": "Suture Chirurgicale",
+      "category": "Medkit",
+      "description": "Augmente de +15 % les chances de déclencher un Test d'Habileté. Augmente la progression bonus en cas de Tests d'Habileté Excellents de +10 %.",
+      "background": "Matériel médical servant à refermer les blessures ouvertes. Bien que très efficace, la suture chirurgicale est difficile à utiliser."
+    },
+    {
+      "id": "accessoire_agent_styptique",
+      "name": "Agent Styptique",
+      "category": "Medkit",
+      "description": "Appuyez sur la touche d'Action Secondaire pendant un soin avec la Trousse de Soins pour utiliser l'Agent Styptique. Quand l'Agent Styptique est utilisé sur un Survivant Blessé, il obtient l'Effet de Statut Endurance pendant 5 secondes. L'Agent Styptique consomme la Trousse de Soins.",
+      "background": "Une poudre blanche aux vertus coagulantes. À appliquer sur une blessure pour arrêter l'hémorragie."
+    },
+    {
+      "id": "accessoire_pansement_abdominal",
+      "name": "Pansement Abdominal",
+      "category": "Medkit",
+      "description": "Augmente la vitesse de soins de +15 %.",
+      "background": "Un pansement extrêmement absorbant qui limite la perte de fluides corporels en cas de large blessure abdominale."
+    },
+    {
+      "id": "accessoire_pansements_hydrogels",
+      "name": "Pansements Hydrogels",
+      "category": "Medkit",
+      "description": "Ajoute +16 Charges à la Trousse de Soins.",
+      "background": "Un paquet de pansements imbibés de gel utilisés pour soigner les blessures purulentes."
+    },
+    {
+      "id": "accessoire_seringue_antihemorragique",
+      "name": "Seringue Antihémorragique",
+      "category": "Medkit",
+      "description": "Appuyez sur la touche d'Action Secondaire pendant un soin avec la Trousse de Soins pour utiliser la Seringue Antihémorragique. Le Survivant affecté récupèrera 1 État de Santé 16 secondes après son emploi. La Seringue Antihémorragique consomme la Trousse de Soins lors de l'utilisation.",
+      "background": "Une substance hémostatique qui arrête le saignement en quelques secondes."
+    },
+    {
+      "id": "accessoire_chiffon_propre",
+      "name": "Chiffon Propre",
+      "category": "Toolbox",
+      "description": "Augmente la vitesse de Réparation de la Boîte à Outils de +20 %.",
+      "background": "Un banal chiffon. Si propre qu'il en est suspect."
+    },
+    {
+      "id": "accessoire_ferraille",
+      "name": "Ferraille",
+      "category": "Toolbox",
+      "description": "Ajoute +8 Charges à la Boîte à Outils.",
+      "background": "Ressorts, vis et engrenages. Principalement de la ferraille inutilisable."
+    },
+    {
+      "id": "accessoire_instructions",
+      "name": "Instructions",
+      "category": "Toolbox",
+      "description": "Élimine les Tests d'Habileté en réparant avec la Boîte à Outils.",
+      "background": "Quelqu'un semble avoir peint rapidement des instructions de réparation sur ce morceau d'écorce."
+    },
+    {
+      "id": "accessoire_bobine_fil",
+      "name": "Bobine de Fil",
+      "category": "Toolbox",
+      "description": "Ajoute +12 Charges à la Boîte à Outils.",
+      "background": "Une bobine de fil de cuivre, portable mais lourde."
+    },
+    {
+      "id": "accessoire_fil_couper",
+      "name": "Fil à Couper",
+      "category": "Toolbox",
+      "description": "Augmente la vitesse de Sabotage de la Boîte à Outils de +20 %.",
+      "background": "Un outil tranchant rudimentaire fait de câbles métalliques dentelés et de deux poignées en bois."
+    },
+    {
+      "id": "accessoire_gants_protection",
+      "name": "Gants de Protection",
+      "category": "Toolbox",
+      "description": "Empêche d'avertir le Tueur lors du Sabotage d'un Crochet avec la Boîte à Outils.",
+      "background": "Des gants épais qui réduisent la dextérité mais qui protègent des blessures."
+    },
+    {
+      "id": "accessoire_pince_ressort",
+      "name": "Pince à Ressort",
+      "category": "Toolbox",
+      "description": "Réduit la distance à laquelle vos réparations peuvent être perçues de -8 mètres.",
+      "background": "Un outil utile pour maintenir des tuyaux ou des câbles en place et éviter les accidents."
+    },
+    {
+      "id": "accessoire_tourillons",
+      "name": "Tourillons",
+      "category": "Toolbox",
+      "description": "Augmente la vitesse de réparation de la Boîte à Outils de +30 %.",
+      "background": "Les tourillons fournissent allonge et flexibilité pour atteindre les boulons difficiles d'accès au plus profond des dispositifs mécaniques."
+    },
+    {
+      "id": "accessoire_cle_ajustable",
+      "name": "Clé Ajustable",
+      "category": "Toolbox",
+      "description": "Les Crochets sabotés à l'aide de la Boîte à Outils nécessitent 20 secondes de plus pour réapparaître.",
+      "background": "Une clé à molette ajustable avec un manche solide. Indispensable dans toute boîte à outils."
+    },
+    {
+      "id": "accessoire_scie_metaux",
+      "name": "Scie à Métaux",
+      "category": "Toolbox",
+      "description": "Augmente la vitesse de Sabotage de la Boîte à Outils de +30 %.",
+      "background": "Une petite scie à main équipée d'une lame à métaux."
+    },
+    {
+      "id": "accessoire_piece_flambant_neuve",
+      "name": "Pièce Flambant Neuve",
+      "category": "Toolbox",
+      "description": "L'action Réparer avec la Boîte à Outils est remplacée par Installer une Pièce Flambant Neuve. Au cours de l'installation, effectuer 1 Test d'Habileté Difficile. Réussir réduit le nombre de Charges requises du Générateur de -10. Pièce Flambant Neuve est consommée après utilisation.",
+      "background": "Cette pièce mécanique sophistiquée semble curieusement déplacée. Elle est propre et brillante comme si elle sortait tout juste de l'usine."
+    }
+  ]
+}

@@ -263,50 +263,62 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
     );
 
     // 2. Envoyer sur Twitch si activé
-    if (streamerMode) {
-      console.log("[TWITCH] Enclenchement de l'envoi du message...");
+    // 2. Envoyer sur Twitch si activé
+if (streamerMode) {
+  console.log("[TWITCH] Enclenchement de l'envoi du message via l'API Helix...");
+  
+  (async () => {
+    try {
+      const drawMode = req.body.drawMode || 'character';
+      const perksList = req.body.perks || [];
+      let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
+
+      if (drawMode === 'perks' && perksList.length > 0) {
+        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+        twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
+      } else if (drawMode === 'double' && perksList.length > 0) {
+        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+        twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
+      } else if (drawMode === 'map') {
+        const mapName = perksList[0] || '';
+        twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
+      }
+
+      // 1. Récupérer l'ID utilisateur de Twitch (nécessaire pour l'API de chat Helix)
+      // Nous devons d'abord demander l'ID de l'utilisateur à partir de son login si non stocké
+      const userResponse = await axios.get('https://api.twitch.tv/helix/users', {
+        headers: {
+          'Client-ID': CLIENT_ID,
+          'Authorization': `Bearer ${twitch.access_token}`
+        }
+      });
       
-      (async () => {
-        let client;
-        try {
-          client = new tmi.Client({
-            identity: {
-              username: twitch.login,
-              password: `oauth:${twitch.access_token}`
-            },
-            channels: [twitch.login]
-          });
-          
-          await client.connect();
+      const broadcasterId = userResponse.data.data[0].id;
 
-          const drawMode = req.body.drawMode || 'character';
-          const perksList = req.body.perks || [];
-          let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
-
-          if (drawMode === 'perks' && perksList.length > 0) {
-            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-            twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
-          } else if (drawMode === 'double' && perksList.length > 0) {
-            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-            twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
-          } else if (drawMode === 'map') {
-            const mapName = perksList[0] || '';
-            twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
-          }
-
-          await client.say(twitch.login, twitchMessage);
-          console.log(`[TWITCH] Message envoyé avec succès : "${twitchMessage}"`);
-        } catch (twitchErr) {
-          console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.message);
-        } finally {
-          if (client) {
-            await client.disconnect().catch(() => {});
+      // 2. Envoyer le message sur le chat
+      await axios.post('https://api.twitch.tv/helix/chat/messages', 
+        {
+          broadcaster_id: broadcasterId,
+          sender_id: broadcasterId, // L'utilisateur envoie le message dans son propre chat
+          message: twitchMessage
+        },
+        {
+          headers: {
+            'Client-ID': CLIENT_ID,
+            'Authorization': `Bearer ${twitch.access_token}`,
+            'Content-Type': 'application/json'
           }
         }
-      })();
-    } else {
-      console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
+      );
+
+      console.log(`[TWITCH] Message envoyé avec succès via Helix : "${twitchMessage}"`);
+    } catch (twitchErr) {
+      console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.response?.data || twitchErr.message);
     }
+  })();
+} else {
+  console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
+}
 
     return res.json({ ok: true, drawValue });
 

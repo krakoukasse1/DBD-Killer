@@ -7,32 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ÉCRAN DE PRÉCHARGEMENT (STYLE JEU VIDÉO) */
-    #preloader {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #0a0a0a;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      font-family: 'Bebas Neue', sans-serif;
-      transition: opacity 0.5s ease, visibility 0.5s;
-    }
-    #preloader.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .loader-title { color: #fff; font-size: 2rem; letter-spacing: 3px; }
-    .loader-title span { color: #cc0000; }
-    .loader-bar-wrap { width: 250px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-    .loader-bar { width: 0%; height: 100%; background: #cc0000; transition: width 0.1s ease; }
-    .loader-text { font-family: sans-serif; font-size: 0.8rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
-
-    /* PAGE PRINCIPALE */
     .result-page {
       max-width: 900px;
       margin: 0 auto;
@@ -76,7 +50,7 @@
       border: 2px solid rgba(200,0,0,0.4);
       box-shadow: 0 0 30px rgba(200,0,0,0.2);
     }
-    
+    .char-info {}
     .char-label { font-family: sans-serif; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(200,0,0,0.8); margin-bottom: 6px; display: block; }
     .char-name  { font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; letter-spacing: 3px; line-height: 1; }
     .char-type  { font-family: sans-serif; font-size: 0.8rem; color: rgba(200,200,200,0.4); margin-top: 6px; letter-spacing: 1px; }
@@ -143,6 +117,7 @@
     }
     .char-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
 
+    .perk-text {}
     .perk-name { font-size: 1rem; color: #fff; letter-spacing: 1.5px; margin-bottom: 3px; display: block; }
     .perk-origin { font-family: sans-serif; font-size: 0.65rem; color: rgba(200,200,200,0.35); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 7px; display: block; }
     .perk-origin.generic { color: rgba(255,180,0,0.5); }
@@ -160,7 +135,7 @@
     .action-btn.secondary { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
     .action-btn.secondary:hover { border-color: rgba(255,255,255,.35); color: #fff; }
 
-    /* ══ ROULETTE ══ */
+    /* ══ ANIMATION ROULETTE ══ */
     .roulette-section {
       width: 100%;
       display: flex;
@@ -168,6 +143,7 @@
       gap: 20px;
     }
 
+    /* Slot perso */
     .slot-char-wrap {
       position: relative;
       width: 100%;
@@ -193,7 +169,7 @@
       position: absolute;
       left: 50%; top: 0; bottom: 0;
       width: 3px;
-      background: #cc0000;
+      background: linear-gradient(to bottom, transparent, #cc0000 20%, #cc0000 80%, transparent);
       box-shadow: 0 0 10px rgba(200,0,0,0.8);
       transform: translateX(-50%);
       z-index: 4;
@@ -203,7 +179,6 @@
       display: flex;
       align-items: center;
       height: 100%;
-      padding-left: calc(50% - 80px);
       will-change: transform;
     }
 
@@ -211,12 +186,16 @@
       flex-shrink: 0;
       width: 160px;
       height: 140px;
+      margin: 0 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      filter: brightness(0.5);
+      transition: filter 0.3s;
     }
+    .slot-char-item.winner { filter: brightness(1.1); }
     .slot-char-item img {
       width: 100px; height: 100px;
       border-radius: 10px; object-fit: cover;
@@ -261,7 +240,7 @@
       position: absolute;
       left: 0; right: 0;
       top: 50%; height: 2px;
-      background: rgba(200,0,0,0.5);
+      background: linear-gradient(to right, transparent, rgba(200,0,0,0.7), transparent);
       transform: translateY(-50%);
       z-index: 4;
     }
@@ -283,8 +262,10 @@
       justify-content: center;
       gap: 6px;
       padding: 8px;
-      box-sizing: border-box;
+      filter: brightness(0.45);
+      transition: filter 0.3s;
     }
+    .slot-perk-item.winner { filter: brightness(1.1); }
     .slot-perk-item .perk-slot-img {
       width: 56px; height: 56px;
       border-radius: 8px;
@@ -309,18 +290,208 @@
       width: 100%;
     }
     .final-results.visible { display: flex; }
+
+/* ══════════════════════════════
+   RARETÉS — classes réutilisables
+   (tueurs ET survivants)
+══════════════════════════════ */
+.rarity-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* Raretés survivant */
+.rarity-Common        { background-image: url('assets/rarities/Common.png');     border-color: rgba(180,180,180,0.4) !important; }
+.rarity-Uncommon      { background-image: url('assets/rarities/Uncommon.png');   border-color: rgba(80,200,80,0.5)   !important; }
+.rarity-Rare          { background-image: url('assets/rarities/Rare.png');       border-color: rgba(80,120,255,0.5)  !important; }
+.rarity-Very-Rare     { background-image: url('assets/rarities/VeryRare.png');   border-color: rgba(180,0,255,0.5)   !important; }
+.rarity-Ultra-Rare    { background-image: url('assets/rarities/UltraRare.png');  border-color: rgba(255,140,0,0.6)   !important; }
+
+/* Badge texte de rareté */
+.item-rarity {
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-bottom: 6px;
+}
+.item-rarity.rarity-Common     { color: rgba(200,200,200,0.9); background: rgba(180,180,180,0.1); border-color: rgba(180,180,180,0.3); }
+.item-rarity.rarity-Uncommon   { color: rgba(80,220,80,0.9);   background: rgba(80,200,80,0.08);  border-color: rgba(80,200,80,0.3); }
+.item-rarity.rarity-Rare       { color: rgba(120,160,255,0.9); background: rgba(80,120,255,0.08); border-color: rgba(80,120,255,0.3); }
+.item-rarity.rarity-Very-Rare  { color: rgba(200,80,255,0.9);  background: rgba(180,0,255,0.08);  border-color: rgba(180,0,255,0.3); }
+.item-rarity.rarity-Ultra-Rare { color: rgba(255,160,40,0.9);  background: rgba(255,140,0,0.1);   border-color: rgba(255,140,0,0.4); }
+
+/* Pour les tueurs (grisé tant que pas fini) */
+.rarity-killer-addon {
+  color: rgba(150,150,150,0.5);
+  background: rgba(100,100,100,0.08);
+  border-color: rgba(100,100,100,0.2);
+}
+.rarity-bg.rarity-killer-addon {
+  background-image: none;
+  background-color: rgba(60,60,60,0.3);
+}
+
+/* ══════════════════════════════
+   SECTION OBJET
+══════════════════════════════ */
+.item-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slide-in 0.5s ease forwards;
+}
+
+.item-result {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Carte objet principal */
+.item-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 22px;
+  background: rgba(0,0,0,0.55);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  transition: border-color 0.3s;
+}
+.item-card:hover { border-color: rgba(255,255,255,0.18); }
+
+.item-img-wrap {
+  position: relative;
+  width: 90px; height: 90px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.4);
+}
+.item-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: 10px;
+  position: relative; z-index: 1;
+}
+.item-fallback {
+  font-size: 2rem;
+  position: relative; z-index: 1;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.item-category {
+  font-family: sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,0,0,0.7);
+  margin-bottom: 4px;
+}
+.item-name {
+  font-size: 1.4rem;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.item-background {
+  font-family: sans-serif;
+  font-size: 0.75rem;
+  color: rgba(200,200,200,0.45);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Rangée accessoires */
+.addons-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media(max-width:500px){ .addons-row { grid-template-columns: 1fr; } }
+
+.addon-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  transition: border-color 0.2s;
+}
+.addon-card:hover { border-color: rgba(255,255,255,0.15); }
+
+.addon-img-wrap {
+  position: relative;
+  width: 60px; height: 60px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.4);
+  font-size: 1.4rem;
+}
+.addon-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: 7px;
+  position: relative; z-index: 1;
+}
+
+.addon-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.addon-name {
+  font-size: 0.9rem;
+  color: #fff;
+  letter-spacing: 1.5px;
+}
+.addon-desc {
+  font-family: sans-serif;
+  font-size: 0.72rem;
+  color: rgba(200,200,200,0.45);
+  line-height: 1.5;
+}
   </style>
 </head>
 <body>
 
-<!-- ÉCRAN DE PRÉCHARGEMENT JEU VIDÉO -->
-<div id="preloader">
-  <div class="loader-title">CHARGEMENT DES <span>ASSETS</span>...</div>
-  <div class="loader-bar-wrap">
-    <div class="loader-bar" id="loaderBar"></div>
+<header>
+  <div class="header-left">
+    <img class="img-logo" src="assets/dbd logo.png" alt="Logo">
+    <p>Roulette DBD</p>
   </div>
-  <div class="loader-text" id="loaderText">0%</div>
-</div>
+  <div class="menu-toggle">☰</div>
+  <ul class="list-ul">
+    <li class="list-li"><a href="index.html">Accueil</a></li>
+    <li class="list-li"><a href="characterList.html?type=Killer">Liste tueurs</a></li>
+    <li class="list-li"><a href="characterList.html?type=Survivor">Liste survivants</a></li>
+    <li class="list-li"><a href="perkRoulette.html">Roulette perks</a></li>
+    <li class="list-li"><a href="bonus.html">Bonus</a></li>
+    <li class="list-li" id="profile-link" style="display:none"><a href="profile.html">Mon profil</a></li>
+    <li class="list-li">
+      <div id="twitch-btn" class="twitch-button">
+        <img src="assets/twitch_logo.png" class="twitch-icon" alt="Twitch">
+        <span>Connexion Twitch</span>
+      </div>
+    </li>
+  </ul>
+</header>
 
 <main class="result-page">
 
@@ -329,16 +500,23 @@
     <p id="result-subtitle">Chargement…</p>
   </div>
 
+  <!-- ANIMATION ROULETTE -->
   <div class="roulette-section" id="rouletteSection">
+
+    <!-- Slot personnage -->
     <div class="slot-char-wrap">
       <div class="slot-char-line"></div>
       <div class="slot-char-track" id="slotCharTrack"></div>
     </div>
+
+    <!-- Slots perks -->
     <div class="slots-perks-row" id="slotsPerkRow"></div>
+
   </div>
 
   <!-- RÉSULTATS FINAUX -->
   <div class="final-results" id="finalResults">
+
     <div class="character-card" id="charCard">
       <img class="char-img" id="charImg" src="" alt="">
       <div class="char-info">
@@ -347,9 +525,66 @@
         <div class="char-type" id="charType"></div>
       </div>
     </div>
+
     <div class="section-label">4 Perks tirées</div>
     <div class="perks-grid" id="perksGrid"></div>
+
   </div>
+
+
+<!-- À insérer dans doubleResult.html après la div #finalResults, avant #resultActions -->
+
+<!-- SECTION OBJET -->
+<div class="item-section" id="itemSection">
+  <div class="section-label">Objet &amp; Accessoires</div>
+
+  <div class="item-result">
+
+    <!-- OBJET PRINCIPAL -->
+    <div class="item-card" id="itemCard">
+      <div class="item-img-wrap">
+        <div class="rarity-bg rarity-common" id="itemRarityBg"></div>
+        <img id="itemImg" src="" alt="" onerror="this.style.display='none'">
+        <span id="itemImgFallback" class="item-fallback">📦</span>
+      </div>
+      <div class="item-info">
+        <span class="item-category" id="itemCategory">—</span>
+        <span class="item-name" id="itemName">—</span>
+        <span class="item-rarity rarity-common" id="itemRarity">—</span>
+        <p class="item-background" id="itemBackground">—</p>
+      </div>
+    </div>
+
+    <!-- 2 ACCESSOIRES -->
+    <div class="addons-row">
+      <div class="addon-card" id="addon0">
+        <div class="addon-img-wrap">
+          <div class="rarity-bg rarity-common" id="addon0RarityBg"></div>
+          <img id="addon0Img" src="" alt="" onerror="this.style.display='none'">
+          <span class="item-fallback">⚙️</span>
+        </div>
+        <div class="addon-info">
+          <span class="addon-name" id="addon0Name">—</span>
+          <span class="item-rarity rarity-common" id="addon0Rarity">—</span>
+          <p class="addon-desc" id="addon0Desc">—</p>
+        </div>
+      </div>
+      <div class="addon-card" id="addon1">
+        <div class="addon-img-wrap">
+          <div class="rarity-bg rarity-common" id="addon1RarityBg"></div>
+          <img id="addon1Img" src="" alt="" onerror="this.style.display='none'">
+          <span class="item-fallback">⚙️</span>
+        </div>
+        <div class="addon-info">
+          <span class="addon-name" id="addon1Name">—</span>
+          <span class="item-rarity rarity-common" id="addon1Rarity">—</span>
+          <p class="addon-desc" id="addon1Desc">—</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
   <!-- ACTIONS -->
   <div class="result-actions" id="resultActions" style="display:none;">
@@ -359,6 +594,7 @@
 
 </main>
 
+<script src="header.js"></script>
 <script>
 (async function(){
 
@@ -367,87 +603,78 @@
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
 
+  // Charger les données persos pour les images
   const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
-  let charList  = type === 'Killer' ? (charsData.killers || []) : (charsData.survivors || []);
+  const charList  = type === 'Killer' ? charsData.killers : charsData.survivors;
   const charPath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
   const charIndex = {};
   charList.forEach(c => { charIndex[c.name] = c.img; });
 
-  const perksJson = await fetch('perks.json').then(r => r.json()).catch(() => null);
-  let globalPerksPool = [];
-  if (perksJson) {
-    const sec = type === 'Killer' ? perksJson.killerPerks : perksJson.survivorPerks;
-    if(sec) {
-      globalPerksPool = [...sec.generic, ...sec.characters.flatMap(c => c.perks)];
-    }
+  // Info subtitle
+  document.getElementById('result-subtitle').textContent =
+    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+
+  // ══ PRÉCHARGEMENT DES IMAGES ══
+  function preloadImage(src) {
+    return new Promise(resolve => {
+      if (!src) { resolve(); return; }
+      const img = new Image();
+      img.onload = img.onerror = resolve;
+      img.src = src;
+    });
   }
 
-  document.getElementById('result-subtitle').textContent = `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+  // Collecter toutes les URLs à précharger
+  const toPreload = [];
 
-  // Grille finale
-  const grid = document.getElementById('perksGrid');
-  grid.innerHTML = '';
-  perks.forEach((perk) => {
-    const banner = document.createElement('div');
-    banner.className = 'perk-banner';
-    const perkWrap = document.createElement('div');
-    perkWrap.className = 'perk-img-wrap';
-    perkWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
-    if (perk.img) {
-      const img = document.createElement('img');
-      img.src = `assets/${perk.img}`;
-      img.onload = () => { perkWrap.innerHTML = ''; perkWrap.appendChild(img); };
+  // Images des persos de la liste
+  charList.forEach(c => toPreload.push(`${charPath}${c.img}`));
+
+  // Image du perso gagnant
+  toPreload.push(character.img);
+
+  // Images des perks gagnantes
+  perks.forEach(p => { if (p.img) toPreload.push(`assets/${p.img}`); });
+
+  // Images des persos propriétaires des perks
+  perks.forEach(p => {
+    if (p.character && charIndex[p.character]) {
+      toPreload.push(`${charPath}${charIndex[p.character]}`);
     }
-    const cWrap = document.createElement('div');
-    cWrap.className = 'char-img-wrap';
-    cWrap.textContent = perk.character ? '👤' : '✦';
-    if (perk.character && charIndex[perk.character]) {
-      const img = document.createElement('img');
-      img.src = `${charPath}${charIndex[perk.character]}`;
-      img.onload = () => { cWrap.innerHTML = ''; cWrap.appendChild(img); };
-    }
-    const text = document.createElement('div');
-    text.className = 'perk-text';
-    text.innerHTML = `
-      <span class="perk-name">${perk.name}</span>
-      <span class="perk-origin ${perk.character ? '' : 'generic'}">${perk.character || '✦ Générique'}</span>
-      <span class="perk-desc">${perk.description || ''}</span>
-    `;
-    banner.appendChild(perkWrap); banner.appendChild(cWrap); banner.appendChild(text);
-    grid.appendChild(banner);
   });
 
-  const TARGET_CHAR_INDEX = 55; 
-  const TARGET_PERK_INDEX = 25;
+  // Précharger tout en parallèle avant de lancer l'animation
+  await Promise.all([...new Set(toPreload)].map(preloadImage));
 
-  let urlsToPreload = [];
+  // ══ PHASE 1 : ANIMATION ROULETTE ══
 
-  // --- ROULETTE PERSO ---
+  // --- Slot personnage (horizontal) ---
   function buildCharSlot() {
     const track = document.getElementById('slotCharTrack');
     track.innerHTML = '';
-    let fullShuffledPool = [...charList].sort(() => Math.random() - 0.5);
-    while(fullShuffledPool.length < 70) {
-      fullShuffledPool = fullShuffledPool.concat([...charList].sort(() => Math.random() - 0.5));
+    // 30 persos aléatoires + le gagnant à la fin
+    // Beaucoup d'items pour un vrai défilement visible
+    const fakes = [];
+    for (let i = 0; i < 5; i++) {
+      fakes.push(...[...charList].sort(() => Math.random()-0.5));
     }
-    const finalItems = fullShuffledPool.slice(0, 68);
-    finalItems[TARGET_CHAR_INDEX] = { name: character.name, img: character.img.split('/').pop() };
-
-    finalItems.forEach(c => {
+    const items = [...fakes.slice(0, 50), { name: character.name, img: character.img.split('/').pop() }];
+    items.forEach(c => {
       const div = document.createElement('div');
       div.className = 'slot-char-item';
       const img = document.createElement('img');
-      const srcUrl = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
-      img.src = srcUrl;
-      urlsToPreload.push(srcUrl); // On ajoute au catalogue à précharger
+      img.src = c.img.includes('/') ? c.img : `${charPath}${c.img}`;
+      img.alt = c.name;
+      img.onerror = () => { img.style.display='none'; };
       const span = document.createElement('span');
       span.textContent = c.name;
       div.appendChild(img); div.appendChild(span);
       track.appendChild(div);
     });
+    return items.length;
   }
 
-  // --- ROULETTE PERKS ---
+  // --- Slots perks (vertical × 4) ---
   function buildPerkSlots() {
     const row = document.getElementById('slotsPerkRow');
     row.innerHTML = '';
@@ -460,24 +687,19 @@
       track.className = 'slot-perk-track';
       track.id = 'perkTrack'+slotIdx;
 
-      let fullPerksShuffled = [...globalPerksPool].sort(() => Math.random() - 0.5);
-      while(fullPerksShuffled.length < 40) {
-        fullPerksShuffled = fullPerksShuffled.concat([...globalPerksPool].sort(() => Math.random() - 0.5));
-      }
-      const finalPerks = fullPerksShuffled.slice(0, 35);
-      finalPerks[TARGET_PERK_INDEX] = winPerk;
-
-      finalPerks.forEach(p => {
+      // 20 perks aléatoires + gagnante
+      const allPerks = perks.concat(perks, perks, perks, perks).sort(()=>Math.random()-0.5).slice(0, 20);
+      const items = [...allPerks, winPerk];
+      items.forEach(p => {
         const item = document.createElement('div');
         item.className = 'slot-perk-item';
         const imgWrap = document.createElement('div');
         imgWrap.className = 'perk-slot-img';
+        imgWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
         if (p.img) {
           const img = document.createElement('img');
-          const srcUrl = `assets/${p.img}`;
-          img.src = srcUrl;
-          urlsToPreload.push(srcUrl); // On ajoute au catalogue à précharger
-          imgWrap.appendChild(img);
+          img.src = `assets/${p.img}`;
+          img.onload = () => { imgWrap.innerHTML=''; imgWrap.appendChild(img); };
         }
         const name = document.createElement('div');
         name.className = 'perk-slot-name';
@@ -485,121 +707,239 @@
         item.appendChild(imgWrap); item.appendChild(name);
         track.appendChild(item);
       });
+
       wrap.appendChild(line); wrap.appendChild(track);
       row.appendChild(wrap);
     });
   }
 
-  // On injecte aussi les images de la carte finale au préchargement
-  urlsToPreload.push(character.img);
-  perks.forEach(p => { if(p.img) urlsToPreload.push(`assets/${p.img}`); });
-
-  buildCharSlot();
+  const charCount = buildCharSlot();
   buildPerkSlots();
 
-  // Nettoyage des doublons d'URL pour ne pas télécharger 10 fois la même image
-  urlsToPreload = [...new Set(urlsToPreload)];
+  // --- Animation ---
+  const ITEM_W    = 172; // width + margin d'un slot perso
+  const ITEM_H    = 130; // height d'un slot perk
+  const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
 
-  // --- GESTIONNAIRE DE PRÉCHARGEMENT COMPATIBLE JEU VIDÉO ---
-  function preloadImages(urls) {
+  function animateCharSlot(totalItems) {
     return new Promise(resolve => {
-      let loadedCount = 0;
-      const total = urls.length;
-      if (total === 0) resolve();
+      // Attendre un frame pour que le DOM soit rendu et offsetWidth correct
+      requestAnimationFrame(() => {
+        const track   = document.getElementById('slotCharTrack');
+        const wrapper = track.parentElement;
+        const wrapW   = wrapper.offsetWidth || 800;
+        const finalX  = -((totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
 
-      const bar = document.getElementById('loaderBar');
-      const text = document.getElementById('loaderText');
+        track.style.transition = 'none';
+        track.style.transform  = 'translateX(0)';
+        void track.offsetWidth;
 
-      urls.forEach(url => {
-        const img = new Image();
-        img.src = url;
-        
-        // Dès qu'une image est en mémoire cache (succès ou erreur de lien cassé)
-        img.onload = img.onerror = () => {
-          loadedCount++;
-          const percent = Math.floor((loadedCount / total) * 100);
-          bar.style.width = percent + '%';
-          text.textContent = percent + '%';
-
-          if (loadedCount === total) {
-            setTimeout(resolve, 200); // Petit délai fluide pour la jauge à 100%
-          }
-        };
-      });
-    });
-  }
-
-  // --- Fonctions animations de la roulette ---
-  function runAnimations() {
-    return new Promise(resolve => {
-      const charTrack = document.getElementById('slotCharTrack');
-      const finalX = -(TARGET_CHAR_INDEX * 160); 
-      charTrack.style.transition = 'transform 4.5s cubic-bezier(0.05, 0.75, 0.1, 1)';
-      charTrack.style.transform = `translateX(${finalX}px)`;
-
-      const delays = [2500, 3200, 3800, 4400];
-      let completed = 0;
-
-      perks.forEach((_, idx) => {
-        const perkTrack = document.getElementById('perkTrack' + idx);
-        const finalY = -(TARGET_PERK_INDEX * 130);
-
-        perkTrack.style.transition = `transform ${delays[idx]}ms cubic-bezier(0.1, 0.8, 0.15, 1)`;
-        perkTrack.style.transform = `translateY(${finalY}px)`;
+        const dur = 3500;
+        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+        track.style.transform  = `translateX(${finalX}px)`;
 
         setTimeout(() => {
-          completed++;
-          if(completed === 4) resolve();
-        }, 4500);
+          const items = track.querySelectorAll('.slot-char-item');
+          items[items.length - 1].classList.add('winner');
+          resolve();
+        }, dur);
       });
     });
   }
 
-  // --- SÉQUENCE DE LANCEMENT ---
-  // 1. On attend que les assets soient téléchargés à 100%
-  await preloadImages(urlsToPreload);
+  function animatePerkSlots() {
+    return new Promise(resolve => {
+      let done = 0;
+      perks.forEach((_, idx) => {
+        const track   = document.getElementById('perkTrack' + idx);
+        if (!track) return;
+        const wrapper = track.parentElement;
+        const wrapH   = wrapper.offsetHeight; // hauteur visible du slot
+        const items   = track.querySelectorAll('.slot-perk-item');
+        const total   = items.length;
 
-  // 2. On masque le preloader
-  document.getElementById('preloader').classList.add('hidden');
+        // On veut que le DERNIER item soit centré dans le wrapper
+        // translateY pour amener item[total-1] au centre : -(total-1)*ITEM_H + wrapH/2 - ITEM_H/2
+        const finalY = -((total - 1) * ITEM_H) + (wrapH / 2) - (ITEM_H / 2);
 
-  // 3. On lance immédiatement l'animation (zéro attente !)
-  setTimeout(async () => {
-    await runAnimations();
+        track.style.transition = 'none';
+        track.style.transform  = 'translateY(0)';
+        void track.offsetWidth;
 
-    // Révélation finale
-    document.getElementById('charLabel').textContent = type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
-    document.getElementById('charName').textContent = character.name;
-    document.getElementById('charType').textContent = type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
-    document.getElementById('charImg').src = character.img;
+        const dur = STOP_DELAYS[idx];
+        track.style.transition = `transform ${dur}ms cubic-bezier(0.12, 0.8, 0.28, 1)`;
+        track.style.transform  = `translateY(${finalY}px)`;
 
-    // === CODE À RAJOUTER POUR ENREGISTRER LE DOUBLE TIRAGE ===
-    fetch("/api/draw-and-announce", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        items: [character.name], // Le nom du Tueur ou Survivant
-        characterType: type || "?", // "Killer" ou "Survivor"
-        drawMode: "double", // Active l'onglet "Double" dans le profil !
-        img: character.img.split('/').pop(), // Extrait "Marchande.png" proprement
-        perks: perks.map(p => ({ name: p.name, img: p.img })) // Sauvegarde les 4 perks tirées
-      })
-    }).catch(err => console.warn("Sauvegarde de l'historique échouée", err));
-
-    document.getElementById('finalResults').classList.add('visible');
-    document.getElementById('resultActions').style.display = 'flex';
-    
-    document.querySelectorAll('.perk-banner').forEach((banner, idx) => {
-      setTimeout(() => banner.classList.add('visible'), idx * 150 + 100);
+        setTimeout(() => {
+          items[total - 1].classList.add('winner');
+          done++;
+          if (done === perks.length) setTimeout(resolve, 500);
+        }, dur);
+      });
     });
-  }, 200);
+  }
 
-  // Bouton Nouveau Tirage
+  // Lancer les deux animations en parallèle
+  await Promise.all([
+    animateCharSlot(charCount),
+    animatePerkSlots()
+  ]);
+
+  // ══ PHASE 2 : AFFICHER LES RÉSULTATS EN DESSOUS (sans cacher les slots) ══
+  // ══ TIRAGE OBJET + ACCESSOIRES ══
+// À ajouter dans le script de doubleResult.html
+// Appeler drawItem() après runAnimations()
+
+async function drawItem() {
+  // Survivant seulement pour l'instant
+  // Pour les tueurs : ajouter killer_addons dans items.json plus tard
+  if (type !== 'Survivor') {
+    document.getElementById('itemSection').style.display = 'none';
+    return;
+  }
+
+  const itemsData = await fetch('items.json').then(r => r.json()).catch(() => null);
+  if (!itemsData) return;
+
+  // 1. Tirer un objet aléatoire
+  const items = itemsData.survivor_items;
+  const item = items[Math.floor(Math.random() * items.length)];
+
+  // 2. Tirer 2 accessoires compatibles (addons_supported de l'objet)
+  const allAddons = itemsData.addons;
+  const addonIndex = {};
+  allAddons.forEach(a => { addonIndex[a.id] = a; });
+
+  const compatibleAddons = item.addons_supported
+    .map(id => addonIndex[id])
+    .filter(Boolean);
+
+  // Shuffle + prendre 2
+  const shuffled = compatibleAddons.sort(() => Math.random() - 0.5);
+  const drawn = shuffled.slice(0, 2);
+
+  // 3. Afficher
+  const rarityClass = 'rarity-' + item.rarity.replace(' ', '-');
+
+  // Objet
+  document.getElementById('itemCategory').textContent = item.category;
+  document.getElementById('itemName').textContent = item.name;
+  document.getElementById('itemBackground').textContent = item.background;
+  document.getElementById('itemRarityBg').className = `rarity-bg ${rarityClass}`;
+  document.getElementById('itemRarity').className = `item-rarity ${rarityClass}`;
+  document.getElementById('itemRarity').textContent = item.rarity;
+
+  if (item.img) {
+    const img = document.getElementById('itemImg');
+    img.src = `assets/${item.img}`;
+    img.style.display = 'block';
+    document.getElementById('itemImgFallback').style.display = 'none';
+  }
+
+  // Appliquer la bordure de rareté sur la carte
+  const itemCard = document.getElementById('itemCard');
+  itemCard.classList.add(rarityClass);
+
+  // Accessoires
+  drawn.forEach((addon, i) => {
+    if (!addon) return;
+    const addonRarityClass = 'rarity-' + addon.rarity.replace(' ', '-');
+
+    document.getElementById(`addon${i}Name`).textContent = addon.name;
+    document.getElementById(`addon${i}Desc`).textContent = addon.description;
+    document.getElementById(`addon${i}RarityBg`).className = `rarity-bg ${addonRarityClass}`;
+    document.getElementById(`addon${i}Rarity`).className = `item-rarity ${addonRarityClass}`;
+    document.getElementById(`addon${i}Rarity`).textContent = addon.rarity;
+
+    if (addon.img) {
+      const img = document.getElementById(`addon${i}Img`);
+      img.src = `assets/${addon.img}`;
+      img.style.display = 'block';
+    }
+
+    document.getElementById(`addon${i}`).classList.add(addonRarityClass);
+  });
+
+  // Si 0 accessoires compatibles (ex: Carte sans addons)
+  if (compatibleAddons.length === 0) {
+    document.querySelector('.addons-row').innerHTML =
+      '<p style="font-family:sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.3);text-align:center;grid-column:span 2">Cet objet n\'a pas d\'accessoires</p>';
+  }
+}
+
+  document.getElementById('finalResults').classList.add('visible');
+  await drawItem();
+  document.getElementById('resultActions').style.display = 'flex';
+  // Scroll vers les résultats
+  document.getElementById('finalResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Afficher personnage
+  document.getElementById('result-subtitle').textContent =
+    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+  document.getElementById('charLabel').textContent =
+    type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
+  document.getElementById('charName').textContent = character.name;
+  document.getElementById('charType').textContent =
+    type === 'Killer' ? 'Tueur — Dead by Daylight' : 'Survivant — Dead by Daylight';
+  document.getElementById('charImg').src = character.img;
+  document.getElementById('charImg').alt = character.name;
+
+  // Afficher les perks
+  const grid = document.getElementById('perksGrid');
+
+  perks.forEach((perk, idx) => {
+    const banner = document.createElement('div');
+    banner.className = 'perk-banner';
+
+    // Image perk
+    const perkWrap = document.createElement('div');
+    perkWrap.className = 'perk-img-wrap';
+    perkWrap.textContent = type === 'Killer' ? '🔪' : '🏃';
+    if (perk.img) {
+      const img = document.createElement('img');
+      img.src = `assets/${perk.img}`;
+      img.alt = perk.name;
+      img.onerror = () => {};
+      img.onload  = () => { perkWrap.innerHTML = ''; perkWrap.appendChild(img); };
+    }
+
+    // Image personnage de la perk
+    const cWrap = document.createElement('div');
+    cWrap.className = 'char-img-wrap';
+    cWrap.textContent = perk.character ? '👤' : '✦';
+    if (perk.character && charIndex[perk.character]) {
+      const img = document.createElement('img');
+      img.src = `${charPath}${charIndex[perk.character]}`;
+      img.alt = perk.character;
+      img.onload = () => { cWrap.innerHTML = ''; cWrap.appendChild(img); };
+    }
+
+    // Texte
+    const text = document.createElement('div');
+    text.className = 'perk-text';
+    text.innerHTML = `
+      <span class="perk-name">${perk.name}</span>
+      <span class="perk-origin ${perk.character ? '' : 'generic'}">${perk.character || '✦ Générique'}</span>
+      <span class="perk-desc">${perk.description || ''}</span>
+    `;
+
+    banner.appendChild(perkWrap);
+    banner.appendChild(cWrap);
+    banner.appendChild(text);
+    grid.appendChild(banner);
+
+    // Animation décalée
+    setTimeout(() => banner.classList.add('visible'), idx * 150 + 200);
+  });
+
+  // Bouton rejouer
   document.getElementById('redrawBtn').addEventListener('click', async () => {
+    // Recharger les données et refaire un tirage du même type
     const [data, perksData] = await Promise.all([
-      fetch('data.json').then(r=>r.json()).catch(()=>({killers:[],survivors:[]})),
+      fetch('data.json').then(r=>r.json()),
       fetch('perks.json').then(r=>r.json()).catch(()=>null)
     ]);
+
     const rawList = type === 'Killer' ? data.killers : data.survivors;
     const newChar = rawList[Math.floor(Math.random() * rawList.length)];
     const basePath = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
@@ -611,7 +951,11 @@
         ...section.generic.map(p => ({ ...p, character: null })),
         ...section.characters.flatMap(c => c.perks.map(p => ({ ...p, character: c.character })))
       ];
-      const shuffled = [...perkPool].sort(() => Math.random() - 0.5);
+      const shuffled = [...perkPool];
+      for (let i = shuffled.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
       newPerks = shuffled.slice(0, 4);
     }
 
@@ -625,5 +969,6 @@
 
 })();
 </script>
+
 </body>
 </html>
