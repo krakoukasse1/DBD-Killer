@@ -55,7 +55,7 @@ app.use(session({
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
-const SCOPES = 'user:write:chat chat:read';
+const SCOPES = 'chat:edit chat:read';
 
 // =====================
 // STATIC FRONTEND
@@ -217,15 +217,6 @@ app.delete('/api/delete-account', requireAuth, async (req, res) => {
   }
 });
 
-// =====================
-// DRAW & ANNOUNCE
-// =====================
-// =====================
-// DRAW & ANNOUNCE — CORRIGÉ
-// =====================
-// =====================
-// DRAW & ANNOUNCE — VERSION HELIX CORRIGÉE
-// =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
   const items = req.body.items || [];
@@ -234,14 +225,7 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
 
   try {
     const profile = await Profile.findOne({ login: twitch.login });
-    
-    // 🔍 SÉCURITÉ : On force la conversion en booléen
     const streamerMode = profile && (profile.streamerMode === true || profile.streamerMode === 'true');
-
-    // 📢 LOGS DE DÉBOGAGE
-    console.log(`[TIRAGE] Utilisateur : ${twitch.login}`);
-    console.log(`[TIRAGE] Mode Streamer détecté en BDD :`, profile?.streamerMode);
-    console.log(`[TIRAGE] Mode Streamer validé par le script :`, streamerMode);
 
     // 1. Sauvegarder dans l'historique MongoDB
     await Profile.findOneAndUpdate(
@@ -265,17 +249,29 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       { upsert: true }
     );
 
-    // 2. Envoyer sur Twitch via l'API Helix moderne si activé
+    // 2. Envoyer sur Twitch si activé
     if (streamerMode) {
-      console.log("[TWITCH] Enclenchement de l'envoi du message via l'API Helix...");
+      console.log("[TWITCH] Connexion TMI en cours...");
       
       (async () => {
+        let client;
         try {
+          client = new tmi.Client({
+            options: { debug: false },
+            identity: {
+              username: twitch.login,
+              password: `oauth:${twitch.access_token}`
+            },
+            channels: [twitch.login]
+          });
+          
+          // On attend la connexion complète au serveur IRC de Twitch
+          await client.connect();
+
           const drawMode = req.body.drawMode || 'character';
           const perksList = req.body.perks || [];
           let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
 
-          // Gestion des différents modes d'affichage du message de chat
           if (drawMode === 'perks' && perksList.length > 0) {
             const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
             twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
@@ -287,43 +283,22 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
             twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
           }
 
-          // A. Récupérer l'ID numérique de l'utilisateur Twitch
-          const userResponse = await axios.get('https://api.twitch.tv/helix/users', {
-            headers: {
-              'Client-ID': CLIENT_ID,
-              'Authorization': `Bearer ${twitch.access_token}`
-            }
-          });
-          
-          if (!userResponse.data?.data?.[0]) {
-            throw new Error("Impossible de récupérer l'ID utilisateur Twitch.");
-          }
-          
-          const broadcasterId = userResponse.data.data[0].id;
+          // CRUCIAL : On met un "await" pour forcer le script à attendre que le message soit envoyé 
+          // avant de passer à la suite (la déconnexion)
+          await client.say(twitch.login, twitchMessage);
+          console.log(`[TWITCH] Message envoyé avec succès : "${twitchMessage}"`);
 
-          // B. Envoyer le message sur le chat via la méthode POST Helix officielle
-          await axios.post('https://api.twitch.tv/helix/chat/messages', 
-            {
-              broadcaster_id: broadcasterId,
-              sender_id: broadcasterId, 
-              message: twitchMessage
-            },
-            {
-              headers: {
-                'Client-ID': CLIENT_ID,
-                'Authorization': `Bearer ${twitch.access_token}`,
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-
-          console.log(`[TWITCH] Message envoyé avec succès via Helix : "${twitchMessage}"`);
         } catch (twitchErr) {
-          console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.response?.data || twitchErr.message);
+          console.error("❌ [TWITCH] Échec de l'annonce via TMI :", twitchErr.message);
+        } finally {
+          if (client) {
+            // On attend 500ms avant de déconnecter pour laisser le temps au protocole de respirer
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await client.disconnect().catch(() => {});
+            console.log("[TWITCH] Client TMI déconnecté proprement.");
+          }
         }
       })();
-    } else {
-      console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
     }
 
     return res.json({ ok: true, drawValue });
