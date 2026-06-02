@@ -223,6 +223,9 @@ app.delete('/api/delete-account', requireAuth, async (req, res) => {
 // =====================
 // DRAW & ANNOUNCE — CORRIGÉ
 // =====================
+// =====================
+// DRAW & ANNOUNCE — VERSION HELIX CORRIGÉE
+// =====================
 app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   const twitch = req.session.twitch;
   const items = req.body.items || [];
@@ -232,10 +235,10 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ login: twitch.login });
     
-    // 🔍 SÉCURITÉ : On force la conversion en booléen au cas où c'est stocké en chaîne "true"/"false"
+    // 🔍 SÉCURITÉ : On force la conversion en booléen
     const streamerMode = profile && (profile.streamerMode === true || profile.streamerMode === 'true');
 
-    // 📢 LOGS DE DÉBOGAGE (Regarde ton terminal Node.js !)
+    // 📢 LOGS DE DÉBOGAGE
     console.log(`[TIRAGE] Utilisateur : ${twitch.login}`);
     console.log(`[TIRAGE] Mode Streamer détecté en BDD :`, profile?.streamerMode);
     console.log(`[TIRAGE] Mode Streamer validé par le script :`, streamerMode);
@@ -262,63 +265,66 @@ app.post('/api/draw-and-announce', requireAuth, async (req, res) => {
       { upsert: true }
     );
 
-    // 2. Envoyer sur Twitch si activé
-    // 2. Envoyer sur Twitch si activé
-if (streamerMode) {
-  console.log("[TWITCH] Enclenchement de l'envoi du message via l'API Helix...");
-  
-  (async () => {
-    try {
-      const drawMode = req.body.drawMode || 'character';
-      const perksList = req.body.perks || [];
-      let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
-
-      if (drawMode === 'perks' && perksList.length > 0) {
-        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-        twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
-      } else if (drawMode === 'double' && perksList.length > 0) {
-        const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
-        twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
-      } else if (drawMode === 'map') {
-        const mapName = perksList[0] || '';
-        twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
-      }
-
-      // 1. Récupérer l'ID utilisateur de Twitch (nécessaire pour l'API de chat Helix)
-      // Nous devons d'abord demander l'ID de l'utilisateur à partir de son login si non stocké
-      const userResponse = await axios.get('https://api.twitch.tv/helix/users', {
-        headers: {
-          'Client-ID': CLIENT_ID,
-          'Authorization': `Bearer ${twitch.access_token}`
-        }
-      });
+    // 2. Envoyer sur Twitch via l'API Helix moderne si activé
+    if (streamerMode) {
+      console.log("[TWITCH] Enclenchement de l'envoi du message via l'API Helix...");
       
-      const broadcasterId = userResponse.data.data[0].id;
+      (async () => {
+        try {
+          const drawMode = req.body.drawMode || 'character';
+          const perksList = req.body.perks || [];
+          let twitchMessage = `🎲 Tirage DBD : ${drawValue} !`;
 
-      // 2. Envoyer le message sur le chat
-      await axios.post('https://api.twitch.tv/helix/chat/messages', 
-        {
-          broadcaster_id: broadcasterId,
-          sender_id: broadcasterId, // L'utilisateur envoie le message dans son propre chat
-          message: twitchMessage
-        },
-        {
-          headers: {
-            'Client-ID': CLIENT_ID,
-            'Authorization': `Bearer ${twitch.access_token}`,
-            'Content-Type': 'application/json'
+          // Gestion des différents modes d'affichage du message de chat
+          if (drawMode === 'perks' && perksList.length > 0) {
+            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+            twitchMessage = `⚙️ Tirage Perks DBD (${req.body.characterType || '?'}) : ${names} !`;
+          } else if (drawMode === 'double' && perksList.length > 0) {
+            const names = perksList.map(p => typeof p === 'object' ? p.name : p).join(', ');
+            twitchMessage = `🎲 Double Tirage DBD : ${drawValue} avec les perks [ ${names} ] !`;
+          } else if (drawMode === 'map') {
+            const mapName = perksList[0] || '';
+            twitchMessage = `🗺️ Tirage Map DBD : ${drawValue}${mapName ? ` - ${mapName}` : ''} !`;
           }
-        }
-      );
 
-      console.log(`[TWITCH] Message envoyé avec succès via Helix : "${twitchMessage}"`);
-    } catch (twitchErr) {
-      console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.response?.data || twitchErr.message);
+          // A. Récupérer l'ID numérique de l'utilisateur Twitch
+          const userResponse = await axios.get('https://api.twitch.tv/helix/users', {
+            headers: {
+              'Client-ID': CLIENT_ID,
+              'Authorization': `Bearer ${twitch.access_token}`
+            }
+          });
+          
+          if (!userResponse.data?.data?.[0]) {
+            throw new Error("Impossible de récupérer l'ID utilisateur Twitch.");
+          }
+          
+          const broadcasterId = userResponse.data.data[0].id;
+
+          // B. Envoyer le message sur le chat via la méthode POST Helix officielle
+          await axios.post('https://api.twitch.tv/helix/chat/messages', 
+            {
+              broadcaster_id: broadcasterId,
+              sender_id: broadcasterId, 
+              message: twitchMessage
+            },
+            {
+              headers: {
+                'Client-ID': CLIENT_ID,
+                'Authorization': `Bearer ${twitch.access_token}`,
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+
+          console.log(`[TWITCH] Message envoyé avec succès via Helix : "${twitchMessage}"`);
+        } catch (twitchErr) {
+          console.error("❌ [TWITCH] Échec de l'annonce :", twitchErr.response?.data || twitchErr.message);
+        }
+      })();
+    } else {
+      console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
     }
-  })();
-} else {
-  console.log("[TWITCH] Blocage : Le mode streamer est désactivé.");
-}
 
     return res.json({ ok: true, drawValue });
 
