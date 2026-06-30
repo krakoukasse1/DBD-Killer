@@ -245,6 +245,11 @@
     "img": "Vecna_ST.png",
     "type": "killer",
     "available": true 
+},{
+    "name": "Jason",
+    "img": "Jason.png",
+    "type": "killer",
+    "available": true 
 }
   ],
   "survivors": [
