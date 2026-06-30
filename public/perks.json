@@ -716,6 +716,13 @@
       {"id": "s_kwon_02", "name": "Cinq coups d'avance", "img": "perks/survivor/CinqCoupsAvances.png", "description": "Dans le rayon de terreur ou en poursuite, vous voyez l'aura des 5 fenêtres/palettes les plus proches. Vous abattez les palettes 50% plus vite (avec un délai de récupération après chaque palette lâchée).", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
       {"id": "s_kwon_03", "name": "État de Flux", "img": "perks/survivor/EtatFlux.png", "description": "Vous gagnez 1 jeton (max 5) à chaque générateur réparé. Chaque jeton augmente votre vitesse de soin, de décrochage et de purification/bénédiction de totems de 8/9/10%.", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
     ]   
+      },{
+    "character": "Shane Wiigwaas ",
+    "perks": [
+      {"id": "s_shane_01", "name": "Accélération sans Obstacle", "img": "perks/survivor/AccelerationSansobstacle.png", "description": "Lorsque vous sautez une palette en courant, vous gagnez 15% de rapidité pendant 3s, relever la palette qui deviens bloquée pendant 60s. Cooldown de 60s", "type": "evasion", "buffs": ["Relever des palette","Vitesse"], "debuffs": ["Cooldown"]},
+      {"id": "s_shane_02", "name": "Coup de main", "img": "perks/survivor/Coupdemain.png", "description": "Après avoir béni ou détruit un totem, vous pouvez donner 4 charge de soins définitif a un survivants pendant que vous le soignez 1 fois par partie", "type": "evasion", "buffs": ["Stealth"], "debuffs": []},
+      {"id": "s_shane_03", "name": "Contre Interrogatoire", "img": "perks/survivor/ContreInterrogatoire.png", "description": "Lorsque vous êtes dans le rayon du tueur, celui ci laisse des traces de lumière que vous pouvez voir pendfant 10s. Tant que vous êtes sur les marques de lumières, vous gagnez insaissisable (pas de marque d'érafflure, pas de trace de sang ni d'aura) pendant 5s", "type": "objective", "buffs": ["Repair Bonus"], "debuffs": []}
+    ]   
       }
     ]
   },
@@ -1188,6 +1195,14 @@
       {"id": "k_henry_01", "name": "Projet secret", "img": "perks/killer/ProjetSecret.png", "description": "Lorsqu'un Totem est Béni ou Purifié, vous bloquez un Générateurlibre aléatoire pendant 20/25/30 secondes.Lorsque 1 Générateur, ou davantage, se retrouve bloqué, vous gagnez l'Effet de Statut Indétectable pendant 30 secondes.", "type": "lethal", "buffs": [], "debuffs": ["Exposed"]},
       {"id": "k_henry_02", "name": "Remonter le temps", "img": "perks/killer/RemonterTemps.png", "description": "Après avoir accroché un Survivant, pendant 60/50/40 secondes, appuyez sur le bouton de Capacité 1 pour faire exploser un Générateur ciblé dans un Rayon de 20 mètres, lui faire perdre +10 % de progression et le faire régresser. ", "type": "stealth", "buffs": ["Distraction"], "debuffs": []},
       {"id": "k_henry_03", "name": "Sort : Esprit collectif", "img": "perks/killer/SortEspritCollectif.png", "description": "La première fois que vous accrochez n'importe quel Survivant, un totem ensorcelé apparait permettant de voir l'aura des génerateurs en fonction de leur réparation, lorsqu'il ne reste qu'1 générateur tous les gens explosent et le totem deviens passif", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
+    ]
+  }, 
+  {
+    "character": "Jason",
+    "perks": [
+      {"id": "k_jason_01", "name": "Ombreuse silencieuse", "img": "perks/killer/OmbreSilencieuse.png", "description": "Lorsque vous accrochez un survivants, vous devenez indétéctable pendant 13 secondes et devenez indetectable pour une durée infini lorsque les portes de sortie sont alimenté", "type": "stealth", "buffs": ["Accrochage recompensé","Statut indétéctable"], "debuffs": []},
+      {"id": "k_jason_02", "name": "Saccage", "img": "perks/killer/Saccage.png", "description": "Lorsque vous briser une palette ou un mur destructible, gagnez un totem jusqu'a 13. Quand vous êtes etourdi ou aveugler, gagnez 1% de rapidité pour chaque jeton pendant 13 secondes", "type": "stealth", "buffs": ["Distraction"], "debuffs": []},
+      {"id": "k_jason_03", "name": "Sort : Frayeur de la mort", "img": "perks/killer/SortFrayeurMortelle.png", "description": "'Lorsque vous accrochez 3 survivants differents, un totem est activé et a chaque palette que vous brisé, tous les surivants dans un rayon de 13m crie et subissent 13% du statut encombré vous ralentissant", "type": "tracking", "buffs": ["Aura Reading"], "debuffs": []}
     ]
   }
     ]

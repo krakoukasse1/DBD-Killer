@@ -556,6 +556,11 @@
     "img": "Kwon.png",
     "type": "survivor",
     "available": true
+},{
+    "name": "Shane Wiigwaas ",
+    "img": "Shane.png",
+    "type": "survivor",
+    "available": true
 }
   ]
 }
