@@ -95,7 +95,7 @@
 
     // Histoire
     const story = $('.cm-story');
-    const text = loreData[character.name];
+    const text = loreData[character.name.trim()];
     story.textContent = text || 'Histoire à venir…';
     story.classList.toggle('empty', !text);
     story.scrollTop = 0;
