@@ -72,6 +72,19 @@ fetch('data.json')
         name.className = 'name-character';
         name.textContent = character.name;
         div.appendChild(name);
+
+        // Bouton info → ouvre la modale (ne change pas la sélection)
+        const infoBtn = document.createElement('button');
+        infoBtn.type = 'button';
+        infoBtn.className = 'info-btn';
+        infoBtn.textContent = 'i';
+        infoBtn.title = `Infos sur ${character.name}`;
+        infoBtn.setAttribute('aria-label', `Infos sur ${character.name}`);
+        infoBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          window.CharacterModal.open(character, type === 1 ? 'killer' : 'survivor', type === 1 ? KillerPath : SurvivorPath);
+        });
+        div.appendChild(infoBtn);
       });
     }
 
