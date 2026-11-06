@@ -396,6 +396,40 @@
 }
 .cm-empty { opacity: .6; font-style: italic; font-family: Georgia, serif; }
 
+/* ---------- Infobulle perk ---------- */
+.cm-perk { cursor: help; }
+.cm-perk:focus-visible { outline: 1px solid var(--accent); }
+.cm-tip {
+  position: absolute;
+  z-index: 8;
+  padding: 12px 18px 14px;
+  background: #060606;
+  border: 1px solid rgba(var(--accent-rgb), .6);
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 0 26px rgba(var(--accent-rgb), .35), 0 12px 30px rgba(0,0,0,.85);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .15s, transform .15s;
+}
+.cm-tip.show { opacity: 1; transform: none; }
+.cm-tip strong {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: .1em;
+  color: var(--accent2);
+  margin-bottom: 4px;
+}
+.cm-tip span {
+  display: block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #e6d9c4;
+}
+
 /* ---------- Histoire ---------- */
 .cm-story {
   font-family: Georgia, 'Times New Roman', serif;

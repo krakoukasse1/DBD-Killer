@@ -35,6 +35,7 @@
       <span class="cm-corner bl"></span><span class="cm-corner br"></span>
 
       <button class="cm-close" aria-label="Fermer"><span>✕</span></button>
+      <div class="cm-tip" role="tooltip"></div>
 
       <div class="cm-visual">
         <div class="cm-watermark"></div>
@@ -70,7 +71,42 @@
     embers.appendChild(e);
   }
 
+  // --- Infobulle des perks (survol / focus / clic sur mobile) ---
+  const modalEl = $('.cm-modal');
+  const tip = $('.cm-tip');
+
+  function showTip(row) {
+    const desc = row.dataset.desc;
+    if (!desc) return;
+    tip.innerHTML = '';
+    const t = document.createElement('strong');
+    t.textContent = row.dataset.name;
+    const d = document.createElement('span');
+    d.textContent = desc;
+    tip.append(t, d);
+    tip.classList.add('show');
+
+    // Placement : sous la ligne si possible, sinon au-dessus
+    const m = modalEl.getBoundingClientRect();
+    const r = row.getBoundingClientRect();
+    const w = Math.min(430, m.width - 24);
+    tip.style.width = w + 'px';
+    const h = tip.offsetHeight;
+    let left = r.left - m.left + 84;
+    left = Math.max(12, Math.min(left, m.width - w - 12));
+    const sc = modalEl.scrollTop;
+    let top = r.bottom - m.top + sc + 8;
+    if (top + h > sc + m.height - 12) top = r.top - m.top + sc - h - 8;
+    tip.style.left = left + 'px';
+    tip.style.top = Math.max(sc + 12, top) + 'px';
+  }
+  function hideTip() { tip.classList.remove('show'); delete tip.dataset.for; }
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  modalEl.addEventListener('click', hideTip);
+  modalEl.addEventListener('scroll', hideTip);
+
   function close() {
+    hideTip();
     overlay.classList.remove('open');
     document.body.classList.remove('cm-lock');
     if (lastFocus) lastFocus.focus();
@@ -78,6 +114,7 @@
 
   overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
   $('.cm-close').addEventListener('click', close);
+  $('.cm-info').addEventListener('scroll', hideTip);
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && overlay.classList.contains('open')) close();
   });
@@ -117,6 +154,21 @@
       entry.perks.forEach(p => {
         const row = document.createElement('div');
         row.className = 'cm-perk';
+        row.tabIndex = 0;
+        row.dataset.name = p.name;
+        row.dataset.desc = p.description || '';
+        if (canHover) {
+          row.addEventListener('mouseenter', () => showTip(row));
+          row.addEventListener('mouseleave', hideTip);
+          row.addEventListener('focus', () => showTip(row));
+          row.addEventListener('blur', hideTip);
+        } else {
+          row.addEventListener('click', e => {
+            e.stopPropagation();
+            const same = tip.classList.contains('show') && tip.dataset.for === p.name;
+            same ? hideTip() : (showTip(row), tip.dataset.for = p.name);
+          });
+        }
 
         const icon = document.createElement('div');
         icon.className = 'cm-perk-icon';
