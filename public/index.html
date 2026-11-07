@@ -764,6 +764,7 @@
 </footer>
 
 <script src="header.js"></script>
+<script src="itemDraw.js"></script>
 <script>
 (async function () {
   // ── SCROLL REVEAL ──
@@ -854,9 +855,15 @@
       }
       drawnPerks = perkPool.slice(0, 4);
     } catch(e) {}
+    // Survivants : tirage de l'objet + 2 accessoires en plus du perso et des perks
+    let drawnItem = {};
+    if (type === 'Survivor') {
+      const objets = await ItemDraw.load();
+      if (objets) drawnItem = ItemDraw.draw(objets);
+    }
     localStorage.setItem('doubleResult', JSON.stringify({
       character: { name: character.name, img: `${basePath}${character.img}` },
-      perks: drawnPerks, type
+      perks: drawnPerks, type, ...drawnItem
     }));
     window.location.href = 'doubleResult.html';
   }

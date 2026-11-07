@@ -306,14 +306,15 @@
 }
 
 /* Raretés survivant */
-.rarity-Common        { background-image: url('assets/rarities/Common.png');     border-color: rgba(180,180,180,0.4) !important; }
-.rarity-Uncommon      { background-image: url('assets/rarities/Uncommon.png');   border-color: rgba(80,200,80,0.5)   !important; }
-.rarity-Rare          { background-image: url('assets/rarities/Rare.png');       border-color: rgba(80,120,255,0.5)  !important; }
-.rarity-Very-Rare     { background-image: url('assets/rarities/VeryRare.png');   border-color: rgba(180,0,255,0.5)   !important; }
-.rarity-Ultra-Rare    { background-image: url('assets/rarities/UltraRare.png');  border-color: rgba(255,140,0,0.6)   !important; }
+.rarity-Common        { background-image: url('assets/Common.png');     border-color: rgba(180,180,180,0.4) !important; }
+.rarity-Uncommon      { background-image: url('assets/Uncommon.png');   border-color: rgba(80,200,80,0.5)   !important; }
+.rarity-Rare          { background-image: url('assets/Rare.png');       border-color: rgba(80,120,255,0.5)  !important; }
+.rarity-Very-Rare     { background-image: url('assets/Very%20Rare.png');   border-color: rgba(180,0,255,0.5)   !important; }
+.rarity-Ultra-Rare    { background-image: url('assets/Visceral.png');  border-color: rgba(255,140,0,0.6)   !important; }
 
 /* Badge texte de rareté */
 .item-rarity {
+  align-self: flex-start;
   display: inline-block;
   font-family: sans-serif;
   font-size: 0.62rem;
@@ -339,6 +340,23 @@
 .rarity-bg.rarity-killer-addon {
   background-image: none;
   background-color: rgba(60,60,60,0.3);
+}
+
+
+/* Bordure des cartes selon la rareté (data-rarity posé par le script) */
+.item-card[data-rarity="Common"],     .addon-card[data-rarity="Common"]     { border-color: rgba(180,180,180,0.4); }
+.item-card[data-rarity="Uncommon"],   .addon-card[data-rarity="Uncommon"]   { border-color: rgba(80,200,80,0.5); }
+.item-card[data-rarity="Rare"],       .addon-card[data-rarity="Rare"]       { border-color: rgba(80,120,255,0.5); }
+.item-card[data-rarity="Very-Rare"],  .addon-card[data-rarity="Very-Rare"]  { border-color: rgba(180,0,255,0.5); }
+.item-card[data-rarity="Ultra-Rare"], .addon-card[data-rarity="Ultra-Rare"] { border-color: rgba(255,140,0,0.6); }
+
+/* Effet de tirage (roulette) + verrouillage du résultat */
+.item-card.rolling, .addon-card.rolling { filter: brightness(1.3) saturate(1.2); }
+.item-card.rolling .item-name, .addon-card.rolling .addon-name { opacity: .75; }
+.item-card.locked, .addon-card.locked { animation: item-lock .55s ease; }
+@keyframes item-lock {
+  0%   { transform: scale(1.045); box-shadow: 0 0 28px rgba(255,255,255,.18); }
+  100% { transform: scale(1);     box-shadow: none; }
 }
 
 /* ══════════════════════════════
@@ -535,7 +553,7 @@
 <!-- À insérer dans doubleResult.html après la div #finalResults, avant #resultActions -->
 
 <!-- SECTION OBJET -->
-<div class="item-section" id="itemSection">
+<div class="item-section" id="itemSection" style="display:none;">
   <div class="section-label">Objet &amp; Accessoires</div>
 
   <div class="item-result">
@@ -595,6 +613,7 @@
 </main>
 
 <script src="header.js"></script>
+<script src="itemDraw.js"></script>
 <script>
 (async function(){
 
@@ -786,90 +805,109 @@
   ]);
 
   // ══ PHASE 2 : AFFICHER LES RÉSULTATS EN DESSOUS (sans cacher les slots) ══
-  // ══ TIRAGE OBJET + ACCESSOIRES ══
-// À ajouter dans le script de doubleResult.html
-// Appeler drawItem() après runAnimations()
+  // ══ TIRAGE OBJET + ACCESSOIRES (survivants) ══
+  const ITEM_CAT_FR = {
+    Flashlight: 'Lampe de poche', FogVial: 'Fiole de brouillard', Key: 'Clé',
+    Map: 'Carte', Medkit: 'Trousse de soins', Toolbox: 'Boîte à outils'
+  };
+  const rKey   = r => String(r).replace(/\s+/g, '-');   // "Very Rare" -> "Very-Rare"
+  const sleep  = ms => new Promise(res => setTimeout(res, ms));
 
-async function drawItem() {
-  // Survivant seulement pour l'instant
-  // Pour les tueurs : ajouter killer_addons dans items.json plus tard
-  if (type !== 'Survivor') {
-    document.getElementById('itemSection').style.display = 'none';
-    return;
+  // Image : 1) fichier local assets/objets/<nom>  2) lien du wiki  3) icône par défaut
+  function setImage(imgEl, fallbackEl, url) {
+    imgEl.style.display = 'none';
+    fallbackEl.style.display = '';
+    if (!url) return;
+    const file = decodeURIComponent(url.split('/').pop());
+    const sources = [`assets/objets/${encodeURIComponent(file)}`, url];
+    let k = 0;
+    imgEl.onload  = () => { imgEl.style.display = 'block'; fallbackEl.style.display = 'none'; };
+    imgEl.onerror = () => {
+      k++;
+      if (k < sources.length) imgEl.src = sources[k];
+      else { imgEl.style.display = 'none'; fallbackEl.style.display = ''; }
+    };
+    imgEl.src = sources[0];
   }
 
-  const itemsData = await fetch('items.json').then(r => r.json()).catch(() => null);
-  if (!itemsData) return;
-
-  // 1. Tirer un objet aléatoire
-  const items = itemsData.survivor_items;
-  const item = items[Math.floor(Math.random() * items.length)];
-
-  // 2. Tirer 2 accessoires compatibles (addons_supported de l'objet)
-  const allAddons = itemsData.addons;
-  const addonIndex = {};
-  allAddons.forEach(a => { addonIndex[a.id] = a; });
-
-  const compatibleAddons = item.addons_supported
-    .map(id => addonIndex[id])
-    .filter(Boolean);
-
-  // Shuffle + prendre 2
-  const shuffled = compatibleAddons.sort(() => Math.random() - 0.5);
-  const drawn = shuffled.slice(0, 2);
-
-  // 3. Afficher
-  const rarityClass = 'rarity-' + item.rarity.replace(' ', '-');
-
-  // Objet
-  document.getElementById('itemCategory').textContent = item.category;
-  document.getElementById('itemName').textContent = item.name;
-  document.getElementById('itemBackground').textContent = item.background;
-  document.getElementById('itemRarityBg').className = `rarity-bg ${rarityClass}`;
-  document.getElementById('itemRarity').className = `item-rarity ${rarityClass}`;
-  document.getElementById('itemRarity').textContent = item.rarity;
-
-  if (item.img) {
-    const img = document.getElementById('itemImg');
-    img.src = `assets/${item.img}`;
-    img.style.display = 'block';
-    document.getElementById('itemImgFallback').style.display = 'none';
+  function paintItem(item) {
+    const rk = rKey(item.rarity);
+    document.getElementById('itemCategory').textContent   = ITEM_CAT_FR[item.category] || item.category;
+    document.getElementById('itemName').textContent       = item.name;
+    document.getElementById('itemBackground').textContent = item.background;
+    document.getElementById('itemRarityBg').className     = `rarity-bg rarity-${rk}`;
+    const badge = document.getElementById('itemRarity');
+    badge.className   = `item-rarity rarity-${rk}`;
+    badge.textContent = item.rarity_fr || item.rarity;
+    document.getElementById('itemCard').dataset.rarity = rk;
+    setImage(document.getElementById('itemImg'), document.getElementById('itemImgFallback'), item.image);
   }
 
-  // Appliquer la bordure de rareté sur la carte
-  const itemCard = document.getElementById('itemCard');
-  itemCard.classList.add(rarityClass);
-
-  // Accessoires
-  drawn.forEach((addon, i) => {
-    if (!addon) return;
-    const addonRarityClass = 'rarity-' + addon.rarity.replace(' ', '-');
-
+  function paintAddon(i, addon) {
+    const rk = rKey(addon.rarity);
     document.getElementById(`addon${i}Name`).textContent = addon.name;
     document.getElementById(`addon${i}Desc`).textContent = addon.description;
-    document.getElementById(`addon${i}RarityBg`).className = `rarity-bg ${addonRarityClass}`;
-    document.getElementById(`addon${i}Rarity`).className = `item-rarity ${addonRarityClass}`;
-    document.getElementById(`addon${i}Rarity`).textContent = addon.rarity;
+    document.getElementById(`addon${i}RarityBg`).className = `rarity-bg rarity-${rk}`;
+    const badge = document.getElementById(`addon${i}Rarity`);
+    badge.className   = `item-rarity rarity-${rk}`;
+    badge.textContent = addon.rarity_fr || addon.rarity;
+    document.getElementById(`addon${i}`).dataset.rarity = rk;
+    setImage(document.getElementById(`addon${i}Img`),
+             document.querySelector(`#addon${i} .item-fallback`), addon.image);
+  }
 
-    if (addon.img) {
-      const img = document.getElementById(`addon${i}Img`);
-      img.src = `assets/${addon.img}`;
-      img.style.display = 'block';
+  // Effet "roulette" : défile des valeurs au hasard puis se fige sur le résultat
+  async function rollCard(card, paint, pool, finalValue, startDelay = 0) {
+    await sleep(startDelay);
+    card.classList.add('rolling');
+    const delays = [60, 60, 60, 70, 80, 95, 115, 140, 175, 220, 280, 360];
+    for (const d of delays) {
+      paint(pool[Math.floor(Math.random() * pool.length)]);
+      await sleep(d);
+    }
+    paint(finalValue);
+    card.classList.remove('rolling');
+    card.classList.add('locked');
+    setTimeout(() => card.classList.remove('locked'), 650);
+  }
+
+  async function drawItem() {
+    const section = document.getElementById('itemSection');
+    if (type !== 'Survivor') { section.style.display = 'none'; return; }   // tueurs : pas d'objet
+
+    const data = await ItemDraw.load();
+    if (!data) { section.style.display = 'none'; return; }                // objets.json introuvable
+
+    // Résultat déjà tiré à l'accueil ? sinon (ancien tirage) on en tire un maintenant
+    let resolved = ItemDraw.resolve(data, { item: result.item, addons: result.addons });
+    if (!resolved) {
+      const drawn = ItemDraw.draw(data);
+      result.item = drawn.item; result.addons = drawn.addons;
+      localStorage.setItem('doubleResult', JSON.stringify(result));
+      resolved = ItemDraw.resolve(data, drawn);
+    }
+    const { item, addons } = resolved;
+    const byId = new Map(data.addons.map(a => [a.id, a]));
+    const addonPool = (item.addons_supported || []).map(id => byId.get(id)).filter(Boolean);
+
+    section.style.display = 'flex';
+
+    // 2e accessoire absent (cas improbable) : on masque la carte
+    document.getElementById('addon1').style.display = addons[1] ? '' : 'none';
+    if (!addons.length) {
+      document.querySelector('.addons-row').innerHTML =
+        '<p style="font-family:sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.3);text-align:center;grid-column:span 2">Cet objet n\'a pas d\'accessoires</p>';
     }
 
-    document.getElementById(`addon${i}`).classList.add(addonRarityClass);
-  });
-
-  // Si 0 accessoires compatibles (ex: Carte sans addons)
-  if (compatibleAddons.length === 0) {
-    document.querySelector('.addons-row').innerHTML =
-      '<p style="font-family:sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.3);text-align:center;grid-column:span 2">Cet objet n\'a pas d\'accessoires</p>';
+    await Promise.all([
+      rollCard(document.getElementById('itemCard'), paintItem, data.survivor_items, item, 0),
+      ...addons.map((a, i) =>
+        rollCard(document.getElementById(`addon${i}`), x => paintAddon(i, x), addonPool, a, 450 + i * 350))
+    ]);
   }
-}
 
   document.getElementById('finalResults').classList.add('visible');
-  await drawItem();
-  document.getElementById('resultActions').style.display = 'flex';
+  const itemDone = drawItem();   // la roulette de l'objet tourne pendant que perso + perks s'affichent
   // Scroll vers les résultats
   document.getElementById('finalResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -959,13 +997,23 @@ async function drawItem() {
       newPerks = shuffled.slice(0, 4);
     }
 
+    let newItem = {};
+    if (type === 'Survivor') {
+      const objets = await ItemDraw.load();
+      if (objets) newItem = ItemDraw.draw(objets);
+    }
+
     localStorage.setItem('doubleResult', JSON.stringify({
       character: { name: newChar.name, img: `${basePath}${newChar.img}` },
       perks: newPerks,
-      type
+      type,
+      ...newItem
     }));
     window.location.reload();
   });
+
+  await itemDone;
+  document.getElementById('resultActions').style.display = 'flex';
 
 })();
 </script>
