@@ -31,6 +31,39 @@
       return { item: item.id, addons: shuffle(pool).slice(0, 2) };
     },
 
+    // ---- Accessoires de TUEUR : valables uniquement pour le tueur tiré ----
+    async loadKillerAddons() {
+      try {
+        const r = await fetch('addons.json');
+        if (!r.ok) return null;
+        const d = await r.json();
+        return d && d.killers ? d : null;
+      } catch (_) { return null; }
+    },
+
+    // Cherche le tueur par son nom (comme dans data.json) ; null s'il n'a pas encore d'accessoires répertoriés
+    findKiller(data, killerName) {
+      const n = String(killerName || '').trim();
+      const k = data && data.killers && data.killers[n];
+      return k && k.addons && k.addons.length ? k : null;
+    },
+
+    // Tire 2 accessoires DIFFÉRENTS parmi ceux du tueur : { addons: ['k01_bear_oil', ...] } ({} si indisponible)
+    drawKillerAddons(data, killerName) {
+      const k = this.findKiller(data, killerName);
+      if (!k) return {};
+      return { addons: shuffle(k.addons.map(a => a.id)).slice(0, 2) };
+    },
+
+    // Retrouve les accessoires complets du tueur depuis les identifiants stockés ; null si invalide
+    resolveKillerAddons(data, killerName, ids) {
+      const k = this.findKiller(data, killerName);
+      if (!k || !Array.isArray(ids) || !ids.length) return null;
+      const byId = new Map(k.addons.map(a => [a.id, a]));
+      const addons = ids.map(id => byId.get(id)).filter(Boolean);
+      return addons.length ? { killer: k, addons } : null;
+    },
+
     // Retrouve les objets complets à partir des identifiants stockés ; null si invalide
     resolve(data, drawn) {
       if (!drawn || !drawn.item) return null;

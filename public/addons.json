@@ -1,0 +1,4160 @@
+{
+ "meta": {
+  "source": "Wiki officiel Dead by Daylight : noms/descriptions FR = page fr/wiki/Accessoire ; raretés = module de données du wiki (copie PL) ; lus le 2026-11-07",
+  "scope": "Accessoires de pouvoir des tueurs, hors accessoires retirés (decom), inutilisés et d'événement. Chaque tueur a 20 accessoires en jeu.",
+  "coverage": {
+   "killers_included": 20,
+   "addons": 398,
+   "killers_missing": "Blight, Twins, Trickster, Nemesis, Cenobite, Artist, Onryo, Dredge, Mastermind, Knight, Skull Merchant, Singularity, Xenomorph, Good Guy, Unknown, Vecna, Dark Lord, Houndmaster, Kaneki, Springtrap, Krasue, The First, Jason"
+  },
+  "notes": [
+   "image_verified=false : lien déduit de la convention de nommage du wiki (IconAddon_<nomEnCamelCase>.png) ; quelques-uns peuvent ne pas exister. Le site cherche d'abord assets/accessoires/<fichier> puis ce lien, puis une icône par défaut.",
+   "Les raretés viennent d'une copie du module du wiki datant d'environ le patch 8.4-8.6 ; des retouches plus récentes peuvent différer.",
+   "Les descriptions FR peuvent dater de quelques patchs : certaines valeurs ont pu changer dans le jeu.",
+   "Quelques noms FR reprennent une erreur du wiki FR (ex. « Ghost Face » - Suie pour le Spectre).",
+   "Exclus faute de description FR : Spectre: \"Shadow Dance\" - Blood; Montagnard: Cracked Primer Bulb"
+  ]
+ },
+ "killers": {
+  "Piegeur": {
+   "id": "piegeur",
+   "name": "Piegeur",
+   "name_en": "The Trapper",
+   "wiki_killer_id": 1,
+   "addons": [
+    {
+     "id": "k01_trapper_gloves",
+     "name": "Gants du Piégeur",
+     "name_en": "Trapper Gloves",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_trapperGloves.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la vitesse d'installation d'un Piège à Ours."
+    },
+    {
+     "id": "k01_bear_oil",
+     "name": "Huile d'Ours",
+     "name_en": "Bear Oil",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bearOil.png",
+     "image_verified": false,
+     "description": "Placer un Piège à Ours ne fait aucun bruit."
+    },
+    {
+     "id": "k01_padded_jaws",
+     "name": "Mâchoires Molletonnées",
+     "name_en": "Padded Jaws",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_paddedJaws.png",
+     "image_verified": false,
+     "description": "Les Pièges à Ours n'infligent pas de dégâts aux Survivants piégés. Annule les effets de Mâchoires Rouillées et Mâchoires Dentelées. +100 % de Points de Sang bonus pour avoir piégé des Survivants."
+    },
+    {
+     "id": "k01_makeshift_wrap",
+     "name": "Écharpe Improvisée",
+     "name_en": "Makeshift Wrap",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_makeshiftWrap.png",
+     "image_verified": false,
+     "description": "Vous n'êtes plus pris dans vos propres Pièges à Ours : ils sont automatiquement désarmés à la place."
+    },
+    {
+     "id": "k01_wax_brick",
+     "name": "Brique de Cire",
+     "name_en": "Wax Brick",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_waxBrick.png",
+     "image_verified": false,
+     "description": "Augmente de +33 % le temps requis pour sauver ou tenter de sauver un Survivant d'un Piège à Ours."
+    },
+    {
+     "id": "k01_coffee_grounds",
+     "name": "Café Moulu",
+     "name_en": "Coffee Grounds",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_coffeeGrounds.png",
+     "image_verified": false,
+     "description": "Effet de Statut Rapidité supplémentaire de +5 % pendant 5 secondes après avoir placé un Piège à Ours."
+    },
+    {
+     "id": "k01_4_coil_spring_kit",
+     "name": "Kit à Quatre Ressorts",
+     "name_en": "4-Coil Spring Kit",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_4-CoilSpringKit.png",
+     "image_verified": false,
+     "description": "Augmente de +33 % le temps nécessaire aux Survivants pour désamorcer des Pièges à Ours."
+    },
+    {
+     "id": "k01_lengthened_jaws",
+     "name": "Mâchoires Allongées",
+     "name_en": "Lengthened Jaws",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lengthenedJaws.png",
+     "image_verified": false,
+     "description": "Quand les Survivants s'échappent de Pièges à Ours, ils subissent l'Effet de Statut Blessure Profonde."
+    },
+    {
+     "id": "k01_serrated_jaws",
+     "name": "Mâchoires Dentelées",
+     "name_en": "Serrated Jaws",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_serratedJaws.png",
+     "image_verified": false,
+     "description": "Les Pièges à Ours infligent l'Effet de Statut Hémorragie aux Survivants piégés jusqu'à ce qu'ils soient soignés."
+    },
+    {
+     "id": "k01_tar_bottle",
+     "name": "Bouteille de Goudron",
+     "name_en": "Tar Bottle",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tarBottle.png",
+     "image_verified": false,
+     "description": "Assombrit considérablement l'apparence de tous les Pièges à Ours."
+    },
+    {
+     "id": "k01_rusted_jaws",
+     "name": "Mâchoires Rouillées",
+     "name_en": "Rusted Jaws",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustedJaws.png",
+     "image_verified": false,
+     "description": "Les Pièges à Ours infligent l'Effet de Statut Estropiement aux Survivants piégés jusqu'à ce qu'ils soient soignés."
+    },
+    {
+     "id": "k01_fastening_tools",
+     "name": "Outils d'Assemblage",
+     "name_en": "Fastening Tools",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_fasteningTools.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la vitesse d'installation d'un Piège à Ours. Augmente de +25 % le temps requis pour sauver ou tenter de sauver un Survivant piégé."
+    },
+    {
+     "id": "k01_secondary_coil",
+     "name": "Ressort Secondaire",
+     "name_en": "Secondary Coil",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_secondaryCoil.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % le temps nécessaire aux Survivants pour désamorcer des Pièges à Ours."
+    },
+    {
+     "id": "k01_trapper_bag",
+     "name": "Sacoche du Piégeur",
+     "name_en": "Trapper Bag",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_trapperBag.png",
+     "image_verified": false,
+     "description": "Vous commencez avec 1 Piège à Ours supplémentaire et pouvez en transporter 1 de plus."
+    },
+    {
+     "id": "k01_honing_stone",
+     "name": "Pierre à Aiguiser",
+     "name_en": "Honing Stone",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_honingStone.png",
+     "image_verified": false,
+     "description": "Inflige un État Critique à la victime piégée dans un Piège à Ours si elle parvient à s'échapper."
+    },
+    {
+     "id": "k01_oily_coil",
+     "name": "Ressort Huilé",
+     "name_en": "Oily Coil",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_oilyCoil.png",
+     "image_verified": false,
+     "description": "L'Aura du Survivant qui a désarmé un Piège à Ours vous est révélée pendant 5 secondes."
+    },
+    {
+     "id": "k01_tension_spring",
+     "name": "Ressort à Tension",
+     "name_en": "Tension Spring",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tensionSpring.png",
+     "image_verified": false,
+     "description": "Un Piège à Ours se réarme 2 secondes après qu'un Survivant s'en soit échappé."
+    },
+    {
+     "id": "k01_trapper_sack",
+     "name": "Sac du Piégeur",
+     "name_en": "Trapper Sack",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_trapperSack.png",
+     "image_verified": false,
+     "description": "Tous les Pièges à Ours y sont entreposés au début de l'Épreuve au lieu d'apparaître sur la carte. Les Pièges à Ours ne peuvent pas être ramassés."
+    },
+    {
+     "id": "k01_iridescent_stone",
+     "name": "Pierre Irisée",
+     "name_en": "Iridescent Stone",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentStone.png",
+     "image_verified": false,
+     "description": "Toutes les 30 secondes, un Piège à Ours fermé devient aléatoirement actif."
+    },
+    {
+     "id": "k01_bloody_coil",
+     "name": "Ressort Sanglant",
+     "name_en": "Bloody Coil",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bloodyCoil.png",
+     "image_verified": false,
+     "description": "Quand un Piège à Ours est désamorcé par un Survivant En Forme, celui-ci devient Blessé."
+    }
+   ]
+  },
+  "Spectre": {
+   "id": "spectre",
+   "name": "Spectre",
+   "name_en": "The Wraith",
+   "wiki_killer_id": 2,
+   "addons": [
+    {
+     "id": "k02_the_ghost_soot",
+     "name": "« Ghost Face » - Suie",
+     "name_en": "\"The Ghost\" - Soot",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theGhostSoot.png",
+     "image_verified": false,
+     "description": "Après sa réapparition, la Trace Rouge et le Rayon de Terreur du Spectre restent supprimés pendant 6 secondes."
+    },
+    {
+     "id": "k02_the_beast_soot",
+     "name": "« La Bête » - Suie",
+     "name_en": "\"The Beast\" - Soot",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theBeastSoot.png",
+     "image_verified": false,
+     "description": "Le Rayon de Terreur du Spectre n'est plus supprimé pendant l'Invisibilité. Points de Sang de Traque et d'Attaques Surprises +100 %."
+    },
+    {
+     "id": "k02_the_hound_soot",
+     "name": "« Le Molosse » - Suie",
+     "name_en": "\"The Hound\" - Soot",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theHoundSoot.png",
+     "image_verified": false,
+     "description": "Pendant l'Invisibilité, les Flaques de Sang sont révélées en rouge vif."
+    },
+    {
+     "id": "k02_the_serpent_soot",
+     "name": "« Le Serpent » - Suie",
+     "name_en": "\"The Serpent\" - Soot",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theSerpentSoot.png",
+     "image_verified": false,
+     "description": "Le Spectre réapparaît complètement en brisant des Palettes ou Murs Destructibles, ou en endommageant des Générateurs pendant l'Invisibilité."
+    },
+    {
+     "id": "k02_bone_clapper",
+     "name": "Battant en Os",
+     "name_en": "Bone Clapper",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_boneClapper.png",
+     "image_verified": false,
+     "description": "Les Survivants ne peuvent plus discerner la distance ni la direction de la Cloche des Lamentations."
+    },
+    {
+     "id": "k02_swift_hunt_mud",
+     "name": "« Chasse Preste » - Boue",
+     "name_en": "\"Swift Hunt\" - Mud",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_swiftHuntMud.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse de Réapparition de +8 %."
+    },
+    {
+     "id": "k02_blind_warrior_mud",
+     "name": "« Guerrier Aveugle » - Boue",
+     "name_en": "\"Blind Warrior\" - Mud",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blindWarriorMud.png",
+     "image_verified": false,
+     "description": "Les Attaques Surprises de réapparition infligent Aveuglement aux Survivants pendant 60 secondes."
+    },
+    {
+     "id": "k02_windstorm_mud",
+     "name": "« Tempête » - Boue",
+     "name_en": "\"Windstorm\" - Mud",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_windstormMud.png",
+     "image_verified": false,
+     "description": "Augmente de +5 % la vitesse de mouvement pendant l'Invisibilité."
+    },
+    {
+     "id": "k02_blink_mud",
+     "name": "« Évanouissement » - Boue",
+     "name_en": "\"Blink\" - Mud",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blinkMud.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse de Disparition de +40 %."
+    },
+    {
+     "id": "k02_swift_hunt_white",
+     "name": "« Chasse Preste » - Blanc",
+     "name_en": "\"Swift Hunt\" - White",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_swiftHuntWhite.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse de Réapparition de +10 %."
+    },
+    {
+     "id": "k02_shadow_dance_white",
+     "name": "« Danse de l'Ombre » - Blanc",
+     "name_en": "\"Shadow Dance\" - White",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shadowDanceWhite.png",
+     "image_verified": false,
+     "description": "+40 % de vitesse pour passer une Fenêtre, briser les Palettes et endommager Générateurs et Murs Destructibles pendant l'Invisibilité."
+    },
+    {
+     "id": "k02_blind_warrior_white",
+     "name": "« Guerrier Aveugle » - Blanc",
+     "name_en": "\"Blind Warrior\" - White",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blindWarriorWhite.png",
+     "image_verified": false,
+     "description": "Les Attaques Surprises de réapparition infligent Hémorragie et Estropiement aux Survivants pendant 70 secondes."
+    },
+    {
+     "id": "k02_windstorm_white",
+     "name": "« Tempête » - Blanc",
+     "name_en": "\"Windstorm\" - White",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_windstormWhite.png",
+     "image_verified": false,
+     "description": "Augmente de +7 % la vitesse de mouvement pendant l'Invisibilité."
+    },
+    {
+     "id": "k02_blink_white",
+     "name": "« Évanouissement » - Blanc",
+     "name_en": "\"Blink\" - White",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blinkWhite.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse de Disparition de +60 %."
+    },
+    {
+     "id": "k02_swift_hunt_blood",
+     "name": "« Chasse Preste » - Sang",
+     "name_en": "\"Swift Hunt\" - Blood",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_swiftHuntBlood.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse de Réapparition de +12 %."
+    },
+    {
+     "id": "k02_all_seeing_blood",
+     "name": "« Clairvoyant » - Sang",
+     "name_en": "\"All Seeing\" - Blood",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_allSeeingBlood.png",
+     "image_verified": false,
+     "description": "Repérage d'Auras : en ayant Disparu, les Auras des Survivants dans un rayon de 8 mètres vous sont révélées."
+    },
+    {
+     "id": "k02_windstorm_blood",
+     "name": "« Tempête » - Sang",
+     "name_en": "\"Windstorm\" - Blood",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_windstormBlood.png",
+     "image_verified": false,
+     "description": "Augmente de +9 % la vitesse de mouvement pendant l'Invisibilité."
+    },
+    {
+     "id": "k02_coxcombed_clapper",
+     "name": "Battant Encordé",
+     "name_en": "Coxcombed Clapper",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_coxcombedClapper.png",
+     "image_verified": false,
+     "description": "Réduit la Cloche des Lamentations au Silence Total."
+    },
+    {
+     "id": "k02_all_seeing_spirit",
+     "name": "« Clairvoyant » - Esprit",
+     "name_en": "\"All Seeing\" - Spirit",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_allSeeingSpirit.png",
+     "image_verified": false,
+     "description": "Pendant l'Invisibilité, l'état de réparation d'un Générateur peut être lu à l'intensité de son Aura."
+    }
+   ]
+  },
+  "Montagnard": {
+   "id": "montagnard",
+   "name": "Montagnard",
+   "name_en": "The Hillbilly",
+   "wiki_killer_id": 3,
+   "addons": [
+    {
+     "id": "k03_steel_toe_boots",
+     "name": "Bottes à Embout d'Acier",
+     "name_en": "Steel Toe Boots",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_steelToeBoots.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de récupération après avoir frappé un objet avec la Tronçonneuse."
+    },
+    {
+     "id": "k03_counterweight",
+     "name": "Contrepoids",
+     "name_en": "Counterweight",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_counterweight.png",
+     "image_verified": false,
+     "description": "Réduit de -70 % la vitesse de virage initiale des Attaques Ruées."
+    },
+    {
+     "id": "k03_discarded_air_filter",
+     "name": "Filtre à Air Jeté",
+     "name_en": "Discarded Air Filter",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_discardedAirFilter.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % le temps avant que la Jauge de Surrégime commence à se dissiper."
+    },
+    {
+     "id": "k03_greased_throttle",
+     "name": "Commande des Gaz Graissée",
+     "name_en": "Greased Throttle",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_greasedThrottle.png",
+     "image_verified": false,
+     "description": "Réduit de -5 % le temps de récupération après avoir utilisé la Tronçonneuse (sauf pendant Surrégime)."
+    },
+    {
+     "id": "k03_clogged_intake",
+     "name": "Entrée d'Air Bouchée",
+     "name_en": "Clogged Intake",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cloggedIntake.png",
+     "image_verified": false,
+     "description": "Augmente la durée de Surrégime de +15 %."
+    },
+    {
+     "id": "k03_off_brand_motor_oil",
+     "name": "Huile Moteur Bon Marché",
+     "name_en": "Off-Brand Motor Oil",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_off-BrandMotorOil.png",
+     "image_verified": false,
+     "description": "Augmente de +15 % la génération de Surrégime."
+    },
+    {
+     "id": "k03_thermal_casing",
+     "name": "Revêtement Thermique",
+     "name_en": "Thermal Casing",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_thermalCasing.png",
+     "image_verified": false,
+     "description": "Diminue de -20 % la vitesse de dissipation de la Jauge de Surrégime quand la Tronçonneuse n'est pas utilisée."
+    },
+    {
+     "id": "k03_high_speed_idler_screw",
+     "name": "Vis de Tendeur de Haut Régime",
+     "name_en": "High-Speed Idler Screw",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_high-SpeedIdlerScrew.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % le temps avant que la Jauge de Surrégime commence à se dissiper."
+    },
+    {
+     "id": "k03_dad_s_boots",
+     "name": "Bottes de Papa",
+     "name_en": "Dad's Boots",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_dadsBoots.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la vitesse de virage d'Attaque Ruée."
+    },
+    {
+     "id": "k03_begrimed_chains",
+     "name": "Chaînes Souillées",
+     "name_en": "Begrimed Chains",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_begrimedChains.png",
+     "image_verified": false,
+     "description": "Les Survivants frappés par la Tronçonneuse souffrent d'Estropiement et d'Hémorragie pendant 70 secondes."
+    },
+    {
+     "id": "k03_low_kickback_chains",
+     "name": "Chaînes à Faible Recul",
+     "name_en": "Low Kickback Chains",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lowKickbackChains.png",
+     "image_verified": false,
+     "description": "Réduit de -15 % le temps de récupération après avoir frappé un objet avec la Tronçonneuse."
+    },
+    {
+     "id": "k03_the_thompsons_mix",
+     "name": "Le Mélange des Thompson",
+     "name_en": "The Thompsons' Mix",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theThompsonsMix.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de récupération après avoir utilisé la Tronçonneuse (sauf pendant Surrégime)."
+    },
+    {
+     "id": "k03_ragged_engine",
+     "name": "Moteur Irrégulier",
+     "name_en": "Ragged Engine",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_raggedEngine.png",
+     "image_verified": false,
+     "description": "Diminue de 30 % la vitesse à laquelle la jauge de Surrégime se dissipe quand la Tronçonneuse n'est pas utilisée."
+    },
+    {
+     "id": "k03_spiked_boots",
+     "name": "Bottes à Pointes",
+     "name_en": "Spiked Boots",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_spikedBoots.png",
+     "image_verified": false,
+     "description": "Augmente de +45 % la vitesse de virage d'Attaque Ruée de la Tronçonneuse."
+    },
+    {
+     "id": "k03_filthy_slippers",
+     "name": "Pantoufles Sales",
+     "name_en": "Filthy Slippers",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_filthySlippers.png",
+     "image_verified": false,
+     "description": "Après une Attaque Ruée maintenue 2 secondes, accorde Indétectable jusqu'à la fin de l'Attaque Ruée."
+    },
+    {
+     "id": "k03_apex_muffler",
+     "name": "Silencieux de Pointe",
+     "name_en": "Apex Muffler",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_apexMuffler.png",
+     "image_verified": false,
+     "description": "La Tronçonneuse est silencieuse pour les Survivants en dehors du Rayon de Terreur."
+    },
+    {
+     "id": "k03_lopro_chains",
+     "name": "Tronçonneuse Lo Pro",
+     "name_en": "LoPro Chains",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_loProChains.png",
+     "image_verified": false,
+     "description": "Poursuivez votre Attaque Ruée après avoir brisé une Palette ou un Mur Destructible. Les Survivants frappés moins de 5 secondes après perdent un seul État de Santé."
+    },
+    {
+     "id": "k03_tuned_carburettor",
+     "name": "Carburateur Réglé",
+     "name_en": "Tuned Carburettor",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tunedCarburettor.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de charge de la Tronçonneuse. Réduit la vitesse de déplacement de base à 4,4 m/s."
+    },
+    {
+     "id": "k03_iridescent_engravings",
+     "name": "Gravures Irisées",
+     "name_en": "Iridescent Engravings",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentEngravings.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de mouvement d'Attaque Ruée. Augmente de +12 % le temps requis pour charger la Tronçonneuse."
+    }
+   ]
+  },
+  "Nurse": {
+   "id": "nurse",
+   "name": "Nurse",
+   "name_en": "The Nurse",
+   "wiki_killer_id": 4,
+   "addons": [
+    {
+     "id": "k04_wooden_horse",
+     "name": "Cheval de Bois",
+     "name_en": "Wooden Horse",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_woodenHorse.png",
+     "image_verified": false,
+     "description": "Réduit de 50 % la Fatigue supplémentaire des Attaques Téléportées Ratées."
+    },
+    {
+     "id": "k04_metal_spoon",
+     "name": "Cuillère en Métal",
+     "name_en": "Metal Spoon",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_metalSpoon.png",
+     "image_verified": false,
+     "description": "Une Attaque Téléportée Réussie augmente de +50 % le Cri de Douleur émis pendant 60 secondes."
+    },
+    {
+     "id": "k04_plaid_flannel",
+     "name": "Morceau de Plaid",
+     "name_en": "Plaid Flannel",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_plaidFlannel.png",
+     "image_verified": false,
+     "description": "Permet à l'Infirmière de voir les destinations cibles de Téléportation."
+    },
+    {
+     "id": "k04_white_nit_comb",
+     "name": "Peigne à Lentes Blanc",
+     "name_en": "White Nit Comb",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_whiteNitComb.png",
+     "image_verified": false,
+     "description": "Réduit de -50 % la distance des Attaques Chargées Téléportées. +100 % de Points de Sang sur les Attaques Téléportées."
+    },
+    {
+     "id": "k04_dull_bracelet",
+     "name": "Bracelet Terne",
+     "name_en": "Dull Bracelet",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_dullBracelet.png",
+     "image_verified": false,
+     "description": "Réduit de -20 % la distance maximum de Téléportation. +100 % de Points de Sang sur les Téléportations Précises."
+    },
+    {
+     "id": "k04_dark_cincture",
+     "name": "Ceinture Obscure",
+     "name_en": "Dark Cincture",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_darkCincture.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la vitesse de mouvement après une Téléportation, avant la fatigue."
+    },
+    {
+     "id": "k04_pocket_watch",
+     "name": "Montre à Gousset",
+     "name_en": "Pocket Watch",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_pocketWatch.png",
+     "image_verified": false,
+     "description": "Augmente de 20 % le temps avant que l'Infirmière ne tombe de Fatigue après s'être Téléportée."
+    },
+    {
+     "id": "k04_bad_man_keepsake",
+     "name": "Souvenir du Méchant",
+     "name_en": "Bad Man Keepsake",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_badManKeepsake.png",
+     "image_verified": false,
+     "description": "Une Attaque Téléportée réussie dévoile l'Aura du Survivant quand il se soigne ou est soigné (jusqu'à 28 mètres) pendant 60 secondes."
+    },
+    {
+     "id": "k04_catatonic_boy_s_treasure",
+     "name": "Trésor d'un Garçon Catatonique",
+     "name_en": "Catatonic Boy's Treasure",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_catatonicBoysTreasure.png",
+     "image_verified": false,
+     "description": "Réduit de -65 % la Fatigue supplémentaire causée par les Téléportations en Chaîne."
+    },
+    {
+     "id": "k04_anxious_gasp",
+     "name": "Cri d'Anxiété",
+     "name_en": "Anxious Gasp",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_anxiousGasp.png",
+     "image_verified": false,
+     "description": "Se téléporter à 1 mètre d'un Survivant le fait crier et révèle sa position. +200 Points de Sang pour l'avoir effrayé."
+    },
+    {
+     "id": "k04_heavy_panting",
+     "name": "Halètement Intense",
+     "name_en": "Heavy Panting",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_heavyPanting.png",
+     "image_verified": false,
+     "description": "Augmente de 30 % la durée d'un plongeon après plus d'une Téléportation (à partir de la 2e ou 3e)."
+    },
+    {
+     "id": "k04_ataxic_respiration",
+     "name": "Respiration Ataxique",
+     "name_en": "Ataxic Respiration",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ataxicRespiration.png",
+     "image_verified": false,
+     "description": "Réduit de -7 % la durée de base de la Fatigue consécutive à une Téléportation."
+    },
+    {
+     "id": "k04_fragile_wheeze",
+     "name": "Respiration Difficile",
+     "name_en": "Fragile Wheeze",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_fragileWheeze.png",
+     "image_verified": false,
+     "description": "Les Attaques Téléportées infligent Estropiement pendant 70 secondes."
+    },
+    {
+     "id": "k04_spasmodic_breath",
+     "name": "Respiration Spasmodique",
+     "name_en": "Spasmodic Breath",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_spasmodicBreath.png",
+     "image_verified": false,
+     "description": "Une Attaque Téléportée réussie désactive la téléportation et passe sa vitesse de base à 4,6 m/s pendant 60 secondes."
+    },
+    {
+     "id": "k04_campbell_s_last_breath",
+     "name": "Dernier Souffle de Campbell",
+     "name_en": "Campbell's Last Breath",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_campbellsLastBreath.png",
+     "image_verified": false,
+     "description": "Après une Téléportation complètement chargée, l'Infirmière se Téléporte aussitôt, charge complète, dans sa direction (si elle a au moins 1 Charge)."
+    },
+    {
+     "id": "k04_jenner_s_last_breath",
+     "name": "Dernier Souffle de Jenner",
+     "name_en": "Jenner's Last Breath",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jennersLastBreath.png",
+     "image_verified": false,
+     "description": "Quand toutes ses Téléportations sont épuisées, elle peut revenir à son point de départ (Capacité Active), avec +1 Charge de téléportation."
+    },
+    {
+     "id": "k04_kavanagh_s_last_breath",
+     "name": "Dernier Souffle de Kavanagh",
+     "name_en": "Kavanagh's Last Breath",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_kavanaghsLastBreath.png",
+     "image_verified": false,
+     "description": "À l'arrivée de la Fatigue, les Survivants à moins de 8 mètres subissent Aveuglement pendant 60 secondes."
+    },
+    {
+     "id": "k04_bad_man_s_last_breath",
+     "name": "Dernier Souffle du « Méchant »",
+     "name_en": "\"Bad Man's\" Last Breath",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_badMansLastBreath.png",
+     "image_verified": false,
+     "description": "Une Attaque Téléportée réussie octroie Indétectable pendant 25 secondes (une fois toutes les 45 secondes)."
+    },
+    {
+     "id": "k04_matchbox",
+     "name": "Boîte d'Allumettes",
+     "name_en": "Matchbox",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_matchbox.png",
+     "image_verified": false,
+     "description": "Fixe le maximum de charges de Téléportation à 1 et la vitesse de base à 4,4 m/s (non modifiable par d'autres Accessoires)."
+    },
+    {
+     "id": "k04_torn_bookmark",
+     "name": "Signet Déchiré",
+     "name_en": "Torn Bookmark",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tornBookmark.png",
+     "image_verified": false,
+     "description": "Ajoute +1 Charge de Téléportation. Augmente de 30 % le temps de recharge de Téléportation."
+    }
+   ]
+  },
+  "Silhouette": {
+   "id": "silhouette",
+   "name": "Silhouette",
+   "name_en": "The Shape",
+   "wiki_killer_id": 5,
+   "addons": [
+    {
+     "id": "k05_tacky_earrings",
+     "name": "Boucles d'Oreilles Kitsch",
+     "name_en": "Tacky Earrings",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tackyEarrings.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la vitesse de mouvement quand vous Traquez une Cible."
+    },
+    {
+     "id": "k05_blond_hair",
+     "name": "Cheveux Blonds",
+     "name_en": "Blond Hair",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blondHair.png",
+     "image_verified": false,
+     "description": "Mal Intérieur III dure +10 secondes de plus. Le mal requis pour passer de II à III augmente de +50 % (première fois)."
+    },
+    {
+     "id": "k05_memorial_flower",
+     "name": "Fleur Commémorative",
+     "name_en": "Memorial Flower",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_memorialFlower.png",
+     "image_verified": false,
+     "description": "Augmente de +11 % la vitesse à laquelle le mal vous envahit quand vous Traquez un Survivant."
+    },
+    {
+     "id": "k05_boyfriend_s_memo",
+     "name": "Note du Petit Ami",
+     "name_en": "Boyfriend's Memo",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_boyfriendsMemo.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la portée de l'Attaque Chargée de la Silhouette pendant Mal Intérieur I."
+    },
+    {
+     "id": "k05_jewellery",
+     "name": "Bijoux",
+     "name_en": "Jewellery",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jewellery.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de mouvement quand vous Traquez une cible."
+    },
+    {
+     "id": "k05_hair_brush",
+     "name": "Brosse à Cheveux",
+     "name_en": "Hair Brush",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_hairBrush.png",
+     "image_verified": false,
+     "description": "Mal Intérieur III dure +20 secondes de plus. Le mal requis pour passer de II à III augmente de +50 % (première fois)."
+    },
+    {
+     "id": "k05_reflective_fragment",
+     "name": "Fragment Réfléchissant",
+     "name_en": "Reflective Fragment",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_reflectiveFragment.png",
+     "image_verified": false,
+     "description": "Mal Intérieur II révèle pendant 2 secondes l'Aura des Survivants traqués au moins 1 seconde."
+    },
+    {
+     "id": "k05_glass_fragment",
+     "name": "Fragment de Verre",
+     "name_en": "Glass Fragment",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_glassFragment.png",
+     "image_verified": false,
+     "description": "Mal Intérieur I révèle pendant 3 secondes l'Aura des Survivants traqués au moins 1 seconde."
+    },
+    {
+     "id": "k05_dead_rabbit",
+     "name": "Lapin Mort",
+     "name_en": "Dead Rabbit",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_deadRabbit.png",
+     "image_verified": false,
+     "description": "Réduit de -25 % le Rayon de Terreur de Mal Intérieur II et l'augmente de +25 % à Mal Intérieur III."
+    },
+    {
+     "id": "k05_jewellery_box",
+     "name": "Boîte à Bijoux",
+     "name_en": "Jewellery Box",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jewelleryBox.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la vitesse de mouvement quand vous Traquez une cible."
+    },
+    {
+     "id": "k05_judith_s_journal",
+     "name": "Journal de Judith",
+     "name_en": "Judith's Journal",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_judithsJournal.png",
+     "image_verified": false,
+     "description": "Augmente de +40 % la vitesse de mouvement quand vous Traquez votre Obsession."
+    },
+    {
+     "id": "k05_mirror_shard",
+     "name": "Morceau de Miroir",
+     "name_en": "Mirror Shard",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mirrorShard.png",
+     "image_verified": false,
+     "description": "Mal Intérieur II révèle pendant 5 secondes l'Aura des Survivants traqués au moins 1 seconde."
+    },
+    {
+     "id": "k05_j_myers_memorial",
+     "name": "Mémorial de J. Myers",
+     "name_en": "J. Myers Memorial",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_j.MyersMemorial.png",
+     "image_verified": false,
+     "description": "Augmente de +25 % la vitesse à laquelle le mal vous envahit quand vous traquez un Survivant."
+    },
+    {
+     "id": "k05_hair_bow",
+     "name": "Ruban",
+     "name_en": "Hair Bow",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_hairBow.png",
+     "image_verified": false,
+     "description": "Mal Intérieur III dure +30 secondes de plus. Le mal requis pour passer de II à III augmente de +50 % (première fois)."
+    },
+    {
+     "id": "k05_vanity_mirror",
+     "name": "Miroir",
+     "name_en": "Vanity Mirror",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_vanityMirror.png",
+     "image_verified": false,
+     "description": "Mal Intérieur II révèle l'Aura des Survivants traqués dans 16 mètres, mais ne peut dépasser le PALIER II. Points de Sang : +100 % Brutalité et +150 % Sournoiserie par Coup."
+    },
+    {
+     "id": "k05_scratched_mirror",
+     "name": "Miroir Rayé",
+     "name_en": "Scratched Mirror",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scratchedMirror.png",
+     "image_verified": false,
+     "description": "Mal Intérieur I révèle l'Aura des Survivants traqués dans 32 mètres, mais ne peut dépasser le PALIER I. Points de Sang : +100 % Brutalité et +200 % Sournoiserie par Coup."
+    },
+    {
+     "id": "k05_tombstone_piece",
+     "name": "Morceau de Pierre Tombale",
+     "name_en": "Tombstone Piece",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tombstonePiece.png",
+     "image_verified": false,
+     "description": "Permet de Tuer des Survivants En Bonne Santé ou Blessés avec Mal Intérieur III (cela en draine la puissance). Le mal requis de II à III augmente de 250 %."
+    },
+    {
+     "id": "k05_lock_of_hair",
+     "name": "Mèche de Cheveux",
+     "name_en": "Lock of Hair",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lockOfHair.png",
+     "image_verified": false,
+     "description": "Mal Intérieur III dure +40 secondes de plus. Le mal requis de II à III augmente de 100 %."
+    },
+    {
+     "id": "k05_judith_s_tombstone",
+     "name": "Pierre Tombale de Judith",
+     "name_en": "Judith's Tombstone",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_judithsTombstone.png",
+     "image_verified": false,
+     "description": "Permet de Tuer des Survivants En Bonne Santé ou Blessés avec Mal Intérieur III. Le mal requis de II à III augmente de 200 %. -9 % de vitesse de mouvement à Mal Intérieur III."
+    },
+    {
+     "id": "k05_fragrant_tuft_of_hair",
+     "name": "Touffe de Cheveux Parfumée",
+     "name_en": "Fragrant Tuft of Hair",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_fragrantTuftOfHair.png",
+     "image_verified": false,
+     "description": "Durée d'utilisation de Mal Intérieur III illimitée. Le mal requis de II à III augmente de 200 %."
+    }
+   ]
+  },
+  "Harpie": {
+   "id": "harpie",
+   "name": "Harpie",
+   "name_en": "The Hag",
+   "wiki_killer_id": 6,
+   "addons": [
+    {
+     "id": "k06_dead_fly_mud",
+     "name": "Boue et Mouches Mortes",
+     "name_en": "Dead Fly Mud",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_deadFlyMud.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la distance de téléportation aux Pièges Fantômes."
+    },
+    {
+     "id": "k06_rope_necklet",
+     "name": "Collier en Corde",
+     "name_en": "Rope Necklet",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ropeNecklet.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la vitesse d'installation d'un Piège Fantôme."
+    },
+    {
+     "id": "k06_powdered_eggshell",
+     "name": "Coquille d'Œuf Pulvérisée",
+     "name_en": "Powdered Eggshell",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_powderedEggshell.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la durée du Piège Fantôme."
+    },
+    {
+     "id": "k06_bog_water",
+     "name": "Eau du Bourbier",
+     "name_en": "Bog Water",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bogWater.png",
+     "image_verified": false,
+     "description": "Réduit de 10 % la portée à laquelle le Piège Fantôme se déclenche."
+    },
+    {
+     "id": "k06_dragonfly_wings",
+     "name": "Ailes de Libellule",
+     "name_en": "Dragonfly Wings",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_dragonflyWings.png",
+     "image_verified": false,
+     "description": "Augmente de +12,5 % la distance de téléportation aux Pièges Fantômes."
+    },
+    {
+     "id": "k06_pussy_willow_catkins",
+     "name": "Chatons de Saule",
+     "name_en": "Pussy Willow Catkins",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_pussyWillowCatkins.png",
+     "image_verified": false,
+     "description": "Révèle l'Aura des Survivants pendant 3 secondes quand ils déclenchent un Piège Fantôme."
+    },
+    {
+     "id": "k06_cypress_necklet",
+     "name": "Collier en Cyprès",
+     "name_en": "Cypress Necklet",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cypressNecklet.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse d'installation d'un Piège Fantôme."
+    },
+    {
+     "id": "k06_bloodied_water",
+     "name": "Eau Sanglante",
+     "name_en": "Bloodied Water",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bloodiedWater.png",
+     "image_verified": false,
+     "description": "Réduit de 20 % la portée à laquelle le Piège Fantôme se déclenche."
+    },
+    {
+     "id": "k06_half_eggshell",
+     "name": "Moitié de Coquille d'Œuf",
+     "name_en": "Half Eggshell",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_halfEggshell.png",
+     "image_verified": false,
+     "description": "Augmente de +25 % la durée des Pièges Fantômes."
+    },
+    {
+     "id": "k06_bloodied_mud",
+     "name": "Boue Sanglante",
+     "name_en": "Bloodied Mud",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bloodiedMud.png",
+     "image_verified": false,
+     "description": "Réduit de 30 % la portée à laquelle le Piège Fantôme se déclenche."
+    },
+    {
+     "id": "k06_dried_cicada",
+     "name": "Cigale Séchée",
+     "name_en": "Dried Cicada",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_driedCicada.png",
+     "image_verified": false,
+     "description": "Augmente de +15 % la distance de téléportation aux Pièges Fantômes."
+    },
+    {
+     "id": "k06_swamp_orchid_necklet",
+     "name": "Collier d'Orchidées des Marais",
+     "name_en": "Swamp Orchid Necklet",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_swampOrchidNecklet.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse d'installation d'un Piège Fantôme."
+    },
+    {
+     "id": "k06_willow_wreath",
+     "name": "Couronne en Saule",
+     "name_en": "Willow Wreath",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_willowWreath.png",
+     "image_verified": false,
+     "description": "Révèle l'Aura des Survivants pendant 5 secondes quand ils déclenchent un Piège Fantôme."
+    },
+    {
+     "id": "k06_cracked_turtle_egg",
+     "name": "Œuf de Tortue Fêlé",
+     "name_en": "Cracked Turtle Egg",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_crackedTurtleEgg.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la durée d'un Piège Fantôme déclenché."
+    },
+    {
+     "id": "k06_rusty_shackles",
+     "name": "Chaîne Rouillée",
+     "name_en": "Rusty Shackles",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustyShackles.png",
+     "image_verified": false,
+     "description": "Les Pièges Fantômes déclenchés ne sont pas signalés comme tels aux Survivants et ne font pas apparaître de Fantôme de Boue."
+    },
+    {
+     "id": "k06_grandma_s_heart",
+     "name": "Cœur de Grand-Mère",
+     "name_en": "Grandma's Heart",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_grandmasHeart.png",
+     "image_verified": false,
+     "description": "Quand un Survivant déclenche un Piège Fantôme : votre Rayon de Terreur est supprimé et celui des Fantômes de Boue augmente de 16 mètres."
+    },
+    {
+     "id": "k06_scarred_hand",
+     "name": "Main Balafrée",
+     "name_en": "Scarred Hand",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scarredHand.png",
+     "image_verified": false,
+     "description": "Les Fantômes de Boue se solidifient et bloquent les Survivants. Plus de téléportation aux Pièges Fantômes. +300 % de Points de Sang Sournoiserie. Prime sur les autres Accessoires."
+    },
+    {
+     "id": "k06_disfigured_ear",
+     "name": "Oreille Déformée",
+     "name_en": "Disfigured Ear",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_disfiguredEar.png",
+     "image_verified": false,
+     "description": "Les Survivants qui déclenchent un Piège Fantôme subissent Surdité pendant 6 secondes."
+    },
+    {
+     "id": "k06_waterlogged_shoe",
+     "name": "Chaussure Détrempée",
+     "name_en": "Waterlogged Shoe",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_waterloggedShoe.png",
+     "image_verified": false,
+     "description": "Survivants dans la zone d'un Piège Fantôme déclenché : -9 % d'Entrave. +7,5 % de vitesse de déplacement (4,73 m/s). Plus de téléportation aux Pièges Fantômes."
+    },
+    {
+     "id": "k06_mint_rag",
+     "name": "Lambeau de Tissu Comme Neuf",
+     "name_en": "Mint Rag",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mintRag.png",
+     "image_verified": false,
+     "description": "La Harpie peut se téléporter à n'importe quel Piège Fantôme du niveau. +10 secondes de recharge après cette téléportation."
+    }
+   ]
+  },
+  "Docteur": {
+   "id": "docteur",
+   "name": "Docteur",
+   "name_en": "The Doctor",
+   "wiki_killer_id": 7,
+   "addons": [
+    {
+     "id": "k07_maple_knight",
+     "name": "Cavalier Érable",
+     "name_en": "Maple Knight",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mapleKnight.png",
+     "image_verified": false,
+     "description": "Révèle la Zone d'Effet de votre Attaque Électrochocs."
+    },
+    {
+     "id": "k07_mouldy_electrode",
+     "name": "Vieille Électrode",
+     "name_en": "Mouldy Electrode",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mouldyElectrode.png",
+     "image_verified": false,
+     "description": "Augmente de +2 mètres la portée d'Électrochocs."
+    },
+    {
+     "id": "k07_calm_class_i",
+     "name": "« Calme » - Cours I",
+     "name_en": "\"Calm\" - Class I",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_calmClassI.png",
+     "image_verified": false,
+     "description": "Rayon de Terreur +4 m quand Explosion Électrique est prête, -4 m pendant sa recharge. Afflictions de Folie II/III : un Rayon de Terreur Illusoire retentit au loin (par intermittence, puis en permanence)."
+    },
+    {
+     "id": "k07_order_class_i",
+     "name": "« Ordre » - Cours I",
+     "name_en": "\"Order\" - Class I",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_orderClassI.png",
+     "image_verified": false,
+     "description": "Réduit de -2 secondes la recharge d'Explosion Électrique. Folie : les Palettes Brisées peuvent être remplacées par des Palettes Chimériques (toutes les 20 s) que le Docteur voit en Aura."
+    },
+    {
+     "id": "k07_calm_class_ii",
+     "name": "« Calme » - Cours II",
+     "name_en": "\"Calm\" - Class II",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_calmClassII.png",
+     "image_verified": false,
+     "description": "Rayon de Terreur +6 m quand Explosion Électrique est prête, -6 m pendant sa recharge. Même affliction que Cours I."
+    },
+    {
+     "id": "k07_restraint_class_ii",
+     "name": "« Contrainte » - Cours II",
+     "name_en": "\"Restraint\" - Class II",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_restraintClassII.png",
+     "image_verified": false,
+     "description": "L'Aura des Survivants s'affiche 1 seconde quand leur niveau de Folie augmente. Hallucinations de Docteur Fictif +6 s, visibles par le Docteur quel que soit le niveau de Folie."
+    },
+    {
+     "id": "k07_discipline_class_ii",
+     "name": "« Discipline » - Cours II",
+     "name_en": "\"Discipline\" - Class II",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_disciplineClassII.png",
+     "image_verified": false,
+     "description": "Réduit de 10 % le délai de déflagration d'Électrochocs. Folie II/III : Tache Rouge et Rayon de Terreur Fictifs pendant les poursuites (tout le temps à Folie III)."
+    },
+    {
+     "id": "k07_order_class_ii",
+     "name": "« Ordre » - Cours II",
+     "name_en": "\"Order\" - Class II",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_orderClassII.png",
+     "image_verified": false,
+     "description": "Réduit de -2,5 secondes la recharge d'Explosion Électrique. Palettes Chimériques comme Cours I."
+    },
+    {
+     "id": "k07_polished_electrode",
+     "name": "Électrode Brillante",
+     "name_en": "Polished Electrode",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_polishedElectrode.png",
+     "image_verified": false,
+     "description": "Augmente de +3 mètres la portée d'Électrochocs."
+    },
+    {
+     "id": "k07_scrapped_tape",
+     "name": "Cassette Abîmée",
+     "name_en": "Scrapped Tape",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scrappedTape.png",
+     "image_verified": false,
+     "description": "Électrochocs prend la forme d'un Anneau : portée 8 m, rayon 4 m, épaisseur 1 m."
+    },
+    {
+     "id": "k07_interview_tape",
+     "name": "Cassette d'Entretien",
+     "name_en": "Interview Tape",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_interviewTape.png",
+     "image_verified": false,
+     "description": "Électrochocs devient un Rayon de 24 mètres de portée et 2 mètres de large (au lieu d'un Cône)."
+    },
+    {
+     "id": "k07_restraint_class_iii",
+     "name": "« Contrainte » - Cours III",
+     "name_en": "\"Restraint\" - Class III",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_restraintClassIII.png",
+     "image_verified": false,
+     "description": "L'Aura des Survivants s'affiche 2 secondes quand leur niveau de Folie augmente. Hallucinations de Docteur Fictif +6 s."
+    },
+    {
+     "id": "k07_discipline_class_iii",
+     "name": "« Discipline » - Cours III",
+     "name_en": "\"Discipline\" - Class III",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_disciplineClassIII.png",
+     "image_verified": false,
+     "description": "Réduit de 15 % le délai de déflagration d'Électrochocs. Tache Rouge et Rayon de Terreur Fictifs comme Cours II."
+    },
+    {
+     "id": "k07_high_stimulus_electrode",
+     "name": "Électrode à Stimulation Élevée",
+     "name_en": "High Stimulus Electrode",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_highStimulusElectrode.png",
+     "image_verified": false,
+     "description": "Augmente de +4 mètres la portée d'Électrochocs."
+    },
+    {
+     "id": "k07_calm_carter_s_notes",
+     "name": "« Calme » - Notes de Carter",
+     "name_en": "\"Calm\" - Carter's Notes",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_calmCartersNotes.png",
+     "image_verified": false,
+     "description": "Rayon de Terreur +8 m quand Explosion Électrique est prête, -8 m pendant sa recharge. Même affliction que Cours I."
+    },
+    {
+     "id": "k07_restraint_carter_s_notes",
+     "name": "« Contrainte » - Notes de Carter",
+     "name_en": "\"Restraint\" - Carter's Notes",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_restraintCartersNotes.png",
+     "image_verified": false,
+     "description": "L'Aura des Survivants s'affiche 2 secondes quand leur niveau de Folie augmente. Hallucinations de Docteur Fictif +6 s."
+    },
+    {
+     "id": "k07_discipline_carter_s_notes",
+     "name": "« Discipline » - Notes de Carter",
+     "name_en": "\"Discipline\" - Carter's Notes",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_disciplineCartersNotes.png",
+     "image_verified": false,
+     "description": "Réduit de 20 % le délai de déflagration d'Électrochocs. Tache Rouge et Rayon de Terreur Fictifs comme Cours II."
+    },
+    {
+     "id": "k07_order_carter_s_notes",
+     "name": "« Ordre » - Notes de Carter",
+     "name_en": "\"Order\" - Carter's Notes",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_orderCartersNotes.png",
+     "image_verified": false,
+     "description": "Réduit de -3 secondes la recharge d'Explosion Électrique. Palettes Chimériques comme Cours I."
+    },
+    {
+     "id": "k07_iridescent_queen",
+     "name": "Reine Irisée",
+     "name_en": "Iridescent Queen",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentQueen.png",
+     "image_verified": false,
+     "description": "Tout Survivant frappé reçoit une Charge Électrique durable ; s'il passe à moins de 4 m d'un autre Survivant chargé, il subit une Électrocution (mêmes effets qu'Électrochocs) et la charge est évacuée."
+    },
+    {
+     "id": "k07_iridescent_king",
+     "name": "Roi Irisé",
+     "name_en": "Iridescent King",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentKing.png",
+     "image_verified": false,
+     "description": "Applique toutes les Afflictions (Calme, Discipline, Ordre, Contrainte) aux Survivants avec Folie, hallucinations +6 s, et le Docteur voit les Taches Rouges Trompeuses ainsi que les Auras des Illusions."
+    }
+   ]
+  },
+  "Chasseuse": {
+   "id": "chasseuse",
+   "name": "Chasseuse",
+   "name_en": "The Huntress",
+   "wiki_killer_id": 8,
+   "addons": [
+    {
+     "id": "k08_bandaged_haft",
+     "name": "Manche Bandé",
+     "name_en": "Bandaged Haft",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bandagedHaft.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de recharge entre les lancers de Hachette."
+    },
+    {
+     "id": "k08_coarse_stone",
+     "name": "Pierre Grossière",
+     "name_en": "Coarse Stone",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_coarseStone.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % les Grognements de Douleur des cibles touchées jusqu'à guérison complète."
+    },
+    {
+     "id": "k08_yellowed_cloth",
+     "name": "Tissu Jaune",
+     "name_en": "Yellowed Cloth",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_yellowedCloth.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la vitesse de lancer des Hachettes."
+    },
+    {
+     "id": "k08_amanita_toxin",
+     "name": "Toxine d'Amanite",
+     "name_en": "Amanita Toxin",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_amanitaToxin.png",
+     "image_verified": false,
+     "description": "Les Hachettes infligent Aveuglement pendant 60 secondes."
+    },
+    {
+     "id": "k08_leather_loop",
+     "name": "Boucle en Cuir",
+     "name_en": "Leather Loop",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_leatherLoop.png",
+     "image_verified": false,
+     "description": "Les frappes de Hachettes donnent 2 % d'Effet de Statut Rapidité pendant 5 secondes."
+    },
+    {
+     "id": "k08_oak_haft",
+     "name": "Manche en Chêne",
+     "name_en": "Oak Haft",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_oakHaft.png",
+     "image_verified": false,
+     "description": "Réduit de -20 % le temps de recharge du lancer de Hachette."
+    },
+    {
+     "id": "k08_manna_grass_braid",
+     "name": "Tresse de Glycérie",
+     "name_en": "Manna Grass Braid",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mannaGrassBraid.png",
+     "image_verified": false,
+     "description": "Réduit de -5 % le temps de préparation du lancer de Hachette."
+    },
+    {
+     "id": "k08_weighted_head",
+     "name": "Tête Lestée",
+     "name_en": "Weighted Head",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_weightedHead.png",
+     "image_verified": false,
+     "description": "Les Hachettes infligent Immobilisé pendant 10 secondes."
+    },
+    {
+     "id": "k08_shiny_pin",
+     "name": "Épingle Brillante",
+     "name_en": "Shiny Pin",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shinyPin.png",
+     "image_verified": false,
+     "description": "Augmente de +5 % la Vitesse de Mouvement quand vous visez ou préparez un lancer de Hachette."
+    },
+    {
+     "id": "k08_venomous_concoction",
+     "name": "Concoction Vénéneuse",
+     "name_en": "Venomous Concoction",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_venomousConcoction.png",
+     "image_verified": false,
+     "description": "Les Hachettes infligent Épuisement pendant 5 secondes."
+    },
+    {
+     "id": "k08_deerskin_gloves",
+     "name": "Gants en Peau de Daim",
+     "name_en": "Deerskin Gloves",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_deerskinGloves.png",
+     "image_verified": false,
+     "description": "Réduit de -20 % le temps de recharge des Hachettes dans un Casier."
+    },
+    {
+     "id": "k08_flower_babushka",
+     "name": "Poupée Russe à Fleurs",
+     "name_en": "Flower Babushka",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_flowerBabushka.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de préparation du lancer de Hachette."
+    },
+    {
+     "id": "k08_rose_root",
+     "name": "Racine de Rose",
+     "name_en": "Rose Root",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_roseRoot.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de jet des Hachettes."
+    },
+    {
+     "id": "k08_rusty_head",
+     "name": "Tête Rouillée",
+     "name_en": "Rusty Head",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustyHead.png",
+     "image_verified": false,
+     "description": "Les Hachettes infligent Estropiement pendant 70 secondes."
+    },
+    {
+     "id": "k08_infantry_belt",
+     "name": "Ceinture d'Infanterie",
+     "name_en": "Infantry Belt",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_infantryBelt.png",
+     "image_verified": false,
+     "description": "Les frappes de Hachettes donnent 3 % d'Effet de Statut Rapidité pendant 5 secondes."
+    },
+    {
+     "id": "k08_glowing_concoction",
+     "name": "Concoction Luisante",
+     "name_en": "Glowing Concoction",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_glowingConcoction.png",
+     "image_verified": false,
+     "description": "Révèle les Auras des Survivants touchés par les Hachettes pendant 5 secondes."
+    },
+    {
+     "id": "k08_wooden_fox",
+     "name": "Renard de Bois",
+     "name_en": "Wooden Fox",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_woodenFox.png",
+     "image_verified": false,
+     "description": "Octroie Indétectable pendant 30 secondes après avoir rechargé dans les Casiers."
+    },
+    {
+     "id": "k08_begrimed_head",
+     "name": "Tête Souillée",
+     "name_en": "Begrimed Head",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_begrimedHead.png",
+     "image_verified": false,
+     "description": "La cible frappée souffre d'Hémorragie et d'Estropiement pendant 80 secondes."
+    },
+    {
+     "id": "k08_soldier_s_puttee",
+     "name": "Bande Molletière de Soldat",
+     "name_en": "Soldier's Puttee",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_soldiersPuttee.png",
+     "image_verified": false,
+     "description": "La Chasseuse se déplace à 4,6 m/s quand elle n'a plus de Hachettes."
+    },
+    {
+     "id": "k08_iridescent_head",
+     "name": "Tête Irisée",
+     "name_en": "Iridescent Head",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentHead.png",
+     "image_verified": false,
+     "description": "Les coups de Hachettes réussis plongent immédiatement les Survivants En Bonne Santé en État Critique. Nombre maximum de Hachettes fixé à 1."
+    }
+   ]
+  },
+  "Cannibale": {
+   "id": "cannibale",
+   "name": "Cannibale",
+   "name_en": "The Cannibal",
+   "wiki_killer_id": 9,
+   "addons": [
+    {
+     "id": "k09_chainsaw_file",
+     "name": "Aiguiseur de Chaîne",
+     "name_en": "Chainsaw File",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chainsawFile.png",
+     "image_verified": false,
+     "description": "Réduit de -0,25 seconde la durée de la Crise."
+    },
+    {
+     "id": "k09_spark_plug",
+     "name": "Bougie d'Allumage",
+     "name_en": "Spark Plug",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_sparkPlug.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde le temps de charge de la Tronçonneuse."
+    },
+    {
+     "id": "k09_vegetable_oil",
+     "name": "Huile Végétale",
+     "name_en": "Vegetable Oil",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_vegetableOil.png",
+     "image_verified": false,
+     "description": "Réduit de -0,3 seconde le temps de recharge de la Tronçonneuse."
+    },
+    {
+     "id": "k09_speed_limiter",
+     "name": "Limiteur de Vitesse",
+     "name_en": "Speed Limiter",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_speedLimiter.png",
+     "image_verified": false,
+     "description": "La Tronçonneuse ne déclenche pas automatiquement un État Critique. +100 % de Points de Sang sur les événements Coup de Tronçonneuse."
+    },
+    {
+     "id": "k09_chilli",
+     "name": "Chili",
+     "name_en": "Chilli",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chilli.png",
+     "image_verified": false,
+     "description": "Augmente de +0,15 seconde la durée de Balayage à la Tronçonneuse par charge utilisée."
+    },
+    {
+     "id": "k09_knife_scratches",
+     "name": "Griffures de Couteau",
+     "name_en": "Knife Scratches",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_knifeScratches.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 % la Vitesse de Mouvement de Balayage. Augmente de +10 % le temps de charge de la Tronçonneuse."
+    },
+    {
+     "id": "k09_long_guide_bar",
+     "name": "Guide Allongé",
+     "name_en": "Long Guide Bar",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_longGuideBar.png",
+     "image_verified": false,
+     "description": "Augmente de +2 secondes la durée de vrombissement avant une Crise."
+    },
+    {
+     "id": "k09_primer_bulb",
+     "name": "Poire d'Amorçage",
+     "name_en": "Primer Bulb",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_primerBulb.png",
+     "image_verified": false,
+     "description": "Réduit de -1 seconde le temps de charge de la Tronçonneuse."
+    },
+    {
+     "id": "k09_homemade_muffler",
+     "name": "Silencieux Fait Maison",
+     "name_en": "Homemade Muffler",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_homemadeMuffler.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde la durée de la Crise."
+    },
+    {
+     "id": "k09_grisly_chains",
+     "name": "Chaîne Macabre",
+     "name_en": "Grisly Chains",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_grislyChains.png",
+     "image_verified": false,
+     "description": "Les coups de Tronçonneuse infligent Estropiement pendant 70 secondes."
+    },
+    {
+     "id": "k09_begrimed_chains",
+     "name": "Chaînes Souillées",
+     "name_en": "Begrimed Chains",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_begrimedChains.png",
+     "image_verified": false,
+     "description": "Les Survivants frappés par cette Tronçonneuse lâchent leurs Objets."
+    },
+    {
+     "id": "k09_the_grease",
+     "name": "La Graisse",
+     "name_en": "The Grease",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theGrease.png",
+     "image_verified": false,
+     "description": "Augmente de +3 secondes la durée de vrombissement avant une Crise."
+    },
+    {
+     "id": "k09_the_beast_s_marks",
+     "name": "Les Marques de la Bête",
+     "name_en": "The Beast's Marks",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theBeastsMarks.png",
+     "image_verified": false,
+     "description": "Augmente de +2 % la Vitesse de Mouvement de Balayage. Augmente de +12 % le temps de charge de la Tronçonneuse."
+    },
+    {
+     "id": "k09_shop_lubricant",
+     "name": "Lubrifiant d'Atelier",
+     "name_en": "Shop Lubricant",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shopLubricant.png",
+     "image_verified": false,
+     "description": "Abattre un Survivant sans autre Survivant dans votre Rayon de Terreur dissimule son Aura pendant 20 secondes."
+    },
+    {
+     "id": "k09_depth_gauge_rake",
+     "name": "Allonge de Profondeur",
+     "name_en": "Depth Gauge Rake",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_depthGaugeRake.png",
+     "image_verified": false,
+     "description": "Ajoute +1 charge. Augmente de +22 % le temps de charge. Réduit de -2 % la Vitesse de Mouvement de Balayage."
+    },
+    {
+     "id": "k09_rusted_chains",
+     "name": "Chaînes Rouillées",
+     "name_en": "Rusted Chains",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustedChains.png",
+     "image_verified": false,
+     "description": "La Tronçonneuse inflige Brisé pendant 90 secondes."
+    },
+    {
+     "id": "k09_award_winning_chilli",
+     "name": "Chili Primé",
+     "name_en": "Award-winning Chilli",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_award-winningChilli.png",
+     "image_verified": false,
+     "description": "Augmente de +0,2 seconde la durée maximum de Balayage par charge consommée."
+    },
+    {
+     "id": "k09_light_chassis",
+     "name": "Châssis Léger",
+     "name_en": "Light Chassis",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lightChassis.png",
+     "image_verified": false,
+     "description": "Tant que la tronçonneuse vrombit, vous voyez l'Aura des Survivants à moins de 8 mètres."
+    },
+    {
+     "id": "k09_iridescent_flesh",
+     "name": "Chair Irisée",
+     "name_en": "Iridescent Flesh",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentFlesh.png",
+     "image_verified": false,
+     "description": "Frapper un Survivant avec la Tronçonneuse remplit ses charges. Limite la durée maximale de la Crise à 5 secondes."
+    },
+    {
+     "id": "k09_carburettor_tuning_guide",
+     "name": "Guide de Réglage de Carburateur",
+     "name_en": "Carburettor Tuning Guide",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_carburettorTuningGuide.png",
+     "image_verified": false,
+     "description": "Utilise toutes les charges au déclenchement du Balayage. +0,5 s de durée de Balayage. -2 % de Vitesse de Mouvement."
+    }
+   ]
+  },
+  "Cauchemar": {
+   "id": "cauchemar",
+   "name": "Cauchemar",
+   "name_en": "The Nightmare",
+   "wiki_killer_id": 10,
+   "addons": [
+    {
+     "id": "k10_sheep_block",
+     "name": "Bloc Mouton",
+     "name_en": "Sheep Block",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_sheepBlock.png",
+     "image_verified": false,
+     "description": "Déclencher un Piège Onirique ou une Palette Onirique inflige Aveuglement pendant 60 secondes."
+    },
+    {
+     "id": "k10_kid_s_drawing",
+     "name": "Dessin d'Enfant",
+     "name_en": "Kid's Drawing",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_kidsDrawing.png",
+     "image_verified": false,
+     "description": "+200 Points de Sang Sournoiserie quand un Survivant déclenche un Piège Onirique. Réduit à 5 % la pénalité de vitesse des Pièges Oniriques."
+    },
+    {
+     "id": "k10_wool_shirt",
+     "name": "Maillot en Laine",
+     "name_en": "Wool Shirt",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_woolShirt.png",
+     "image_verified": false,
+     "description": "Réduit de 4 % les pénalités aux Tests d'Habileté de Soins ou de Réparation."
+    },
+    {
+     "id": "k10_garden_rake",
+     "name": "Râteau",
+     "name_en": "Garden Rake",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_gardenRake.png",
+     "image_verified": false,
+     "description": "Remplace les Pièges Oniriques par des Palettes Oniriques : accorde 7 Jetons Oniriques."
+    },
+    {
+     "id": "k10_cat_block",
+     "name": "Bloc Chat",
+     "name_en": "Cat Block",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_catBlock.png",
+     "image_verified": false,
+     "description": "Après Projection Onirique, les Survivants à moins de 16 m du générateur sont révélés par Instinct de Tueur pendant 4 secondes."
+    },
+    {
+     "id": "k10_outdoor_rope",
+     "name": "Corde de Randonnée",
+     "name_en": "Outdoor Rope",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_outdoorRope.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : le bruit des réparations de Générateurs s'entend à 8 mètres."
+    },
+    {
+     "id": "k10_nancy_s_sketch",
+     "name": "Croquis de Nancy",
+     "name_en": "Nancy's Sketch",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_nancysSketch.png",
+     "image_verified": false,
+     "description": "Réduit de -2 % la recharge de Projection Onirique par Survivant dans le Monde Onirique (maximum -8 %)."
+    },
+    {
+     "id": "k10_prototype_claws",
+     "name": "Prototype de Griffes",
+     "name_en": "Prototype Claws",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_prototypeClaws.png",
+     "image_verified": false,
+     "description": "Remplace les Pièges Oniriques par des Palettes Oniriques (7 Jetons). Aura des Survivants qui les déclenchent révélée 4 secondes."
+    },
+    {
+     "id": "k10_green_dress",
+     "name": "Robe Verte",
+     "name_en": "Green Dress",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_greenDress.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : un Test d'Habileté raté (Soins/Réparations) révèle l'Aura 3 secondes. +4 % de régression."
+    },
+    {
+     "id": "k10_unicorn_block",
+     "name": "Bloc Licorne",
+     "name_en": "Unicorn Block",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_unicornBlock.png",
+     "image_verified": false,
+     "description": "Déclencher un Piège Onirique ou une Palette Onirique inflige Aveuglement pendant 90 secondes."
+    },
+    {
+     "id": "k10_nancy_s_masterpiece",
+     "name": "Chef-d'Œuvre de Nancy",
+     "name_en": "Nancy's Masterpiece",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_nancysMasterpiece.png",
+     "image_verified": false,
+     "description": "Réduit de -3 % la recharge de Projection Onirique par Survivant dans le Monde Onirique (maximum -12 %)."
+    },
+    {
+     "id": "k10_jump_rope",
+     "name": "Corde à Sauter",
+     "name_en": "Jump Rope",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jumpRope.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : les Grognements de Douleur sont +50 % plus bruyants."
+    },
+    {
+     "id": "k10_paint_thinner",
+     "name": "Diluant à Peinture",
+     "name_en": "Paint Thinner",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_paintThinner.png",
+     "image_verified": false,
+     "description": "Remplace les Pièges Oniriques par des Palettes Oniriques (7 Jetons). Aura des Survivants qui les déclenchent révélée 6 secondes."
+    },
+    {
+     "id": "k10_blue_dress",
+     "name": "Robe Bleue",
+     "name_en": "Blue Dress",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blueDress.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : un Test d'Habileté raté (Soins/Réparations) révèle l'Aura 4 secondes. +4 % de régression."
+    },
+    {
+     "id": "k10_z_block",
+     "name": "Bloc « Z »",
+     "name_en": "\"Z\" Block",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_zBlock.png",
+     "image_verified": false,
+     "description": "Après Projection Onirique, les Survivants à moins de 16 m du générateur sont révélés par Instinct de Tueur pendant 6 secondes."
+    },
+    {
+     "id": "k10_swing_chains",
+     "name": "Chaînes de Balançoire",
+     "name_en": "Swing Chains",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_swingChains.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : les bruits de pas des Survivants sont +50 % plus bruyants."
+    },
+    {
+     "id": "k10_pill_bottle",
+     "name": "Flacon de Cachets",
+     "name_en": "Pill Bottle",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_pillBottle.png",
+     "image_verified": false,
+     "description": "Le Cauchemar n'est visible que par intermittence entre 12 et 24 mètres, et Invisible au-delà (aussi quand il porte un Survivant, pour les éveillés)."
+    },
+    {
+     "id": "k10_class_photo",
+     "name": "Photo de Classe",
+     "name_en": "Class Photo",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_classPhoto.png",
+     "image_verified": false,
+     "description": "Pendant Projection Onirique : tous les Générateurs crachent du sang, la Projection n'apparaît pas et l'annulation est impossible."
+    },
+    {
+     "id": "k10_black_box",
+     "name": "Boîte Noire",
+     "name_en": "Black Box",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blackBox.png",
+     "image_verified": false,
+     "description": "Dans le Monde Onirique : les Portes de Sortie nouvellement ouvertes sont bloquées pendant 15 secondes."
+    },
+    {
+     "id": "k10_red_paint_brush",
+     "name": "Pinceau avec Peinture Rouge",
+     "name_en": "Red Paint Brush",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_redPaintBrush.png",
+     "image_verified": false,
+     "description": "Tous les Survivants commencent dans le Monde Onirique. Les Tests d'Habileté ratés ne les réveillent pas."
+    }
+   ]
+  },
+  "Cochon": {
+   "id": "cochon",
+   "name": "Cochon",
+   "name_en": "The Pig",
+   "wiki_killer_id": 11,
+   "addons": [
+    {
+     "id": "k11_john_s_medical_file",
+     "name": "Dossier Médical de John",
+     "name_en": "John's Medical File",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_johnsMedicalFile.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % votre Vitesse de Mouvement en étant Accroupi."
+    },
+    {
+     "id": "k11_interlocking_razor",
+     "name": "Rasoirs Enchevêtrés",
+     "name_en": "Interlocking Razor",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_interlockingRazor.png",
+     "image_verified": false,
+     "description": "Un Survivant blessé qui échoue à un Test d'Habileté de la Boîte de Jigsaw subit Blessure Profonde."
+    },
+    {
+     "id": "k11_combat_straps",
+     "name": "Sangles de Combat",
+     "name_en": "Combat Straps",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_combatStraps.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la vitesse pour S'accroupir et Se Relever."
+    },
+    {
+     "id": "k11_shattered_syringe",
+     "name": "Seringue Brisée",
+     "name_en": "Shattered Syringe",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shatteredSyringe.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de recharge d'une Embuscade Ratée."
+    },
+    {
+     "id": "k11_razor_wires",
+     "name": "Fil Barbelé",
+     "name_en": "Razor Wires",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_razorWires.png",
+     "image_verified": false,
+     "description": "Un Survivant En Bonne Santé qui échoue à un Test d'Habileté de la Boîte de Jigsaw passe à l'État Blessé. Réduit de -20 % la taille des zones de succès."
+    },
+    {
+     "id": "k11_utility_blades",
+     "name": "Lames de Cutter",
+     "name_en": "Utility Blades",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_utilityBlades.png",
+     "image_verified": false,
+     "description": "Les Survivants pris dans le Piège à Ours Inversé souffrent d'Hémorragie chaque fois qu'ils sont blessés."
+    },
+    {
+     "id": "k11_workshop_grease",
+     "name": "Lubrifiant",
+     "name_en": "Workshop Grease",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_workshopGrease.png",
+     "image_verified": false,
+     "description": "Réduit de -10 % le temps de recharge de l'Embuscade ratée. Augmente de +50 % la vitesse de charge d'Embuscade."
+    },
+    {
+     "id": "k11_face_mask",
+     "name": "Masque",
+     "name_en": "Face Mask",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_faceMask.png",
+     "image_verified": false,
+     "description": "Les Survivants pris dans le Piège à Ours Inversé souffrent d'Aveuglement tant qu'il n'est pas retiré."
+    },
+    {
+     "id": "k11_last_will",
+     "name": "Testament",
+     "name_en": "Last Will",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lastWill.png",
+     "image_verified": false,
+     "description": "Augmente de +6 % la Vitesse de Mouvement d'Embuscade. Augmente de +33 % le temps de charge d'Embuscade."
+    },
+    {
+     "id": "k11_jigsaw_s_annotated_plan",
+     "name": "Croquis Annoté de Jigsaw",
+     "name_en": "Jigsaw's Annotated Plan",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jigsawsAnnotatedPlan.png",
+     "image_verified": false,
+     "description": "Ajoute 1 Piège à Ours Inversé. +10 s au minuteur mortel. Chaque Générateur terminé réduit de -10 s le minuteur des Pièges activés."
+    },
+    {
+     "id": "k11_rusty_attachments",
+     "name": "Dents Rouillées",
+     "name_en": "Rusty Attachments",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustyAttachments.png",
+     "image_verified": false,
+     "description": "Les Pièges à Ours Inversés infligent Estropiement pendant 70 secondes."
+    },
+    {
+     "id": "k11_rules_set_no_2",
+     "name": "Ensemble de Règles N° 2",
+     "name_en": "Rules Set No.2",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rulesSetNo.2.png",
+     "image_verified": false,
+     "description": "Les Survivants ne voient plus les Auras des Boîtes Puzzles jusqu'à l'activation de leur Piège à Ours Inversé."
+    },
+    {
+     "id": "k11_bag_of_gears",
+     "name": "Sac de Rouages",
+     "name_en": "Bag of Gears",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bagOfGears.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la Vitesse de Pose d'un Piège à Ours Inversé. Augmente de +17 % le temps pour Fouiller une Boîte de Jigsaw."
+    },
+    {
+     "id": "k11_slow_release_toxin",
+     "name": "Toxine à Libération Lente",
+     "name_en": "Slow-Release Toxin",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_slow-ReleaseToxin.png",
+     "image_verified": false,
+     "description": "Un Piège à Ours Inversé inflige Épuisement tant qu'il n'est pas retiré."
+    },
+    {
+     "id": "k11_crate_of_gears",
+     "name": "Caisse de Rouages",
+     "name_en": "Crate of Gears",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_crateOfGears.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la Vitesse de Pose d'un Piège à Ours Inversé. Augmente de +33 % le temps pour Fouiller une Boîte de Jigsaw."
+    },
+    {
+     "id": "k11_jigsaw_s_sketch",
+     "name": "Croquis de Jigsaw",
+     "name_en": "Jigsaw's Sketch",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jigsawsSketch.png",
+     "image_verified": false,
+     "description": "Ajoute 1 Piège à Ours Inversé. Quand un Survivant piégé répare un Générateur, l'Aura de ce Générateur vous est révélée en jaune."
+    },
+    {
+     "id": "k11_tampered_timer",
+     "name": "Minuteur Trafiqué",
+     "name_en": "Tampered Timer",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tamperedTimer.png",
+     "image_verified": false,
+     "description": "Réduit de -20 secondes le minuteur mortel du Piège à Ours Inversé."
+    },
+    {
+     "id": "k11_amanda_s_secret",
+     "name": "Secret d'Amanda",
+     "name_en": "Amanda's Secret",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_amandasSecret.png",
+     "image_verified": false,
+     "description": "Fort Bruit d'Alerte quand un Survivant retire un Piège. Son Aura vous est révélée pendant 6 secondes."
+    },
+    {
+     "id": "k11_video_tape",
+     "name": "Cassette Vidéo",
+     "name_en": "Video Tape",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_videoTape.png",
+     "image_verified": false,
+     "description": "Les Survivants commencent la partie avec des Pièges à Ours Inversés installés."
+    },
+    {
+     "id": "k11_amanda_s_letter",
+     "name": "Lettre à Amanda",
+     "name_en": "Amanda's Letter",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_amandasLetter.png",
+     "image_verified": false,
+     "description": "Auras des Survivants à 16 mètres visibles en étant Accroupi. Supprime 2 Pièges à Ours Inversés disponibles."
+    }
+   ]
+  },
+  "Clown": {
+   "id": "clown",
+   "name": "Clown",
+   "name_en": "The Clown",
+   "wiki_killer_id": 12,
+   "addons": [
+    {
+     "id": "k12_party_bottle",
+     "name": "Bouteille de Fête",
+     "name_en": "Party Bottle",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_partyBottle.png",
+     "image_verified": false,
+     "description": "Projette des confettis en se brisant. Toucher un Survivant interrompt ses actions et rapporte 100 Points de Sang Sournoiserie."
+    },
+    {
+     "id": "k12_vhs_porn",
+     "name": "Cassette VHS de Porno",
+     "name_en": "VHS Porn",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_vHSPorn.png",
+     "image_verified": false,
+     "description": "Rend les Nuages du Tonique Afterpiece jaunes et ceux de l'Antidote violets."
+    },
+    {
+     "id": "k12_fingerless_parade_gloves",
+     "name": "Mitaines de Parade",
+     "name_en": "Fingerless Parade Gloves",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_fingerlessParadeGloves.png",
+     "image_verified": false,
+     "description": "Augmente de +25 % la vitesse de lancer des Bouteilles. Abaisse de -15 degrés l'angle du lancer."
+    },
+    {
+     "id": "k12_robin_feather",
+     "name": "Plume de Rouge-Gorge",
+     "name_en": "Robin Feather",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_robinFeather.png",
+     "image_verified": false,
+     "description": "Réduit de -40 % le temps de recharge entre les jets de Bouteilles."
+    },
+    {
+     "id": "k12_kerosene_can",
+     "name": "Bidon de Kérosène",
+     "name_en": "Kerosene Can",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_keroseneCan.png",
+     "image_verified": false,
+     "description": "L'Intoxication inflige Aveuglement pendant 30 secondes."
+    },
+    {
+     "id": "k12_solvent_jug",
+     "name": "Bidon de Solvant",
+     "name_en": "Solvent Jug",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_solventJug.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée de l'effet Revigoré."
+    },
+    {
+     "id": "k12_thick_cork_stopper",
+     "name": "Bouchon Épais",
+     "name_en": "Thick Cork Stopper",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_thickCorkStopper.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde le temps de recharge des Bouteilles."
+    },
+    {
+     "id": "k12_sticky_soda_bottle",
+     "name": "Bouteille de Soda Collante",
+     "name_en": "Sticky Soda Bottle",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_stickySodaBottle.png",
+     "image_verified": false,
+     "description": "Augmente de 2 % l'Effet de Statut Rapidité de Revigoré."
+    },
+    {
+     "id": "k12_starling_feather",
+     "name": "Plume d'Étourneau",
+     "name_en": "Starling Feather",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_starlingFeather.png",
+     "image_verified": false,
+     "description": "Réduit de -50 % le temps de recharge entre les jets de Bouteilles."
+    },
+    {
+     "id": "k12_bottle_of_chloroform",
+     "name": "Bouteille de Chloroforme",
+     "name_en": "Bottle of Chloroform",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bottleOfChloroform.png",
+     "image_verified": false,
+     "description": "Étend de +20 % la Zone d'Effet du Tonique Afterpiece."
+    },
+    {
+     "id": "k12_spirit_of_hartshorn",
+     "name": "Esprit de Hartshorn",
+     "name_en": "Spirit of Hartshorn",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_spiritOfHartshorn.png",
+     "image_verified": false,
+     "description": "Étend de +20 % la Zone d'Effet du Gaz Antidote Afterpiece."
+    },
+    {
+     "id": "k12_sulphuric_acid_vial",
+     "name": "Flacon d'Acide Sulfurique",
+     "name_en": "Sulphuric Acid Vial",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_sulphuricAcidVial.png",
+     "image_verified": false,
+     "description": "L'Intoxication inflige Estropiement aux Survivants blessés pendant 70 secondes."
+    },
+    {
+     "id": "k12_flask_of_bleach",
+     "name": "Flacon de Détergent",
+     "name_en": "Flask of Bleach",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_flaskOfBleach.png",
+     "image_verified": false,
+     "description": "Augmente de +4 % le malus d'Entrave suite à l'Intoxication."
+    },
+    {
+     "id": "k12_smelly_inner_soles",
+     "name": "Semelles Intérieures Puantes",
+     "name_en": "Smelly Inner Soles",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_smellyInnerSoles.png",
+     "image_verified": false,
+     "description": "Augmente de +66 % la Vitesse de Mouvement en rechargeant des Bouteilles."
+    },
+    {
+     "id": "k12_cheap_gin_bottle",
+     "name": "Bouteille de Gin Bon Marché",
+     "name_en": "Cheap Gin Bottle",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cheapGinBottle.png",
+     "image_verified": false,
+     "description": "Augmente de 3 % l'Effet de Statut Rapidité de Revigoré."
+    },
+    {
+     "id": "k12_cigar_box",
+     "name": "Boîte à Cigares",
+     "name_en": "Cigar Box",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cigarBox.png",
+     "image_verified": false,
+     "description": "Quand le Clown ou un Survivant est Revigoré, il voit l'Aura de tous les autres joueurs à 16 mètres pendant 6 secondes."
+    },
+    {
+     "id": "k12_garish_make_up_kit",
+     "name": "Boîte à Maquillage Criard",
+     "name_en": "Garish Make-Up Kit",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_garishMake-UpKit.png",
+     "image_verified": false,
+     "description": "Augmente de +2 secondes la durée de Revigoré."
+    },
+    {
+     "id": "k12_ether_15_vol",
+     "name": "Éther à 15 % du Volume",
+     "name_en": "Ether 15 Vol%",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ether15Vol%.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée d'Intoxication."
+    },
+    {
+     "id": "k12_tattoo_s_middle_finger",
+     "name": "Majeur du Tatoué",
+     "name_en": "Tattoo's Middle Finger",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tattoosMiddleFinger.png",
+     "image_verified": false,
+     "description": "Vous révèle l'Aura des Survivants Intoxiqués ou Revigorés pendant 6 secondes."
+    },
+    {
+     "id": "k12_redhead_s_pinkie_finger",
+     "name": "Petit Doigt de Personne Rousse",
+     "name_en": "Redhead's Pinkie Finger",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_redheadsPinkieFinger.png",
+     "image_verified": false,
+     "description": "Une Bouteille de Tonique qui touche directement inflige À découvert jusqu'à la fin d'Intoxication. Maximum de Bouteilles porté à 1."
+    }
+   ]
+  },
+  "Esprit": {
+   "id": "esprit",
+   "name": "Esprit",
+   "name_en": "The Spirit",
+   "wiki_killer_id": 13,
+   "addons": [
+    {
+     "id": "k13_shiawase_amulet",
+     "name": "Amulette Porte-Bonheur",
+     "name_en": "Shiawase Amulet",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shiawaseAmulet.png",
+     "image_verified": false,
+     "description": "Augmente de 15 % (+0,5 seconde) la durée de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_origami_crane",
+     "name": "Grue en Origami",
+     "name_en": "Origami Crane",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_origamiCrane.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de recharge de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_gifted_bamboo_comb",
+     "name": "Peigne en Bambou Offert",
+     "name_en": "Gifted Bamboo Comb",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_giftedBambooComb.png",
+     "image_verified": false,
+     "description": "Augmente de +15 % la vitesse de charge de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_zori",
+     "name": "Zōri",
+     "name_en": "Zōri",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_zori.png",
+     "image_verified": false,
+     "description": "Augmente de +5 % la Vitesse de Mouvement de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_juniper_bonsai",
+     "name": "Bonsaï de Genévrier",
+     "name_en": "Juniper Bonsai",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_juniperBonsai.png",
+     "image_verified": false,
+     "description": "Diminue de -1 seconde la recharge de la Phase Passive et augmente sa durée de +50 %."
+    },
+    {
+     "id": "k13_muddy_sports_day_cap",
+     "name": "Casquette de Sport Boueuse",
+     "name_en": "Muddy Sports Day Cap",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_muddySportsDayCap.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % votre Vitesse de Mouvement pendant une Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_rin_s_broken_watch",
+     "name": "Montre Cassée de Rin",
+     "name_en": "Rin's Broken Watch",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rinsBrokenWatch.png",
+     "image_verified": false,
+     "description": "Augmente de +15 % la vitesse de recharge de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_white_hair_ribbon",
+     "name": "Ruban Blanc pour Cheveux",
+     "name_en": "White Hair Ribbon",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_whiteHairRibbon.png",
+     "image_verified": false,
+     "description": "Augmente de +20 % la vitesse de charge de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_kaiun_talisman",
+     "name": "Talisman de Chance",
+     "name_en": "Kaiun Talisman",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_kaiunTalisman.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_rusty_flute",
+     "name": "Flûte Rouillée",
+     "name_en": "Rusty Flute",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustyFlute.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la vitesse de recharge de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_mother_s_glasses",
+     "name": "Lunettes de Mère",
+     "name_en": "Mother's Glasses",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mothersGlasses.png",
+     "image_verified": false,
+     "description": "Les Survivants à moins de 2 mètres de la Coquille pendant une Hantise déclenchent Instinct de Tueur."
+    },
+    {
+     "id": "k13_senko_hanabi",
+     "name": "Senko Hanabi",
+     "name_en": "Senko Hanabi",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_senkoHanabi.png",
+     "image_verified": false,
+     "description": "À la fin de la Hantise, la Coquille explose et bloque pendant 5 secondes les sites de saut d'obstacles dans 4 mètres."
+    },
+    {
+     "id": "k13_katana_tsuba",
+     "name": "Tsuba pour Katana",
+     "name_en": "Katana Tsuba",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_katanaTsuba.png",
+     "image_verified": false,
+     "description": "Prolonge l'Invisibilité de réapparition de +0,2 s et augmente la Vitesse de Mouvement de +5 % à la réapparition."
+    },
+    {
+     "id": "k13_uchiwa",
+     "name": "Uchiwa",
+     "name_en": "Uchiwa",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_uchiwa.png",
+     "image_verified": false,
+     "description": "Recharge instantanément la Hantise en cas d'Étourdissement dû à une Palette."
+    },
+    {
+     "id": "k13_yakuyoke_amulet",
+     "name": "Amulette Yakuyoke",
+     "name_en": "Yakuyoke Amulet",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_yakuyokeAmulet.png",
+     "image_verified": false,
+     "description": "Augmente de 70 % (+3,5 s) la durée de la Hantise de Yamaoka. Diminue de -15 % la Vitesse de Déplacement."
+    },
+    {
+     "id": "k13_dried_cherry_blossom",
+     "name": "Fleur de Cerisier Séchée",
+     "name_en": "Dried Cherry Blossom",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_driedCherryBlossom.png",
+     "image_verified": false,
+     "description": "À moins de 3 m d'un Survivant pendant une Hantise : Instinct de Tueur. Les Marques d'Éraflure ne vous sont plus visibles pendant la Hantise."
+    },
+    {
+     "id": "k13_wakizashi_saya",
+     "name": "Fourreau de Wakizashi",
+     "name_en": "Wakizashi Saya",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_wakizashiSaya.png",
+     "image_verified": false,
+     "description": "Pendant la Hantise, la Capacité Active rend la Coquille et met fin à la Hantise."
+    },
+    {
+     "id": "k13_furin",
+     "name": "Furin",
+     "name_en": "Furin",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_furin.png",
+     "image_verified": false,
+     "description": "Tous les Survivants entendent le signal sonore de la Hantise de Yamaoka."
+    },
+    {
+     "id": "k13_mother_daughter_ring",
+     "name": "Bague Mère-Fille",
+     "name_en": "Mother-Daughter Ring",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mother-DaughterRing.png",
+     "image_verified": false,
+     "description": "Augmente de +25 % votre Vitesse de Mouvement pendant une Hantise. Les Marques d'Éraflure ne vous sont plus visibles."
+    },
+    {
+     "id": "k13_kintsugi_teacup",
+     "name": "Tasse à Thé Kintsugi",
+     "name_en": "Kintsugi Teacup",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_kintsugiTeacup.png",
+     "image_verified": false,
+     "description": "Recharge instantanément la Hantise après avoir brisé un Mur Destructible ou une Palette."
+    }
+   ]
+  },
+  "Légion": {
+   "id": "legion",
+   "name": "Légion",
+   "name_en": "The Legion",
+   "wiki_killer_id": 14,
+   "addons": [
+    {
+     "id": "k14_smiley_face_pin",
+     "name": "Badge Smiley",
+     "name_en": "Smiley Face Pin",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_smileyFacePin.png",
+     "image_verified": false,
+     "description": "Les Survivants subissent Aveuglement pendant 60 secondes après s'être soignés."
+    },
+    {
+     "id": "k14_friendship_bracelet",
+     "name": "Bracelet d'Amitié",
+     "name_en": "Friendship Bracelet",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_friendshipBracelet.png",
+     "image_verified": false,
+     "description": "Prolonge de +0,3 seconde la fente des Coups Frénétiques, ce qui augmente votre portée d'attaque."
+    },
+    {
+     "id": "k14_mischief_list",
+     "name": "Liste de Méfaits",
+     "name_en": "Mischief List",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mischiefList.png",
+     "image_verified": false,
+     "description": "Prolonge de +2 secondes la durée de Frénésie Animale."
+    },
+    {
+     "id": "k14_scratched_ruler",
+     "name": "Règle Éraflée",
+     "name_en": "Scratched Ruler",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scratchedRuler.png",
+     "image_verified": false,
+     "description": "Réduit de -5 secondes le temps de récupération de Frénésie Animale."
+    },
+    {
+     "id": "k14_defaced_smiley_pin",
+     "name": "Badge Smiley Défiguré",
+     "name_en": "Defaced Smiley Pin",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_defacedSmileyPin.png",
+     "image_verified": false,
+     "description": "Les Survivants subissent Estropiement jusqu'à guérison complète après s'être soignés."
+    },
+    {
+     "id": "k14_never_sleep_pills",
+     "name": "Cachets Anti-Sommeil",
+     "name_en": "Never-Sleep Pills",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_never-SleepPills.png",
+     "image_verified": false,
+     "description": "Prolonge Frénésie Animale de +10 s mais réduit la vitesse de départ à 4,6 m/s. +100 Points de Sang cumulables par Coup Frénétique réussi (jusqu'à +500)."
+    },
+    {
+     "id": "k14_julie_s_mix_tape",
+     "name": "Cassette de Musique de Julie",
+     "name_en": "Julie's Mix Tape",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_juliesMixTape.png",
+     "image_verified": false,
+     "description": "Recharge instantanément Frénésie Animale si vous êtes étourdi pendant son utilisation. Ajoute une couche musicale au Rayon de Terreur."
+    },
+    {
+     "id": "k14_mural_sketch",
+     "name": "Fresque",
+     "name_en": "Mural Sketch",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_muralSketch.png",
+     "image_verified": false,
+     "description": "Le bonus de Vitesse de Mouvement des Coups Frénétiques enchaînés passe à +0,3 m/s (maximum +1,2 m/s)."
+    },
+    {
+     "id": "k14_etched_ruler",
+     "name": "Règle Entaillée",
+     "name_en": "Etched Ruler",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_etchedRuler.png",
+     "image_verified": false,
+     "description": "Les Survivants frappés par un Coup Frénétique subissent Inconscient pendant 60 secondes."
+    },
+    {
+     "id": "k14_the_legion_pin",
+     "name": "Badge de la Légion",
+     "name_en": "The Legion Pin",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_theLegionPin.png",
+     "image_verified": false,
+     "description": "Les Survivants subissent Brisé pendant 60 secondes après s'être soignés."
+    },
+    {
+     "id": "k14_stolen_sketch_book",
+     "name": "Carnet à Dessin Volé",
+     "name_en": "Stolen Sketch Book",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_stolenSketchBook.png",
+     "image_verified": false,
+     "description": "Les Survivants frappés par des Coups Frénétiques enchaînés lâchent leur Objet."
+    },
+    {
+     "id": "k14_joey_s_mix_tape",
+     "name": "Cassette de Musique de Joey",
+     "name_en": "Joey's Mix Tape",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_joeysMixTape.png",
+     "image_verified": false,
+     "description": "Les Survivants subissent Hémorragie jusqu'à guérison complète après s'être soignés. Couche musicale au Rayon de Terreur."
+    },
+    {
+     "id": "k14_susie_s_mix_tape",
+     "name": "Cassette de Musique de Susie",
+     "name_en": "Susie's Mix Tape",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_susiesMixTape.png",
+     "image_verified": false,
+     "description": "Augmente de +20 mètres le rayon de détection d'Instinct de Tueur. Couche musicale au Rayon de Terreur."
+    },
+    {
+     "id": "k14_stylish_sunglasses",
+     "name": "Lunettes de Soleil Stylées",
+     "name_en": "Stylish Sunglasses",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_stylishSunglasses.png",
+     "image_verified": false,
+     "description": "Les Auras des Survivants qui se soignent à moins de 24 mètres vous sont révélées."
+    },
+    {
+     "id": "k14_bffs",
+     "name": "Amis pour la Vie",
+     "name_en": "BFFs",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bFFs.png",
+     "image_verified": false,
+     "description": "Les Coups Frénétiques enchaînés accumulent des Jetons (0, +2, +3, +4, +5). Une fois les Portes alimentées et 15+ Jetons : +6 % de Rapidité hors Frénésie Animale."
+    },
+    {
+     "id": "k14_frank_s_mix_tape",
+     "name": "Cassette de Musique de Frank",
+     "name_en": "Frank's Mix Tape",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_franksMixTape.png",
+     "image_verified": false,
+     "description": "Pendant la Frénésie : pause de la jauge pendant briser/endommager, +20 % de vitesse sur les Générateurs, +30 % sur les Murs Destructibles. Couche musicale."
+    },
+    {
+     "id": "k14_filthy_blade",
+     "name": "Lame Dégoûtante",
+     "name_en": "Filthy Blade",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_filthyBlade.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 seconde le temps de Soin des Survivants."
+    },
+    {
+     "id": "k14_stab_wounds_study",
+     "name": "Étude sur les Blessures par Arme Blanche",
+     "name_en": "Stab Wounds Study",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_stabWoundsStudy.png",
+     "image_verified": false,
+     "description": "Les Auras des Survivants vous sont révélées pendant 4 secondes après qu'ils se soient soignés."
+    },
+    {
+     "id": "k14_iridescent_button",
+     "name": "Badge Irisé",
+     "name_en": "Iridescent Button",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentButton.png",
+     "image_verified": false,
+     "description": "Les Sauts Frénétiques brisent instantanément les Palettes franchies."
+    },
+    {
+     "id": "k14_fuming_mix_tape",
+     "name": "Cassette de Musique Fumante",
+     "name_en": "Fuming Mix Tape",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_fumingMixTape.png",
+     "image_verified": false,
+     "description": "Révèle l'avancement de Réparation des Générateurs via l'intensité de leur Aura pendant la Frénésie. Couche musicale."
+    }
+   ]
+  },
+  "Épidémie": {
+   "id": "epidemie",
+   "name": "Épidémie",
+   "name_en": "The Plague",
+   "wiki_killer_id": 15,
+   "addons": [
+    {
+     "id": "k15_healing_salve",
+     "name": "Baume de Soins",
+     "name_en": "Healing Salve",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_healingSalve.png",
+     "image_verified": false,
+     "description": "Réduit de -0,25 seconde le temps de recharge de Purge d'Infamie et de Purge de Corruption."
+    },
+    {
+     "id": "k15_prayer_tablet_fragment",
+     "name": "Fragment de Tablette de Prière",
+     "name_en": "Prayer Tablet Fragment",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_prayerTabletFragment.png",
+     "image_verified": false,
+     "description": "Purge d'Infamie n'affecte plus les survivants. Infection des Objets +40 s, +100 % d'infection, +100 % de Points de Sang Sournoiserie."
+    },
+    {
+     "id": "k15_olibanum_incense",
+     "name": "Olibanum",
+     "name_en": "Olibanum Incense",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_olibanumIncense.png",
+     "image_verified": false,
+     "description": "Les Survivants qui se purifient aux Fontaines révèlent leur Aura pendant 4 secondes."
+    },
+    {
+     "id": "k15_limestone_seal",
+     "name": "Sceau Calcaire",
+     "name_en": "Limestone Seal",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_limestoneSeal.png",
+     "image_verified": false,
+     "description": "Augmente de +20 secondes la durée d'Infection des Objets."
+    },
+    {
+     "id": "k15_prophylactic_amulet",
+     "name": "Amulette Prophylactique",
+     "name_en": "Prophylactic Amulet",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_prophylacticAmulet.png",
+     "image_verified": false,
+     "description": "Réduit de -2 le nombre de Bassins de Dévotion de l'Épreuve."
+    },
+    {
+     "id": "k15_blessed_apple",
+     "name": "Pomme Bénie",
+     "name_en": "Blessed Apple",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blessedApple.png",
+     "image_verified": false,
+     "description": "Commencez l'Épreuve avec +1 Bassin de Dévotion Corrompu supplémentaire."
+    },
+    {
+     "id": "k15_emetic_potion",
+     "name": "Potion Vomitive",
+     "name_en": "Emetic Potion",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_emeticPotion.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % l'efficacité de Purge d'Infamie."
+    },
+    {
+     "id": "k15_haematite_seal",
+     "name": "Sceau d'Hématite",
+     "name_en": "Haematite Seal",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_haematiteSeal.png",
+     "image_verified": false,
+     "description": "Augmente de +30 secondes le temps d'infection des Objets."
+    },
+    {
+     "id": "k15_potent_tincture",
+     "name": "Teinture Forte",
+     "name_en": "Potent Tincture",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_potentTincture.png",
+     "image_verified": false,
+     "description": "Réduit de -0,4 seconde le temps de recharge de Purge d'Infamie et de Purge de Corruption."
+    },
+    {
+     "id": "k15_exorcism_amulet",
+     "name": "Amulette d'Exorcisme",
+     "name_en": "Exorcism Amulet",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_exorcismAmulet.png",
+     "image_verified": false,
+     "description": "Augmente de +10 secondes la durée de Purge de Corruption."
+    },
+    {
+     "id": "k15_rubbing_oil",
+     "name": "Huile de Massage",
+     "name_en": "Rubbing Oil",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rubbingOil.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la vitesse de charge de Purge d'Infamie et de Purge de Corruption."
+    },
+    {
+     "id": "k15_incensed_ointment",
+     "name": "Onguent Odorant",
+     "name_en": "Incensed Ointment",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_incensedOintment.png",
+     "image_verified": false,
+     "description": "Ingérer la Corruption dans un Bassin fait crier tous les Survivants de votre Rayon de Terreur et révèle leur position."
+    },
+    {
+     "id": "k15_ashen_apple",
+     "name": "Pomme Grisâtre",
+     "name_en": "Ashen Apple",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ashenApple.png",
+     "image_verified": false,
+     "description": "Commencez avec +1 Bassin de Dévotion Corrompu. Augmente de +1 le nombre de Bassins de l'Épreuve."
+    },
+    {
+     "id": "k15_infected_emetic",
+     "name": "Vomi Infecté",
+     "name_en": "Infected Emetic",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_infectedEmetic.png",
+     "image_verified": false,
+     "description": "Augmente de +40 % l'efficacité de Purge d'Infamie."
+    },
+    {
+     "id": "k15_devotee_s_amulet",
+     "name": "Amulette de l'Adepte",
+     "name_en": "Devotee's Amulet",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_devoteesAmulet.png",
+     "image_verified": false,
+     "description": "Augmente de +20 secondes la durée de Purge de Corruption."
+    },
+    {
+     "id": "k15_severed_toe",
+     "name": "Orteil Tranché",
+     "name_en": "Severed Toe",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_severedToe.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la vitesse à laquelle les Survivants souffrent d'Infection lors d'interactions."
+    },
+    {
+     "id": "k15_worship_tablet",
+     "name": "Tablette d'Adoration",
+     "name_en": "Worship Tablet",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_worshipTablet.png",
+     "image_verified": false,
+     "description": "+100 % de vitesse d'ingestion de la Corruption à un Bassin. +4,5 % de Vitesse de Mouvement pendant Purge de Corruption."
+    },
+    {
+     "id": "k15_vile_emetic",
+     "name": "Vomitif Abominable",
+     "name_en": "Vile Emetic",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_vileEmetic.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la vélocité d'éjection des Vomissures."
+    },
+    {
+     "id": "k15_black_incense",
+     "name": "Encens Noir",
+     "name_en": "Black Incense",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blackIncense.png",
+     "image_verified": false,
+     "description": "L'Aura des Survivants vous est révélée pendant 3 secondes quand ils vomissent."
+    },
+    {
+     "id": "k15_iridescent_seal",
+     "name": "Sceau Irisé",
+     "name_en": "Iridescent Seal",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentSeal.png",
+     "image_verified": false,
+     "description": "Purge de Corruption s'active à chaque Générateur entièrement réparé, mais dure -20 secondes de moins."
+    }
+   ]
+  },
+  "GhostFace": {
+   "id": "ghostface",
+   "name": "GhostFace",
+   "name_en": "The Ghost Face",
+   "wiki_killer_id": 16,
+   "addons": [
+    {
+     "id": "k16_walleye_s_matchbook",
+     "name": "Allumettes du Walleye",
+     "name_en": "Walleye's Matchbook",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_walleyesMatchbook.png",
+     "image_verified": false,
+     "description": "Réduit de -6 secondes le temps de récupération de Linceul Nocturne."
+    },
+    {
+     "id": "k16_headline_cut_outs",
+     "name": "Coupures de Presse",
+     "name_en": "Headline Cut-Outs",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_headlineCut-Outs.png",
+     "image_verified": false,
+     "description": "Augmente de +40 % la Vitesse de Mouvement quand vous Traquez une Cible."
+    },
+    {
+     "id": "k16_cheap_cologne",
+     "name": "Eau de Cologne Bon Marché",
+     "name_en": "Cheap Cologne",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cheapCologne.png",
+     "image_verified": false,
+     "description": "Augmente de +10 secondes la durée de Marque d'un Survivant."
+    },
+    {
+     "id": "k16_philly",
+     "name": "« Philly »",
+     "name_en": "\"Philly\"",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_philly.png",
+     "image_verified": false,
+     "description": "Réduit de -20 % le temps requis pour Marquer un Survivant."
+    },
+    {
+     "id": "k16_olsen_s_address_book",
+     "name": "Carnet d'Adresses d'Olsen",
+     "name_en": "Olsen's Address Book",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_olsensAddressBook.png",
+     "image_verified": false,
+     "description": "Les Survivants Marqués révèlent leur Aura pendant 5 secondes quand ils effectuent des actions en courant."
+    },
+    {
+     "id": "k16_marked_map",
+     "name": "Carte Marquée",
+     "name_en": "Marked Map",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_markedMap.png",
+     "image_verified": false,
+     "description": "Augmente de +2 secondes la durée d'Instinct de Tueur après avoir été révélé."
+    },
+    {
+     "id": "k16_olsen_s_journal",
+     "name": "Journal d'Olsen",
+     "name_en": "Olsen's Journal",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_olsensJournal.png",
+     "image_verified": false,
+     "description": "Un Survivant Marqué subit Inconscient jusqu'à ce que la Marque expire."
+    },
+    {
+     "id": "k16_cinch_straps",
+     "name": "Sangles",
+     "name_en": "Cinch Straps",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cinchStraps.png",
+     "image_verified": false,
+     "description": "Linceul Nocturne reste actif après une Attaque de Base ratée."
+    },
+    {
+     "id": "k16_telephoto_lens",
+     "name": "Téléobjectif",
+     "name_en": "Telephoto Lens",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_telephotoLens.png",
+     "image_verified": false,
+     "description": "Un Survivant qui révèle Ghost Face subit Inconscient pendant 60 secondes."
+    },
+    {
+     "id": "k16_leather_knife_sheath",
+     "name": "Fourreau de Couteau en Cuir",
+     "name_en": "Leather Knife Sheath",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_leatherKnifeSheath.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % la Vitesse de Mouvement en Position Accroupie."
+    },
+    {
+     "id": "k16_lasting_perfume",
+     "name": "Parfum Durable",
+     "name_en": "Lasting Perfume",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lastingPerfume.png",
+     "image_verified": false,
+     "description": "Les Survivants accrochés à un Crochet mettent 3 secondes à révéler Ghost Face."
+    },
+    {
+     "id": "k16_olsen_s_wallet",
+     "name": "Porte-Feuille d'Olsen",
+     "name_en": "Olsen's Wallet",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_olsensWallet.png",
+     "image_verified": false,
+     "description": "Détruire une Palette ou un Mur Destructible recharge immédiatement Linceul Nocturne."
+    },
+    {
+     "id": "k16_chewed_pen",
+     "name": "Stylo Mâchouillé",
+     "name_en": "Chewed Pen",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chewedPen.png",
+     "image_verified": false,
+     "description": "Les Survivants en État Critique mettent 3 secondes à révéler Ghost Face."
+    },
+    {
+     "id": "k16_knife_belt_clip",
+     "name": "Étui de Ceinture à Couteau",
+     "name_en": "Knife Belt Clip",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_knifeBeltClip.png",
+     "image_verified": false,
+     "description": "Réduit le Rayon de Terreur de -12 mètres en Position Accroupie."
+    },
+    {
+     "id": "k16_drop_leg_knife_sheath",
+     "name": "Fourreau de Couteau Fixe",
+     "name_en": "Drop-Leg Knife Sheath",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_drop-LegKnifeSheath.png",
+     "image_verified": false,
+     "description": "Ghost Face gagne +10 % de Rapidité pendant 5 secondes après avoir Marqué un Survivant."
+    },
+    {
+     "id": "k16_night_vision_monocular",
+     "name": "Objectif de Vision Nocturne",
+     "name_en": "Night Vision Monocular",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_nightVisionMonocular.png",
+     "image_verified": false,
+     "description": "Un Survivant qui révèle Ghost Face subit Épuisement pendant 10 secondes."
+    },
+    {
+     "id": "k16_driver_s_license",
+     "name": "Permis de Conduire",
+     "name_en": "Driver's License",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_driversLicense.png",
+     "image_verified": false,
+     "description": "Marquer un Survivant qui répare un Générateur le fait exploser (-20 % de progression) et le bloque 15 secondes. Une seule perte si plusieurs Survivants sont marqués."
+    },
+    {
+     "id": "k16_victim_s_detailed_routine",
+     "name": "Routine Détaillée de la Victime",
+     "name_en": "Victim's Detailed Routine",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_victimsDetailedRoutine.png",
+     "image_verified": false,
+     "description": "Après avoir été Marqués, les Survivants subissent Épuisement pendant 5 secondes."
+    },
+    {
+     "id": "k16_outdoor_security_camera",
+     "name": "Caméra de Sécurité Extérieure",
+     "name_en": "Outdoor Security Camera",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_outdoorSecurityCamera.png",
+     "image_verified": false,
+     "description": "L'Aura de tous les Survivants est révélée pendant 7 secondes quand un Survivant Marqué entre en État Critique."
+    },
+    {
+     "id": "k16_ghost_face_caught_on_tape",
+     "name": "« Ghost Face Surpris en Direct »",
+     "name_en": "\"Ghost Face Caught on Tape\"",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ghostFaceCaughtOnTape.png",
+     "image_verified": false,
+     "description": "Recharge instantanément Linceul Nocturne après une Attaque de Base qui met un Survivant en État Critique."
+    }
+   ]
+  },
+  "Démogorgon": {
+   "id": "demogorgon",
+   "name": "Démogorgon",
+   "name_en": "The Demogorgon",
+   "wiki_killer_id": 17,
+   "addons": [
+    {
+     "id": "k17_rotten_pumpkin",
+     "name": "Citrouille Pourrie",
+     "name_en": "Rotten Pumpkin",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rottenPumpkin.png",
+     "image_verified": false,
+     "description": "Votre Portail d'entrée est détruit pendant la traversée du Monde à l'Envers. +200 Points de Sang pour la traversée."
+    },
+    {
+     "id": "k17_black_heart",
+     "name": "Cœur Noir",
+     "name_en": "Black Heart",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blackHeart.png",
+     "image_verified": false,
+     "description": "Réduit de -15 % le temps de recharge de Déchiqueter."
+    },
+    {
+     "id": "k17_rat_liver",
+     "name": "Foie de Rat",
+     "name_en": "Rat Liver",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ratLiver.png",
+     "image_verified": false,
+     "description": "Augmente de +3,5 % la Vitesse de Mouvement pendant la charge de Né de l'Abîme."
+    },
+    {
+     "id": "k17_rat_tail",
+     "name": "Queue de Rat",
+     "name_en": "Rat Tail",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ratTail.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la vitesse d'ouverture d'un Portail."
+    },
+    {
+     "id": "k17_mews_guts",
+     "name": "Boyaux de Miaou",
+     "name_en": "Mews' Guts",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mewsGuts.png",
+     "image_verified": false,
+     "description": "+1 Portail disponible. Réduit de -11 % le temps de recharge d'une attaque Déchiqueter ratée."
+    },
+    {
+     "id": "k17_barb_s_glasses",
+     "name": "Lunettes de Barb",
+     "name_en": "Barb's Glasses",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_barbsGlasses.png",
+     "image_verified": false,
+     "description": "Réduit de -15 % le temps de recharge de Déchiqueter en brisant un Mur Destructible ou une Palette."
+    },
+    {
+     "id": "k17_sticky_lining",
+     "name": "Revêtement Gluant",
+     "name_en": "Sticky Lining",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_stickyLining.png",
+     "image_verified": false,
+     "description": "Augmente de +2,5 mètres la distance de détection des Survivants autour des Portails."
+    },
+    {
+     "id": "k17_viscous_webbing",
+     "name": "Toile Visqueuse",
+     "name_en": "Viscous Webbing",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_viscousWebbing.png",
+     "image_verified": false,
+     "description": "Augmente de +16 % le temps pris par les Survivants pour sceller un Portail."
+    },
+    {
+     "id": "k17_rotten_green_tripe",
+     "name": "Tripes Vertes Décomposées",
+     "name_en": "Rotten Green Tripe",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rottenGreenTripe.png",
+     "image_verified": false,
+     "description": "Augmente de +15 % la Vitesse de Mouvement dans le Monde à l'Envers."
+    },
+    {
+     "id": "k17_violet_waxcap",
+     "name": "Bonnet Cireux Violet",
+     "name_en": "Violet Waxcap",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_violetWaxcap.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée d'Indétectable en sortant d'un Portail."
+    },
+    {
+     "id": "k17_brass_case_lighter",
+     "name": "Briquet en Cuivre",
+     "name_en": "Brass Case Lighter",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_brassCaseLighter.png",
+     "image_verified": false,
+     "description": "La proximité avec les Portails inflige Aveuglement aux Survivants, pendant 60 secondes après avoir perdu le contact."
+    },
+    {
+     "id": "k17_thorny_vines",
+     "name": "Lianes Épineuses",
+     "name_en": "Thorny Vines",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_thornyVines.png",
+     "image_verified": false,
+     "description": "Augmente de +11 % le temps pour sceller un Portail et de +1 mètre la distance de détection."
+    },
+    {
+     "id": "k17_deer_lung",
+     "name": "Poumon de Biche",
+     "name_en": "Deer Lung",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_deerLung.png",
+     "image_verified": false,
+     "description": "Augmente de +30 % la Vitesse de Mouvement dans le Monde à l'Envers. Réduit de -2 le nombre de Portails disponibles."
+    },
+    {
+     "id": "k17_eleven_s_soda",
+     "name": "Soda de Onze",
+     "name_en": "Eleven's Soda",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_elevensSoda.png",
+     "image_verified": false,
+     "description": "Les Générateurs en cours de réparation apparaissent en Aura jaune pendant la traversée du Monde à l'Envers."
+    },
+    {
+     "id": "k17_vermilion_webcap",
+     "name": "Petit Bonnet Vermillon",
+     "name_en": "Vermilion Webcap",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_vermilionWebcap.png",
+     "image_verified": false,
+     "description": "Augmente de +3 secondes la durée d'Indétectable en sortant d'un Portail."
+    },
+    {
+     "id": "k17_upside_down_resin",
+     "name": "Résine Sens Dessus Dessous",
+     "name_en": "Upside Down Resin",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_upsideDownResin.png",
+     "image_verified": false,
+     "description": "Augmente de +40 % le temps pris par les Survivants pour sceller un Portail."
+    },
+    {
+     "id": "k17_lifeguard_whistle",
+     "name": "Sifflet de Maître-Nageur",
+     "name_en": "Lifeguard Whistle",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lifeguardWhistle.png",
+     "image_verified": false,
+     "description": "Les Survivants près de Portails activés sont signalés par Instinct de Tueur sans charger Né de l'Abîme. Réduit de -1 mètre la portée de détection."
+    },
+    {
+     "id": "k17_unknown_egg",
+     "name": "Œuf Inconnu",
+     "name_en": "Unknown Egg",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_unknownEgg.png",
+     "image_verified": false,
+     "description": "Réduit de -2,5 secondes le temps de recharge après avoir traversé le Monde à l'Envers."
+    },
+    {
+     "id": "k17_leprose_lichen",
+     "name": "Lichen Lépreux",
+     "name_en": "Leprose Lichen",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_leproseLichen.png",
+     "image_verified": false,
+     "description": "Révèle les Auras de tous les Survivants pendant la traversée du Monde à l'Envers, 3 secondes de plus dans 16 m d'un Portail actif."
+    },
+    {
+     "id": "k17_red_moss",
+     "name": "Mousse Rouge",
+     "name_en": "Red Moss",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_redMoss.png",
+     "image_verified": false,
+     "description": "+15 % de temps pour émerger d'un Portail, +8 s d'Indétectable en sortant, et sortir ne fait plus de bruit."
+    }
+   ]
+  },
+  "Oni": {
+   "id": "oni",
+   "name": "Oni",
+   "name_en": "The Oni",
+   "wiki_killer_id": 18,
+   "addons": [
+    {
+     "id": "k18_rotting_rope",
+     "name": "Corde en Décomposition",
+     "name_en": "Rotting Rope",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rottingRope.png",
+     "image_verified": false,
+     "description": "Augmente de +2 mètres la distance de détection de l'Aura des Orbes de Sang."
+    },
+    {
+     "id": "k18_paper_lantern",
+     "name": "Lanterne en Papier",
+     "name_en": "Paper Lantern",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_paperLantern.png",
+     "image_verified": false,
+     "description": "Augmente la vitesse d'absorption des Orbes de Sang de +4 m/s."
+    },
+    {
+     "id": "k18_blackened_toenail",
+     "name": "Ongle de Pied Noirci",
+     "name_en": "Blackened Toenail",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blackenedToenail.png",
+     "image_verified": false,
+     "description": "Augmente de +0,4 m/s la Vitesse de Mouvement en absorbant des Orbes de Sang."
+    },
+    {
+     "id": "k18_cracked_sakazuki",
+     "name": "Sakazuki Fêlée",
+     "name_en": "Cracked Sakazuki",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_crackedSakazuki.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde le temps d'activation et de -0,5 seconde le temps de recharge de Fureur Sanglante."
+    },
+    {
+     "id": "k18_ink_lion",
+     "name": "Lion à l'Encre",
+     "name_en": "Ink Lion",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_inkLion.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 s l'activation et la recharge de Fureur Sanglante, et de -2 s sa consommation en abattant un Survivant."
+    },
+    {
+     "id": "k18_polished_maedate",
+     "name": "Maedate Lustré",
+     "name_en": "Polished Maedate",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_polishedMaedate.png",
+     "image_verified": false,
+     "description": "Augmente de +50 % la vitesse de charge passive de Colère de Yamaoka."
+    },
+    {
+     "id": "k18_chipped_saihai",
+     "name": "Saihai Ébréché",
+     "name_en": "Chipped Saihai",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chippedSaihai.png",
+     "image_verified": false,
+     "description": "Augmente de +6 secondes la durée de Fureur Sanglante."
+    },
+    {
+     "id": "k18_bloody_sash",
+     "name": "Écharpe Sanglante",
+     "name_en": "Bloody Sash",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bloodySash.png",
+     "image_verified": false,
+     "description": "Augmente de +0,7 m/s la Vitesse de Mouvement en absorbant des Orbes de Sang."
+    },
+    {
+     "id": "k18_child_s_wooden_sword",
+     "name": "Épée de Bois d'Enfant",
+     "name_en": "Child's Wooden Sword",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_childsWoodenSword.png",
+     "image_verified": false,
+     "description": "Augmente de +3 mètres la distance de détection de l'Aura des Orbes de Sang."
+    },
+    {
+     "id": "k18_scalped_topknot",
+     "name": "Chignon Scalpé",
+     "name_en": "Scalped Topknot",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scalpedTopknot.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde le temps d'activation de Ruée Démoniaque."
+    },
+    {
+     "id": "k18_wooden_oni_mask",
+     "name": "Masque d'Oni en Bois",
+     "name_en": "Wooden Oni Mask",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_woodenOniMask.png",
+     "image_verified": false,
+     "description": "Les Survivants lâchent +14 % d'Orbes de Sang (obstacles, palettes, casiers, accroupissement, Tests d'Habileté ratés)."
+    },
+    {
+     "id": "k18_kanai_anzen_talisman",
+     "name": "Talisman Kanai Anzen",
+     "name_en": "Kanai-Anzen Talisman",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_kanai-AnzenTalisman.png",
+     "image_verified": false,
+     "description": "Augmente de +8 % la Vitesse de Mouvement de Ruée Démoniaque."
+    },
+    {
+     "id": "k18_shattered_wakizashi",
+     "name": "Wakizashi Brisé",
+     "name_en": "Shattered Wakizashi",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_shatteredWakizashi.png",
+     "image_verified": false,
+     "description": "Augmente de +100 % la vitesse de charge passive de Fureur Sanglante."
+    },
+    {
+     "id": "k18_yamaoka_sashimono",
+     "name": "Yamaoka Sashimono",
+     "name_en": "Yamaoka Sashimono",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_yamaokaSashimono.png",
+     "image_verified": false,
+     "description": "Augmente de +8 secondes la durée de Fureur Sanglante."
+    },
+    {
+     "id": "k18_akito_s_crutch",
+     "name": "Béquille d'Akito",
+     "name_en": "Akito's Crutch",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_akitosCrutch.png",
+     "image_verified": false,
+     "description": "Augmente de +13 % la Vitesse de Mouvement de Ruée Démoniaque."
+    },
+    {
+     "id": "k18_splintered_hull",
+     "name": "Coque Éventrée",
+     "name_en": "Splintered Hull",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_splinteredHull.png",
+     "image_verified": false,
+     "description": "Les Survivants lâchent +33 % d'Orbes de Sang (obstacles, palettes, casiers, accroupissement, Tests d'Habileté ratés)."
+    },
+    {
+     "id": "k18_lion_fang",
+     "name": "Croc de Lion",
+     "name_en": "Lion Fang",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lionFang.png",
+     "image_verified": false,
+     "description": "Augmente de +10 secondes la durée de Fureur Sanglante."
+    },
+    {
+     "id": "k18_tear_soaked_tenugui",
+     "name": "Tenugui Imbibé de Larmes",
+     "name_en": "Tear-Soaked Tenugui",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tear-SoakedTenugui.png",
+     "image_verified": false,
+     "description": "Réduit de -4 secondes la consommation de Fureur Sanglante en abattant un Survivant."
+    },
+    {
+     "id": "k18_iridescent_family_crest",
+     "name": "Blason de Famille Irisé",
+     "name_en": "Iridescent Family Crest",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentFamilyCrest.png",
+     "image_verified": false,
+     "description": "Rater une attaque chargée pendant Fureur Sanglante crée une onde de choc : les Survivants dans 24 m crient et révèlent leur position 4 secondes."
+    },
+    {
+     "id": "k18_renjiro_s_bloody_glove",
+     "name": "Gant Sanglant de Renjiro",
+     "name_en": "Renjiro's Bloody Glove",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_renjirosBloodyGlove.png",
+     "image_verified": false,
+     "description": "Tous les Survivants voient les Orbes de Sang d'aussi loin que vous. L'Aura d'un Survivant qui touche un Orbe est révélée 3 secondes."
+    }
+   ]
+  },
+  "LanceMort": {
+   "id": "lancemort",
+   "name": "LanceMort",
+   "name_en": "The Deathslinger",
+   "wiki_killer_id": 19,
+   "addons": [
+    {
+     "id": "k19_modified_ammo_belt",
+     "name": "Ceinture à Munitions Modifiée",
+     "name_en": "Modified Ammo Belt",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_modifiedAmmoBelt.png",
+     "image_verified": false,
+     "description": "Réduit de -0,25 seconde le temps de recharge de L'Expiateur."
+    },
+    {
+     "id": "k19_rickety_chain",
+     "name": "Chaîne Fragile",
+     "name_en": "Rickety Chain",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_ricketyChain.png",
+     "image_verified": false,
+     "description": "+50 % de Points de Sang bonus sur les événements Harponné. Les Survivants se libèrent 33 % plus vite."
+    },
+    {
+     "id": "k19_snake_oil",
+     "name": "Poudre de Perlimpinpin",
+     "name_en": "Snake Oil",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_snakeOil.png",
+     "image_verified": false,
+     "description": "Augmente de +2,5 % la vitesse de moulinet de L'Expiateur."
+    },
+    {
+     "id": "k19_spit_polish_rag",
+     "name": "Tissu d'Astiquage",
+     "name_en": "Spit Polish Rag",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_spitPolishRag.png",
+     "image_verified": false,
+     "description": "Réduit de -0,25 seconde le temps de recharge d'un tir raté de L'Expiateur."
+    },
+    {
+     "id": "k19_jaw_smasher",
+     "name": "Casseur de Mâchoires",
+     "name_en": "Jaw Smasher",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_jawSmasher.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 % la Vitesse de Mouvement en visant avec L'Expiateur."
+    },
+    {
+     "id": "k19_rusted_spike",
+     "name": "Crampon Rouillé",
+     "name_en": "Rusted Spike",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rustedSpike.png",
+     "image_verified": false,
+     "description": "Frapper un Survivant après l'avoir remonté à soi inflige Estropiement."
+    },
+    {
+     "id": "k19_poison_oak_leaves",
+     "name": "Feuilles de Sumac de l'Ouest",
+     "name_en": "Poison Oak Leaves",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_poisonOakLeaves.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 seconde le temps de Suture du Survivant."
+    },
+    {
+     "id": "k19_marshal_s_badge",
+     "name": "Insigne de Marshal",
+     "name_en": "Marshal's Badge",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_marshalsBadge.png",
+     "image_verified": false,
+     "description": "Réduit de -4 mètres le Rayon de Terreur en visant avec L'Expiateur."
+    },
+    {
+     "id": "k19_chewing_tobacco",
+     "name": "Tabac à Mâcher",
+     "name_en": "Chewing Tobacco",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chewingTobacco.png",
+     "image_verified": false,
+     "description": "Réduit de -0,25 seconde la durée d'Étourdissement quand un Survivant s'échappe."
+    },
+    {
+     "id": "k19_wanted_poster",
+     "name": "Avis de Recherche",
+     "name_en": "Wanted Poster",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_wantedPoster.png",
+     "image_verified": false,
+     "description": "Augmente de +3 % la Vitesse de Mouvement en visant avec L'Expiateur."
+    },
+    {
+     "id": "k19_tin_oil_can",
+     "name": "Bidon d'Huile",
+     "name_en": "Tin Oil Can",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tinOilCan.png",
+     "image_verified": false,
+     "description": "Réduit de -0,5 seconde le temps de recharge d'un tir raté."
+    },
+    {
+     "id": "k19_warden_s_keys",
+     "name": "Clés du Directeur",
+     "name_en": "Warden's Keys",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_wardensKeys.png",
+     "image_verified": false,
+     "description": "Réduit de -0,35 seconde le temps de recharge de L'Expiateur."
+    },
+    {
+     "id": "k19_bayshore_s_gold_tooth",
+     "name": "Dent en Or de Bayshore",
+     "name_en": "Bayshore's Gold Tooth",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bayshoresGoldTooth.png",
+     "image_verified": false,
+     "description": "Augmente de +5 % la vitesse de moulinet de L'Expiateur."
+    },
+    {
+     "id": "k19_honey_locust_thorn",
+     "name": "Épines de Févier Épineux",
+     "name_en": "Honey Locust Thorn",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_honeyLocustThorn.png",
+     "image_verified": false,
+     "description": "Les Survivants qui se libèrent d'un Harpon souffrent d'Estropiement."
+    },
+    {
+     "id": "k19_gold_creek_whiskey",
+     "name": "Bourbon Gold Creek",
+     "name_en": "Gold Creek Whiskey",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_goldCreekWhiskey.png",
+     "image_verified": false,
+     "description": "Réduit de -8 mètres le Rayon de Terreur en visant avec L'Expiateur."
+    },
+    {
+     "id": "k19_prison_chain",
+     "name": "Chaîne de Prison",
+     "name_en": "Prison Chain",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_prisonChain.png",
+     "image_verified": false,
+     "description": "Augmente de +10 % le temps requis pour qu'un Survivant se libère d'une lance."
+    },
+    {
+     "id": "k19_bayshore_s_cigar",
+     "name": "Cigare de Bayshore",
+     "name_en": "Bayshore's Cigar",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_bayshoresCigar.png",
+     "image_verified": false,
+     "description": "Réduit de -0,75 seconde la durée d'Étourdissement quand un Survivant s'échappe."
+    },
+    {
+     "id": "k19_barbed_wire",
+     "name": "Fil Barbelé",
+     "name_en": "Barbed Wire",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_barbedWire.png",
+     "image_verified": false,
+     "description": "Augmente de +3,5 secondes le temps de Suture du Survivant."
+    },
+    {
+     "id": "k19_hellshire_iron",
+     "name": "Fer de Hellshire",
+     "name_en": "Hellshire Iron",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_hellshireIron.png",
+     "image_verified": false,
+     "description": "Indétectable quand un Survivant est Harponné, et 10 secondes après qu'il ne l'est plus."
+    },
+    {
+     "id": "k19_iridescent_coin",
+     "name": "Pièce Irisée",
+     "name_en": "Iridescent Coin",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentCoin.png",
+     "image_verified": false,
+     "description": "Les Survivants Harponnés à au moins 12 mètres subissent À découvert tant qu'ils restent Harponnés."
+    }
+   ]
+  },
+  "Bourreau": {
+   "id": "bourreau",
+   "name": "Bourreau",
+   "name_en": "The Executioner",
+   "wiki_killer_id": 20,
+   "addons": [
+    {
+     "id": "k20_lead_ring",
+     "name": "Anneau d'Étain",
+     "name_en": "Lead Ring",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_leadRing.png",
+     "image_verified": false,
+     "description": "Augmente de +10 secondes la durée des pistes laissées par Rites du Jugement."
+    },
+    {
+     "id": "k20_copper_ring",
+     "name": "Anneau de Cuivre",
+     "name_en": "Copper Ring",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_copperRing.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée maximale de Rites du Jugement."
+    },
+    {
+     "id": "k20_dead_butterfly",
+     "name": "Papillon Mort",
+     "name_en": "Dead Butterfly",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_deadButterfly.png",
+     "image_verified": false,
+     "description": "Réduit de -2 secondes le temps de recharge de Rites du Jugement."
+    },
+    {
+     "id": "k20_black_strap",
+     "name": "Sangle Noire",
+     "name_en": "Black Strap",
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_blackStrap.png",
+     "image_verified": false,
+     "description": "Augmente de +0,5 mètre la portée de Châtiment des Damnés."
+    },
+    {
+     "id": "k20_cinderella_music_box",
+     "name": "Boîte à Musique « Cendrillon »",
+     "name_en": "Cinderella Music Box",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_cinderellaMusicBox.png",
+     "image_verified": false,
+     "description": "Augmente de +15 secondes la durée des pistes de Rites du Jugement."
+    },
+    {
+     "id": "k20_forgotten_videotape",
+     "name": "Cassette Vidéo Oubliée",
+     "name_en": "Forgotten Videotape",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_forgottenVideotape.png",
+     "image_verified": false,
+     "description": "Réduit de -3 secondes le temps de recharge de Rites du Jugement."
+    },
+    {
+     "id": "k20_spearhead",
+     "name": "Fer de Lance",
+     "name_en": "Spearhead",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_spearhead.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 seconde la durée maximale de Rites du Jugement."
+    },
+    {
+     "id": "k20_wax_doll",
+     "name": "Poupée de Cire",
+     "name_en": "Wax Doll",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_waxDoll.png",
+     "image_verified": false,
+     "description": "Augmente de +1 mètre la portée de Châtiment des Damnés."
+    },
+    {
+     "id": "k20_leopard_print_fabric",
+     "name": "Tissu à Imprimé Léopard",
+     "name_en": "Leopard-Print Fabric",
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_leopard-PrintFabric.png",
+     "image_verified": false,
+     "description": "Augmente de +0,5 seconde la durée d'Instinct de Tueur après activation par Rites du Jugement."
+    },
+    {
+     "id": "k20_misty_day_remains_of_judgement",
+     "name": "Jour de Brume, Restes du Jugement",
+     "name_en": "Misty Day, Remains of Judgement",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mistyDayRemainsOfJudgement.png",
+     "image_verified": false,
+     "description": "Augmente de +1 seconde la durée d'Instinct de Tueur après activation par Rites du Jugement."
+    },
+    {
+     "id": "k20_burning_man_painting",
+     "name": "Peinture de l'Homme en Feu",
+     "name_en": "Burning Man Painting",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_burningManPainting.png",
+     "image_verified": false,
+     "description": "Augmente de +1,5 mètre la portée de Châtiment des Damnés."
+    },
+    {
+     "id": "k20_valtiel_sect_photograph",
+     "name": "Photographie de la Secte de Valtiel",
+     "name_en": "Valtiel Sect Photograph",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_valtielSectPhotograph.png",
+     "image_verified": false,
+     "description": "Réduit de -4 secondes le temps de recharge de Rites du Jugement."
+    },
+    {
+     "id": "k20_mannequin_foot",
+     "name": "Pied de Mannequin",
+     "name_en": "Mannequin Foot",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_mannequinFoot.png",
+     "image_verified": false,
+     "description": "Augmente de +20 secondes la durée des pistes de Rites du Jugement."
+    },
+    {
+     "id": "k20_tablet_of_the_oppressor",
+     "name": "Tablette de l'Oppresseur",
+     "name_en": "Tablet of the Oppressor",
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_tabletOfTheOppressor.png",
+     "image_verified": false,
+     "description": "Augmente de +2 secondes la durée maximale de Rites du Jugement."
+    },
+    {
+     "id": "k20_crimson_ceremony_book",
+     "name": "Livre « Cérémonie Crimson »",
+     "name_en": "Crimson Ceremony Book",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_crimsonCeremonyBook.png",
+     "image_verified": false,
+     "description": "Les pistes de Rites du Jugement infligent Hémorragie jusqu'à la fin de Tourment."
+    },
+    {
+     "id": "k20_lost_memories_book",
+     "name": "Livre « Souvenirs Perdus »",
+     "name_en": "Lost Memories Book",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_lostMemoriesBook.png",
+     "image_verified": false,
+     "description": "Les pistes de Rites du Jugement infligent Inconscient pendant 15 secondes."
+    },
+    {
+     "id": "k20_rust_coloured_egg",
+     "name": "Œuf Couleur Rouille",
+     "name_en": "Rust-Coloured Egg",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_rust-ColouredEgg.png",
+     "image_verified": false,
+     "description": "Les pistes de Rites du Jugement infligent Aveuglement pendant 60 secondes."
+    },
+    {
+     "id": "k20_scarlet_egg",
+     "name": "Œuf Écarlate",
+     "name_en": "Scarlet Egg",
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_scarletEgg.png",
+     "image_verified": false,
+     "description": "Augmente de +3 secondes la durée d'Instinct de Tueur après activation par Rites du Jugement."
+    },
+    {
+     "id": "k20_obsidian_goblet",
+     "name": "Coupe en Obsidienne",
+     "name_en": "Obsidian Goblet",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_obsidianGoblet.png",
+     "image_verified": false,
+     "description": "Accorde Indétectable en se tenant sur une piste de Rites du Jugement."
+    },
+    {
+     "id": "k20_iridescent_seal_of_metatron",
+     "name": "Sceau de Métatron Irisé",
+     "name_en": "Iridescent Seal of Metatron",
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/IconAddon_iridescentSealOfMetatron.png",
+     "image_verified": false,
+     "description": "Quand vous envoyez un Survivant en Cage d'Expiation, l'Aura de tous les Survivants souffrant de Tourment est révélée 6 secondes."
+    }
+   ]
+  }
+ }
+}
