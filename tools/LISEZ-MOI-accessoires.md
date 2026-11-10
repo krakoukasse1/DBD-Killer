@@ -42,3 +42,13 @@ S'il est faux, corrige-le d'après l'adresse de la page sur le wiki français (l
 Pour chaque accessoire : nom français, description, rareté, lien d'image (lu directement dans la page du wiki, donc exact).
 Les accessoires retirés du jeu ou d'événement sont exclus. Les textes viennent du wiki français et peuvent
 dater de quelques patchs.
+
+## Retraiter certains tueurs après une mise à jour du script
+
+Les pages déjà téléchargées sont dans `tools/cache/`, donc inutile de les retélécharger :
+
+```bash
+node tools/build-addons.js --no-fetch --only=29,32,39,40,42,43
+```
+
+Un tueur déjà présent n'est remplacé que si le nouveau résultat est au moins aussi complet.

@@ -178,6 +178,30 @@
     .card-arrow { position: absolute; bottom: 18px; right: 20px; font-size: 1.2rem; color: rgba(255,255,255,0.12); transition: color 0.2s, transform 0.2s; z-index: 1; }
     .draw-card:hover .card-arrow { color: rgba(255,255,255,0.5); transform: translate(3px, -3px); }
 
+    /* ── OPTIONS DU TIRAGE (cases à cocher) ── */
+    .draw-options { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .draw-options .opt {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 11px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03);
+      font-family: sans-serif; font-size: 0.72rem; color: rgba(220,220,220,0.6);
+      cursor: pointer; transition: border-color .2s, background .2s, color .2s;
+    }
+    .draw-options .opt:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+    .draw-options .opt input {
+      appearance: none; -webkit-appearance: none; margin: 0; flex-shrink: 0;
+      width: 14px; height: 14px; border-radius: 4px; cursor: pointer;
+      border: 1.5px solid rgba(255,255,255,0.35); display: grid; place-content: center;
+      transition: background .15s, border-color .15s;
+    }
+    .draw-options .opt input::after { content: "✓"; font-size: 10px; line-height: 1; color: #000; font-weight: bold; transform: scale(0); transition: transform .15s; }
+    .draw-options .opt input:checked::after { transform: scale(1); }
+    .draw-card.killer .opt.on   { border-color: rgba(255,80,80,0.7);  background: rgba(200,0,0,0.18);   color: #fff; }
+    .draw-card.killer .opt input:checked   { background: #ff5050; border-color: #ff5050; }
+    .draw-card.survivor .opt.on { border-color: rgba(80,160,255,0.7); background: rgba(0,100,220,0.2); color: #fff; }
+    .draw-card.survivor .opt input:checked { background: #50a0ff; border-color: #50a0ff; }
+    .draw-summary { position: relative; z-index: 2; display: block; margin-top: 12px; font-family: sans-serif; font-size: 0.7rem; letter-spacing: .5px; color: rgba(255,255,255,0.4); }
+
     /* Scroll hint */
     .scroll-hint {
       display: flex;
@@ -560,6 +584,11 @@
       <span class="card-label">Tirage rapide</span>
       <span class="card-title-text">Tueur</span>
       <p class="card-desc" id="killer-desc">Lance la roulette sur tous les tueurs</p>
+      <div class="draw-options">
+        <label class="opt"><input type="checkbox" data-opt="perks"><span>4 perks</span></label>
+        <label class="opt"><input type="checkbox" data-opt="addons"><span>2 accessoires</span></label>
+      </div>
+      <span class="draw-summary"></span>
       <span class="card-arrow">↗</span>
     </div>
     <div class="draw-card survivor" id="quick-survivor">
@@ -567,32 +596,21 @@
       <span class="card-label">Tirage rapide</span>
       <span class="card-title-text">Survivant</span>
       <p class="card-desc" id="survivor-desc">Lance la roulette sur tous les survivants</p>
+      <div class="draw-options">
+        <label class="opt"><input type="checkbox" data-opt="perks"><span>4 perks</span></label>
+        <label class="opt"><input type="checkbox" data-opt="addons"><span>objet + 2 accessoires</span></label>
+      </div>
+      <span class="draw-summary"></span>
       <span class="card-arrow">↗</span>
     </div>
   </div>
 
   <div class="quick-draw" style="opacity:0;animation:fade-up 0.7s 0.7s ease forwards;">
-    <div class="draw-card double-killer" id="quick-double-killer">
-      <div style="display:flex;gap:6px;margin-bottom:14px;position:relative;z-index:1;font-size:1.8rem;">🔪<span style="opacity:0.4;font-size:1.2rem;align-self:center;">+</span>⚙️</div>
-      <span class="card-label" style="color:rgba(255,80,80,0.7);">Tirage double</span>
-      <span class="card-title-text">Tueur + Perks</span>
-      <p class="card-desc" id="double-killer-desc">Tire un tueur et 4 perks aléatoires d'un coup</p>
-      <span class="card-arrow">↗</span>
-    </div>
-    
     <div class="draw-card map" id="quick-map">
       <span class="card-icon">🗺️</span>
       <span class="card-label">Destination</span>
       <span class="card-title-text">Roulette Maps</span>
       <p class="card-desc">Sélectionne une carte avec l'animation Mario Kart</p>
-      <span class="card-arrow">↗</span>
-    </div>
-
-    <div class="draw-card double-survivor" id="quick-double-survivor">
-      <div style="display:flex;gap:6px;margin-bottom:14px;position:relative;z-index:1;font-size:1.8rem;">🏃<span style="opacity:0.4;font-size:1.2rem;align-self:center;">+</span>⚙️</div>
-      <span class="card-label" style="color:rgba(0,150,255,0.7);">Tirage double</span>
-      <span class="card-title-text">Survivant + Perks</span>
-      <p class="card-desc" id="double-survivor-desc">Tire un survivant et 4 perks aléatoires d'un coup</p>
       <span class="card-arrow">↗</span>
     </div>
   </div>
@@ -832,7 +850,7 @@
   }
 
   // ── TIRAGE DOUBLE ──
-  async function quickDrawDouble(type) {
+  async function quickDrawDouble(type, opts = { perks: true, addons: true }) {
     const rawList  = type === 'Killer' ? data.killers : data.survivors;
     const favorites = type === 'Killer' ? killerFavorites : survivorFavorites;
     const basePath  = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
@@ -842,7 +860,7 @@
     if (!pool.length) { showToast('Aucun personnage disponible !'); return; }
     const character = pool[Math.floor(Math.random() * pool.length)];
     let drawnPerks = [];
-    try {
+    if (opts.perks) try {
       const perksData = await fetch('perks.json').then(r => r.json());
       const section = type === 'Killer' ? perksData.killerPerks : perksData.survivorPerks;
       const perkPool = [
@@ -857,7 +875,9 @@
     } catch(e) {}
     // Survivants : tirage de l'objet + 2 accessoires en plus du perso et des perks
     let drawnItem = {};
-    if (type === 'Survivor') {
+    if (!opts.addons) {
+      // accessoires non demandés
+    } else if (type === 'Survivor') {
       const objets = await ItemDraw.load();
       if (objets) drawnItem = ItemDraw.draw(objets);
     } else {
@@ -867,26 +887,58 @@
     }
     localStorage.setItem('doubleResult', JSON.stringify({
       character: { name: character.name, img: `${basePath}${character.img}` },
-      perks: drawnPerks, type, ...drawnItem
+      perks: drawnPerks, type, options: { perks: !!opts.perks, addons: !!opts.addons }, ...drawnItem
     }));
     window.location.href = 'doubleResult.html';
   }
 
-  document.getElementById('quick-double-killer').addEventListener('click', function() {
-    this.classList.add('loading'); quickDrawDouble('Killer');
+  // ── OPTIONS DU TIRAGE (cases à cocher sur les cartes) ──
+  const ADDON_LABEL = { Killer: '2 accessoires', Survivor: 'objet + 2 accessoires' };
+  const cardOf = type => document.getElementById(type === 'Killer' ? 'quick-killer' : 'quick-survivor');
+  const readOptions = type => {
+    const c = cardOf(type);
+    return { perks: c.querySelector('[data-opt="perks"]').checked, addons: c.querySelector('[data-opt="addons"]').checked };
+  };
+  const loadOptions = () => { try { return JSON.parse(localStorage.getItem('drawOptions')) || {}; } catch (_) { return {}; } };
+
+  function refreshCard(type) {
+    const c = cardOf(type), o = readOptions(type);
+    c.querySelectorAll('.opt').forEach(l => l.classList.toggle('on', l.querySelector('input').checked));
+    const parts = [type === 'Killer' ? 'tueur' : 'survivant'];
+    if (o.perks) parts.push('4 perks');
+    if (o.addons) parts.push(ADDON_LABEL[type]);
+    c.querySelector('.draw-summary').textContent = '→ ' + parts.join(' + ');
+  }
+
+  const savedOptions = loadOptions();
+  ['Killer', 'Survivor'].forEach(type => {
+    const c = cardOf(type), s = savedOptions[type] || {};
+    c.querySelector('[data-opt="perks"]').checked  = !!s.perks;
+    c.querySelector('[data-opt="addons"]').checked = !!s.addons;
+    // cliquer sur une case ne doit pas lancer le tirage
+    c.querySelector('.draw-options').addEventListener('click', e => e.stopPropagation());
+    c.querySelectorAll('input').forEach(i => i.addEventListener('change', () => {
+      const all = loadOptions(); all[type] = readOptions(type);
+      localStorage.setItem('drawOptions', JSON.stringify(all));
+      refreshCard(type);
+    }));
+    refreshCard(type);
   });
-  document.getElementById('quick-double-survivor').addEventListener('click', function() {
-    this.classList.add('loading'); quickDrawDouble('Survivor');
-  });
+
+  // Rien de coché = roulette simple ; sinon tirage complet (personnage + perks et/ou accessoires)
+  function startDraw(type) {
+    const o = readOptions(type);
+    if (!o.perks && !o.addons) quickDraw(type); else quickDrawDouble(type, o);
+  }
 
   ['quick-killer','cta-killer'].forEach(id => {
     document.getElementById(id)?.addEventListener('click', function() {
-      this.classList.add('loading'); quickDraw('Killer');
+      this.classList.add('loading'); startDraw('Killer');
     });
   });
   ['quick-survivor','cta-survivor'].forEach(id => {
     document.getElementById(id)?.addEventListener('click', function() {
-      this.classList.add('loading'); quickDraw('Survivor');
+      this.classList.add('loading'); startDraw('Survivor');
     });
   });
 

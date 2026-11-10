@@ -3,9 +3,9 @@
   "source": "Wiki officiel Dead by Daylight (version française) : module Datatable/Loadout + pages des tueurs",
   "scope": "Accessoires de pouvoir des tueurs, hors accessoires retirés (decom), inutilisés et d'événement. Chaque tueur a 20 accessoires en jeu.",
   "coverage": {
-   "killers_included": 40,
-   "addons": 793,
-   "killers_missing": "Ken Kaneki, The First, Jason"
+   "killers_included": 41,
+   "addons": 813,
+   "killers_missing": "The First, Jason"
   },
   "notes": [
    "image_verified=false : lien déduit de la convention de nommage du wiki (IconAddon_<nomEnCamelCase>.png) ; quelques-uns peuvent ne pas exister. Le site cherche d'abord assets/accessoires/<fichier> puis ce lien, puis une icône par défaut.",
@@ -14,7 +14,7 @@
    "Quelques noms FR reprennent une erreur du wiki FR (ex. « Ghost Face » - Suie pour le Spectre).",
    "Exclus faute de description FR : Spectre: \"Shadow Dance\" - Blood; Montagnard: Cracked Primer Bulb"
   ],
-  "updated": "2026-11-09"
+  "updated": "2026-11-10"
  },
  "killers": {
   "Piegeur": {
@@ -8656,6 +8656,234 @@
      "rarity": "Ultra Rare",
      "rarity_fr": "Ultra rare",
      "image": "https://deadbydaylight.wiki.gg/images/IconAddon_chickenHead.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    }
+   ]
+  },
+  "Ken Kaneki": {
+   "id": "ken_kaneki",
+   "name": "Ken Kaneki",
+   "name_en": null,
+   "wiki_killer_id": 39,
+   "addons": [
+    {
+     "id": "k39_cafe_frais",
+     "name": "Café Frais",
+     "name_en": null,
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_freshCoffee.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_l_uf_de_la_chevre_noire",
+     "name": "L'Œuf de la Chèvre Noire",
+     "name_en": null,
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_TheBlackGoatsEgg.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_portefeuille_de_kaneki",
+     "name": "Portefeuille de Kaneki",
+     "name_en": null,
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_KanekisWallet.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_tablier_de_l_antique",
+     "name": "Tablier de l'Antique",
+     "name_en": null,
+     "rarity": "Common",
+     "rarity_fr": "Commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_AnteikuApron.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_casque_audio_de_hide",
+     "name": "Casque Audio de Hide",
+     "name_en": null,
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_HidesHeadphones.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_chaine_brisee",
+     "name": "Chaîne Brisée",
+     "name_en": null,
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_brokenChain.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_mouchoir_tache_de_sang",
+     "name": "Mouchoir Taché de Sang",
+     "name_en": null,
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_bloodStainedHandkerchief.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_sacoche_de_kaneki",
+     "name": "Sacoche de Kaneki",
+     "name_en": null,
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_satchel.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_taiyaki",
+     "name": "Taiyaki",
+     "name_en": null,
+     "rarity": "Uncommon",
+     "rarity_fr": "Peu commun",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_taiyaki.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_cravate_d_amon",
+     "name": "Cravate d'Amon",
+     "name_en": null,
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_AmonsNecktie.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_gant_de_mado",
+     "name": "Gant de Mado",
+     "name_en": null,
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_MadosGlove.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_lunettes_de_lize",
+     "name": "Lunettes de Lize",
+     "name_en": null,
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_RizesGlasses.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_lys_araignee_rouge",
+     "name": "Lys Araignée Rouge",
+     "name_en": null,
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_redSpiderLily.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_robe_de_l_arbre_aogiri",
+     "name": "Robe de l'Arbre Aogiri",
+     "name_en": null,
+     "rarity": "Rare",
+     "rarity_fr": "Rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_AogiriTreeRobe.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_carte_d_identite_de_la_ccg",
+     "name": "Carte d'Identité de la CCG",
+     "name_en": null,
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_CCGIDCard.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_outil_de_torture",
+     "name": "Outil de Torture",
+     "name_en": null,
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_medicalApparatus.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_parapluie_d_hinami",
+     "name": "Parapluie d'Hinami",
+     "name_en": null,
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_HinamisUmbrella.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_scolopendre_a_tete_rouge",
+     "name": "Scolopendre à Tête Rouge",
+     "name_en": null,
+     "rarity": "Very Rare",
+     "rarity_fr": "Très rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_redHeadedCentipede.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_cache_il_irise",
+     "name": "Cache-Œil Irisé",
+     "name_en": null,
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_iridescentEyePatch.png",
+     "image_verified": true,
+     "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
+     "background": ""
+    },
+    {
+     "id": "k39_masque_de_yamori",
+     "name": "Masque de Yamori",
+     "name_en": null,
+     "rarity": "Ultra Rare",
+     "rarity_fr": "Ultra rare",
+     "image": "https://deadbydaylight.wiki.gg/images/iconAddon_YamorisMask.png",
      "image_verified": true,
      "description": "Impossible de retrouver la description de Accessoire ou de l'afficher. Vous pouvez l'ajouter à Datatable/Loadout. Autrement Veuillez contacter Thomrdn.",
      "background": ""

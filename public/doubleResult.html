@@ -176,6 +176,7 @@
     }
 
     .slot-char-track {
+      width: max-content;
       display: flex;
       align-items: center;
       height: 100%;
@@ -195,7 +196,7 @@
       filter: brightness(0.5);
       transition: filter 0.3s;
     }
-    .slot-char-item.winner { filter: brightness(1.1); }
+    .slot-char-item.reel-win { filter: brightness(1.15) !important; opacity: 1; }
     .slot-char-item img {
       width: 100px; height: 100px;
       border-radius: 10px; object-fit: cover;
@@ -265,7 +266,7 @@
       filter: brightness(0.45);
       transition: filter 0.3s;
     }
-    .slot-perk-item.winner { filter: brightness(1.1); }
+    .slot-perk-item.reel-win { filter: brightness(1.15); opacity: 1; }
     .slot-perk-item .perk-slot-img {
       width: 56px; height: 56px;
       border-radius: 8px;
@@ -544,7 +545,7 @@
       </div>
     </div>
 
-    <div class="section-label">4 Perks tirées</div>
+    <div class="section-label" id="perksLabel">4 Perks tirées</div>
     <div class="perks-grid" id="perksGrid"></div>
 
   </div>
@@ -621,6 +622,9 @@
   if (!raw) { window.location.href = 'index.html'; return; }
   const result = JSON.parse(raw);
   const { character, perks, type } = result;
+  // Ce qui a été coché sur l'accueil (anciens tirages sans options : tout est affiché)
+  const options = result.options || { perks: true, addons: true };
+  const hasPerks = !!options.perks && perks.length > 0;
 
   // Charger les données persos pour les images
   const charsData = await fetch('data.json').then(r => r.json()).catch(()=>({killers:[],survivors:[]}));
@@ -629,9 +633,61 @@
   const charIndex = {};
   charList.forEach(c => { charIndex[c.name] = c.img; });
 
-  // Info subtitle
-  document.getElementById('result-subtitle').textContent =
-    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
+  // Liste complète des perks du même type : sert de « faux » éléments pour que la roulette ne soit pas prévisible
+  const perksData = await fetch('perks.json').then(r => r.json()).catch(() => null);
+  const perkPool = [];
+  if (perksData) {
+    const group = type === 'Killer' ? perksData.killerPerks : perksData.survivorPerks;
+    ((group && group.generic) || []).forEach(p => perkPool.push({ name: p.name, img: p.img }));
+    ((group && group.characters) || []).forEach(c => (c.perks || []).forEach(p => perkPool.push({ name: p.name, img: p.img })));
+  }
+
+  // Tire n éléments au hasard, sans jamais deux fois le même d'affilée, ni collé au gagnant
+  function pickFakes(pool, n, firstNot, lastNot) {
+    if (!pool.length) return [];
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      let c, tries = 0;
+      do { c = pool[Math.floor(Math.random() * pool.length)]; tries++; }
+      while (pool.length > 2 && tries < 25 && (
+        (i === 0 && firstNot && c.name === firstNot) ||
+        (i > 0 && c.name === out[i - 1].name) ||
+        (i === n - 1 && lastNot && c.name === lastNot)));
+      out.push(c);
+    }
+    return out;
+  }
+
+  // Le gagnant est AU MILIEU de la bande : il y a toujours des éléments avant ET après lui
+  const CHAR_BEFORE = 42, CHAR_AFTER = 9;
+  const charWinner  = { name: character.name, img: character.img.split('/').pop() };
+  const charSeq = [
+    ...pickFakes(charList, CHAR_BEFORE, null, charWinner.name),
+    charWinner,
+    ...pickFakes(charList, CHAR_AFTER, charWinner.name, null)
+  ];
+
+  const PERK_BEFORE = 22, PERK_AFTER = 4;
+  const fakePerkPool = perkPool.length > 4 ? perkPool : perks;
+  const perkSeqs = perks.map(w => [
+    ...pickFakes(fakePerkPool, PERK_BEFORE, null, w.name),
+    w,
+    ...pickFakes(fakePerkPool, PERK_AFTER, w.name, null)
+  ]);
+
+  // Sous-titre selon ce qui a été tiré
+  const subtitleParts = [type === 'Killer' ? 'Tueur' : 'Survivant'];
+  if (hasPerks) subtitleParts.push('Perks');
+  if (options.addons) subtitleParts.push('Accessoires');
+  const subtitleText = `Tirage ${subtitleParts.join(' + ')}`;
+  document.getElementById('result-subtitle').textContent = subtitleText;
+
+  // Pas de perks demandés : on masque les colonnes de la roulette et la liste
+  if (!hasPerks) {
+    document.getElementById('slotsPerkRow').style.display = 'none';
+    document.getElementById('perksLabel').style.display = 'none';
+    document.getElementById('perksGrid').style.display = 'none';
+  }
 
   // ══ PRÉCHARGEMENT DES IMAGES ══
   function preloadImage(src) {
@@ -662,6 +718,9 @@
     }
   });
 
+  // Images des faux perks de la roulette
+  perkSeqs.forEach(seq => seq.forEach(p => { if (p.img) toPreload.push(`assets/${p.img}`); }));
+
   // Précharger tout en parallèle avant de lancer l'animation
   await Promise.all([...new Set(toPreload)].map(preloadImage));
 
@@ -671,14 +730,7 @@
   function buildCharSlot() {
     const track = document.getElementById('slotCharTrack');
     track.innerHTML = '';
-    // 30 persos aléatoires + le gagnant à la fin
-    // Beaucoup d'items pour un vrai défilement visible
-    const fakes = [];
-    for (let i = 0; i < 5; i++) {
-      fakes.push(...[...charList].sort(() => Math.random()-0.5));
-    }
-    const items = [...fakes.slice(0, 50), { name: character.name, img: character.img.split('/').pop() }];
-    items.forEach(c => {
+    charSeq.forEach(c => {
       const div = document.createElement('div');
       div.className = 'slot-char-item';
       const img = document.createElement('img');
@@ -690,7 +742,6 @@
       div.appendChild(img); div.appendChild(span);
       track.appendChild(div);
     });
-    return items.length;
   }
 
   // --- Slots perks (vertical × 4) ---
@@ -706,10 +757,7 @@
       track.className = 'slot-perk-track';
       track.id = 'perkTrack'+slotIdx;
 
-      // 20 perks aléatoires + gagnante
-      const allPerks = perks.concat(perks, perks, perks, perks).sort(()=>Math.random()-0.5).slice(0, 20);
-      const items = [...allPerks, winPerk];
-      items.forEach(p => {
+      perkSeqs[slotIdx].forEach(p => {
         const item = document.createElement('div');
         item.className = 'slot-perk-item';
         const imgWrap = document.createElement('div');
@@ -732,7 +780,7 @@
     });
   }
 
-  const charCount = buildCharSlot();
+  buildCharSlot();
   buildPerkSlots();
 
   // --- Animation ---
@@ -740,14 +788,15 @@
   const ITEM_H    = 130; // height d'un slot perk
   const STOP_DELAYS = [1800, 2500, 3200, 3900]; // perks s'arrêtent en décalé
 
-  function animateCharSlot(totalItems) {
+  function animateCharSlot() {
     return new Promise(resolve => {
       // Attendre un frame pour que le DOM soit rendu et offsetWidth correct
       requestAnimationFrame(() => {
         const track   = document.getElementById('slotCharTrack');
         const wrapper = track.parentElement;
         const wrapW   = wrapper.offsetWidth || 800;
-        const finalX  = -((totalItems - 1) * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
+        // le gagnant est à l'indice CHAR_BEFORE : on le centre, il reste des éléments à sa droite
+        const finalX  = -(CHAR_BEFORE * ITEM_W) + (wrapW / 2) - (ITEM_W / 2);
 
         track.style.transition = 'none';
         track.style.transform  = 'translateX(0)';
@@ -759,7 +808,7 @@
 
         setTimeout(() => {
           const items = track.querySelectorAll('.slot-char-item');
-          items[items.length - 1].classList.add('winner');
+          items[CHAR_BEFORE].classList.add('reel-win');
           resolve();
         }, dur);
       });
@@ -768,6 +817,7 @@
 
   function animatePerkSlots() {
     return new Promise(resolve => {
+      if (!perks.length) { resolve(); return; }
       let done = 0;
       perks.forEach((_, idx) => {
         const track   = document.getElementById('perkTrack' + idx);
@@ -775,11 +825,9 @@
         const wrapper = track.parentElement;
         const wrapH   = wrapper.offsetHeight; // hauteur visible du slot
         const items   = track.querySelectorAll('.slot-perk-item');
-        const total   = items.length;
 
-        // On veut que le DERNIER item soit centré dans le wrapper
-        // translateY pour amener item[total-1] au centre : -(total-1)*ITEM_H + wrapH/2 - ITEM_H/2
-        const finalY = -((total - 1) * ITEM_H) + (wrapH / 2) - (ITEM_H / 2);
+        // le gagnant est à l'indice PERK_BEFORE : on le centre, il reste des perks en dessous
+        const finalY = -(PERK_BEFORE * ITEM_H) + (wrapH / 2) - (ITEM_H / 2);
 
         track.style.transition = 'none';
         track.style.transform  = 'translateY(0)';
@@ -790,7 +838,7 @@
         track.style.transform  = `translateY(${finalY}px)`;
 
         setTimeout(() => {
-          items[total - 1].classList.add('winner');
+          items[PERK_BEFORE].classList.add('reel-win');
           done++;
           if (done === perks.length) setTimeout(resolve, 500);
         }, dur);
@@ -800,7 +848,7 @@
 
   // Lancer les deux animations en parallèle
   await Promise.all([
-    animateCharSlot(charCount),
+    animateCharSlot(),
     animatePerkSlots()
   ]);
 
@@ -874,6 +922,7 @@
 
   async function drawItem() {
     const section = document.getElementById('itemSection');
+    if (!options.addons) { section.style.display = 'none'; return; }   // case « accessoires » décochée
     const label   = section.querySelector('.section-label');
     const itemCard = document.getElementById('itemCard');
 
@@ -939,8 +988,6 @@
   document.getElementById('finalResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   // Afficher personnage
-  document.getElementById('result-subtitle').textContent =
-    `Tirage double ${type === 'Killer' ? 'Tueur' : 'Survivant'}`;
   document.getElementById('charLabel').textContent =
     type === 'Killer' ? '🔪 Tueur tiré' : '🏃 Survivant tiré';
   document.getElementById('charName').textContent = character.name;
@@ -1010,7 +1057,7 @@
     const basePath = type === 'Killer' ? 'assets/Killer/' : 'assets/Survivor/';
 
     let newPerks = [];
-    if (perksData) {
+    if (options.perks && perksData) {
       const section = type === 'Killer' ? perksData.killerPerks : perksData.survivorPerks;
       const perkPool = [
         ...section.generic.map(p => ({ ...p, character: null })),
@@ -1025,7 +1072,9 @@
     }
 
     let newItem = {};
-    if (type === 'Survivor') {
+    if (!options.addons) {
+      // pas d'accessoires demandés
+    } else if (type === 'Survivor') {
       const objets = await ItemDraw.load();
       if (objets) newItem = ItemDraw.draw(objets);
     } else {
@@ -1037,6 +1086,7 @@
       character: { name: newChar.name, img: `${basePath}${newChar.img}` },
       perks: newPerks,
       type,
+      options,
       ...newItem
     }));
     window.location.reload();

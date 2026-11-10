@@ -139,36 +139,59 @@ function parseLoadout(text) {
 }
 
 // ------------------------------------------------------------------ page du tueur (tableau « Accessoires pour ... »)
-function parseKillerPage(html) {
-  const start = html.search(/id="Accessoires_pour_/);
-  const tables = [];
-  const re = /<table[\s\S]*?<\/table>/gi;
-  let m;
-  while ((m = re.exec(html))) if (/IconAddon_/.test(m[0])) tables.push({ idx: m.index, html: m[0] });
-  if (!tables.length) return [];
-  let t = start >= 0 ? tables.find(x => x.idx > start) : null;
-  if (!t) t = tables.slice().sort((a, b) => (b.html.match(/<tr/gi) || []).length - (a.html.match(/<tr/gi) || []).length)[0];
+function iconFile(cell) {
+  const m0 = cell.match(/(IconAddon_[^/"'?\s>]+?\.(?:png|webp|jpe?g))/i);          // cas habituel
+  if (m0) return m0[1];
+  const src = (cell.match(/<img[^>]+src="([^"]+)"/i) || [])[1];                    // sinon : n'importe quelle image
+  if (!src) return null;
+  const m = src.match(/\/images\/(?:thumb\/)?(?:[0-9a-f]\/[0-9a-f]{2}\/)?([^/?]+\.(?:png|webp|jpe?g|gif))/i);
+  return m ? m[1] : null;
+}
 
+function tableRows(tableHtml) {
   const rows = [];
   const rr = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   let r;
-  while ((r = rr.exec(t.html))) {
+  while ((r = rr.exec(tableHtml))) {
     const cells = [...r[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(c => c[1]);
     if (cells.length < 3) continue;
-    const icon = cells[0].match(/(IconAddon_[^/"'?\s>]+?\.png)/i);
+    const icon = iconFile(cells[0]);
     if (!icon) continue;
     const name = oneLine(htmlToText(cells[1]));
+    if (!name) continue;
     const segs = cells[2].replace(/<\/?(li|p|ul|ol)[^>]*>/gi, '\u0001').replace(/<br\s*\/?>/gi, '\u0001').split('\u0001')
       .map(s => ({ bold: /<(b|strong)\b/i.test(s), text: oneLine(htmlToText(s)) })).filter(s => s.text);
     let k = segs.findIndex(s => s.bold);
     if (k < 0) k = segs.length > 1 ? 1 : 0;           // sans gras : la 1re ligne est l'ambiance, le reste l'effet
     rows.push({
-      name, icon: icon[1],
+      name, icon,
       background: joinSegs(segs.slice(0, k).map(s => s.text)),
       description: joinSegs(segs.slice(k).map(s => s.text)),
     });
   }
   return rows;
+}
+
+function parseKillerPage(html) {
+  const start = html.search(/id="Accessoires/);
+  const tables = [];
+  const re = /<table[\s\S]*?<\/table>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    const rows = tableRows(m[0]);
+    if (rows.length >= 5) tables.push({ idx: m.index, rows });
+  }
+  if (!tables.length) return [];
+  let t = start >= 0 ? tables.find(x => x.idx > start) : null;
+  if (!t) t = tables.slice().sort((a, b) => b.rows.length - a.rows.length)[0];
+  return t.rows;
+}
+
+// aide au diagnostic quand aucune table n'est trouvée
+function pageInfo(html) {
+  const imgs = (html.match(/<img[^>]+>/gi) || []);
+  const addon = imgs.filter(x => /addon/i.test(x)).length;
+  return `page de ${Math.round(html.length / 1024)} Ko, ${(html.match(/<table/gi) || []).length} tableau(x), ${imgs.length} image(s) dont ${addon} « addon »`;
 }
 
 // ------------------------------------------------------------------ programme principal
@@ -204,8 +227,8 @@ function parseKillerPage(html) {
     try {
       const html = await getCached(`page_${safeName(title)}.html`, [`${WIKI}/wiki/${encodeURI(title)}`]);
       rows = parseKillerPage(html);
+      if (!rows.length) { warnings.push(`${dataName} : aucun tableau d'accessoires trouvé (${pageInfo(html)}) — fichier tools/cache/page_${safeName(title)}.html`); continue; }
     } catch (e) { warnings.push(`${dataName} : ${e.message}`); continue; }
-    if (!rows.length) { warnings.push(`${dataName} : aucun tableau d'accessoires trouvé dans la page.`); continue; }
 
     // Quel numéro de tueur dans le module correspond à cette page ? -> celui dont le plus de noms recoupent le tableau
     const names = new Set(rows.map(r => norm(r.name)));
@@ -221,19 +244,39 @@ function parseKillerPage(html) {
     const pool = new Map();                                  // nom normalisé -> lignes de la page
     rows.forEach(r => { const k = norm(r.name); (pool.get(k) || pool.set(k, []).get(k)).push(r); });
     const addons = [];
+    const add = (e, row) => addons.push({
+      id: `k${String(id).padStart(2, '0')}_${slug(e.key)}`,
+      name: row.name, name_en: null,
+      rarity: RARITY[e.rarity][0], rarity_fr: RARITY[e.rarity][1],
+      image: IMG + row.icon, image_verified: true,
+      description: row.description, background: row.background,
+    });
+    // passe 1 : même nom
+    let lonely = [];
     for (const e of mod) {
       const list = pool.get(norm(e.name));
       const row = list && list.shift();
-      if (!row) { warnings.push(`${dataName} : « ${e.name} » est dans le module mais pas dans la page (ignoré).`); continue; }
-      addons.push({
-        id: `k${String(id).padStart(2, '0')}_${slug(e.key)}`,
-        name: row.name, name_en: null,
-        rarity: RARITY[e.rarity][0], rarity_fr: RARITY[e.rarity][1],
-        image: IMG + row.icon, image_verified: true,
-        description: row.description, background: row.background,
-      });
+      if (row) add(e, row); else lonely.push(e);
     }
-    [...pool.values()].flat().forEach(r => warnings.push(`${dataName} : « ${r.name} » est dans la page mais pas dans le module (ignoré : rareté inconnue).`));
+    let rest = [...pool.values()].flat();
+    // passe 2 : nom proche (l'un commence par l'autre, ex. « Calice » / « Calice (Or) »), seulement si sans ambiguïté
+    const close = (a, b) => { const x = norm(a), y = norm(b); return x && y && (x.startsWith(y) || y.startsWith(x)); };
+    for (const e of [...lonely]) {
+      const cands = rest.filter(r => close(e.name, r.name));
+      if (cands.length === 1 && lonely.filter(o => close(o.name, cands[0].name)).length === 1) {
+        add(e, cands[0]);
+        warnings.push(`${dataName} : « ${e.name} » associé à « ${cands[0].name} » (noms proches) : à vérifier.`);
+        lonely = lonely.filter(o => o !== e); rest = rest.filter(r => r !== cands[0]);
+      }
+    }
+    // passe 3 : un seul reste de chaque côté -> association par élimination
+    if (lonely.length === 1 && rest.length === 1) {
+      add(lonely[0], rest[0]);
+      warnings.push(`${dataName} : « ${lonely[0].name} » associé à « ${rest[0].name} » par élimination : à vérifier.`);
+      lonely = []; rest = [];
+    }
+    lonely.forEach(e => warnings.push(`${dataName} : « ${e.name} » (rareté ${e.rarity}) est dans le module mais pas dans la page (ignoré).`));
+    rest.forEach(r => warnings.push(`${dataName} : « ${r.name} » est dans la page mais pas dans le module (ignoré : rareté inconnue).`));
     const seen = new Set();
     addons.forEach(a => { let u = a.id, n = 2; while (seen.has(u)) u = a.id + '_' + n++; a.id = u; seen.add(u); });
     addons.sort((a, b) => Object.values(RARITY).findIndex(x => x[0] === a.rarity) - Object.values(RARITY).findIndex(x => x[0] === b.rarity) || a.name.localeCompare(b.name, 'fr'));
